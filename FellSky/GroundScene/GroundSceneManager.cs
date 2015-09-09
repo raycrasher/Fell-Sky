@@ -4,16 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FellSky.Mechanics.Combat
+namespace FellSky.GroundScene
 {
-    public enum DamageType
-    {
-        Kinetic, Concussive,
-    }
-
-
-
-    class Damage
+    class GroundSceneManager
     {
     }
 }

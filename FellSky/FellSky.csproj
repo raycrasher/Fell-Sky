@@ -22,6 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -31,6 +32,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Artemis">
@@ -64,6 +66,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\Transform.cs" />
+    <Compile Include="Common\UtilityExtensions.cs" />
+    <Compile Include="EntityComponents\ShipSpriteComponent.cs" />
+    <Compile Include="EntitySystems\GuiSystem.cs" />
+    <Compile Include="Framework\Coroutine.cs" />
+    <Compile Include="Framework\CoroutineManager.cs" />
+    <Compile Include="Framework\KeyboardManager.cs" />
+    <Compile Include="Framework\MouseManager.cs" />
+    <Compile Include="Graphics\Sprite.cs" />
+    <Compile Include="Graphics\SpriteAtlas.cs" />
+    <Compile Include="Graphics\SpriteManager.cs" />
+    <Compile Include="GroundScene\GroundSceneManager.cs" />
+    <Compile Include="Gui\LibRocketGuiManager.cs" />
+    <Compile Include="Gui\LibRocketRenderInterface.cs" />
+    <Compile Include="Gui\LibRocketSystemInterface.cs" />
     <Compile Include="Mechanics\Combat\Armor.cs" />
     <Compile Include="Mechanics\Combat\Damage.cs" />
     <Compile Include="Mechanics\Combat\Weapon.cs" />
@@ -89,6 +106,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="SpaceScene\Systems\SpaceSceneShipRendererSystem.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -97,10 +115,7 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="EntityComponents\" />
-    <Folder Include="EntitySystems\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
