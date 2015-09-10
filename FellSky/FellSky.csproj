@@ -84,6 +84,8 @@
     <Compile Include="Mechanics\Combat\Armor.cs" />
     <Compile Include="Mechanics\Combat\Damage.cs" />
     <Compile Include="Mechanics\Combat\Weapon.cs" />
+    <Compile Include="Mechanics\GridMap\GridMap.cs" />
+    <Compile Include="Mechanics\GridMap\GridMapTile.cs" />
     <Compile Include="Mechanics\Lore\CodexEntry.cs" />
     <Compile Include="Mechanics\Lore\Perk.cs" />
     <Compile Include="Mechanics\Ships\ArmorPlating.cs" />
@@ -115,7 +117,9 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="GroundScene\GridMapping\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
