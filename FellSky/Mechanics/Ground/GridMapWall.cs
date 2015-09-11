@@ -6,11 +6,7 @@ using System.Threading.Tasks;
 
 namespace FellSky.Mechanics.Ground
 {
-    public enum GridDirection
-    {
-        E, SE, S, SW, W, NW, N, NE
-    }
-    public class GroundMap
+    public class GridMapWall
     {
     }
 }

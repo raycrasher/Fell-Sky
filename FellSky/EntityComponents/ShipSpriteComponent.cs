@@ -16,6 +16,7 @@ namespace FellSky.EntityComponents
             public ITransform Transform { get; set; }
             public float HeatGlowOpacity { get; set; }
             public float DamageTextureOpacity { get; set; }
+            public Rectangle RenderClipSize { get; set; }
         }
         
         public Ship Ship { get; set; }
