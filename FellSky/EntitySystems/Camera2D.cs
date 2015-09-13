@@ -1,4 +1,5 @@
 ﻿using FellSky.Common;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +10,9 @@ namespace FellSky.EntitySystems
 {
     public class Camera2D
     {
-        public object ScreenBounds { get; internal set; }
+        public Rectangle ScreenBounds { get; internal set; }
         public Transform Transform { get; } = new Transform();
         public float Zoom { get; set; }
+        public Matrix CurrentMatrix { get; private set; }
     }
 }

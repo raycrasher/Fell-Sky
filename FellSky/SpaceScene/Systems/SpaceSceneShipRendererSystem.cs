@@ -1,14 +1,10 @@
-﻿using FellSky.Mechanics.Ships;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Artemis;
+﻿using Artemis;
+using FellSky.Common;
 using FellSky.EntityComponents;
-using Microsoft.Xna.Framework.Graphics;
 using FellSky.EntitySystems;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
 
 namespace FellSky.SpaceScene.Systems
 {
@@ -23,90 +19,72 @@ namespace FellSky.SpaceScene.Systems
         SpriteBatch _spriteOverlayBatch;
         RenderTarget2D _spriteOverlayRenderTarget;
         GraphicsDevice _device;
-        List<ShipSpriteComponent.SpriteRecord> _renderList = new List<ShipSpriteComponent.SpriteRecord>();
-        private Camera2D _camera;
+        Camera2D _camera;
 
         public SpaceSceneShipRendererSystem()
             : base(Aspect.All(typeof(ShipSpriteComponent)))
         {
         }
 
-        protected override void Begin()
-        {
-            _spriteBatch.Begin();
-            base.Begin();
-        }
-
-        protected override void End()
-        {
-            base.End();
-            _spriteBatch.End();
-        }
-
         protected override void ProcessEntities(IDictionary<int, Entity> entities)
         {
-            _renderList.Clear();
-            var screenBounds = _camera.ScreenBounds;
-
-            CullEntities(_renderList, entities, screenBounds);
-
             _device.SetRenderTarget(null);
-            DrawSprites(_renderList, _spriteBatch);
+            DrawSprites(entities, _spriteBatch);
             
-            _device.SetRenderTarget(_spriteOverlayRenderTarget);
-            DrawOverlays(_renderList, _spriteBatch);
+            //_device.SetRenderTarget(_spriteOverlayRenderTarget);
+            //_device.Clear(Color.Black);
+            //DrawOverlays(entities, _spriteBatch);
+            //
+            //_device.SetRenderTarget(null);
             
-            _device.SetRenderTarget(null);
-            _renderList.Clear();
         }
 
-        private void DrawOverlays(List<ShipSpriteComponent.SpriteRecord> renderList, SpriteBatch spriteBatch)
+        private void DrawOverlays(IDictionary<int, Entity> entities)
         {
-            _spriteOverlayBatch.Begin();
-            for (int i = 0; i < renderList.Count; i++)
+            
+            for (int i = 0; i < entities.Count; i++)
             {
-                var sprite = renderList[i];
-                sprite.Sprite.Draw(_spriteOverlayBatch, sprite.Transform.Position, sprite.Transform.Rotation, sprite.Transform.Scale);   
+                _device.SetRenderTarget(_spriteOverlayRenderTarget);
+                _device.Clear(Color.Black);
+
+                _spriteOverlayBatch.Begin();
+                var entity = entities[i];
+                var component = entity.GetComponent<ShipSpriteComponent>();
+                var transform = entity.GetComponent<TransformComponent>();
+
+                for(int j=0; j < component.Overlays.Count; j++)
+                {
+                    var sprite = component.Overlays[j];
+                    sprite.Sprite.Draw(_spriteOverlayBatch, sprite.Transform.Position + transform.Position, sprite.Transform.Rotation + transform.Rotation, sprite.Transform.Scale * transform.Scale, sprite.Transform.Origin + transform.Origin, sprite.Color);
+                }
+
+                _spriteOverlayBatch.End();
+
             }
-            _spriteOverlayBatch.End();
+            _device.SetRenderTarget(null);
         }
 
-        private void DrawSprites(List<ShipSpriteComponent.SpriteRecord> renderList, SpriteBatch spriteBatch)
+        private void DrawSprites(IDictionary<int, Entity> entities, SpriteBatch spriteBatch)
         {
             spriteBatch.Begin();
-            for (int i = 0; i < renderList.Count; i++)
+            for (int i = 0; i < entities.Count; i++)
             {
-                var sprite = renderList[i];
-                sprite.Sprite.Draw(_spriteOverlayBatch, sprite.Transform.Position, sprite.Transform.Rotation, sprite.Transform.Scale);
-            }
-            _spriteOverlayBatch.End();
-            spriteBatch.End();
-        }
+                var entity = entities[i];
+                var component = entity.GetComponent<ShipSpriteComponent>();
+                var transform = entity.GetComponent<TransformComponent>();
 
-        private void CullEntities(List<ShipSpriteComponent.SpriteRecord> renderList, IDictionary<int, Entity> entities, Rectangle screenBounds)
-        {
-            for(int i = 0; i < entities.Count; i++)
-            {
-                var component = entities[i].GetComponent<ShipSpriteComponent>();
-                for(int j = 0; j < component.SpriteEntries.Count; j++)
+                for (int j = 0; j < component.Sprites.Count; j++)
                 {
-                    var sprite = component.SpriteEntries[j];
-                    if (IsWithinScreenBounds(sprite, screenBounds))
-                        renderList.Add(sprite);
+                    var sprite = component.Sprites[j];
+                    sprite.Sprite.Draw(spriteBatch, sprite.Transform.Position + transform.Position, sprite.Transform.Rotation + transform.Rotation, sprite.Transform.Scale * transform.Scale, sprite.Transform.Origin + transform.Origin, sprite.Color);
                 }
-                
             }
-        }
-
-        private bool IsWithinScreenBounds(ShipSpriteComponent.SpriteRecord sprite, Rectangle screenBounds)
-        {
-            return screenBounds.Intersects(_camera.Transform.GetMatrix().)
+            spriteBatch.End();
         }
 
         public override void LoadContent()
         {
             _camera = BlackBoard.GetEntry<Camera2D>("Camera2D");
-            _renderList.Capacity = 1024;
             _device = Game.Instance.GraphicsDevice;
             _spriteBatch = new SpriteBatch(_device);
             _spriteOverlayRenderTarget = new RenderTarget2D(_device,

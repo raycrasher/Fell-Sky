@@ -8,19 +8,20 @@ using System.Linq;
 
 namespace FellSky.EntityComponents
 {
+    public class ShipSprite
+    {
+        public Sprite Sprite { get; set; }
+        public ITransform Transform { get; set; }
+        public Color Color { get; set; }
+    }
+
     public class ShipSpriteComponent: IComponent
     {
-        public class SpriteRecord
-        {
-            public Sprite Sprite { get; set; }
-            public ITransform Transform { get; set; }
-            public float HeatGlowOpacity { get; set; }
-            public float DamageTextureOpacity { get; set; }
-            public Rectangle RenderClipSize { get; set; }
-        }
+
         
         public Ship Ship { get; set; }
-        public List<SpriteRecord> SpriteEntries { get; set; }
+        public List<ShipSprite> Sprites { get; set; }
+        public List<ShipSprite> Overlays { get; set; }
 
         private void LoadSpritesFromShip()
         {
