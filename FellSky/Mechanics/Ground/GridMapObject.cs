@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FellSky.GroundScene
+namespace FellSky.Mechanics.Ground
 {
-    public class GroundSceneManager
+    public class GridMapObject
     {
     }
 }

@@ -66,6 +66,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\Point3.cs" />
     <Compile Include="Common\Transform.cs" />
     <Compile Include="Common\UtilityExtensions.cs" />
     <Compile Include="EntityComponents\ShipSpriteComponent.cs" />
@@ -88,12 +89,14 @@
     <Compile Include="Mechanics\Combat\Damage.cs" />
     <Compile Include="Mechanics\Combat\Weapon.cs" />
     <Compile Include="Mechanics\Ground\GridMap.cs" />
+    <Compile Include="Mechanics\Ground\GridMapObject.cs" />
     <Compile Include="Mechanics\Ground\GridMapTile.cs" />
     <Compile Include="Mechanics\Ground\GridMapWall.cs" />
     <Compile Include="Mechanics\Lore\CodexEntry.cs" />
     <Compile Include="Mechanics\Lore\Perk.cs" />
     <Compile Include="Mechanics\Player.cs" />
     <Compile Include="Mechanics\Ships\ArmorPlating.cs" />
+    <Compile Include="Mechanics\Ships\Decal.cs" />
     <Compile Include="Mechanics\Ships\Reactor.cs" />
     <Compile Include="Mechanics\Ships\Shield.cs" />
     <Compile Include="Mechanics\Ships\Ship.cs" />

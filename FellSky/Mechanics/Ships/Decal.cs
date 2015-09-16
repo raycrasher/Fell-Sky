@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FellSky.GroundScene
+namespace FellSky.Mechanics.Ships
 {
-    public class GroundSceneManager
+    class Decal
     {
     }
 }

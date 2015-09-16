@@ -12,7 +12,7 @@ namespace FellSky.Mechanics.Ships
     public class Hull
     {
         public float MaxHealth { get; set; }
-        public float Health { get; set; }
+        public float CurrentHealth { get; set; }
         public string SpriteId { get; set; }
         public string ShapeId { get; set; }
         public Color Color { get; set; }
