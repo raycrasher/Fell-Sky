@@ -2,7 +2,7 @@
 using Artemis.Interface;
 using Microsoft.Xna.Framework;
 
-namespace FellSky.Common
+namespace FellSky
 {
     public interface ITransform
     {
@@ -14,21 +14,7 @@ namespace FellSky.Common
         Matrix Matrix { get; }
     }
 
-    public struct Transform : ITransform
-    {
-        public Vector2 Position { get; set; }
-        public float Rotation { get; set; }
-        public Vector2 Scale { get; set; }
-        public Vector2 Origin { get; set; }
-
-        public Matrix Matrix
-        {
-            get { return this.GetMatrix(); }
-        }
-        
-    }
-
-    public class TransformComponent : ITransform, IComponent
+    public class Transform : ITransform, IComponent
     {
         private bool _matrixNeedsUpdate;
         private Vector2 _position;
@@ -106,6 +92,21 @@ namespace FellSky.Common
             }
         }
 
-        
+        public Transform Clone()
+        {
+            return (Transform)MemberwiseClone();
+        }
+
+        public void Combine(Transform transform)
+        {
+            Vector2 position, scale;
+            float rotation;
+            _matrix = Matrix * transform.Matrix;
+
+            Utilities.DecomposeMatrix2D(ref _matrix, out position, out rotation, out scale);
+            Position = position;
+            Rotation = rotation;
+            Scale = scale;
+        }
     }
 }

@@ -1,0 +1,7 @@
+﻿Scenes:
+	Campaign
+	Battle 
+	Map
+	Information
+	Outpost
+	Faction

@@ -58,6 +58,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -66,10 +67,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\ColorHSL.cs" />
     <Compile Include="Common\Point3.cs" />
     <Compile Include="Common\Transform.cs" />
     <Compile Include="Common\UtilityExtensions.cs" />
+    <Compile Include="EntityComponents\AreaShieldingComponent.cs" />
+    <Compile Include="EntityComponents\ArmorComponent.cs" />
+    <Compile Include="EntityComponents\BarrierShieldingComponent.cs" />
+    <Compile Include="EntityComponents\FireControlComponent.cs" />
+    <Compile Include="EntityComponents\HealthComponent.cs" />
+    <Compile Include="EntityComponents\PowerComponent.cs" />
+    <Compile Include="EntityComponents\SurfaceShieldingComponent.cs" />
+    <Compile Include="EntityComponents\ShipComponent.cs" />
     <Compile Include="EntityComponents\ShipSpriteComponent.cs" />
+    <Compile Include="EntityComponents\ManeuverableComponent.cs" />
+    <Compile Include="EntityComponents\WarpDriveComponent.cs" />
     <Compile Include="EntitySystems\GuiSystem.cs" />
     <Compile Include="EntitySystems\Camera2D.cs" />
     <Compile Include="Framework\Coroutine.cs" />
@@ -85,6 +97,10 @@
     <Compile Include="Gui\LibRocketGuiManager.cs" />
     <Compile Include="Gui\LibRocketRenderInterface.cs" />
     <Compile Include="Gui\LibRocketSystemInterface.cs" />
+    <Compile Include="Mechanics\Bases\AsteroidBase.cs" />
+    <Compile Include="Mechanics\Bases\BaseFacility.cs" />
+    <Compile Include="Mechanics\Bases\BaseSection.cs" />
+    <Compile Include="Mechanics\Bases\Base.cs" />
     <Compile Include="Mechanics\Combat\Armor.cs" />
     <Compile Include="Mechanics\Combat\Damage.cs" />
     <Compile Include="Mechanics\Combat\Weapon.cs" />
@@ -92,16 +108,26 @@
     <Compile Include="Mechanics\Ground\GridMapObject.cs" />
     <Compile Include="Mechanics\Ground\GridMapTile.cs" />
     <Compile Include="Mechanics\Ground\GridMapWall.cs" />
+    <Compile Include="Mechanics\Items\InventoryItem.cs" />
     <Compile Include="Mechanics\Lore\CodexEntry.cs" />
     <Compile Include="Mechanics\Lore\Perk.cs" />
     <Compile Include="Mechanics\Player.cs" />
+    <Compile Include="Mechanics\Reputation.cs" />
+    <Compile Include="Mechanics\Resource.cs" />
+    <Compile Include="Mechanics\ResourceConverter.cs" />
     <Compile Include="Mechanics\Ships\ArmorPlating.cs" />
     <Compile Include="Mechanics\Ships\Decal.cs" />
+    <Compile Include="Mechanics\IResourceConsumer.cs" />
+    <Compile Include="Mechanics\IResourceProducer.cs" />
+    <Compile Include="Mechanics\IResourceStorage.cs" />
     <Compile Include="Mechanics\Ships\Reactor.cs" />
     <Compile Include="Mechanics\Ships\Shield.cs" />
     <Compile Include="Mechanics\Ships\Ship.cs" />
     <Compile Include="Mechanics\Ships\Hull.cs" />
+    <Compile Include="Mechanics\Ships\ShipPart.cs" />
+    <Compile Include="Mechanics\Ships\ShipSpriteGroup.cs" />
     <Compile Include="Mechanics\Ships\Thruster.cs" />
+    <Compile Include="Mechanics\Ships\WarpDrive.cs" />
     <Compile Include="Mechanics\Ships\WeaponHardpoint.cs" />
     <Compile Include="Mechanics\Ships\Weapon.cs" />
     <Compile Include="Mechanics\Space\SpaceObject.cs" />
@@ -118,6 +144,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="SpaceScene\Systems\SpaceSceneShipRendererSystem.cs" />
+    <Compile Include="SpaceScene\Systems\SpaceSceneShipUpdateSystem.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -129,6 +156,9 @@
   <ItemGroup>
     <Folder Include="GroundScene\GridMapping\" />
     <Folder Include="ShipEditorScene\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Notes.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 
 namespace FellSky.Mechanics.Ships
 {
-    public class Reactor
+    public class FissionReactor: ShipPart
     {
-        public float MaxPower { get; set; }
-        public string FuelId { get; set; }
-        public float FuelUsagePerUnitPower { get; set; }
+
+        public float MaxThermalPower { get; set; }
+        public float ThermalPowerRampUp { get; set; }
+        public float MaxChargedParticlesProduction { get; set; }
+        public float ReactorPoisonAmount { get; set; }
     }
 }

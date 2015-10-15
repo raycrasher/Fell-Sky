@@ -38,7 +38,7 @@ namespace FellSky.SpaceScene.Systems
             //_device.SetRenderTarget(null);
             
         }
-
+        /*
         private void DrawOverlays(IDictionary<int, Entity> entities)
         {
             
@@ -50,7 +50,7 @@ namespace FellSky.SpaceScene.Systems
                 _spriteOverlayBatch.Begin();
                 var entity = entities[i];
                 var component = entity.GetComponent<ShipSpriteComponent>();
-                var transform = entity.GetComponent<TransformComponent>();
+                var transform = entity.GetComponent<Transform>();
 
                 for(int j=0; j < component.Overlays.Count; j++)
                 {
@@ -62,20 +62,21 @@ namespace FellSky.SpaceScene.Systems
 
             }
             _device.SetRenderTarget(null);
-        }
+        }*/
 
         private void DrawSprites(IDictionary<int, Entity> entities, SpriteBatch spriteBatch)
         {
             spriteBatch.Begin();
-            for (int i = 0; i < entities.Count; i++)
+            for (int idxEntity = 0; idxEntity < entities.Count; idxEntity++)
             {
-                var entity = entities[i];
-                var component = entity.GetComponent<ShipSpriteComponent>();
-                var transform = entity.GetComponent<TransformComponent>();
+                var entity = entities[idxEntity];
+                var spriteComponent = entity.GetComponent<ShipSpriteComponent>();
+                var transform = entity.GetComponent<Transform>();
+                var shipMatrix = transform.Matrix;
 
-                for (int j = 0; j < component.Sprites.Count; j++)
+                for (int idxSubSprite = 0; idxSubSprite < spriteComponent.Sprite.SubSprites.Count; idxSubSprite++)
                 {
-                    var sprite = component.Sprites[j];
+                    var sprite = spriteComponent.Sprite.SubSprites[idxSubSprite];
                     sprite.Sprite.Draw(spriteBatch, sprite.Transform.Position + transform.Position, sprite.Transform.Rotation + transform.Rotation, sprite.Transform.Scale * transform.Scale, sprite.Transform.Origin + transform.Origin, sprite.Color);
                 }
             }
