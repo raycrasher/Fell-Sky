@@ -39,5 +39,30 @@ namespace FellSky
         {
             return new ColorHSL(color);
         }
+
+        public static Vector2 ToVector(this float angle)
+        {
+            return new Vector2((float)Math.Sin(angle), -(float)Math.Cos(angle));
+        }
+
+        public static float ToAngleRadians(this Vector2 vector)
+        {
+            return (float)Math.Atan2(vector.X, -vector.Y);
+        }
+
+        public static float DegreeToRadian(this float angle)
+        {
+            return (float) (Math.PI * angle / 180.0);
+        }
+
+        public static float RadianToDegree(this float angle)
+        {
+            return (float)(angle * (180.0 / Math.PI));
+        }
+
+        public static float GetLesserAngleDifference(this float a1, float a2)
+        {
+            return (float) Math.Atan2(Math.Sin(a1 - a2), Math.Cos(a1 - a2));
+        }
     }
 }

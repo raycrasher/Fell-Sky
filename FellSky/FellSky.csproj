@@ -68,19 +68,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\ColorHSL.cs" />
+    <Compile Include="Common\CommonEnums.cs" />
     <Compile Include="Common\Point3.cs" />
     <Compile Include="Common\Transform.cs" />
     <Compile Include="Common\Utilities.cs" />
     <Compile Include="Common\UtilityExtensions.cs" />
+    <Compile Include="EntityComponents\AIShipControllerComponent.cs" />
     <Compile Include="EntityComponents\AreaShieldingComponent.cs" />
     <Compile Include="EntityComponents\ArmorComponent.cs" />
     <Compile Include="EntityComponents\BarrierShieldingComponent.cs" />
     <Compile Include="EntityComponents\FireControlComponent.cs" />
     <Compile Include="EntityComponents\HealthComponent.cs" />
+    <Compile Include="EntityComponents\PlayerShipControllerComponent.cs" />
     <Compile Include="EntityComponents\PowerComponent.cs" />
     <Compile Include="EntityComponents\SurfaceShieldingComponent.cs" />
-    <Compile Include="EntityComponents\ShipComponent.cs" />
-    <Compile Include="EntityComponents\ShipSpriteComponent.cs" />
     <Compile Include="EntityComponents\ManeuverableComponent.cs" />
     <Compile Include="EntityComponents\WarpDriveComponent.cs" />
     <Compile Include="EntitySystems\GuiSystem.cs" />
@@ -125,6 +126,7 @@
     <Compile Include="Mechanics\Ships\Shield.cs" />
     <Compile Include="Mechanics\Ships\Ship.cs" />
     <Compile Include="Mechanics\Ships\Hull.cs" />
+    <Compile Include="Mechanics\Ships\ShipHandlingParameters.cs" />
     <Compile Include="Mechanics\Ships\ShipPart.cs" />
     <Compile Include="Mechanics\Ships\ShipSprite.cs" />
     <Compile Include="Mechanics\Ships\Thruster.cs" />
@@ -144,6 +146,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="SpaceScene\Systems\PlayerShipControlSystem.cs" />
     <Compile Include="SpaceScene\Systems\SpaceSceneShipRendererSystem.cs" />
     <Compile Include="SpaceScene\Systems\SpaceSceneShipUpdateSystem.cs" />
   </ItemGroup>

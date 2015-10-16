@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace FellSky.EntityComponents
 {
-    public class SurfaceShieldingComponent
+    public class AIShipControllerComponent
     {
+        
     }
 }

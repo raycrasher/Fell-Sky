@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FellSky.EntityComponents
+namespace FellSky
 {
-    public class SurfaceShieldingComponent
+    public enum AngularDirection
     {
+        None = 0, CW = -1, CCW = 1,
     }
 }

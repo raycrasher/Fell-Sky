@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace FellSky.Mechanics.Ships
 {
-    public class Ship
+    public class Ship: IComponent
     {
         public string Name { get; set; }
         

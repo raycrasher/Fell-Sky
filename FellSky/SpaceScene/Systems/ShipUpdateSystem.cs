@@ -8,9 +8,9 @@ using Artemis;
 
 namespace FellSky.SpaceScene.Systems
 {
-    public class SpaceSceneShipUpdateSystem : Artemis.System.EntityComponentProcessingSystem<ShipComponent>
+    public class SpaceSceneShipUpdateSystem : Artemis.System.EntityComponentProcessingSystem<Ship>
     {
-        public override void Process(Entity entity, ShipComponent ship)
+        public override void Process(Entity entity, Ship ship)
         {
             
         }

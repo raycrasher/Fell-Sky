@@ -11,6 +11,10 @@ namespace FellSky.Framework
         public event Action<Point> Move;
         public event Action<int> WheelChanged;
 
+        public Vector2 ScreenPosition {
+            get { return new Vector2(_lastState.Position.X, _lastState.Position.Y); }
+        }
+
         private MouseState _lastState;
 
         public MouseManager(CoroutineManager manager)

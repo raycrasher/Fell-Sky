@@ -2,6 +2,7 @@
 using FellSky.Common;
 using FellSky.EntityComponents;
 using FellSky.EntitySystems;
+using FellSky.Mechanics.Ships;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
@@ -22,7 +23,7 @@ namespace FellSky.SpaceScene.Systems
         Camera2D _camera;
 
         public SpaceSceneShipRendererSystem()
-            : base(Aspect.All(typeof(ShipSpriteComponent)))
+            : base(Aspect.All(typeof(ShipSprite)))
         {
         }
 
@@ -70,13 +71,13 @@ namespace FellSky.SpaceScene.Systems
             for (int idxEntity = 0; idxEntity < entities.Count; idxEntity++)
             {
                 var entity = entities[idxEntity];
-                var spriteComponent = entity.GetComponent<ShipSpriteComponent>();
+                var spriteComponent = entity.GetComponent<ShipSprite>();
                 var transform = entity.GetComponent<Transform>();
                 var shipMatrix = transform.Matrix;
 
-                for (int idxSubSprite = 0; idxSubSprite < spriteComponent.Sprite.SubSprites.Count; idxSubSprite++)
+                for (int idxSubSprite = 0; idxSubSprite < spriteComponent.SubSprites.Count; idxSubSprite++)
                 {
-                    var sprite = spriteComponent.Sprite.SubSprites[idxSubSprite];
+                    var sprite = spriteComponent.SubSprites[idxSubSprite];
                     sprite.Sprite.Draw(spriteBatch, sprite.Transform.Position + transform.Position, sprite.Transform.Rotation + transform.Rotation, sprite.Transform.Scale * transform.Scale, sprite.Transform.Origin + transform.Origin, sprite.Color);
                 }
             }

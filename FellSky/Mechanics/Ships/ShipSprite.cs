@@ -7,6 +7,7 @@ using System.Linq;
 using System.Xml.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Artemis.Interface;
 
 namespace FellSky.Mechanics.Ships
 {
@@ -15,7 +16,7 @@ namespace FellSky.Mechanics.Ships
         None=0, Base=1, Trim=2
     }
 
-    public class ShipSprite
+    public class ShipSprite: IComponent
     {
         public List<ShipSpriteItem> SubSprites { get; set; } = new List<ShipSpriteItem>();
         public ShipSprite() { }
