@@ -70,6 +70,7 @@
     <Compile Include="Common\ColorHSL.cs" />
     <Compile Include="Common\Point3.cs" />
     <Compile Include="Common\Transform.cs" />
+    <Compile Include="Common\Utilities.cs" />
     <Compile Include="Common\UtilityExtensions.cs" />
     <Compile Include="EntityComponents\AreaShieldingComponent.cs" />
     <Compile Include="EntityComponents\ArmorComponent.cs" />
@@ -125,7 +126,7 @@
     <Compile Include="Mechanics\Ships\Ship.cs" />
     <Compile Include="Mechanics\Ships\Hull.cs" />
     <Compile Include="Mechanics\Ships\ShipPart.cs" />
-    <Compile Include="Mechanics\Ships\ShipSpriteGroup.cs" />
+    <Compile Include="Mechanics\Ships\ShipSprite.cs" />
     <Compile Include="Mechanics\Ships\Thruster.cs" />
     <Compile Include="Mechanics\Ships\WarpDrive.cs" />
     <Compile Include="Mechanics\Ships\WeaponHardpoint.cs" />
