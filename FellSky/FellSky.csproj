@@ -148,7 +148,7 @@
     </Compile>
     <Compile Include="SpaceScene\Systems\PlayerShipControlSystem.cs" />
     <Compile Include="SpaceScene\Systems\SpaceSceneShipRendererSystem.cs" />
-    <Compile Include="SpaceScene\Systems\SpaceSceneShipUpdateSystem.cs" />
+    <Compile Include="SpaceScene\Systems\ShipUpdateSystem.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
