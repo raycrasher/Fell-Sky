@@ -5,6 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace FellSky.Mechanics.Ships
 {
@@ -19,22 +21,24 @@ namespace FellSky.Mechanics.Ships
         public ShipSprite() { }
 
         // load from ShipEditor generated xml.
-        public ShipSprite(XElement xmlNode)
+        public ShipSprite(JObject json)
         {
             SubSprites.AddRange(
-                xmlNode.Elements("Sprite")
-                .Select(x =>
+                json["sprites"].Select(token =>
                 {
+                    if (token["_type"]?.Value<string>() != typeof(ShipSpriteItem).Name)
+                        throw new InvalidOperationException("ShipSpriteItem cannot load data from JSon; data is invalid.");
+
                     var item = new ShipSpriteItem();
-                    item.SpriteId = x.Attribute("spriteid").Value;
-                    item.Tag = x.Attribute("tag")?.Value;
-                    item.Color = x.Attribute("color")?.Value.ToColorFromHexString() ?? Color.White;
-                    item.Transform.Position = x.Attribute("position").Value.ToVector2();
-                    item.Transform.Scale = x.Attribute("scale")?.Value.ToVector2() ?? Vector2.One;
-                    item.Transform.Rotation = float.Parse(x.Attribute("rotation")?.Value ?? "0");
-                    item.Transform.Origin = x.Attribute("origin")?.Value.ToVector2() ?? Vector2.Zero;
-                    item.GlowColor = x.Attribute("glowcolor")?.Value.ToColorFromHexString();
-                    item.ColorType = (ShipSpriteColorType) Enum.Parse(typeof(ShipSpriteColorType), x.Attribute("colortype")?.Value ?? "None");
+                    item.SpriteId = token["spriteid"]?.Value<string>();
+                    item.Tag = token["tag"]?.Value<string>();
+                    item.Color = token["color"]?.Value<string>().ToColorFromHexString() ?? Color.White;
+                    item.Transform.Position = token["position"]?.Value<string>().ToVector2() ?? Vector2.Zero;
+                    item.Transform.Scale = token["scale"]?.Value<string>().ToVector2() ?? Vector2.One;
+                    item.Transform.Rotation = token["rotation"]?.Value<float>() ?? 0f;
+                    item.Transform.Origin = token["origin"]?.Value<string>().ToVector2() ?? Vector2.Zero;
+                    item.GlowColor = token["glowcolor"]?.Value<string>().ToColorFromHexString();
+                    item.ColorType = token["colortype"]?.Value<ShipSpriteColorType>() ?? ShipSpriteColorType.None;
                     return item;
                 }
                 ));
