@@ -84,7 +84,6 @@ namespace FellSky.Mechanics.Ships
                 sprite.Color = newColorHsl.ToRgb();
             }
         }
-
     }
 
     public class ShipSpriteItem
