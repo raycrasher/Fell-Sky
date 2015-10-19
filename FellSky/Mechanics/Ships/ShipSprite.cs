@@ -40,6 +40,7 @@ namespace FellSky.Mechanics.Ships
                     item.Transform.Origin = token["origin"]?.Value<string>().ToVector2() ?? Vector2.Zero;
                     item.GlowColor = token["glowcolor"]?.Value<string>().ToColorFromHexString();
                     item.ColorType = token["colortype"]?.Value<ShipSpriteColorType>() ?? ShipSpriteColorType.None;
+                    item.Sprite = SpriteManager.Sprites[item.SpriteId];
                     return item;
                 }
                 ));
