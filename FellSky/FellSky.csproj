@@ -88,7 +88,9 @@
     <Compile Include="EntitySystems\Camera2D.cs" />
     <Compile Include="Framework\Coroutine.cs" />
     <Compile Include="Framework\CoroutineManager.cs" />
+    <Compile Include="Framework\GameState.cs" />
     <Compile Include="Framework\KeyboardManager.cs" />
+    <Compile Include="Framework\MainGameState.cs" />
     <Compile Include="Framework\MouseManager.cs" />
     <Compile Include="Graphics\Sprite.cs" />
     <Compile Include="Graphics\SpriteAtlas.cs" />

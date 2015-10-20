@@ -13,6 +13,7 @@ namespace FellSky
         public static CoroutineManager Coroutines { get; } = new CoroutineManager();
         public static KeyboardManager Keyboard { get; private set; }
         public static MouseManager Mouse { get; private set; }
+        public static GameState State { get; set; }
 
         private Game()
         {
@@ -33,6 +34,8 @@ namespace FellSky
         {
             Content.RootDirectory = Settings.DataFolder;
             Gui.GuiManager.Initialize(Graphics.GraphicsDevice, Coroutines, Content, Keyboard, Mouse);
+            State = new MainGameState();
+            State.LoadContent();
             base.Initialize();
         }
 
@@ -40,13 +43,13 @@ namespace FellSky
         {
             Coroutines.RunCoroutines(gameTime.ElapsedGameTime);
             CurrentUpdateTime = gameTime;
+            State?.Update(gameTime);
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
-
-
+            State?.Draw(gameTime);
             base.Draw(gameTime);
         }
 
