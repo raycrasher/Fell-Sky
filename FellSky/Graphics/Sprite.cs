@@ -76,5 +76,15 @@ namespace FellSky.Graphics
         {
             batch.Draw(Texture, position, TextureRect, color, rotation, origin, scale, effects, depth);
         }
+
+        public void Draw(SpriteBatch batch, ITransform transform, SpriteEffects effects = SpriteEffects.None, float depth = 0)
+        {
+            batch.Draw(Texture, transform.Position, TextureRect, Color.White, transform.Rotation, transform.Origin, transform.Scale, effects, depth);
+        }
+
+        public void Draw(SpriteBatch batch, ITransform transform, Color color, SpriteEffects effects = SpriteEffects.None, float depth = 0)
+        {
+            batch.Draw(Texture, transform.Position, TextureRect, color, transform.Rotation, transform.Origin, transform.Scale, effects, depth);
+        }
     }
 }

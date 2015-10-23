@@ -6,9 +6,12 @@ using System.Threading.Tasks;
 
 namespace FellSky.Mechanics.Ships
 {
-    public class ShipPart
+    [Serializable]
+    public abstract class ShipPart
     {
+        public Transform Transform { get; set; } = new Transform();
         public string Name { get; set; }
-        public string SpriteId { get; set; }
+        public string SpriteGroup { get; set; }
+        public float Mass { get; set; }
     }
 }

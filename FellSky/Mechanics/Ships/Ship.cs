@@ -11,8 +11,7 @@ namespace FellSky.Mechanics.Ships
     {
         public string Name { get; set; }
         
-        public ShipSprite Sprite { get; set; } = new ShipSprite();
-        public List<Hull> Hulls { get; } = new List<Hull>();
+        public List<ShipPart> Parts { get; } = new List<ShipPart>();
         public List<WeaponHardpoint> WeaponHardpoints { get; } = new List<WeaponHardpoint>();
         public ShipHandlingParameters Handling { get; set; } = new ShipHandlingParameters();
     }

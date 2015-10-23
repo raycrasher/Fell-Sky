@@ -8,29 +8,33 @@ using System.Xml.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Artemis.Interface;
+using Microsoft.Xna.Framework.Graphics;
 
-namespace FellSky.Mechanics.Ships
+namespace FellSky.Graphics
 {
     public enum ShipSpriteColorType
     {
         None=0, Base=1, Trim=2
     }
 
-    public class ShipSprite: IComponent
+    public class SpriteGroup
     {
-        public List<ShipSpriteItem> SubSprites { get; set; } = new List<ShipSpriteItem>();
-        public ShipSprite() { }
+        private Color _baseColor;
+        private Color _trimColor;
+
+        public List<SubSprite> SubSprites { get; set; } = new List<SubSprite>();
+        public SpriteGroup() { }
 
         // load from ShipEditor generated xml.
-        public ShipSprite(JObject json)
+        public SpriteGroup(JObject json)
         {
             SubSprites.AddRange(
                 json["sprites"].Select(token =>
                 {
-                    if (token["_type"]?.Value<string>() != typeof(ShipSpriteItem).Name)
+                    if (token["_type"]?.Value<string>() != typeof(SubSprite).Name)
                         throw new InvalidOperationException("ShipSpriteItem cannot load data from JSon; data is invalid.");
 
-                    var item = new ShipSpriteItem();
+                    var item = new SubSprite();
                     item.SpriteId = token["spriteid"]?.Value<string>();
                     item.Tag = token["tag"]?.Value<string>();
                     item.Color = token["color"]?.Value<string>().ToColorFromHexString() ?? Color.White;
@@ -46,36 +50,44 @@ namespace FellSky.Mechanics.Ships
                 ));
         }
 
-        public ShipSprite Clone() {
-            var group = new ShipSprite();
-            group.SubSprites = new List<ShipSpriteItem>(SubSprites.Select(s => s.Clone()));
+        /// <summary>
+        /// Creates a clone of the sprite.
+        /// </summary>
+        /// <returns></returns>
+        public SpriteGroup Clone() {
+            var group = new SpriteGroup();
+            group.SubSprites = new List<SubSprite>(SubSprites.Select(s => s.Clone()));
             return group;
         }
 
-        public void Append(ShipSprite sprite)
-        {
-            SubSprites.AddRange(sprite.SubSprites.Select(s => s.Clone()));
+        /// <summary>
+        /// Base color
+        /// </summary>
+        public Color BaseColor {
+            get { return _baseColor; }
+            set
+            {
+                if(value!=_baseColor)
+                    SetColor(value, ShipSpriteColorType.Base);
+                _baseColor = value;
+
+            }
         }
 
-        public void AppendWithTransform(ShipSprite sprite, Transform transform)
+        /// <summary>
+        /// Trim color
+        /// </summary>
+        public Color TrimColor
         {
-            SubSprites.AddRange(sprite.SubSprites.Select(s => {
-                var item = s.Clone();
-                item.Transform.Combine(transform);
-                return item;
-            }));
-        }
-
-        public void SetBaseColor(Color c)
-        {
-            SetColor(c, ShipSpriteColorType.Base);
+            get { return _trimColor; }
+            set
+            {
+                if(value!=_trimColor)
+                    SetColor(value, ShipSpriteColorType.Trim);
+                _trimColor = value;
+            }
         }
         
-        public void SetTrimColor(Color c)
-        {
-            SetColor(c, ShipSpriteColorType.Trim);
-        }
-
         public void SetColor(Color c, ShipSpriteColorType type)
         {
             var baseColorHsl = c.ToHSL();
@@ -86,9 +98,21 @@ namespace FellSky.Mechanics.Ships
                 sprite.Color = newColorHsl.ToRgb();
             }
         }
+
+        public void Draw(SpriteBatch batch, ref Matrix parentMatrix)
+        {
+            for(int i = 0; i < SubSprites.Count; i++)
+            {
+                var sprite = SubSprites[i];
+                var matrix = parentMatrix * sprite.Transform.Matrix;
+                sprite.Draw(batch, ref matrix);
+            }
+        }
     }
 
-    public class ShipSpriteItem
+    public delegate void ShipSpriteDrawFunction(SpriteBatch batch, ref Matrix matrix, SubSprite item);
+
+    public class SubSprite
     {
         public Transform Transform { get; set; } = new Transform();
         public string SpriteId { get; set; }
@@ -97,12 +121,24 @@ namespace FellSky.Mechanics.Ships
         public Color? GlowColor { get; set; } = null;
         public ShipSpriteColorType ColorType { get; set; } = ShipSpriteColorType.None;
         public string Tag { get; set; }
+        public SpriteEffects SpriteEffect { get; set; } = SpriteEffects.None;
 
-        public ShipSpriteItem Clone()
+        public SubSprite Clone()
         {
-            var item = (ShipSpriteItem) MemberwiseClone();
+            var item = (SubSprite) MemberwiseClone();
             item.Transform = Transform.Clone();
             return item;
         }
+
+        public void Draw(SpriteBatch batch, ref Matrix matrix)
+        {
+            Vector2 position, scale;
+            float rotation;
+            Utilities.DecomposeMatrix2D(ref matrix, out position, out rotation, out scale);
+            Sprite.Draw(batch, position, rotation, scale, Vector2.Zero, Color, SpriteEffect);
+            OnDraw?.Invoke(batch, ref matrix, this);
+        }
+
+        public event ShipSpriteDrawFunction OnDraw;
     }
 }

@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace FellSky.Mechanics.Ships
 {
-    public class Reactor
+    [Serializable]
+    public class Turret
     {
-        public float MaxPower { get; set; }
-        public float HeatPerUnitPower { get; set; }
+        public WeaponHardpoint Hardpoint { get; set; }
+        public float CurrentFacing { get; set; }
     }
 }

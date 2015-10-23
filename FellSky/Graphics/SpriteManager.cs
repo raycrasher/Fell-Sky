@@ -10,22 +10,25 @@ namespace FellSky.Graphics
 {
     public static class SpriteManager
     {
-        struct JsonSpriteSheet
+
+        class JsonSpriteSheet
         {
-            public string texture;
-            public JsonSprite[] sprites;
+            public string texture = null;
+            public JsonSprite[] sprites = null;
         }
 
-        struct JsonSprite
+        class JsonSprite
         {
-            public string id;
-            public int x, y, w, h;
+
+            public string id = null;
+            public int x=0, y=0, w=0, h=0;
 
             public Sprite GetSprite(Texture2D tex)
             {
                 return new Sprite(id, tex, new Microsoft.Xna.Framework.Rectangle(x, y, w, h));
             }
         }
+
 
         public static Dictionary<string, Sprite> Sprites { get; } = new Dictionary<string, Sprite>();
 

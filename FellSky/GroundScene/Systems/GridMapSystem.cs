@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FellSky.EntitySystems;
 using FellSky.Mechanics.Ground;
+using FellSky.Graphics;
 
 namespace FellSky.GroundScene.Systems
 {
@@ -21,7 +22,7 @@ namespace FellSky.GroundScene.Systems
 
         public override void ProcessSystem()
         {
-            throw new NotImplementedException();
+            
         }
     }
 }

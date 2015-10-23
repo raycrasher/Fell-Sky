@@ -2,12 +2,13 @@
 using FellSky.Common;
 using FellSky.EntityComponents;
 using FellSky.EntitySystems;
+using FellSky.Graphics;
 using FellSky.Mechanics.Ships;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 
-namespace FellSky.SpaceScene.Systems
+namespace FellSky.Systems
 {
     [Artemis.Attributes.ArtemisEntitySystem(
         ExecutionType = Artemis.Manager.ExecutionType.Synchronous, 
@@ -23,7 +24,7 @@ namespace FellSky.SpaceScene.Systems
         Camera2D _camera;
 
         public SpaceSceneShipRendererSystem()
-            : base(Aspect.All(typeof(ShipSprite)))
+            : base(Aspect.All(typeof(Ship), typeof(SpaceSceneShipSpriteComponent)))
         {
         }
 
@@ -71,19 +72,24 @@ namespace FellSky.SpaceScene.Systems
             for (int idxEntity = 0; idxEntity < entities.Count; idxEntity++)
             {
                 var entity = entities[idxEntity];
-                var spriteComponent = entity.GetComponent<ShipSprite>();
+                var spriteComponent = entity.GetComponent<SpaceSceneShipSpriteComponent>();
                 var transform = entity.GetComponent<Transform>();
                 var shipMatrix = transform.Matrix;
 
-                for (int idxSubSprite = 0; idxSubSprite < spriteComponent.SubSprites.Count; idxSubSprite++)
+                for (int idxPart = 0; idxPart < spriteComponent.Ship.Parts.Count; idxPart++)
                 {
-                    var sprite = spriteComponent.SubSprites[idxSubSprite];
-                    sprite.Sprite.Draw(spriteBatch, sprite.Transform.Position + transform.Position, sprite.Transform.Rotation + transform.Rotation, sprite.Transform.Scale * transform.Scale, sprite.Transform.Origin + transform.Origin, sprite.Color);
+                    var part = spriteComponent.Ship.Parts[idxPart];
+                    var partmatrix = shipMatrix * part.Transform.Matrix;
+                    var sprite = part.SpriteGroup;
+                    sprite.Draw(spriteBatch, ref partmatrix);
                 }
             }
             spriteBatch.End();
         }
 
+        /// <summary>
+        /// Loads content
+        /// </summary>
         public override void LoadContent()
         {
             _camera = BlackBoard.GetEntry<Camera2D>("Camera2D");

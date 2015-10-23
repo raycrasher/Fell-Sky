@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 using Artemis;
 using FellSky.Mechanics.Ships;
 
-namespace FellSky.SpaceScene.Systems
+namespace FellSky.Systems
 {
-    public class ShipUpdateSystem : Artemis.System.EntityComponentProcessingSystem<Ship>
+    public class SpaceSceneShipUpdateSystem : Artemis.System.EntityComponentProcessingSystem<Ship>
     {
         public override void Process(Entity entity, Ship ship)
         {

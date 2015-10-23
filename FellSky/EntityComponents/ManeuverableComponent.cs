@@ -10,6 +10,8 @@ namespace FellSky.EntityComponents
 {
     public class ManeuverableComponent: IComponent
     {
+        
+
         public bool AttemptBoost { get; internal set; }
         public Vector2 LinearThrustVector { get; set; }
 
@@ -17,5 +19,7 @@ namespace FellSky.EntityComponents
         /// Torque value between -1 and 1. -1 = max torque going CW, and 1 is max torque going CCW. 0  is no torque.
         /// </summary>
         public float Torque{ get; set; }
+
+
     }
 }

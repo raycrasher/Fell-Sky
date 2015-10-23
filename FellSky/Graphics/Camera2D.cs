@@ -1,4 +1,5 @@
-﻿using FellSky.Common;
+﻿using Artemis.Interface;
+using FellSky.Common;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -6,9 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FellSky.EntitySystems
+namespace FellSky.Graphics
 {
-    public class Camera2D
+    public class Camera2D: IComponent
     {
         public Rectangle ScreenBounds { get; internal set; }
         public Transform Transform { get; } = new Transform();

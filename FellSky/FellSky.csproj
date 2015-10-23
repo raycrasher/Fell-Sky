@@ -77,21 +77,42 @@
     <Compile Include="EntityComponents\AreaShieldingComponent.cs" />
     <Compile Include="EntityComponents\ArmorComponent.cs" />
     <Compile Include="EntityComponents\BarrierShieldingComponent.cs" />
+    <Compile Include="EntityComponents\BulletComponent.cs" />
     <Compile Include="EntityComponents\FireControlComponent.cs" />
     <Compile Include="EntityComponents\HealthComponent.cs" />
+    <Compile Include="EntityComponents\PhysicsBodyComponent.cs" />
     <Compile Include="EntityComponents\PlayerShipControllerComponent.cs" />
     <Compile Include="EntityComponents\PowerComponent.cs" />
+    <Compile Include="EntityComponents\ShipComponent.cs" />
+    <Compile Include="EntityComponents\SpaceSceneShipSpriteComponent.cs" />
+    <Compile Include="EntityComponents\SteeringBehaviorComponent.cs" />
     <Compile Include="EntityComponents\SurfaceShieldingComponent.cs" />
     <Compile Include="EntityComponents\ManeuverableComponent.cs" />
     <Compile Include="EntityComponents\WarpDriveComponent.cs" />
-    <Compile Include="EntitySystems\GuiSystem.cs" />
-    <Compile Include="EntitySystems\Camera2D.cs" />
+    <Compile Include="Framework\Animation.cs" />
+    <Compile Include="Mechanics\Ships\Turret.cs" />
+    <Compile Include="Systems\GuiSystem.cs" />
+    <Compile Include="Graphics\Camera2D.cs" />
     <Compile Include="Framework\Coroutine.cs" />
     <Compile Include="Framework\CoroutineManager.cs" />
     <Compile Include="Framework\GameState.cs" />
     <Compile Include="Framework\KeyboardManager.cs" />
     <Compile Include="Framework\MainGameState.cs" />
     <Compile Include="Framework\MouseManager.cs" />
+    <Compile Include="Framework\SteeringBehaviors\AlignmentBehavior.cs" />
+    <Compile Include="Framework\SteeringBehaviors\ArrivalBehavior.cs" />
+    <Compile Include="Framework\SteeringBehaviors\CohesionBehavior.cs" />
+    <Compile Include="Framework\SteeringBehaviors\EvadeBehavior.cs" />
+    <Compile Include="Framework\SteeringBehaviors\FleeBehavior.cs" />
+    <Compile Include="Framework\SteeringBehaviors\FollowPathBehavior.cs" />
+    <Compile Include="Framework\SteeringBehaviors\ISteeringBehavior.cs" />
+    <Compile Include="Framework\SteeringBehaviors\LeaderFollowingBehavior.cs" />
+    <Compile Include="Framework\SteeringBehaviors\ObstacleAvoidanceBehavior.cs" />
+    <Compile Include="Framework\SteeringBehaviors\PursuitBehavior.cs" />
+    <Compile Include="Framework\SteeringBehaviors\SeekBehavior.cs" />
+    <Compile Include="Framework\SteeringBehaviors\SeparationBehavior.cs" />
+    <Compile Include="Framework\SteeringBehaviors\UnalignedCollisionAvoidanceBehavior.cs" />
+    <Compile Include="Framework\SteeringBehaviors\WanderBehavior.cs" />
     <Compile Include="Graphics\Sprite.cs" />
     <Compile Include="Graphics\SpriteAtlas.cs" />
     <Compile Include="Graphics\SpriteManager.cs" />
@@ -130,7 +151,7 @@
     <Compile Include="Mechanics\Ships\Hull.cs" />
     <Compile Include="Mechanics\Ships\ShipHandlingParameters.cs" />
     <Compile Include="Mechanics\Ships\ShipPart.cs" />
-    <Compile Include="Mechanics\Ships\ShipSprite.cs" />
+    <Compile Include="Graphics\ShipSprite.cs" />
     <Compile Include="Mechanics\Ships\Thruster.cs" />
     <Compile Include="Mechanics\Ships\WarpDrive.cs" />
     <Compile Include="Mechanics\Ships\WeaponHardpoint.cs" />
@@ -148,9 +169,10 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="SpaceScene\Systems\PlayerShipControlSystem.cs" />
-    <Compile Include="SpaceScene\Systems\SpaceSceneShipRendererSystem.cs" />
-    <Compile Include="SpaceScene\Systems\ShipUpdateSystem.cs" />
+    <Compile Include="Systems\PlayerShipControlSystem.cs" />
+    <Compile Include="Systems\SpaceSceneShipRendererSystem.cs" />
+    <Compile Include="Systems\SpaceSceneShipUpdateSystem.cs" />
+    <Compile Include="Systems\SteeringBehaviorSystem.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

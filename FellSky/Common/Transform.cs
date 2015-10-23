@@ -1,6 +1,7 @@
 ﻿using System;
 using Artemis.Interface;
 using Microsoft.Xna.Framework;
+using System.Runtime.Serialization;
 
 namespace FellSky
 {
@@ -14,13 +15,18 @@ namespace FellSky
         Matrix Matrix { get; }
     }
 
+    [Serializable]
     public class Transform : ITransform, IComponent
     {
+        [NonSerialized]
         private bool _matrixNeedsUpdate;
+        [NonSerialized]
+        private Matrix _matrix;
+
         private Vector2 _position;
         private float _rotation;
         private Vector2 _scale;
-        private Matrix _matrix;
+
         private Vector2 _origin;
 
         public Vector2 Position
@@ -107,6 +113,12 @@ namespace FellSky
             Position = position;
             Rotation = rotation;
             Scale = scale;
+        }
+
+        [OnDeserialized]
+        private void SetValuesOnDeserialized(StreamingContext context)
+        {
+            _matrixNeedsUpdate = true;
         }
     }
 }

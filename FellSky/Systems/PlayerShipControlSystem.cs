@@ -9,8 +9,9 @@ using Microsoft.Xna.Framework;
 using FellSky.EntitySystems;
 using Artemis.Attributes;
 using FellSky.Mechanics.Ships;
+using FellSky.Graphics;
 
-namespace FellSky.SpaceScene.Systems
+namespace FellSky.Systems
 {
     [ArtemisEntitySystem(ExecutionType = Artemis.Manager.ExecutionType.Synchronous, GameLoopType = Artemis.Manager.GameLoopType.Update)]
     public class PlayerShipControlSystem : Artemis.System.EntityComponentProcessingSystem<PlayerShipControllerComponent, Ship, ManeuverableComponent, Transform>
