@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Content;
 
 namespace FellSky.Graphics
 {
@@ -32,10 +33,10 @@ namespace FellSky.Graphics
 
         public static Dictionary<string, Sprite> Sprites { get; } = new Dictionary<string, Sprite>();
 
-        public static void AddSpriteSheetFromFile(string filename)
+        public static void AddSpriteSheetFromFile(ContentManager manager, string filename)
         {
             var sheet = JsonConvert.DeserializeObject<JsonSpriteSheet>(System.IO.File.ReadAllText(filename));
-            var tex = Game.Instance.Content.Load<Texture2D>(sheet.texture);
+            var tex = manager.Load<Texture2D>(sheet.texture);
             foreach(var s in sheet.sprites)
             {
                 Sprites[s.id] = s.GetSprite(tex);
