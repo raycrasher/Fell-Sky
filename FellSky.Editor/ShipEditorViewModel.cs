@@ -8,10 +8,12 @@ using System.Windows.Forms.Integration;
 
 namespace FellSky.Editor
 {
+
     public class ShipEditorViewModel
     {
         public ShipEditorRenderer Renderer { get; set; }
         public Thread RendererThread { get; private set; }
+        public Dictionary<string, Graphics.Sprite> Sprites { get; set; }
 
         public void InitializeRenderer(System.Windows.Forms.Control host)
         {
