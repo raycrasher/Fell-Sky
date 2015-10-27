@@ -1,4 +1,5 @@
-﻿using Artemis.Interface;
+﻿using System;
+using Artemis.Interface;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -65,6 +66,14 @@ namespace FellSky.Graphics
         public void Draw(SpriteBatch batch, Vector2 position, float rotation, Vector2 scale, SpriteEffects effects = SpriteEffects.None, float depth = 0)
         {
             batch.Draw(Texture, position, TextureRect, Color.White, rotation, new Vector2(TextureRect.Width / 2, TextureRect.Height / 2), scale, SpriteEffects.None, 0);
+        }
+
+        public void Draw(SpriteBatch batch, Matrix matrix, Color color, SpriteEffects effects = SpriteEffects.None, float depth = 0)
+        {
+            Vector2 position, scale;
+            float rotation;
+            Utilities.DecomposeMatrix2D(ref matrix, out position, out rotation, out scale);
+            Draw(batch, position, rotation, scale, Vector2.Zero, color, effects, depth);
         }
 
         public void Draw(SpriteBatch batch, Vector2 position, float rotation, Vector2 scale, Vector2 origin, SpriteEffects effects = SpriteEffects.None, float depth = 0)

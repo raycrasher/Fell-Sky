@@ -7,6 +7,8 @@ using FellSky.Mechanics.Ships;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
+using System.Linq;
+using System;
 
 namespace FellSky.Systems
 {
@@ -18,70 +20,59 @@ namespace FellSky.Systems
     public class ShipRendererSystem : Artemis.System.EntitySystem
     {
         SpriteBatch _spriteBatch;
-        SpriteBatch _spriteOverlayBatch;
-        RenderTarget2D _spriteOverlayRenderTarget;
         GraphicsDevice _device;
         Camera2D _camera;
+        private Matrix _matrix;
 
         public ShipRendererSystem()
-            : base(Aspect.All(typeof(Ship), typeof(SpaceSceneShipSpriteComponent)))
+            : base(Aspect.All(typeof(Ship), typeof(ShipSpriteComponent)))
         {
         }
 
         protected override void ProcessEntities(IDictionary<int, Entity> entities)
         {
+            if (_camera == null) return;
             _device.SetRenderTarget(null);
-            DrawSprites(entities, _spriteBatch);
-            
-            //_device.SetRenderTarget(_spriteOverlayRenderTarget);
-            //_device.Clear(Color.Black);
-            //DrawOverlays(entities, _spriteBatch);
-            //
-            //_device.SetRenderTarget(null);
+            _matrix = _camera.GetViewMatrix(1.0f);
+            DrawThrusters(entities, _spriteBatch);
+            DrawHulls(entities, _spriteBatch);
             
         }
-        /*
-        private void DrawOverlays(IDictionary<int, Entity> entities)
+
+        private void DrawThrusters(IDictionary<int, Entity> entities, SpriteBatch spriteBatch)
         {
-            
-            for (int i = 0; i < entities.Count; i++)
-            {
-                _device.SetRenderTarget(_spriteOverlayRenderTarget);
-                _device.Clear(Color.Black);
+            spriteBatch.Begin(blendState: BlendState.Additive, transformMatrix: _matrix);
 
-                _spriteOverlayBatch.Begin();
-                var entity = entities[i];
-                var component = entity.GetComponent<ShipSpriteComponent>();
-                var transform = entity.GetComponent<Transform>();
-
-                for(int j=0; j < component.Overlays.Count; j++)
-                {
-                    var sprite = component.Overlays[j];
-                    sprite.Sprite.Draw(_spriteOverlayBatch, sprite.Transform.Position + transform.Position, sprite.Transform.Rotation + transform.Rotation, sprite.Transform.Scale * transform.Scale, sprite.Transform.Origin + transform.Origin, sprite.Color);
-                }
-
-                _spriteOverlayBatch.End();
-
-            }
-            _device.SetRenderTarget(null);
-        }*/
-
-        private void DrawSprites(IDictionary<int, Entity> entities, SpriteBatch spriteBatch)
-        {
-            spriteBatch.Begin();
             for (int idxEntity = 0; idxEntity < entities.Count; idxEntity++)
             {
-                var entity = entities[idxEntity];
-                var spriteComponent = entity.GetComponent<SpaceSceneShipSpriteComponent>();
-                var transform = entity.GetComponent<Transform>();
-                var shipMatrix = transform.Matrix;
+                var ship = entities[idxEntity];
+                var shipSprite = ship.GetComponent<ShipSpriteComponent>();
+                var xform = ship.GetComponent<Transform>();
+                var shipMatrix = xform.Matrix;
 
-                for (int idxPart = 0; idxPart < spriteComponent.Ship.Parts.Count; idxPart++)
+                foreach(var thruster in shipSprite.Ship.Thrusters.Where(s=>s.ThrustPercent>0))
                 {
-                    var part = spriteComponent.Ship.Parts[idxPart];
-                    var partmatrix = shipMatrix * part.Transform.Matrix;
-                    var sprite = part.SpriteGroup;
-                    sprite.Draw(spriteBatch, ref partmatrix);
+                    var color = Color.Lerp(new Color(thruster.Color, 0), thruster.Color, MathHelper.Clamp(thruster.ThrustPercent, 0, 1));
+                    thruster.Sprite.Draw(spriteBatch, thruster.Transform.Matrix * shipMatrix, color);
+                }
+            }
+            spriteBatch.End();
+        }
+        
+
+        private void DrawHulls(IDictionary<int, Entity> entities, SpriteBatch spriteBatch)
+        {
+            spriteBatch.Begin(blendState: BlendState.AlphaBlend, transformMatrix: _matrix);
+            for (int idxEntity = 0; idxEntity < entities.Count; idxEntity++)
+            {
+                var ship = entities[idxEntity];
+                var shipSprite = ship.GetComponent<ShipSpriteComponent>();
+                var xform = ship.GetComponent<Transform>();
+                var shipMatrix = xform.Matrix;
+
+                foreach (var hull in shipSprite.Ship.Hulls)
+                {
+                    hull.Sprite.Draw(spriteBatch, hull.Transform.Matrix * shipMatrix, hull.Color);
                 }
             }
             spriteBatch.End();
@@ -92,25 +83,15 @@ namespace FellSky.Systems
         /// </summary>
         public override void LoadContent()
         {
-            _camera = BlackBoard.GetEntry<Camera2D>("Camera2D");
+            _camera = BlackBoard.GetEntry<Camera2D>(Camera2D.PlayerCameraName);
             _device = Game.Instance.GraphicsDevice;
             _spriteBatch = new SpriteBatch(_device);
-            _spriteOverlayRenderTarget = new RenderTarget2D(_device,
-                _device.PresentationParameters.BackBufferWidth,
-                _device.PresentationParameters.BackBufferHeight,
-                false,
-                _device.PresentationParameters.BackBufferFormat,
-                _device.PresentationParameters.DepthStencilFormat
-                );
-            _spriteOverlayBatch = new SpriteBatch(_device);
             base.LoadContent();
         }
 
         public override void UnloadContent()
         {
-            _spriteOverlayBatch.Dispose();
             _spriteBatch.Dispose();
-            _spriteOverlayRenderTarget.Dispose();
             base.UnloadContent();
         }
     }

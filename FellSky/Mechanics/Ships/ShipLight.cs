@@ -4,26 +4,33 @@ using System;
 
 namespace FellSky.Mechanics.Ships
 {
-    public class ShipLight
+    public class ShipLight: ShipPart
     {
         [Newtonsoft.Json.JsonIgnore]
         public Sprite Sprite { get; set; }
 
+        public Transform Transform { get; set; } = new Transform();
+
         public string SpriteId { get; set; }
+        
+        public KeyFrame[] Frames { get; set; } = new[] { new KeyFrame(TimeSpan.FromSeconds(1), Color.LightCyan, 1.0f) };
+
+        public int CurrentFrame { get; set; } = 0;
+        public TimeSpan Age { get; set; } = TimeSpan.Zero;
         public Color CurrentColor { get; set; } = Color.LightCyan;
-        public KeyFrame[] Frames { get; set; } = new[] { new KeyFrame(TimeSpan.FromSeconds(1), Color.LightCyan) };
-        public int CurrentFrame { get; set; }
-        public TimeSpan Age { get; set; }
+        public float CurrentSize { get; set; } = 1;
 
         public struct KeyFrame
         {
-            public TimeSpan Duration;
+            public TimeSpan Duration { get; set; }
             public Color Color { get; set; }
+            public float Size { get; set; }
 
-            public KeyFrame(TimeSpan duration, Color color)
+            public KeyFrame(TimeSpan duration, Color color, float size)
             {
                 Duration = duration;
                 Color = color;
+                Size = size;
             }
         }
     }

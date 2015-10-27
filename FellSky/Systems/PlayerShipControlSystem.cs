@@ -45,8 +45,8 @@ namespace FellSky.Systems
 
             if (control.MouseHeadingControl)
             {
-                var camera = BlackBoard.GetEntry<Camera2D>("PlayerCamera");
-                Vector2 worldMousePosition = Vector2.Transform(Game.Mouse.ScreenPosition, camera.CurrentMatrix);
+                var camera = BlackBoard.GetEntry<Camera2D>(Camera2D.PlayerCameraName);
+                Vector2 worldMousePosition = Vector2.Transform(Game.Mouse.ScreenPosition, camera.GetViewMatrix(1.0f));
                 var angle = (xform.Position - worldMousePosition).ToAngleRadians();
                 
             }

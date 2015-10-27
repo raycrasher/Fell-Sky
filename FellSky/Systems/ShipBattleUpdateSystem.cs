@@ -9,7 +9,7 @@ using FellSky.Mechanics.Ships;
 
 namespace FellSky.Systems
 {
-    public class SpaceSceneShipUpdateSystem : Artemis.System.EntityComponentProcessingSystem<Ship>
+    public class ShipBattleUpdateSystem : Artemis.System.EntityComponentProcessingSystem<Ship>
     {
         public override void Process(Entity entity, Ship ship)
         {

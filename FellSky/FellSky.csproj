@@ -83,13 +83,15 @@
     <Compile Include="EntityComponents\PhysicsBodyComponent.cs" />
     <Compile Include="EntityComponents\PlayerShipControllerComponent.cs" />
     <Compile Include="EntityComponents\PowerComponent.cs" />
-    <Compile Include="EntityComponents\ShipComponent.cs" />
-    <Compile Include="EntityComponents\SpaceSceneShipSpriteComponent.cs" />
+    <Compile Include="EntityComponents\ShipSpriteComponent.cs" />
     <Compile Include="EntityComponents\SteeringBehaviorComponent.cs" />
     <Compile Include="EntityComponents\SurfaceShieldingComponent.cs" />
     <Compile Include="EntityComponents\ManeuverableComponent.cs" />
     <Compile Include="EntityComponents\WarpDriveComponent.cs" />
     <Compile Include="Framework\Animation.cs" />
+    <Compile Include="Mechanics\Ships\GroupAttachmentPoint.cs" />
+    <Compile Include="Mechanics\Ships\PartGroup.cs" />
+    <Compile Include="Mechanics\Ships\ShipPart.cs" />
     <Compile Include="Mechanics\Ships\ShipLight.cs" />
     <Compile Include="Mechanics\Ships\IShipSubsystem.cs" />
     <Compile Include="Systems\GuiSystem.cs" />
@@ -170,7 +172,7 @@
     </Compile>
     <Compile Include="Systems\PlayerShipControlSystem.cs" />
     <Compile Include="Systems\ShipRendererSystem.cs" />
-    <Compile Include="Systems\SpaceSceneShipUpdateSystem.cs" />
+    <Compile Include="Systems\ShipBattleUpdateSystem.cs" />
     <Compile Include="Systems\SteeringBehaviorSystem.cs" />
   </ItemGroup>
   <ItemGroup>

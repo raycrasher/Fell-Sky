@@ -10,8 +10,6 @@ namespace FellSky.EntityComponents
 {
     public class ManeuverableComponent: IComponent
     {
-        
-
         public bool AttemptBoost { get; internal set; }
         public Vector2 LinearThrustVector { get; set; }
 

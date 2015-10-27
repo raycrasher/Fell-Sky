@@ -9,11 +9,24 @@ using System.Threading.Tasks;
 
 namespace FellSky.Graphics
 {
-    public class Camera2D: IComponent
+    public class Camera2D : IComponent
     {
-        public Rectangle ScreenBounds { get; internal set; }
-        public Transform Transform { get; } = new Transform();
-        public float Zoom { get; set; }
-        public Matrix CurrentMatrix { get; private set; }
+        public const string PlayerCameraName = "PlayerCamera";
+
+        public Transform Transform { get; set; }
+            = new Transform();
+
+        public float Zoom { get; set; } = 1;
+
+        public Matrix GetViewMatrix(float parallax)
+        {
+            // To add parallax, simply multiply it by the position
+            return Matrix.CreateTranslation(new Vector3(-Transform.Position * parallax, 0.0f)) *
+                // The next line has a catch. See note below.
+                Matrix.CreateTranslation(new Vector3(-Transform.Origin, 0.0f)) *
+                Matrix.CreateRotationZ(Transform.Rotation) *
+                Matrix.CreateScale(Zoom, Zoom, 1) *
+                Matrix.CreateTranslation(new Vector3(Transform.Origin, 0.0f));
+        }
     }
 }

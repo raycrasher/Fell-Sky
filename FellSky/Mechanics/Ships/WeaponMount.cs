@@ -24,7 +24,7 @@ namespace FellSky.Mechanics.Ships
         Ballistic = 2 << 3,
     }
 
-    public class WeaponMount
+    public class WeaponMount: ShipPart
     {
         public bool IsBuiltIn { get; set; }
         public float TraverseArcStart { get; set; }
