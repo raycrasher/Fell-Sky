@@ -1,0 +1,9 @@
+﻿<Application x:Class="FellSky.Editor.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:FellSky.Editor"
+             StartupUri="ShipEditor.xaml">
+    <Application.Resources>
+         
+    </Application.Resources>
+</Application>

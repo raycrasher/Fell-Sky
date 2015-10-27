@@ -1,0 +1,35 @@
+﻿<Window x:Class="FellSky.Editor.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:fe="clr-namespace:FellSky.Editor"
+        xmlns:wf="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"  
+        mc:Ignorable="d"
+        Title="Ship Editor" Height="768" Width="1024" 
+        MinHeight="480" MinWidth="640"
+        Loaded="Window_Loaded"
+        Closing="Window_Closing"
+        >
+    <Window.Resources>
+        <fe:ShipEditorViewModel x:Key="model"/>
+    </Window.Resources>
+    <Grid DataContext="{StaticResource model}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+        <WindowsFormsHost Grid.Column="1">
+            <wf:Panel x:Name="WFHost"/>
+        </WindowsFormsHost>
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="100"/>
+                <RowDefinition Height="337*"/>
+            </Grid.RowDefinitions>
+            <ListView Grid.Row="1">
+                
+            </ListView>
+        </Grid>
+    </Grid>
+</Window>

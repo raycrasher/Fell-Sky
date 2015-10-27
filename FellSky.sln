@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FellSky", "FellSky\FellSky.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FellSky.Tests", "FellSky.Tests\FellSky.Tests.csproj", "{03DD7711-5513-4C92-B81E-1A6A8E551C32}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FellSky.Editor", "FellSky.Editor\FellSky.Editor.csproj", "{5BC68C1D-9C31-4C7E-AEC2-8F0F821B0BB1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{03DD7711-5513-4C92-B81E-1A6A8E551C32}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{03DD7711-5513-4C92-B81E-1A6A8E551C32}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{03DD7711-5513-4C92-B81E-1A6A8E551C32}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5BC68C1D-9C31-4C7E-AEC2-8F0F821B0BB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5BC68C1D-9C31-4C7E-AEC2-8F0F821B0BB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5BC68C1D-9C31-4C7E-AEC2-8F0F821B0BB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5BC68C1D-9C31-4C7E-AEC2-8F0F821B0BB1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
