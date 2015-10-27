@@ -14,6 +14,7 @@ namespace FellSky.Mechanics.Ships
     public class Shield
     {
         public float MaxShieldStrength { get; set; }
+        public float CurrentShieldStrength { get; set; }
         public ShieldType Type { get; set; }
     }
 }

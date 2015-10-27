@@ -15,7 +15,7 @@ namespace FellSky.Systems
         GameLoopType = Artemis.Manager.GameLoopType.Draw,
         Layer = 10
         )]
-    public class SpaceSceneShipRendererSystem : Artemis.System.EntitySystem
+    public class ShipRendererSystem : Artemis.System.EntitySystem
     {
         SpriteBatch _spriteBatch;
         SpriteBatch _spriteOverlayBatch;
@@ -23,7 +23,7 @@ namespace FellSky.Systems
         GraphicsDevice _device;
         Camera2D _camera;
 
-        public SpaceSceneShipRendererSystem()
+        public ShipRendererSystem()
             : base(Aspect.All(typeof(Ship), typeof(SpaceSceneShipSpriteComponent)))
         {
         }

@@ -9,7 +9,8 @@ namespace FellSky.Mechanics.Ships
     public class ArmorPlating
     {
         public float Thickness { get; set; }
-        public float Strength { get; set; }
+        public float Resistance { get; set; }
         public float Durability { get; set; }
+        public float Health { get; set; }
     }
 }

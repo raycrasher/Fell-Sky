@@ -17,24 +17,24 @@ namespace FellSky.Graphics
         None=0, Base=1, Trim=2
     }
 
-    public class SpriteGroup
+    public class ShipSprite
     {
         private Color _baseColor;
         private Color _trimColor;
 
-        public List<SubSprite> SubSprites { get; set; } = new List<SubSprite>();
-        public SpriteGroup() { }
+        public List<ShipSubSprite> SubSprites { get; set; } = new List<ShipSubSprite>();
+        public ShipSprite() { }
 
         // load from ShipEditor generated xml.
-        public SpriteGroup(JObject json)
+        public ShipSprite(JObject json)
         {
             SubSprites.AddRange(
                 json["sprites"].Select(token =>
                 {
-                    if (token["_type"]?.Value<string>() != typeof(SubSprite).Name)
+                    if (token["_type"]?.Value<string>() != typeof(ShipSubSprite).Name)
                         throw new InvalidOperationException("ShipSpriteItem cannot load data from JSon; data is invalid.");
 
-                    var item = new SubSprite();
+                    var item = new ShipSubSprite();
                     item.SpriteId = token["spriteid"]?.Value<string>();
                     item.Tag = token["tag"]?.Value<string>();
                     item.Color = token["color"]?.Value<string>().ToColorFromHexString() ?? Color.White;
@@ -54,9 +54,9 @@ namespace FellSky.Graphics
         /// Creates a clone of the sprite.
         /// </summary>
         /// <returns></returns>
-        public SpriteGroup Clone() {
-            var group = new SpriteGroup();
-            group.SubSprites = new List<SubSprite>(SubSprites.Select(s => s.Clone()));
+        public ShipSprite Clone() {
+            var group = new ShipSprite();
+            group.SubSprites = new List<ShipSubSprite>(SubSprites.Select(s => s.Clone()));
             return group;
         }
 
@@ -110,9 +110,9 @@ namespace FellSky.Graphics
         }
     }
 
-    public delegate void ShipSpriteDrawFunction(SpriteBatch batch, ref Matrix matrix, SubSprite item);
+    public delegate void ShipSpriteDrawFunction(SpriteBatch batch, ref Matrix matrix, ShipSubSprite item);
 
-    public class SubSprite
+    public class ShipSubSprite
     {
         public Transform Transform { get; set; } = new Transform();
         public string SpriteId { get; set; }
@@ -123,9 +123,9 @@ namespace FellSky.Graphics
         public string Tag { get; set; }
         public SpriteEffects SpriteEffect { get; set; } = SpriteEffects.None;
 
-        public SubSprite Clone()
+        public ShipSubSprite Clone()
         {
-            var item = (SubSprite) MemberwiseClone();
+            var item = (ShipSubSprite) MemberwiseClone();
             item.Transform = Transform.Clone();
             return item;
         }

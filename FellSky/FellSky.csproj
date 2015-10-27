@@ -90,7 +90,8 @@
     <Compile Include="EntityComponents\ManeuverableComponent.cs" />
     <Compile Include="EntityComponents\WarpDriveComponent.cs" />
     <Compile Include="Framework\Animation.cs" />
-    <Compile Include="Mechanics\Ships\Turret.cs" />
+    <Compile Include="Mechanics\Ships\ShipLight.cs" />
+    <Compile Include="Mechanics\Ships\IShipSubsystem.cs" />
     <Compile Include="Systems\GuiSystem.cs" />
     <Compile Include="Graphics\Camera2D.cs" />
     <Compile Include="Framework\Coroutine.cs" />
@@ -141,7 +142,6 @@
     <Compile Include="Mechanics\Resource.cs" />
     <Compile Include="Mechanics\ResourceConverter.cs" />
     <Compile Include="Mechanics\Ships\ArmorPlating.cs" />
-    <Compile Include="Mechanics\Ships\Decal.cs" />
     <Compile Include="Mechanics\IResourceConsumer.cs" />
     <Compile Include="Mechanics\IResourceProducer.cs" />
     <Compile Include="Mechanics\IResourceStorage.cs" />
@@ -150,11 +150,10 @@
     <Compile Include="Mechanics\Ships\Ship.cs" />
     <Compile Include="Mechanics\Ships\Hull.cs" />
     <Compile Include="Mechanics\Ships\ShipHandlingParameters.cs" />
-    <Compile Include="Mechanics\Ships\ShipPart.cs" />
     <Compile Include="Graphics\ShipSprite.cs" />
     <Compile Include="Mechanics\Ships\Thruster.cs" />
     <Compile Include="Mechanics\Ships\WarpDrive.cs" />
-    <Compile Include="Mechanics\Ships\WeaponHardpoint.cs" />
+    <Compile Include="Mechanics\Ships\WeaponMount.cs" />
     <Compile Include="Mechanics\Ships\Weapon.cs" />
     <Compile Include="Mechanics\Space\SpaceObject.cs" />
     <Compile Include="Mechanics\Space\Star.cs" />
@@ -170,7 +169,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="Systems\PlayerShipControlSystem.cs" />
-    <Compile Include="Systems\SpaceSceneShipRendererSystem.cs" />
+    <Compile Include="Systems\ShipRendererSystem.cs" />
     <Compile Include="Systems\SpaceSceneShipUpdateSystem.cs" />
     <Compile Include="Systems\SteeringBehaviorSystem.cs" />
   </ItemGroup>

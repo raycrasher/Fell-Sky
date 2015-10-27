@@ -11,5 +11,7 @@ namespace FellSky.Mechanics.Ships
         public float WarpMultiplier { get; set; }
         public float MaxExoticMatterAmount { get; set; }
         public float EnergyConsumption { get; set; }
+
+        
     }
 }

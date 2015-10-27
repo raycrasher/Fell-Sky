@@ -12,22 +12,11 @@ namespace FellSky.Mechanics.Ships
     public class Thruster
     {
         public ThrusterData Data { get; set; }
-        public SubSprite Sprite { get; set; }
+        public ShipSubSprite Sprite { get; set; }
         
         public float MainThrustAmount { get; set; }
         public float BoostThrustAmount { get; set; }
         public float CruiseThrustAmount { get; set; }
-
-
-        public void Attach()
-        {
-            Sprite.OnDraw += Draw;
-        }
-
-        private void Draw(SpriteBatch batch, ref Matrix matrix, SubSprite item)
-        {
-            
-        }
     }
 
     [Serializable]

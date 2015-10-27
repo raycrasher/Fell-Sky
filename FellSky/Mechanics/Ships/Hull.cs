@@ -1,5 +1,7 @@
 ﻿using FellSky.Common;
+using FellSky.Graphics;
 using Microsoft.Xna.Framework;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 
@@ -10,12 +12,17 @@ namespace FellSky.Mechanics.Ships
     /// </summary>
     public class Hull
     {
-        public Thruster[] Thrusters { get; set; }
-    }
+        [JsonIgnore]
+        public Sprite Sprite { get; set; }
+        public string SpriteId { get; set; }
 
-    public class HullDefinition
-    {
-        public FarseerPhysics.Collision.Shapes.Shape[] Shapes { get; set; }
-        public SpriteGroup
+        public Transform Transform { get; set; } = new Transform();
+
+        [JsonIgnore]
+        public FarseerPhysics.Collision.Shapes.Shape Shape { get; set; }
+        public string ShapeId { get; set; }
+
+        [JsonIgnore]
+        public FarseerPhysics.Dynamics.Fixture Fixture { get; set; }
     }
 }

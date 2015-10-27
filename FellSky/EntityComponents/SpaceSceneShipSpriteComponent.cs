@@ -11,5 +11,6 @@ namespace FellSky.EntityComponents
     public class SpaceSceneShipSpriteComponent: IComponent
     {
         public Ship Ship { get; set; }
+        
     }
 }
