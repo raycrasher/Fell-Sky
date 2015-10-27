@@ -8,10 +8,8 @@ using System.Threading.Tasks;
 
 namespace FellSky.EntityComponents
 {
-    public enum WarpDriveState
-    {
-        Idle, Charging, Warping, Dewarping, 
-    }
+
+
     public class WarpDriveComponent: IComponent
     {
         public WarpDrive WarpDrive { get; set; }

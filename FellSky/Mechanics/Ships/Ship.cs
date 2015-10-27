@@ -23,6 +23,9 @@ namespace FellSky.Mechanics.Ships
         public PartGroup CorePartGroup { get; } = new PartGroup { Name = "Ship Core" };
         public WarpDrive WarpDrive { get; set; }
 
+        public List<Reactor> Reactors { get; set; } = new List<Reactor>();
+
+
         public ShipHandlingParameters Handling { get; set; } = new ShipHandlingParameters();
 
         public void SetColor(Color c, HullColorType type)

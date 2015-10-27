@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FellSky.Mechanics.Ships
 {
-    public class GroupAttachmentPoint: ShipPart
+    public class GroupMount: ShipPart
     {
         public Transform OriginalTransform { get; set; } = new Transform();
         public Transform Transform { get; set; } = new Transform();
