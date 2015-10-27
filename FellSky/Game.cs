@@ -28,6 +28,7 @@ namespace FellSky
             Graphics.ApplyChanges();
             Keyboard = new KeyboardManager(Coroutines);
             Mouse = new MouseManager(Coroutines);
+            this.IsMouseVisible = true;
         }
 
         protected override void Initialize()
