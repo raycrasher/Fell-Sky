@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms.Integration;
 
@@ -18,6 +19,9 @@ namespace FellSky.Editor
         private bool _hidePhantomWindow=false;
         private System.Windows.Forms.Control _host;
         private volatile bool _hasResized=false;
+
+        public readonly AutoResetEvent LoadEvent = new AutoResetEvent(false);
+        public event Action Load;
 
         public ShipEditorRenderer(System.Windows.Forms.Control host)
         {
@@ -48,8 +52,11 @@ namespace FellSky.Editor
 
         protected override void LoadContent()
         {
+            HidePhantomWindow();
             Artemis.System.EntitySystem.BlackBoard.SetEntry("GraphicsDevice", GraphicsDevice);
             base.LoadContent();
+            Load?.Invoke();
+            LoadEvent.Set();
         }
 
         protected override void Update(GameTime gameTime)
@@ -72,7 +79,7 @@ namespace FellSky.Editor
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.Black);
+            GraphicsDevice.Clear(Color.FromNonPremultiplied(0,30,60,255));
             base.Draw(gameTime);
         }
 

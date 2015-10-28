@@ -13,6 +13,7 @@
         >
     <Window.Resources>
         <fe:ShipEditorViewModel x:Key="model"/>
+        <fe:SpriteToIntRectConverter x:Key="spriteToIntRectConverter"/>
     </Window.Resources>
     <Grid DataContext="{StaticResource model}">
         <Grid.ColumnDefinitions>
@@ -22,14 +23,40 @@
         <WindowsFormsHost Grid.Column="1">
             <wf:Panel x:Name="WFHost"/>
         </WindowsFormsHost>
-        <Grid Grid.Column="0">
+        <Grid Grid.Column="0" >
             <Grid.RowDefinitions>
                 <RowDefinition Height="100"/>
                 <RowDefinition Height="337*"/>
             </Grid.RowDefinitions>
-            <ListView Grid.Row="1">
-                
-            </ListView>
+            <TabControl Grid.Row="1" ItemsSource="{Binding HullSprites}">
+                <TabControl.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Key}"/>
+                    </DataTemplate>
+                </TabControl.ItemTemplate>
+                <TabControl.ContentTemplate>
+                    <DataTemplate>
+                        <ListView ItemsSource="{Binding Value}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                            <ListView.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel IsItemsHost="True" />
+                                </ItemsPanelTemplate>
+                            </ListView.ItemsPanel>
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <Button Width="64" Height="64">
+                                        <Image Stretch="UniformToFill" StretchDirection="DownOnly">
+                                            <Image.Source>
+                                                <CroppedBitmap Source="{Binding Source={StaticResource model}, Path=CurrentSpriteSheet.Image}" SourceRect="{Binding Converter={StaticResource spriteToIntRectConverter}}"/>
+                                            </Image.Source>
+                                        </Image>
+                                    </Button>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </DataTemplate>
+                </TabControl.ContentTemplate>
+            </TabControl>
         </Grid>
     </Grid>
 </Window>
