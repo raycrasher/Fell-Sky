@@ -14,18 +14,24 @@ namespace FellSky.Graphics
 
         public class JsonSpriteSheet
         {
-            public string texture = null;
-            public JsonSprite[] sprites = null;
+            public string texture { get; set; }
+            public JsonSprite[] sprites { get; set; }
         }
 
         public class JsonSprite
         {
-            public string id = null;
-            public int x=0, y=0, w=0, h=0;
-            public float origin_x = 0, origin_y=0;
-            public float padding;
-            public string type, subtype, tags;
-            public JsonSprite[] subsprites;
+            public string id { get; set; }
+            public int x { get; set; }
+            public int y { get; set; }
+            public int w { get; set; }
+            public int h { get; set; }
+            public float origin_x { get; set; }
+            public float origin_y { get; set; }
+            public float padding { get; set; }
+            public string type { get; set; }
+            public string subtype { get; set; }
+            public string tags { get; set; }
+            public JsonSprite[] subsprites { get; set; }
 
             public Sprite GetSprite(Texture2D tex)
             {
