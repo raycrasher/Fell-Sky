@@ -32,6 +32,10 @@ namespace FellSky.Editor
 
         public Dictionary<string, SpriteManager.JsonSprite[]> HullSprites { get; set; }
 
+        public Color DefaultColor { get; set; } = Color.White;
+        public Color TrimColor { get; set; } = Color.CornflowerBlue;
+        public Color BaseColor { get; set; } = Color.Gold;
+
         public void InitializeRenderer(System.Windows.Forms.Control host)
         {
             Renderer = new ShipEditorRenderer(host);
@@ -45,6 +49,7 @@ namespace FellSky.Editor
             CurrentSpriteSheet = SpriteSheets[0];
             
             HullSprites = SpriteSheets[0].SpriteDefinitions.sprites.Where(s => s.type == "hull").GroupBy(s => s.subtype).ToDictionary(s => s.Key, s => s.ToArray());
+
         }
         
         private void AddSpriteSheet(string sheetfile)

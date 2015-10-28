@@ -17,18 +17,18 @@
     </Window.Resources>
     <Grid DataContext="{StaticResource model}">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="377*"/>
+            <ColumnDefinition Width="639*"/>
         </Grid.ColumnDefinitions>
         <WindowsFormsHost Grid.Column="1">
             <wf:Panel x:Name="WFHost"/>
         </WindowsFormsHost>
         <Grid Grid.Column="0" >
             <Grid.RowDefinitions>
-                <RowDefinition Height="100"/>
-                <RowDefinition Height="337*"/>
+                <RowDefinition Height="106"/>
+                <RowDefinition/>
             </Grid.RowDefinitions>
-            <TabControl Grid.Row="1" ItemsSource="{Binding HullSprites}">
+            <TabControl Grid.Row="1" ItemsSource="{Binding HullSprites}" SelectedIndex="0">
                 <TabControl.ItemTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding Key}"/>
@@ -45,7 +45,7 @@
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <Button Width="64" Height="64">
-                                        <Image Stretch="UniformToFill" StretchDirection="DownOnly">
+                                        <Image Stretch="UniformToFill" StretchDirection="DownOnly" SnapsToDevicePixels="True">
                                             <Image.Source>
                                                 <CroppedBitmap Source="{Binding Source={StaticResource model}, Path=CurrentSpriteSheet.Image}" SourceRect="{Binding Converter={StaticResource spriteToIntRectConverter}}"/>
                                             </Image.Source>
@@ -57,6 +57,19 @@
                     </DataTemplate>
                 </TabControl.ContentTemplate>
             </TabControl>
+            <Grid Grid.Row="0" Margin="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="44*"/>
+                    <ColumnDefinition Width="148*"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0">
+                    <Label HorizontalContentAlignment="Center">Hull color</Label>
+                    <RadioButton Foreground="{Binding DefaultColor}" GroupName="HulLColorType" Style="{StaticResource {x:Type ToggleButton}}" Margin="1">Default</RadioButton>
+                    <RadioButton Foreground="{Binding BaseColor}" GroupName="HulLColorType" Style="{StaticResource {x:Type ToggleButton}}" Margin="1">Base</RadioButton>
+                    <RadioButton Foreground="{Binding TrimColor}" GroupName="HulLColorType" Style="{StaticResource {x:Type ToggleButton}}" Margin="1">Trim</RadioButton>
+                </StackPanel>
+            </Grid>
         </Grid>
+        <GridSplitter Width="2"/>
     </Grid>
 </Window>
