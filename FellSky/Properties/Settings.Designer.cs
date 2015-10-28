@@ -73,7 +73,7 @@ namespace FellSky.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("30")]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int FrameLimit {
             get {
                 return ((int)(this["FrameLimit"]));
@@ -85,7 +85,7 @@ namespace FellSky.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("../../../Data")]
         public string DataFolder {
             get {
                 return ((string)(this["DataFolder"]));

@@ -84,7 +84,7 @@ namespace FellSky.Systems
         public override void LoadContent()
         {
             _camera = BlackBoard.GetEntry<Camera2D>(Camera2D.PlayerCameraName);
-            _device = Game.Instance.GraphicsDevice;
+            _device = BlackBoard.GetEntry<GraphicsDevice>("GraphicsDevice");
             _spriteBatch = new SpriteBatch(_device);
             base.LoadContent();
         }

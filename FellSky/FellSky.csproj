@@ -143,7 +143,6 @@
     <Compile Include="Framework\SteeringBehaviors\UnalignedCollisionAvoidanceBehavior.cs" />
     <Compile Include="Framework\SteeringBehaviors\WanderBehavior.cs" />
     <Compile Include="Graphics\Sprite.cs" />
-    <Compile Include="Graphics\SpriteAtlas.cs" />
     <Compile Include="Graphics\SpriteManager.cs" />
     <Compile Include="GroundScene\GroundSceneManager.cs" />
     <Compile Include="GroundScene\Systems\GridMapSystem.cs" />

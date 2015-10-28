@@ -15,10 +15,10 @@
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="FrameLimit" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">30</Value>
+      <Value Profile="(Default)">0</Value>
     </Setting>
     <Setting Name="DataFolder" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">../../../Data</Value>
     </Setting>
     <Setting Name="ActiveMods" Type="System.Collections.Specialized.StringCollection" Scope="User">
       <Value Profile="(Default)" />

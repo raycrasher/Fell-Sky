@@ -12,17 +12,20 @@ namespace FellSky.Graphics
     public static class SpriteManager
     {
 
-        class JsonSpriteSheet
+        public class JsonSpriteSheet
         {
             public string texture = null;
             public JsonSprite[] sprites = null;
         }
 
-        class JsonSprite
+        public class JsonSprite
         {
-
             public string id = null;
             public int x=0, y=0, w=0, h=0;
+            public float origin_x = 0, origin_y=0;
+            public float padding;
+            public string type, subtype, tags;
+            public JsonSprite[] subsprites;
 
             public Sprite GetSprite(Texture2D tex)
             {
@@ -30,10 +33,9 @@ namespace FellSky.Graphics
             }
         }
 
-
         public static Dictionary<string, Sprite> Sprites { get; } = new Dictionary<string, Sprite>();
 
-        public static void AddSpriteSheetFromFile(ContentManager manager, string filename)
+        public static JsonSpriteSheet AddSpriteSheetFromFile(ContentManager manager, string filename)
         {
             var sheet = JsonConvert.DeserializeObject<JsonSpriteSheet>(System.IO.File.ReadAllText(filename));
             var tex = manager.Load<Texture2D>(sheet.texture);
@@ -41,6 +43,7 @@ namespace FellSky.Graphics
             {
                 Sprites[s.id] = s.GetSprite(tex);
             }
+            return sheet;
         }
     }
 }

@@ -1,6 +1,10 @@
-﻿using FellSky.Framework;
+﻿using Artemis.System;
+using FellSky.Framework;
+using FellSky.Graphics;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.IO;
 
 namespace FellSky
 {
@@ -31,13 +35,17 @@ namespace FellSky
             this.IsMouseVisible = true;
         }
 
-        protected override void Initialize()
+        protected override void LoadContent()
         {
-            Content.RootDirectory = Settings.DataFolder;
+            EntitySystem.BlackBoard.SetEntry("GraphicsDevice", GraphicsDevice);
+            EntitySystem.BlackBoard.SetEntry("ContentManager", Content);
+            Content.RootDirectory = Path.GetFullPath(Settings.DataFolder);
+            Environment.CurrentDirectory = Path.GetFullPath(Settings.DataFolder);
             Gui.GuiManager.Initialize(Graphics.GraphicsDevice, Coroutines, Content, Keyboard, Mouse);
             State = new MainGameState();
             State.LoadContent();
-            base.Initialize();
+            SpriteManager.AddSpriteSheetFromFile(Content,"Textures/hulls.json");
+            base.LoadContent();
         }
 
         protected override void Update(GameTime gameTime)

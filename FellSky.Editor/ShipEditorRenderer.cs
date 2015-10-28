@@ -48,6 +48,7 @@ namespace FellSky.Editor
 
         protected override void LoadContent()
         {
+            Artemis.System.EntitySystem.BlackBoard.SetEntry("GraphicsDevice", GraphicsDevice);
             base.LoadContent();
         }
 
