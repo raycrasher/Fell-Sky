@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace FellSky.Mechanics.Ships
 {
-    public class ModuleMount
+    public interface IShipDevice
     {
+
     }
 }

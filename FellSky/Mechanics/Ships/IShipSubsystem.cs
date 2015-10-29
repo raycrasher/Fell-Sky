@@ -8,7 +8,7 @@ namespace FellSky.Mechanics.Ships
 {
     public enum PowerStatus
     {
-        Unpowered, Off, On, Cut, Low, Overload
+        Unpowered, Off, On, Cut, Low, PowerSave, Overdrive, Overload
     }
 
     public enum HealthStatus
@@ -18,8 +18,6 @@ namespace FellSky.Mechanics.Ships
 
     public interface IShipSubsystem
     {
-        PowerStatus PowerStatus { get; }
-        HealthStatus HealthStatus { get; }
-        bool IsFunctional { get; }
+  
     }
 }

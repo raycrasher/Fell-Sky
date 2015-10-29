@@ -19,6 +19,7 @@ namespace FellSky.Mechanics.Ships
         public List<Thruster> Thrusters { get; } = new List<Thruster>();
         public List<WeaponMount> WeaponMounts { get; } = new List<WeaponMount>();
         public List<ShipLight> Lights { get; set; } = new List<ShipLight>();
+        public List<ModuleSlot> ModuleSlots { get; set; } = new List<ModuleSlot>();
 
         public PartGroup CorePartGroup { get; } = new PartGroup { Name = "Ship Core" };
         public WarpDrive WarpDrive { get; set; }

@@ -15,6 +15,12 @@ namespace FellSky.Systems
         {
             UpdateHealth(entity, ship);
             UpdateHeat(entity, ship);
+            UpdatePower(entity, ship);
+        }
+
+        private void UpdatePower(Entity entity, Ship ship)
+        {
+            
         }
 
         private void UpdateHeat(Entity entity, Ship ship)
