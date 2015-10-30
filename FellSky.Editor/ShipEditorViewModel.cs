@@ -11,6 +11,8 @@ using FellSky.Graphics;
 using System.Drawing;
 using System.Windows.Media.Imaging;
 using System.Globalization;
+using System.Windows.Input;
+using FellSky.Mechanics.Ships;
 
 namespace FellSky.Editor
 {
@@ -36,7 +38,9 @@ namespace FellSky.Editor
         public Color TrimColor { get; set; } = Color.CornflowerBlue;
         public Color BaseColor { get; set; } = Color.Gold;
 
-        public void InitializeRenderer(System.Windows.Forms.Control host)
+        public Ship Ship { get; set; }
+
+        public void Initialize(System.Windows.Forms.Control host)
         {
             Renderer = new ShipEditorRenderer(host);
             RendererThread = new Thread(Renderer.Run);
@@ -49,7 +53,6 @@ namespace FellSky.Editor
             CurrentSpriteSheet = SpriteSheets[0];
             
             HullSprites = SpriteSheets[0].SpriteDefinitions.sprites.Where(s => s.type == "hull").GroupBy(s => s.subtype).ToDictionary(s => s.Key, s => s.ToArray());
-
         }
         
         private void AddSpriteSheet(string sheetfile)
@@ -76,6 +79,8 @@ namespace FellSky.Editor
             
             return image;
         }
+
+        public ICommand AddHull { get { return new DelegateCommand(o => Renderer.ExecuteNextUpdate.Add(() => Renderer.AddHullToShip((SpriteManager.JsonSprite)o))); } }
     }
 
     public class SpriteToIntRectConverter : System.Windows.Data.IValueConverter

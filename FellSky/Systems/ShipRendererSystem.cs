@@ -1,7 +1,6 @@
 ﻿using Artemis;
 using FellSky.Common;
 using FellSky.EntityComponents;
-using FellSky.EntitySystems;
 using FellSky.Graphics;
 using FellSky.Mechanics.Ships;
 using Microsoft.Xna.Framework;
@@ -34,18 +33,17 @@ namespace FellSky.Systems
             if (_camera == null) return;
             _device.SetRenderTarget(null);
             _matrix = _camera.GetViewMatrix(1.0f);
-            DrawThrusters(entities, _spriteBatch);
-            DrawHulls(entities, _spriteBatch);
+            DrawThrusters(entities.Values, _spriteBatch);
+            DrawHulls(entities.Values, _spriteBatch);
             
         }
 
-        private void DrawThrusters(IDictionary<int, Entity> entities, SpriteBatch spriteBatch)
+        private void DrawThrusters(ICollection<Entity> entities, SpriteBatch spriteBatch)
         {
             spriteBatch.Begin(blendState: BlendState.Additive, transformMatrix: _matrix);
 
-            for (int idxEntity = 0; idxEntity < entities.Count; idxEntity++)
+            foreach (var ship in entities)
             {
-                var ship = entities[idxEntity];
                 var shipSprite = ship.GetComponent<ShipSpriteComponent>();
                 var xform = ship.GetComponent<Transform>();
                 var shipMatrix = xform.Matrix;
@@ -60,12 +58,11 @@ namespace FellSky.Systems
         }
         
 
-        private void DrawHulls(IDictionary<int, Entity> entities, SpriteBatch spriteBatch)
+        private void DrawHulls(ICollection<Entity> entities, SpriteBatch spriteBatch)
         {
             spriteBatch.Begin(blendState: BlendState.AlphaBlend, transformMatrix: _matrix);
-            for (int idxEntity = 0; idxEntity < entities.Count; idxEntity++)
+            foreach (var ship in entities)
             {
-                var ship = entities[idxEntity];
                 var shipSprite = ship.GetComponent<ShipSpriteComponent>();
                 var xform = ship.GetComponent<Transform>();
                 var shipMatrix = xform.Matrix;

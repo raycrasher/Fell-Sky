@@ -11,6 +11,11 @@ namespace FellSky.EntityComponents
 {
     public class ShipSpriteComponent: IComponent
     {
+        public ShipSpriteComponent(Ship ship)
+        {
+            Ship = ship;
+        }
+
         public Ship Ship { get; set; }
 
         public List<HullGlowItem> GlowItems { get; } = new List<HullGlowItem>();

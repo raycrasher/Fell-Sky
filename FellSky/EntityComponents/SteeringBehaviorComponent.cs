@@ -6,7 +6,6 @@ using System.Text;
 using System.Threading.Tasks;
 using FellSky.Framework.SteeringBehaviors;
 using Microsoft.Xna.Framework;
-using FellSky.EntitySystems;
 using FellSky.Systems;
 
 namespace FellSky.EntityComponents

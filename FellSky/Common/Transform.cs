@@ -16,7 +16,8 @@ namespace FellSky
     }
 
     [Serializable]
-    public class Transform : ITransform, IComponent
+    [Artemis.Attributes.ArtemisComponentPool(InitialSize = 100, IsResizable = true, ResizeSize = 100, IsSupportMultiThread = false)]
+    public class Transform : Artemis.ComponentPoolable, ITransform, IComponent
     {
         [NonSerialized]
         private bool _matrixNeedsUpdate;
@@ -98,6 +99,11 @@ namespace FellSky
             }
         }
 
+        public Transform()
+        {
+            Scale = Vector2.One;
+        }
+
         public Transform Clone()
         {
             return (Transform)MemberwiseClone();
@@ -119,6 +125,16 @@ namespace FellSky
         private void SetValuesOnDeserialized(StreamingContext context)
         {
             _matrixNeedsUpdate = true;
+        }
+
+        public override void Initialize()
+        {
+            Position = Vector2.Zero;
+            Rotation = 0;
+            Scale = Vector2.One;
+            Origin = Vector2.Zero;
+            _matrixNeedsUpdate = true;
+            base.Initialize();
         }
     }
 }

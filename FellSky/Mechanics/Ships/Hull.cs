@@ -17,6 +17,19 @@ namespace FellSky.Mechanics.Ships
     /// </summary>
     public class Hull: ShipPart
     {
+        public Hull() { }
+
+        public Hull(string id, Vector2 position, int rotation, Vector2 scale, Vector2 origin, Color color)
+        {
+            SpriteId = id;
+            Sprite = SpriteManager.Sprites[id];
+            Transform.Position = position;
+            Transform.Scale = scale;
+            Transform.Rotation = rotation;
+            Transform.Origin = origin;
+            Color = color;
+        }
+
         [JsonIgnore]
         public Sprite Sprite { get; set; }
         public Color Color { get; set; }

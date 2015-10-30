@@ -24,7 +24,7 @@ namespace FellSky.Mechanics.Ships
         public PartGroup CorePartGroup { get; } = new PartGroup { Name = "Ship Core" };
         public WarpDrive WarpDrive { get; set; }
 
-        public List<Reactor> Reactors { get; set; } = new List<Reactor>();
+        public List<ReactorBase> Reactors { get; set; } = new List<ReactorBase>();
 
 
         public ShipHandlingParameters Handling { get; set; } = new ShipHandlingParameters();

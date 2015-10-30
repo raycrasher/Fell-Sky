@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FellSky.EntitySystems
+namespace FellSky.Systems
 {
     public class GuiSystem : Artemis.System.ProcessingSystem
     {

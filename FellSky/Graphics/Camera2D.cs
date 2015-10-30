@@ -17,16 +17,19 @@ namespace FellSky.Graphics
             = new Transform();
 
         public float Zoom { get; set; } = 1;
+        public Vector2 ScreenSize { get; set; }
 
         public Matrix GetViewMatrix(float parallax)
         {
             // To add parallax, simply multiply it by the position
-            return Matrix.CreateTranslation(new Vector3(-Transform.Position * parallax, 0.0f)) *
+            return Matrix.CreateTranslation(new Vector3(-(Transform.Position * parallax), 0.0f)) *
                 // The next line has a catch. See note below.
                 Matrix.CreateTranslation(new Vector3(-Transform.Origin, 0.0f)) *
                 Matrix.CreateRotationZ(Transform.Rotation) *
                 Matrix.CreateScale(Zoom, Zoom, 1) *
-                Matrix.CreateTranslation(new Vector3(Transform.Origin, 0.0f));
+                Matrix.CreateTranslation(new Vector3(Transform.Origin, 0.0f)) *
+                Matrix.CreateTranslation(new Vector3(ScreenSize / 2, 0f));
+
         }
     }
 }

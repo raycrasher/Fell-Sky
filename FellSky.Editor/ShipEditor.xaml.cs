@@ -38,7 +38,7 @@ namespace FellSky.Editor
             Model = (ShipEditorViewModel)FindResource("model");
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(this))
             {
-                Model.InitializeRenderer(WFHost);
+                Model.Initialize(WFHost);
             }
         }
     }
