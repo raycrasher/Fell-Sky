@@ -103,6 +103,7 @@
     <Compile Include="EntityComponents\BulletComponent.cs" />
     <Compile Include="EntityComponents\FireControlComponent.cs" />
     <Compile Include="EntityComponents\HealthComponent.cs" />
+    <Compile Include="EntityComponents\MouseControlledTransformComponent.cs" />
     <Compile Include="EntityComponents\PhysicsBodyComponent.cs" />
     <Compile Include="EntityComponents\PlayerShipControllerComponent.cs" />
     <Compile Include="EntityComponents\PowerComponent.cs" />
@@ -205,6 +206,7 @@
     <Compile Include="Systems\ShipRendererSystem.cs" />
     <Compile Include="Systems\ShipBattleUpdateSystem.cs" />
     <Compile Include="Systems\SteeringBehaviorSystem.cs" />
+    <Compile Include="Systems\MouseControlledTransformSystem.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

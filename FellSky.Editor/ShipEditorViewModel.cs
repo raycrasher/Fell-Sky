@@ -50,6 +50,7 @@ namespace FellSky.Editor
             Renderer.Load += () => AddSpriteSheet("textures/hulls.json");
             RendererThread.Start();
             Renderer.LoadEvent.WaitOne();
+            Microsoft.Xna.Framework.Input.Mouse.WindowHandle = host.Handle;
             CurrentSpriteSheet = SpriteSheets[0];
             
             HullSprites = SpriteSheets[0].SpriteDefinitions.sprites.Where(s => s.type == "hull").GroupBy(s => s.subtype).ToDictionary(s => s.Key, s => s.ToArray());

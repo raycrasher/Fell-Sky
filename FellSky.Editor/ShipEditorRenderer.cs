@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms.Integration;
 using FellSky.Graphics;
 using FellSky.Mechanics.Ships;
+using FellSky.EntityComponents;
+using FellSky.Framework;
 
 namespace FellSky.Editor
 {
@@ -33,6 +35,10 @@ namespace FellSky.Editor
         public ConcurrentBag<Action> ExecuteNextUpdate { get; } = new ConcurrentBag<Action>();
         public Camera2D Camera { get; private set; }
         public Ship Ship { get; private set; }
+        public List<Entity> ControlEntities { get; } = new List<Entity>();
+        public KeyboardManager Keyboard { get; private set; }
+        public MouseManager Mouse { get; private set; }
+        public CoroutineManager Coroutines { get; private set; } = new CoroutineManager();
 
         public ShipEditorRenderer(System.Windows.Forms.Control host)
         {
@@ -46,6 +52,8 @@ namespace FellSky.Editor
             ApplyGraphicsChanges();
             this.IsMouseVisible = true;
             host.Resize += Host_Resize;
+            this.Keyboard = new KeyboardManager(Coroutines);
+            this.Mouse = new MouseManager(Coroutines);
         }
 
         private void Host_Resize(object sender, EventArgs e)
@@ -67,6 +75,8 @@ namespace FellSky.Editor
         {
             Artemis.System.EntitySystem.BlackBoard.SetEntry(Camera2D.PlayerCameraName, Camera);
             Artemis.System.EntitySystem.BlackBoard.SetEntry("GraphicsDevice", GraphicsDevice);
+            Artemis.System.EntitySystem.BlackBoard.SetEntry(nameof(MouseManager), Mouse);
+            Artemis.System.EntitySystem.BlackBoard.SetEntry(nameof(KeyboardManager), Keyboard);
             World = new EntityWorld(false,true,false);
             //World.SystemManager.SetSystem(new Systems.ShipRendererSystem(), Artemis.Manager.GameLoopType.Draw, 10, Artemis.Manager.ExecutionType.Synchronous);
             World.InitializeAll(typeof(FellSky.Game).Assembly, GetType().Assembly);
@@ -106,13 +116,29 @@ namespace FellSky.Editor
             if(!_hidePhantomWindow) HidePhantomWindow();
             if (_hasResized) ApplyGraphicsChanges();
 
+            Coroutines.RunCoroutines(gameTime.ElapsedGameTime);
+            World.Update();
             if (QuitFlag) Exit();
             base.Update(gameTime);
         }
 
         internal void AddHullToShip(SpriteManager.JsonSprite o)
         {
-            Ship.Hulls.Add(new Hull(o.id, Vector2.Zero, 0, Vector2.One, new Vector2(o.origin_x,o.origin_y), Color.White));
+            var hull = new Hull(o.id, Vector2.Zero, 0, Vector2.One, new Vector2(o.origin_x, o.origin_y), Color.White);
+            Ship.Hulls.Add(hull);
+            ClearControlEntities();
+            var entity = World.CreateEntity();
+            entity.AddComponent(hull.Transform);
+            entity.AddComponent(new MouseControlledTransformComponent());
+            entity.Refresh();
+            ControlEntities.Add(entity);
+        }
+
+        private void ClearControlEntities()
+        {
+            foreach(var entity in ControlEntities)
+                entity.Delete();            
+            ControlEntities.Clear();
         }
 
         private void HidePhantomWindow()

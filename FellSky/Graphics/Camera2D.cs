@@ -29,7 +29,11 @@ namespace FellSky.Graphics
                 Matrix.CreateScale(Zoom, Zoom, 1) *
                 Matrix.CreateTranslation(new Vector3(Transform.Origin, 0.0f)) *
                 Matrix.CreateTranslation(new Vector3(ScreenSize / 2, 0f));
+        }
 
+        public Vector2 ScreenToCameraSpace(Vector2 screenCoords)
+        {
+            return Vector2.Transform(screenCoords, Matrix.Invert(GetViewMatrix(1.0f)));
         }
     }
 }
