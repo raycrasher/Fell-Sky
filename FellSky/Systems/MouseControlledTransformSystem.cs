@@ -16,11 +16,12 @@ namespace FellSky.Systems
     public class MouseControlledTransformSystem : Artemis.System.EntityComponentProcessingSystem<MouseControlledTransformComponent, Transform>
     {
         private Camera2D _camera;
-        private MouseManager _mouse;
+        private IMouseService _mouse;
 
         public override void LoadContent()
         {
-            _mouse = BlackBoard.GetEntry<MouseManager>(nameof(MouseManager));
+            var provider = BlackBoard.GetEntry<IServiceProvider>("ServiceProvider");
+            _mouse = provider.GetService<IMouseService>();
             _camera = BlackBoard.GetEntry<Camera2D>(Camera2D.PlayerCameraName);
             base.LoadContent();
         }

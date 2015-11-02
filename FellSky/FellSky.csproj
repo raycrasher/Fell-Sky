@@ -114,6 +114,9 @@
     <Compile Include="EntityComponents\ManeuverableComponent.cs" />
     <Compile Include="EntityComponents\WarpDriveComponent.cs" />
     <Compile Include="Framework\Animation.cs" />
+    <Compile Include="Framework\IKeyboardService.cs" />
+    <Compile Include="Framework\IMouseService.cs" />
+    <Compile Include="Framework\ITimerService.cs" />
     <Compile Include="Mechanics\Crew\CrewMember.cs" />
     <Compile Include="Mechanics\Crew\CrewPerk.cs" />
     <Compile Include="Mechanics\Ships\GroupMount.cs" />

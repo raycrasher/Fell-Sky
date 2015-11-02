@@ -31,11 +31,10 @@ namespace FellSky.Systems
         protected override void ProcessEntities(IDictionary<int, Entity> entities)
         {
             if (_camera == null) return;
-            _device.SetRenderTarget(null);
+            //_device.SetRenderTarget(null);
             _matrix = _camera.GetViewMatrix(1.0f);
             DrawThrusters(entities.Values, _spriteBatch);
             DrawHulls(entities.Values, _spriteBatch);
-            
         }
 
         private void DrawThrusters(ICollection<Entity> entities, SpriteBatch spriteBatch)
@@ -81,7 +80,8 @@ namespace FellSky.Systems
         public override void LoadContent()
         {
             _camera = BlackBoard.GetEntry<Camera2D>(Camera2D.PlayerCameraName);
-            _device = BlackBoard.GetEntry<GraphicsDevice>("GraphicsDevice");
+            var services = BlackBoard.GetEntry<IServiceProvider>("ServiceProvider");
+            _device = services.GetService<GraphicsDevice>();
             _spriteBatch = new SpriteBatch(_device);
             base.LoadContent();
         }

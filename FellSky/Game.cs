@@ -32,6 +32,7 @@ namespace FellSky
             Graphics.ApplyChanges();
             Keyboard = new KeyboardManager(Coroutines);
             Mouse = new MouseManager(Coroutines);
+            EntitySystem.BlackBoard.SetEntry("ServiceProvider", Services);
             this.IsMouseVisible = true;
         }
 

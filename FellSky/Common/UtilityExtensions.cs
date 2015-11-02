@@ -64,5 +64,10 @@ namespace FellSky
         {
             return (float) Math.Atan2(Math.Sin(a1 - a2), Math.Cos(a1 - a2));
         }
+
+        public static T GetService<T>(this IServiceProvider provider)
+        {
+            return (T)provider.GetService(typeof(T));
+        }
     }
 }

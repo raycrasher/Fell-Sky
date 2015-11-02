@@ -5,7 +5,7 @@ using System.Collections;
 
 namespace FellSky.Framework
 {
-    public class MouseManager
+    public class MouseManager: IMouseService
     {
         public event Action<Point, int> ButtonDown, ButtonUp;
         public event Action<Point> Move;
