@@ -198,6 +198,7 @@ namespace FellSky.Editor
 
         private void AddHullToShip(SpriteManager.JsonSprite o)
         {
+            _transformSystem.Mode = MouseControlledTransformMode.Translate;
             var hull = new Hull(o.id, Vector2.Zero, 0, Vector2.One, new Vector2(o.origin_x, o.origin_y), XnaColor.White);
             Ship.Hulls.Add(hull);
             ClearControlledEntities();
