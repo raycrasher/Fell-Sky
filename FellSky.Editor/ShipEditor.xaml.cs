@@ -23,23 +23,19 @@ namespace FellSky.Editor
         public MainWindow()
         {
             InitializeComponent();
+            Model = (ShipEditorViewModel)FindResource("model");
         }
 
         public ShipEditorViewModel Model { get; private set; }
 
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void D3D11Host_Initializing()
         {
-            Model.Renderer.QuitFlag = true;
-            Model.RendererThread.Join();
+            Model.Initialize(D3D11Host);
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
+        private void D3D11Host_Rendering(TimeSpan timespan)
         {
-            Model = (ShipEditorViewModel)FindResource("model");
-            if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(this))
-            {
-                Model.Initialize(WFHost);
-            }
+            Model.Render(timespan);
         }
     }
 }

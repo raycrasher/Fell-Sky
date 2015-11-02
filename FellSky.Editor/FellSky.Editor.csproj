@@ -79,6 +79,14 @@
       <HintPath>..\packages\PropertyChanged.Fody.1.50.3\lib\dotnet\PropertyChanged.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="SharpDX, Version=2.5.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\SharpDX.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.Direct3D9, Version=2.5.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\SharpDX.Direct3D9.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -102,8 +110,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="D3D11Host.cs" />
+    <Compile Include="D3D11Image.cs" />
+    <Compile Include="D3D9.cs" />
     <Compile Include="DelegateCommand.cs" />
-    <Compile Include="ShipEditorRenderer.cs" />
+    <Compile Include="MouseService.cs" />
     <Compile Include="ShipEditorViewModel.cs" />
     <Page Include="ShipEditor.xaml">
       <Generator>MSBuild:Compile</Generator>
