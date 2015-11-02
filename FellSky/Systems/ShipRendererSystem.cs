@@ -33,14 +33,14 @@ namespace FellSky.Systems
             if (_camera == null) return;
             //_device.SetRenderTarget(null);
             _matrix = _camera.GetViewMatrix(1.0f);
-            DrawThrusters(entities.Values, _spriteBatch);
-            DrawHulls(entities.Values, _spriteBatch);
+            _spriteBatch.Begin(SpriteSortMode.BackToFront, blendState: BlendState.AlphaBlend, transformMatrix: _matrix);
+            DrawThrusters(entities.Values);
+            DrawHulls(entities.Values);
+            _spriteBatch.End();
         }
 
-        private void DrawThrusters(ICollection<Entity> entities, SpriteBatch spriteBatch)
+        private void DrawThrusters(ICollection<Entity> entities)
         {
-            spriteBatch.Begin(blendState: BlendState.Additive, transformMatrix: _matrix);
-
             foreach (var ship in entities)
             {
                 var shipSprite = ship.GetComponent<ShipSpriteComponent>();
@@ -50,16 +50,15 @@ namespace FellSky.Systems
                 foreach(var thruster in shipSprite.Ship.Thrusters.Where(s=>s.ThrustPercent>0))
                 {
                     var color = Color.Lerp(new Color(thruster.Color, 0), thruster.Color, MathHelper.Clamp(thruster.ThrustPercent, 0, 1));
-                    thruster.Sprite.Draw(spriteBatch, thruster.Transform.Matrix * shipMatrix, color);
+                    thruster.Sprite.Draw(batch: _spriteBatch, matrix: thruster.Transform.Matrix * shipMatrix, color: thruster.Color, depth: thruster.Depth);
                 }
             }
-            spriteBatch.End();
         }
         
 
-        private void DrawHulls(ICollection<Entity> entities, SpriteBatch spriteBatch)
+        private void DrawHulls(ICollection<Entity> entities)
         {
-            spriteBatch.Begin(blendState: BlendState.AlphaBlend, transformMatrix: _matrix);
+            
             foreach (var ship in entities)
             {
                 var shipSprite = ship.GetComponent<ShipSpriteComponent>();
@@ -68,10 +67,9 @@ namespace FellSky.Systems
 
                 foreach (var hull in shipSprite.Ship.Hulls)
                 {
-                    hull.Sprite.Draw(spriteBatch, hull.Transform.Matrix * shipMatrix, hull.Color);
+                    hull.Sprite.Draw(batch: _spriteBatch, matrix: hull.Transform.Matrix * shipMatrix, color: hull.Color, depth: hull.Depth);
                 }
             }
-            spriteBatch.End();
         }
 
         /// <summary>

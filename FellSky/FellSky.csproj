@@ -187,7 +187,6 @@
     <Compile Include="Mechanics\Ships\Ship.cs" />
     <Compile Include="Mechanics\Ships\Hull.cs" />
     <Compile Include="Mechanics\Ships\ShipHandlingParameters.cs" />
-    <Compile Include="Graphics\ShipSprite.cs" />
     <Compile Include="Mechanics\Ships\Thruster.cs" />
     <Compile Include="Mechanics\Ships\WarpDrive.cs" />
     <Compile Include="Mechanics\Ships\WeaponMount.cs" />

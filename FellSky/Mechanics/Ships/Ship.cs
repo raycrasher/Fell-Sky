@@ -67,5 +67,12 @@ namespace FellSky.Mechanics.Ships
             Thrusters.RemoveAll(t => t.Group == group);
             WeaponMounts.RemoveAll(w => w.Group == group);
         }
+
+        public void RemovePart(ShipPart part)
+        {
+            if (part is Hull) Hulls.Remove((Hull)part);
+            else if (part is Thruster) Thrusters.Remove((Thruster)part);
+            else if (part is WeaponMount) WeaponMounts.Remove((WeaponMount)part);
+        }
     }
 }
