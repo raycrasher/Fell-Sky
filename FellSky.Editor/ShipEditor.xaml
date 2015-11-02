@@ -18,7 +18,7 @@
             <ColumnDefinition Width="377*"/>
             <ColumnDefinition Width="639*"/>
         </Grid.ColumnDefinitions>
-        <fe:D3D11Host x:Name="D3D11Host" Grid.Column="1" Stretch="UniformToFill" Initializing="D3D11Host_Initializing" Rendering="D3D11Host_Rendering" />
+        <fe:D3D11Host x:Name="D3D11Host" Grid.Column="1" Stretch="UniformToFill" Initializing="D3D11Host_Initializing" Rendering="D3D11Host_Rendering" Focusable="True" MouseEnter="D3D11Host_MouseEnter" />
         <Grid Grid.Column="0" >
             <Grid.RowDefinitions>
                 <RowDefinition Height="106"/>

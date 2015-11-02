@@ -34,5 +34,17 @@ namespace FellSky.Editor.Properties {
                 this["DataFolder"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int InitialHullTabIndex {
+            get {
+                return ((int)(this["InitialHullTabIndex"]));
+            }
+            set {
+                this["InitialHullTabIndex"] = value;
+            }
+        }
     }
 }

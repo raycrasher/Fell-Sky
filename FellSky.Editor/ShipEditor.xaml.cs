@@ -37,5 +37,11 @@ namespace FellSky.Editor
         {
             Model.Render(timespan);
         }
+
+        private void D3D11Host_MouseEnter(object sender, MouseEventArgs e)
+        {
+            D3D11Host.Focus();
+        }
+
     }
 }

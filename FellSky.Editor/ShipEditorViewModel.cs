@@ -21,6 +21,7 @@ using WpfColor = System.Drawing.Color;
 using Microsoft.Xna.Framework;
 using FellSky.EntityComponents;
 using System.Runtime.InteropServices;
+using FellSky.Systems;
 
 namespace FellSky.Editor
 {
@@ -60,9 +61,10 @@ namespace FellSky.Editor
         public Microsoft.Xna.Framework.GameServiceContainer Services { get; } = new Microsoft.Xna.Framework.GameServiceContainer();
         public EntityWorld World { get; set; }
 
-        public List<Entity> ControlledEntities { get; } = new List<Entity>();
+        public List<Entity> SelectedPartEntities { get; } = new List<Entity>();
 
-        MouseService _mouse;
+        private MouseService _mouse;
+        private MouseControlledTransformSystem _transformSystem;
 
         internal void Initialize(D3D11Host host)
         {
@@ -96,7 +98,56 @@ namespace FellSky.Editor
             CameraEntity.Refresh();
             Camera.ScreenSize = new Vector2(_host.GraphicsDevice.DisplayMode.Width, _host.GraphicsDevice.DisplayMode.Height);
             CreateNewShip();
-            
+
+            _transformSystem = World.SystemManager.GetSystem<Systems.MouseControlledTransformSystem>();
+            host.KeyUp += HandleKeyboardInput;
+        }
+
+        private void HandleKeyboardInput(object sender, KeyEventArgs e)
+        {
+            switch (e.Key)
+            {
+                case Key.R:
+                    _transformSystem.Mode = MouseControlledTransformMode.Rotate;
+                    break;
+                case Key.T:
+                    _transformSystem.Mode = MouseControlledTransformMode.Translate;
+                    break;
+                case Key.S:
+                    _transformSystem.Mode = MouseControlledTransformMode.Scale;
+                    break;
+                case Key.Delete:
+                    DeleteSelectedParts();
+                    break;
+                case Key.Up:
+                    TranslateSelectedParts(new Vector2(0, Keyboard.IsKeyDown(Key.LeftShift) ? -1 : -10));
+                    break;
+                case Key.Down:
+                    TranslateSelectedParts(new Vector2(0, Keyboard.IsKeyDown(Key.LeftShift) ? 1 : 10));
+                    break;
+                case Key.Left:
+                    TranslateSelectedParts(new Vector2(Keyboard.IsKeyDown(Key.LeftShift) ? -1 : -10, 0));
+                    break;
+                case Key.Right:
+                    TranslateSelectedParts(new Vector2(Keyboard.IsKeyDown(Key.LeftShift) ? 1 : 10, 0));
+                    break;
+            }
+        }
+
+        private void TranslateSelectedParts(Vector2 offset)
+        {
+            foreach (var xform in SelectedPartEntities.Select(e => e.GetComponent<Transform>()).Where(t => t != null))
+            {
+                xform.Position += offset;
+            }
+        }
+
+        private void DeleteSelectedParts()
+        {
+            foreach(var part in SelectedPartEntities.Select(e => e.GetComponent<ShipPart>()))
+            {
+                Ship.RemovePart(part);
+            }
         }
 
         private void OnMouseButtonUp(Microsoft.Xna.Framework.Point arg1, int arg2)
@@ -151,20 +202,21 @@ namespace FellSky.Editor
             Ship.Hulls.Add(hull);
             ClearControlledEntities();
             var entity = World.CreateEntity();
+            entity.AddComponent(hull);
             entity.AddComponent(hull.Transform);
             entity.AddComponent(new MouseControlledTransformComponent());
             entity.Refresh();
 
             var pos = _host.PointToScreen(new System.Windows.Point(_host.ActualWidth / 2, _host.ActualHeight / 2));
             SetCursorPos((int)pos.X, (int)pos.Y);
-            ControlledEntities.Add(entity);
+            SelectedPartEntities.Add(entity);
         }
 
         private void ClearControlledEntities()
         {
-            foreach (var entity in ControlledEntities)
+            foreach (var entity in SelectedPartEntities)
                 entity.Delete();
-            ControlledEntities.Clear();
+            SelectedPartEntities.Clear();
         }
 
         public void CreateNewShip()
