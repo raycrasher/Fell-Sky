@@ -65,7 +65,7 @@ namespace FellSky.Systems
             var offset = Vector2.Transform(worldMousePos, control.TransformationMatrix) - transform.Position;
             var initialAngle = (control.InitialMousePosition - control.InitialTransform.Position).ToAngleRadians();
 
-            transform.Rotation = MathHelper.WrapAngle(control.InitialTransform.Rotation + initialAngle);
+            transform.Rotation = MathHelper.WrapAngle(control.InitialTransform.Rotation + initialAngle + offset.ToAngleRadians());
         }
     }
 }
