@@ -22,18 +22,30 @@ namespace FellSky.Systems
     {
         private Camera2D _camera;
         private IMouseService _mouse;
+        public Vector2 Origin { get; set; }
 
         public override void OnAdded(Entity entity) => GetInitialTransform(entity);
+
         //public override void OnChange(Entity entity) => GetInitialTransform(entity);
 
-        public MouseControlledTransformMode Mode { get; set; } = MouseControlledTransformMode.Translate;
+        public MouseControlledTransformMode? Mode {
+            get { return _mode; }
+            set {
+                if (_mode != value) _modeChanged = true;
+                _mode = value;
+            }
+        }
+
+        private MouseControlledTransformMode? _mode = null;
+        private bool _modeChanged=false;
+        private Vector2? _rotateOffset;
 
         private void GetInitialTransform(Entity entity)
         {
             var xform = entity.GetComponent<Transform>();
             var component = entity.GetComponent<MouseControlledTransformComponent>();
             component.InitialTransform = xform.Clone();
-            component.InitialMousePosition = _camera.ScreenToCameraSpace(_mouse.ScreenPosition);
+            //Origin = _camera.ScreenToCameraSpace(_mouse.ScreenPosition);
         }
 
         public override void LoadContent()
@@ -47,10 +59,16 @@ namespace FellSky.Systems
         public override void Process(Entity entity, MouseControlledTransformComponent control, Transform transform)
         {
             var worldMousePos = _camera.ScreenToCameraSpace(_mouse.ScreenPosition);
+            
+            if (_modeChanged)
+            {
+                Origin = worldMousePos;
+                control.InitialTransform = transform.Clone();
+            }
             switch (Mode)
             {
                 case MouseControlledTransformMode.Translate:
-                    transform.Position = Vector2.Transform(worldMousePos, control.TransformationMatrix);
+                    DoTranslate(worldMousePos, control, transform);
                     break;
                 case MouseControlledTransformMode.Scale:
                     break;
@@ -58,14 +76,32 @@ namespace FellSky.Systems
                     DoRotate(worldMousePos, control, transform);
                     break;
             }
+            _modeChanged = false;
+        }
+
+        private void DoTranslate(Vector2 worldMousePos, MouseControlledTransformComponent control, Transform transform)
+        {
+                var offset = worldMousePos - Origin;
+                //transform.Position = Vector2.Transform(control.InitialTransform.Position + offset, control.TransformationMatrix);
+                transform.Position = Vector2.Transform(worldMousePos, control.TransformationMatrix);
         }
 
         private void DoRotate(Vector2 worldMousePos, MouseControlledTransformComponent control, Transform transform)
         {
-            var offset = Vector2.Transform(worldMousePos, control.TransformationMatrix) - transform.Position;
-            var initialAngle = (control.InitialMousePosition - control.InitialTransform.Position).ToAngleRadians();
+            if(_modeChanged) _rotateOffset = null;
 
-            transform.Rotation = MathHelper.WrapAngle(control.InitialTransform.Rotation + initialAngle + offset.ToAngleRadians());
+            if(_rotateOffset!=null)
+            {
+
+                var offset = worldMousePos - Vector2.Transform(transform.Position, control.TransformationMatrix);
+                var initialAngle = (_rotateOffset.Value - control.InitialTransform.Position).ToAngleRadians();
+
+                transform.Rotation = -MathHelper.WrapAngle(initialAngle - offset.ToAngleRadians());
+            }
+            else { 
+                if(Vector2.DistanceSquared(Origin, worldMousePos) > 40)
+                    _rotateOffset = worldMousePos;
+            }
         }
     }
 }

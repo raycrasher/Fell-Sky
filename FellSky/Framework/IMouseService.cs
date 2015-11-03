@@ -12,6 +12,6 @@ namespace FellSky.Framework
         event Action<Point, int> ButtonDown, ButtonUp;
         event Action<Point> Move;
         event Action<int> WheelChanged;
-        Vector2 ScreenPosition { get; }
+        Vector2 ScreenPosition { get; set; }
     }
 }
