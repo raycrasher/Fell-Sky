@@ -23,6 +23,8 @@ namespace FellSky.Editor
         public MainWindow()
         {
             InitializeComponent();
+            if (System.ComponentModel.DesignerProperties.GetIsInDesignMode(this))
+                return;
             Model = (ShipEditorViewModel)FindResource("model");
         }
 
@@ -30,12 +32,14 @@ namespace FellSky.Editor
 
         private void D3D11Host_Initializing()
         {
-            Model.Initialize(D3D11Host);
+            if (System.ComponentModel.DesignerProperties.GetIsInDesignMode(this))
+                return;
+            Model?.Initialize(D3D11Host);
         }
 
         private void D3D11Host_Rendering(TimeSpan timespan)
         {
-            Model.Render(timespan);
+            Model?.Render(timespan);
         }
 
         private void D3D11Host_MouseEnter(object sender, MouseEventArgs e)

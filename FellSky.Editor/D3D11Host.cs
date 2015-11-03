@@ -256,13 +256,14 @@ namespace FellSky.Editor
             }
         }
 
-
+#pragma warning disable CS0067
         public event Action Initializing, Uninitializing;
         public event Action<TimeSpan> Rendering;
         public event EventHandler<EventArgs> DeviceCreated;
         public event EventHandler<EventArgs> DeviceDisposing;
         public event EventHandler<EventArgs> DeviceReset;
         public event EventHandler<EventArgs> DeviceResetting;
+#pragma warning restore CS0067
 
         private void Initialize()
         {

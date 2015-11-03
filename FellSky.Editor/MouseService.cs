@@ -5,12 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Microsoft.Xna.Framework;
+using System.Runtime.InteropServices;
 
 namespace FellSky.Editor
 {
     class MouseService : Framework.IMouseService
     {
         private System.Windows.FrameworkElement host;
+        private Vector2 _screenPosition;
 
         public MouseService(System.Windows.FrameworkElement host)
         {
@@ -43,15 +45,26 @@ namespace FellSky.Editor
         private void OnMouseMove(object sender, MouseEventArgs e)
         {
             var pos = e.GetPosition(host);
-            ScreenPosition = new Vector2((float)pos.X, (float)pos.Y);
+            _screenPosition = new Vector2((float)pos.X, (float)pos.Y);
             Move?.Invoke(new Point((int)pos.X, (int)pos.Y));
         }
 
-        public Vector2 ScreenPosition { get; private set; }
+        public Vector2 ScreenPosition
+        {
+            get { return _screenPosition; }
+            set {
+                _screenPosition = value;
+                SetCursorPos((int)value.X, (int)value.Y);
+            }
+        }
 
         public event Action<Point, int> ButtonDown;
         public event Action<Point, int> ButtonUp;
         public event Action<Point> Move;
         public event Action<int> WheelChanged;
+
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        static extern bool SetCursorPos(int X, int Y);
     }
 }

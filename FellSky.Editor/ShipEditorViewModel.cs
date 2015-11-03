@@ -38,7 +38,7 @@ namespace FellSky.Editor
         [PropertyChanged.ImplementPropertyChanged]
         public class SpriteSheet
         {
-            public SpriteManager.JsonSpriteSheet SpriteDefinitions { get; set; }
+            public JsonSpriteSheet SpriteDefinitions { get; set; }
             public System.Windows.Media.Imaging.BitmapImage Image { get; set; }
         }
 
@@ -49,7 +49,7 @@ namespace FellSky.Editor
         public Dictionary<string, Graphics.Sprite> Sprites { get; set; }
         public SpriteSheet CurrentSpriteSheet { get; set; }
 
-        public Dictionary<string, SpriteManager.JsonSprite[]> HullSprites { get; set; }
+        public Dictionary<string, JsonSprite[]> HullSprites { get; set; }
 
         public WpfColor DefaultColor { get; set; } = WpfColor.White;
         public WpfColor TrimColor { get; set; } = WpfColor.CornflowerBlue;
@@ -58,16 +58,18 @@ namespace FellSky.Editor
 
         public Ship Ship { get; set; }
         public ContentManager Content { get; set; }
-        public Microsoft.Xna.Framework.GameServiceContainer Services { get; } = new Microsoft.Xna.Framework.GameServiceContainer();
+        public Microsoft.Xna.Framework.GameServiceContainer Services { get; set; }
         public EntityWorld World { get; set; }
 
-        public List<Entity> SelectedPartEntities { get; } = new List<Entity>();
+        public List<Entity> SelectedPartEntities { get; set; }
 
         private MouseService _mouse;
         private MouseControlledTransformSystem _transformSystem;
 
         internal void Initialize(D3D11Host host)
         {
+            SelectedPartEntities = new List<Entity>();
+            Services = new Microsoft.Xna.Framework.GameServiceContainer();
             _host = host;
             _mouse = new MouseService(host);
 
@@ -153,6 +155,7 @@ namespace FellSky.Editor
         private void OnMouseButtonUp(Microsoft.Xna.Framework.Point arg1, int arg2)
         {
             ClearControlledEntities();
+            _transformSystem.Mode = null;
         }
 
         internal void Render(TimeSpan timespan)
@@ -191,25 +194,26 @@ namespace FellSky.Editor
             return image;
         }
 
-        public ICommand AddHull { get { return new DelegateCommand(o => AddHullToShip((SpriteManager.JsonSprite)o)); } }
+        public ICommand AddHull { get { return new DelegateCommand(o => AddHullToShip((JsonSprite)o)); } }
 
         public Entity ShipEntity { get; private set; }
         public Entity CameraEntity { get; private set; }
 
-        private void AddHullToShip(SpriteManager.JsonSprite o)
+        private void AddHullToShip(JsonSprite o)
         {
+            var pos = _host.PointToScreen(new System.Windows.Point(_host.ActualWidth / 2, _host.ActualHeight / 2));
+            _mouse.ScreenPosition = new Vector2((float)pos.X, (float)pos.Y);
             _transformSystem.Mode = MouseControlledTransformMode.Translate;
-            var hull = new Hull(o.id, Vector2.Zero, 0, Vector2.One, new Vector2(o.origin_x, o.origin_y), XnaColor.White);
+            _transformSystem.Origin = Vector2.Zero;
+            var hull = new Hull(o.id, Vector2.Zero, 0, Vector2.One, new Vector2(o.origin_x ?? o.w/2, o.origin_y ?? o.w/2), XnaColor.White);
             Ship.Hulls.Add(hull);
             ClearControlledEntities();
             var entity = World.CreateEntity();
             entity.AddComponent(hull);
             entity.AddComponent(hull.Transform);
             entity.AddComponent(new MouseControlledTransformComponent());
-            entity.Refresh();
-
-            var pos = _host.PointToScreen(new System.Windows.Point(_host.ActualWidth / 2, _host.ActualHeight / 2));
-            SetCursorPos((int)pos.X, (int)pos.Y);
+            entity.Refresh();            
+            
             SelectedPartEntities.Add(entity);
         }
 
@@ -233,16 +237,14 @@ namespace FellSky.Editor
 
         }
 
-        [DllImport("user32.dll")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        static extern bool SetCursorPos(int X, int Y);
+
     }
 
     public class SpriteToIntRectConverter : System.Windows.Data.IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var sprite = value as SpriteManager.JsonSprite;
+            var sprite = value as JsonSprite;
             if (sprite == null) return null;
             return new System.Windows.Int32Rect(sprite.x, sprite.y, sprite.w, sprite.h);
         }
