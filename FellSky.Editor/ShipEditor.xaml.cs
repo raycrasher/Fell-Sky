@@ -23,6 +23,7 @@ namespace FellSky.Editor
         public MainWindow()
         {
             InitializeComponent();
+          
             if (System.ComponentModel.DesignerProperties.GetIsInDesignMode(this))
                 return;
             Model = (ShipEditorViewModel)FindResource("model");

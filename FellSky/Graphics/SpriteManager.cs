@@ -16,10 +16,10 @@ namespace FellSky.Graphics
         public static JsonSpriteSheet AddSpriteSheetFromFile(ContentManager manager, string filename)
         {
             var sheet = JsonConvert.DeserializeObject<JsonSpriteSheet>(System.IO.File.ReadAllText(filename));
-            var tex = manager.Load<Texture2D>(sheet.texture);
-            foreach(var s in sheet.sprites)
+            var tex = manager.Load<Texture2D>(sheet.Texture);
+            foreach(var s in sheet.Sprites)
             {
-                Sprites[s.id] = s.GetSprite(tex);
+                Sprites[s.Id] = s.GetSprite(tex);
             }
             return sheet;
         }
@@ -27,28 +27,28 @@ namespace FellSky.Graphics
 
     public class JsonSpriteSheet
     {
-        public string texture { get; set; }
-        public JsonSprite[] sprites { get; set; }
+        public string Texture { get; set; }
+        public JsonSprite[] Sprites { get; set; }
     }
 
     public class JsonSprite
     {
-        public string id { get; set; }
-        public int x { get; set; }
-        public int y { get; set; }
-        public int w { get; set; }
-        public int h { get; set; }
-        public float? origin_x { get; set; }
-        public float? origin_y { get; set; }
-        public float? padding { get; set; }
-        public string type { get; set; }
-        public string subtype { get; set; }
-        public string tags { get; set; }
-        public JsonSprite[] subsprites { get; set; }
+        public string Id { get; set; }
+        public int X { get; set; }
+        public int Y { get; set; }
+        public int W { get; set; }
+        public int H { get; set; }
+        public float? OriginX { get; set; }
+        public float? OriginY { get; set; }
+        public float? Padding { get; set; }
+        public string Type { get; set; }
+        public string Subtype { get; set; }
+        public string Tags { get; set; }
+        public List<JsonSprite> Subsprites { get; set; }
 
         public Sprite GetSprite(Texture2D tex)
         {
-            return new Sprite(id, tex, new Microsoft.Xna.Framework.Rectangle(x, y, w, h));
+            return new Sprite(Id, tex, new Microsoft.Xna.Framework.Rectangle(X, Y, W, H));
         }
     }
 }

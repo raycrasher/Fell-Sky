@@ -49,7 +49,7 @@ namespace FellSky.Editor
         public Dictionary<string, Graphics.Sprite> Sprites { get; set; }
         public SpriteSheet CurrentSpriteSheet { get; set; }
 
-        public Dictionary<string, JsonSprite[]> HullSprites { get; set; }
+        public Dictionary<string, List<JsonSprite>> HullSprites { get; set; }
 
         public WpfColor DefaultColor { get; set; } = WpfColor.White;
         public WpfColor TrimColor { get; set; } = WpfColor.CornflowerBlue;
@@ -171,11 +171,11 @@ namespace FellSky.Editor
             var sheet = new SpriteSheet();
             sheet.SpriteDefinitions = Graphics.SpriteManager.AddSpriteSheetFromFile(Content, sheetfile);
             CurrentSpriteSheet = sheet;
-            HullSprites = CurrentSpriteSheet.SpriteDefinitions.sprites
-                .Where(s => s.type == "hull")
-                .GroupBy(s => s.subtype)
-                .ToDictionary(s => s.Key, s => s.ToArray());
-            sheet.Image = TextureToImage(Content.Load<Texture2D>(sheet.SpriteDefinitions.texture));            
+            HullSprites = CurrentSpriteSheet.SpriteDefinitions.Sprites
+                .Where(s => s.Type == "hull")
+                .GroupBy(s => s.Subtype)
+                .ToDictionary(s => s.Key, s => s.ToList());
+            sheet.Image = TextureToImage(Content.Load<Texture2D>(sheet.SpriteDefinitions.Texture));            
         }
 
         private BitmapImage TextureToImage(Texture2D tex)
@@ -205,7 +205,7 @@ namespace FellSky.Editor
             _mouse.ScreenPosition = new Vector2((float)pos.X, (float)pos.Y);
             _transformSystem.Mode = MouseControlledTransformMode.Translate;
             _transformSystem.Origin = Vector2.Zero;
-            var hull = new Hull(o.id, Vector2.Zero, 0, Vector2.One, new Vector2(o.origin_x ?? o.w/2, o.origin_y ?? o.w/2), XnaColor.White);
+            var hull = new Hull(o.Id, Vector2.Zero, 0, Vector2.One, new Vector2(o.OriginX ?? o.W/2, o.OriginY ?? o.W/2), XnaColor.White);
             Ship.Hulls.Add(hull);
             ClearControlledEntities();
             var entity = World.CreateEntity();
@@ -246,7 +246,7 @@ namespace FellSky.Editor
         {
             var sprite = value as JsonSprite;
             if (sprite == null) return null;
-            return new System.Windows.Int32Rect(sprite.x, sprite.y, sprite.w, sprite.h);
+            return new System.Windows.Int32Rect(sprite.X, sprite.Y, sprite.W, sprite.H);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
