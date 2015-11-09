@@ -6,7 +6,37 @@
 	Outpost
 	Faction
 
+Battle Resources:
+	Munitions
+	Propellant
+	Readiness
+	Energy
+	*Crew (implicit)
+	*Ship Health (implicit)
 
-Aliens:
-	Rock-like sentient plant aliens that experience time backwards
+Battle Flow:
+
+	
+	Strategic View
+		Standing Orders:
+			Evasion	(+50% chance to evade enemy standoff fire, +100% propellant consumption, +100% emissions)
+			Run Silent (-70% emissions, active sensors disabled, -50% fleet acceleration)
+			Boost (+50% speed, +100% propellant consumption, +100% emissions)
+			Transponder On/Off
+
+		Commands
+			Split Fleet / Launch fighters
+			Object context-sensitive commands:
+				Open comms
+				Fire Standoff Weapons (weapons selectable in popup)
+				Scan
+				Infiltrate Datanet
+				Send away team
+				Salvage / Mine
+				Dock
+	
+	Battle
+		
+		
+	
 
