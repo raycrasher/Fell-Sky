@@ -27,6 +27,12 @@ namespace FellSky.Systems
         {
         }
 
+        protected override void Begin()
+        {
+            base.Begin();
+            _camera = BlackBoard.GetEntry<Camera2D>(Camera2D.PlayerCameraName);
+        }
+
         protected override void ProcessEntities(IDictionary<int, Entity> entities)
         {
             if (_camera == null) return;
@@ -76,7 +82,6 @@ namespace FellSky.Systems
         /// </summary>
         public override void LoadContent()
         {
-            _camera = BlackBoard.GetEntry<Camera2D>(Camera2D.PlayerCameraName);
             var services = BlackBoard.GetEntry<IServiceProvider>("ServiceProvider");
             _device = services.GetService<GraphicsDevice>();
             _spriteBatch = new SpriteBatch(_device);

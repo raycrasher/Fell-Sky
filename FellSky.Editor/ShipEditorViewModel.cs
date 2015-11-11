@@ -164,7 +164,7 @@ namespace FellSky.Editor
 
         internal void Render(TimeSpan timespan)
         {
-            Camera.ScreenSize = new Vector2(_host.GraphicsDevice.PresentationParameters.BackBufferWidth, _host.GraphicsDevice.PresentationParameters.BackBufferHeight);
+            Camera.ScreenSize = new Vector2((float)_host.ActualWidth, (float)_host.ActualHeight);
             _host.GraphicsDevice.RasterizerState = RasterizerState.CullNone;
             _host.GraphicsDevice.Clear(BackgroundColor);
             World.Update();
@@ -219,7 +219,6 @@ namespace FellSky.Editor
             entity.AddComponent(hull.Transform);
             entity.AddComponent(new MouseControlledTransformComponent());
             entity.Refresh();            
-            
             SelectedPartEntities.Add(entity);
         }
 
