@@ -44,5 +44,6 @@ namespace FellSky.Mechanics.Ships
 
         [JsonIgnore]
         public FarseerPhysics.Dynamics.Fixture Fixture { get; set; }
+        public FloatRect BoundingBox => new FloatRect(Vector2.Zero, new Vector2(Sprite.TextureRect.Width, Sprite.TextureRect.Height));
     }
 }

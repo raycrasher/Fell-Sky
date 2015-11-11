@@ -64,41 +64,41 @@ namespace FellSky.Systems
         public override void Process(Entity entity, MouseControlledTransformComponent control, Transform transform)
         {
             var worldMousePos = _camera.ScreenToCameraSpace(_mouse.ScreenPosition);
-            
+            Matrix? parentMatrix = null;
             if (_modeChanged)
             {
                 Origin = worldMousePos;
                 control.InitialTransform = transform.Clone();
             }
+            parentMatrix = entity.GetComponent<ChildEntityComponent>()?.ParentWorldMatrix;
             switch (Mode)
             {
                 case MouseControlledTransformMode.Translate:
-                    DoTranslate(worldMousePos, control, transform);
+                    DoTranslate(worldMousePos, control, transform, ref parentMatrix);
                     break;
                 case MouseControlledTransformMode.Scale:
                     break;
                 case MouseControlledTransformMode.Rotate:
-                    DoRotate(worldMousePos, control, transform);
+                    DoRotate(worldMousePos, control, transform, ref parentMatrix);
                     break;
             }
             _modeChanged = false;
         }
 
-        private void DoTranslate(Vector2 worldMousePos, MouseControlledTransformComponent control, Transform transform)
+        private void DoTranslate(Vector2 worldMousePos, MouseControlledTransformComponent control, Transform transform, ref Matrix? parent)
         {
-                var offset = worldMousePos - Origin;
-                //transform.Position = Vector2.Transform(control.InitialTransform.Position + offset, control.TransformationMatrix);
-                transform.Position = Vector2.Transform(worldMousePos, control.TransformationMatrix);
+            var offset = worldMousePos - Origin;
+            //transform.Position = Vector2.Transform(control.InitialTransform.Position + offset, control.TransformationMatrix);
+            transform.Position = parent != null ? Vector2.Transform(worldMousePos, parent.Value) : worldMousePos;
         }
 
-        private void DoRotate(Vector2 worldMousePos, MouseControlledTransformComponent control, Transform transform)
+        private void DoRotate(Vector2 worldMousePos, MouseControlledTransformComponent control, Transform transform, ref Matrix? parent)
         {
             if(_modeChanged) _rotateOffset = null;
 
             if(_rotateOffset!=null)
             {
-
-                var offset = worldMousePos - Vector2.Transform(transform.Position, control.TransformationMatrix);
+                var offset = worldMousePos - (parent != null ? Vector2.Transform(transform.Position, parent.Value) : transform.Position);
                 var initialAngle = (_rotateOffset.Value - control.InitialTransform.Position).ToAngleRadians();
 
                 transform.Rotation = -MathHelper.WrapAngle(initialAngle - offset.ToAngleRadians());

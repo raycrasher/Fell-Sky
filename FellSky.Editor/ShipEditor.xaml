@@ -12,6 +12,7 @@
     <Window.Resources>
         <fe:ShipEditorViewModel x:Key="model"/>
         <fe:SpriteToIntRectConverter x:Key="spriteToIntRectConverter"/>
+        <fe:XnaColorToBrushConverter x:Key="xnaColorToBrushConverter" />
     </Window.Resources>
     <Grid DataContext="{StaticResource model}">
         <Grid.ColumnDefinitions>
@@ -41,7 +42,7 @@
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <Button Width="64" Height="64" Command="{Binding Source={StaticResource model}, Path=AddHull}" CommandParameter="{Binding}">
-                                        <Image Stretch="UniformToFill" StretchDirection="DownOnly" SnapsToDevicePixels="True">
+                                        <Image Stretch="UniformToFill" StretchDirection="DownOnly" SnapsToDevicePixels="True" Opacity="0.03">
                                             <Image.Source>
                                                 <CroppedBitmap Source="{Binding Source={StaticResource model}, Path=CurrentSpriteSheet.Image}" SourceRect="{Binding Converter={StaticResource spriteToIntRectConverter}}"/>
                                             </Image.Source>
@@ -60,9 +61,9 @@
                 </Grid.ColumnDefinitions>
                 <StackPanel Grid.Column="0">
                     <Label HorizontalContentAlignment="Center">Hull color</Label>
-                    <RadioButton Foreground="{Binding DefaultColor}" GroupName="HulLColorType" Style="{StaticResource {x:Type ToggleButton}}" Margin="1">Default</RadioButton>
-                    <RadioButton Foreground="{Binding BaseColor}" GroupName="HulLColorType" Style="{StaticResource {x:Type ToggleButton}}" Margin="1">Base</RadioButton>
-                    <RadioButton Foreground="{Binding TrimColor}" GroupName="HulLColorType" Style="{StaticResource {x:Type ToggleButton}}" Margin="1">Trim</RadioButton>
+                    <RadioButton Background="{Binding DefaultColor, Converter={StaticResource xnaColorToBrushConverter}}" GroupName="HulLColorType" Style="{StaticResource {x:Type ToggleButton}}" Margin="1">Default</RadioButton>
+                    <RadioButton Background="{Binding BaseColor, Converter={StaticResource xnaColorToBrushConverter}}" GroupName="HulLColorType" Style="{StaticResource {x:Type ToggleButton}}" Margin="1">Base</RadioButton>
+                    <RadioButton Background="{Binding TrimColor, Converter={StaticResource xnaColorToBrushConverter}}" GroupName="HulLColorType" Style="{StaticResource {x:Type ToggleButton}}" Margin="1">Trim</RadioButton>
                 </StackPanel>
             </Grid>
         </Grid>

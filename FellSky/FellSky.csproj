@@ -102,8 +102,10 @@
     <Compile Include="EntityComponents\ArmorComponent.cs" />
     <Compile Include="EntityComponents\BarrierShieldingComponent.cs" />
     <Compile Include="EntityComponents\BulletComponent.cs" />
+    <Compile Include="EntityComponents\ChildEntityComponent.cs" />
     <Compile Include="EntityComponents\DatanetComponent.cs" />
     <Compile Include="EntityComponents\DockableComponent.cs" />
+    <Compile Include="EntityComponents\DrawBoundingBoxComponent.cs" />
     <Compile Include="EntityComponents\GenericDrawableComponent.cs" />
     <Compile Include="EntityComponents\GridComponent.cs" />
     <Compile Include="EntityComponents\MarketComponent.cs" />
@@ -163,7 +165,8 @@
     <Compile Include="StrategicScene\StandingOrders\RunSilentStrategicStandingOrder.cs" />
     <Compile Include="StrategicScene\StandingOrders\ThrusterBoostStrategicStandingOrder.cs" />
     <Compile Include="StrategicScene\StrategicSceneManager.cs" />
-    <Compile Include="Systems\GenericDrawableRenderer.cs" />
+    <Compile Include="Systems\BoundingBoxRendererSystem.cs" />
+    <Compile Include="Systems\GenericDrawableRendererSystem.cs" />
     <Compile Include="Systems\GridRendererSystem.cs" />
     <Compile Include="Systems\GuiSystem.cs" />
     <Compile Include="Graphics\Camera2D.cs" />

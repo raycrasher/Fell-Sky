@@ -17,7 +17,7 @@ using Microsoft.Xna.Framework.Content;
 using Artemis;
 //using Microsoft.Xna.Framework;
 using XnaColor = Microsoft.Xna.Framework.Color;
-using WpfColor = System.Drawing.Color;
+using WpfColor = System.Windows.Media.Color;
 using Microsoft.Xna.Framework;
 using FellSky.EntityComponents;
 using System.Runtime.InteropServices;
@@ -49,10 +49,11 @@ namespace FellSky.Editor
 
         public Dictionary<string, List<JsonSprite>> HullSprites { get; set; }
 
-        public WpfColor DefaultColor { get; set; } = WpfColor.White;
-        public WpfColor TrimColor { get; set; } = WpfColor.CornflowerBlue;
-        public WpfColor BaseColor { get; set; } = WpfColor.Gold;
-        public XnaColor BackgroundColor { get; set; } = new XnaColor(0,20,40);
+        public XnaColor DefaultColor { get; set; } = XnaColor.White;
+        public XnaColor TrimColor { get; set; } = XnaColor.CornflowerBlue;
+        public XnaColor BaseColor { get; set; } = XnaColor.Gold;
+        public XnaColor BackgroundColor { get; set; } = new XnaColor(5,10,20);
+        public XnaColor GridColor { get; set; } = new XnaColor(30, 40, 50);
 
         public Ship Ship { get; set; }
         public ContentManager Content { get; set; }
@@ -99,7 +100,7 @@ namespace FellSky.Editor
             Camera = CameraEntity.GetComponent<Camera2D>();
 
             Artemis.System.EntitySystem.BlackBoard.SetEntry(Camera2D.PlayerCameraName, Camera);
-            GridEntity = World.CreateEntityFromTemplate("Grid", new Vector2(50,50), XnaColor.Blue);
+            GridEntity = World.CreateEntityFromTemplate("Grid", new Vector2(50,50), GridColor);
 
             World.CreateEntityFromTemplate("GenericDrawable", EntityTemplates.GenericDrawableTemplate.Circle(Vector2.Zero, 10, 10, XnaColor.Red));
 
@@ -218,7 +219,9 @@ namespace FellSky.Editor
             entity.AddComponent(hull);
             entity.AddComponent(hull.Transform);
             entity.AddComponent(new MouseControlledTransformComponent());
-            entity.Refresh();            
+            entity.AddComponent(new ChildEntityComponent(ShipEntity));
+            entity.AddComponent(new DrawBoundingBoxComponent(hull.BoundingBox));
+            entity.Refresh();
             SelectedPartEntities.Add(entity);
         }
 
@@ -237,6 +240,7 @@ namespace FellSky.Editor
             ShipEntity.AddComponent(new FellSky.EntityComponents.ShipSpriteComponent(Ship));
             ShipEntity.AddComponent(new Transform());
             ShipEntity.Refresh();
+            
             Artemis.System.EntitySystem.BlackBoard.SetEntry("PlayerShip", Ship);
             Artemis.System.EntitySystem.BlackBoard.SetEntry("PlayerShipEntity", ShipEntity);
 
@@ -257,6 +261,23 @@ namespace FellSky.Editor
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
+        }
+    }
+
+    public class XnaColorToBrushConverter : System.Windows.Data.IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if(!(value is XnaColor)) return null;
+            var color = (XnaColor)value;
+            return new System.Windows.Media.SolidColorBrush(WpfColor.FromArgb(color.A,color.R,color.G,color.B));
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            var brush = value as System.Windows.Media.SolidColorBrush;
+            if (brush == null) return null;
+            return new XnaColor(brush.Color.R,brush.Color.G,brush.Color.B,brush.Color.A);
         }
     }
 }
