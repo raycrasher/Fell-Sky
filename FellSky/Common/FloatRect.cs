@@ -191,6 +191,14 @@ namespace FellSky
             this.Height = size.Y;
         }
 
+        public FloatRect(Rectangle rect) : this()
+        {
+            X = rect.X;
+            Y = rect.Y;
+            Width = rect.Width;
+            Height = rect.Height;
+        }
+
         #endregion
 
         #region Public Methods
