@@ -18,6 +18,7 @@ namespace FellSky
         public static KeyboardManager Keyboard { get; private set; }
         public static MouseManager Mouse { get; private set; }
         public static GameState State { get; set; }
+        public static SpriteBatch SpriteBatch { get; private set; }
 
         private Game()
         {
@@ -40,6 +41,8 @@ namespace FellSky
         {
             EntitySystem.BlackBoard.SetEntry("GraphicsDevice", GraphicsDevice);
             EntitySystem.BlackBoard.SetEntry("ContentManager", Content);
+            SpriteBatch = new SpriteBatch(GraphicsDevice);
+            Services.AddService(SpriteBatch);
             Content.RootDirectory = Path.GetFullPath(Settings.DataFolder);
             Environment.CurrentDirectory = Path.GetFullPath(Settings.DataFolder);
             Gui.GuiManager.Initialize(Graphics.GraphicsDevice, Coroutines, Content, Keyboard, Mouse);

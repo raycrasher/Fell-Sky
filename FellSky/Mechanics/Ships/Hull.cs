@@ -1,5 +1,4 @@
-﻿using FellSky.Common;
-using FellSky.Graphics;
+﻿using FellSky.Graphics;
 using Microsoft.Xna.Framework;
 using Newtonsoft.Json;
 using System;

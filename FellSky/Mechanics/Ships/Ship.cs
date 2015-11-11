@@ -1,5 +1,4 @@
 ﻿using Artemis.Interface;
-using FellSky.Common;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;

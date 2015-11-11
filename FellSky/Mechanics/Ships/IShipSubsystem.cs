@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Artemis.Interface;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,7 +17,7 @@ namespace FellSky.Mechanics.Ships
         Full, Damaged, Critical, Disabled, Destroyed
     }
 
-    public interface IShipSubsystem
+    public interface IShipSubsystem: IComponent
     {
   
     }

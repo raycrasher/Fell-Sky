@@ -92,6 +92,7 @@
   <ItemGroup>
     <Compile Include="Common\ColorHSL.cs" />
     <Compile Include="Common\CommonEnums.cs" />
+    <Compile Include="Common\FloatRect.cs" />
     <Compile Include="Common\Point3.cs" />
     <Compile Include="Common\Transform.cs" />
     <Compile Include="Common\Utilities.cs" />
@@ -103,6 +104,8 @@
     <Compile Include="EntityComponents\BulletComponent.cs" />
     <Compile Include="EntityComponents\DatanetComponent.cs" />
     <Compile Include="EntityComponents\DockableComponent.cs" />
+    <Compile Include="EntityComponents\GenericDrawableComponent.cs" />
+    <Compile Include="EntityComponents\GridComponent.cs" />
     <Compile Include="EntityComponents\MarketComponent.cs" />
     <Compile Include="EntityComponents\MissionObjectComponent.cs" />
     <Compile Include="EntityComponents\PlanetComponent.cs" />
@@ -123,11 +126,16 @@
     <Compile Include="EntityComponents\StrategicTerrainComponent.cs" />
     <Compile Include="EntityComponents\SurfaceShieldingComponent.cs" />
     <Compile Include="EntityComponents\ManeuverableComponent.cs" />
+    <Compile Include="EntityComponents\ThermalEmitterComponent.cs" />
     <Compile Include="EntityComponents\WarpDriveComponent.cs" />
+    <Compile Include="EntityTemplates\CameraEntityTemplate.cs" />
+    <Compile Include="EntityTemplates\GenericDrawableTemplate.cs" />
+    <Compile Include="EntityTemplates\GridEntityTemplate.cs" />
     <Compile Include="Framework\Animation.cs" />
     <Compile Include="Framework\IKeyboardService.cs" />
     <Compile Include="Framework\IMouseService.cs" />
     <Compile Include="Framework\ITimerService.cs" />
+    <Compile Include="Graphics\Primitives2D.cs" />
     <Compile Include="Mechanics\Crew\CrewMember.cs" />
     <Compile Include="Mechanics\Crew\CrewPerk.cs" />
     <Compile Include="Mechanics\Ships\GroupMount.cs" />
@@ -155,6 +163,8 @@
     <Compile Include="StrategicScene\StandingOrders\RunSilentStrategicStandingOrder.cs" />
     <Compile Include="StrategicScene\StandingOrders\ThrusterBoostStrategicStandingOrder.cs" />
     <Compile Include="StrategicScene\StrategicSceneManager.cs" />
+    <Compile Include="Systems\GenericDrawableRenderer.cs" />
+    <Compile Include="Systems\GridRendererSystem.cs" />
     <Compile Include="Systems\GuiSystem.cs" />
     <Compile Include="Graphics\Camera2D.cs" />
     <Compile Include="Framework\Coroutine.cs" />

@@ -52,8 +52,13 @@ namespace FellSky.Systems
         {
             var provider = BlackBoard.GetEntry<IServiceProvider>("ServiceProvider");
             _mouse = provider.GetService<IMouseService>();
-            _camera = BlackBoard.GetEntry<Camera2D>(Camera2D.PlayerCameraName);
             base.LoadContent();
+        }
+
+        protected override void Begin()
+        {
+            base.Begin();
+            _camera = BlackBoard.GetEntry<Camera2D>(Camera2D.PlayerCameraName);
         }
 
         public override void Process(Entity entity, MouseControlledTransformComponent control, Transform transform)

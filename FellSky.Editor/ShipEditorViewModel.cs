@@ -42,9 +42,7 @@ namespace FellSky.Editor
             public System.Windows.Media.Imaging.BitmapImage Image { get; set; }
         }
 
-
-
-        public Camera2D Camera { get; set; } = new Camera2D();
+        public Camera2D Camera { get; set; }
         
         public Dictionary<string, Graphics.Sprite> Sprites { get; set; }
         public SpriteSheet CurrentSpriteSheet { get; set; }
@@ -62,6 +60,7 @@ namespace FellSky.Editor
         public EntityWorld World { get; set; }
 
         public List<Entity> SelectedPartEntities { get; set; }
+        public SpriteBatch SpriteBatch { get; private set; }
 
         private MouseService _mouse;
         private MouseControlledTransformSystem _transformSystem;
@@ -76,7 +75,6 @@ namespace FellSky.Editor
             _mouse.ButtonUp += OnMouseButtonUp;
 
             Artemis.System.EntitySystem.BlackBoard.SetEntry("GraphicsDevice", _host.GraphicsDevice);
-            Artemis.System.EntitySystem.BlackBoard.SetEntry(Camera2D.PlayerCameraName, Camera);
             Artemis.System.EntitySystem.BlackBoard.SetEntry("ServiceProvider", Services);
            
             Environment.CurrentDirectory = Path.GetFullPath(Properties.Settings.Default.DataFolder);
@@ -84,6 +82,8 @@ namespace FellSky.Editor
             Services.AddService<IGraphicsDeviceService>(host);
             Services.AddService(host.GraphicsDevice);
             Services.AddService<Framework.IMouseService>(_mouse);
+            SpriteBatch = new SpriteBatch(host.GraphicsDevice);
+            Services.AddService(SpriteBatch);
 
             Content = new ContentManager(Services);
             Content.RootDirectory = Environment.CurrentDirectory;
@@ -94,12 +94,16 @@ namespace FellSky.Editor
             World = new EntityWorld(false, true, false);
             World.InitializeAll(typeof(FellSky.Game).Assembly, GetType().Assembly);
             Artemis.System.EntitySystem.BlackBoard.SetEntry("World", World);
-            CameraEntity = World.CreateEntity();
-            CameraEntity.AddComponent(Camera);
-            CameraEntity.AddComponent(Camera.Transform);
-            CameraEntity.Refresh();
-            Camera.ScreenSize = new Vector2(_host.GraphicsDevice.DisplayMode.Width, _host.GraphicsDevice.DisplayMode.Height);
-            CreateNewShip();
+
+            CameraEntity = World.CreateEntityFromTemplate("Camera");
+            Camera = CameraEntity.GetComponent<Camera2D>();
+
+            Artemis.System.EntitySystem.BlackBoard.SetEntry(Camera2D.PlayerCameraName, Camera);
+            GridEntity = World.CreateEntityFromTemplate("Grid", new Vector2(50,50), XnaColor.Blue);
+
+            World.CreateEntityFromTemplate("GenericDrawable", EntityTemplates.GenericDrawableTemplate.Circle(Vector2.Zero, 10, 10, XnaColor.Red));
+
+            CreateNewShip();            
 
             _transformSystem = World.SystemManager.GetSystem<Systems.MouseControlledTransformSystem>();
             host.KeyUp += HandleKeyboardInput;
@@ -160,6 +164,7 @@ namespace FellSky.Editor
 
         internal void Render(TimeSpan timespan)
         {
+            Camera.ScreenSize = new Vector2(_host.GraphicsDevice.PresentationParameters.BackBufferWidth, _host.GraphicsDevice.PresentationParameters.BackBufferHeight);
             _host.GraphicsDevice.RasterizerState = RasterizerState.CullNone;
             _host.GraphicsDevice.Clear(BackgroundColor);
             World.Update();
@@ -198,6 +203,7 @@ namespace FellSky.Editor
 
         public Entity ShipEntity { get; private set; }
         public Entity CameraEntity { get; private set; }
+        public Entity GridEntity { get; private set; }
 
         private void AddHullToShip(JsonSprite o)
         {
@@ -205,7 +211,7 @@ namespace FellSky.Editor
             _mouse.ScreenPosition = new Vector2((float)pos.X, (float)pos.Y);
             _transformSystem.Mode = MouseControlledTransformMode.Translate;
             _transformSystem.Origin = Vector2.Zero;
-            var hull = new Hull(o.Id, Vector2.Zero, 0, Vector2.One, new Vector2(o.OriginX ?? o.W/2, o.OriginY ?? o.W/2), XnaColor.White);
+            var hull = new Hull(o.Id, Vector2.Zero, 0, Vector2.One, new Vector2(o.OriginX ?? o.W/2, o.OriginY ?? o.H/2), XnaColor.White);
             Ship.Hulls.Add(hull);
             ClearControlledEntities();
             var entity = World.CreateEntity();

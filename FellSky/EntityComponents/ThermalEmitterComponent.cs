@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 
 namespace FellSky.EntityComponents
 {
-    public class HealthComponent: IComponent
+    public class ThermalEmitterComponent: IComponent
     {
+        public float Temperature { get; set; }
     }
 }

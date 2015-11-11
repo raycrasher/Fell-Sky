@@ -1,5 +1,4 @@
 ﻿using Artemis;
-using FellSky.Common;
 using FellSky.EntityComponents;
 using FellSky.Graphics;
 using FellSky.Mechanics.Ships;
