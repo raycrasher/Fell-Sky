@@ -1,9 +1,5 @@
 ﻿using FellSky.EntityComponents;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Artemis;
 using Microsoft.Xna.Framework.Graphics;
 using FellSky.Graphics;
@@ -11,7 +7,7 @@ using FellSky.Graphics;
 namespace FellSky.Systems
 {
     [Artemis.Attributes.ArtemisEntitySystem(ExecutionType = Artemis.Manager.ExecutionType.Synchronous, GameLoopType = Artemis.Manager.GameLoopType.Draw)]
-    public class GenericDrawableRenderer : Artemis.System.EntityComponentProcessingSystem<GenericDrawableComponent>
+    public class GenericDrawableRendererSystem : Artemis.System.EntityComponentProcessingSystem<GenericDrawableComponent>
     {
         private SpriteBatch _spritebatch;
         private GraphicsDevice _device;
@@ -31,11 +27,9 @@ namespace FellSky.Systems
         }
         public override void Process(Entity entity, GenericDrawableComponent drawable)
         {
-            if (_camera != null) _spritebatch.Begin(transformMatrix: _camera.GetViewMatrix(drawable.Parallax));
+            if (_camera != null) _spritebatch.Begin(transformMatrix: _camera.GetViewMatrix(1.0f));
             else _spritebatch.Begin();
-
             drawable.DrawFunction(_device, _spritebatch, entity);
-
             _spritebatch.End();
         }
     }

@@ -13,7 +13,5 @@ namespace FellSky.EntityComponents
     {
         public delegate void DrawDelegate(GraphicsDevice device, SpriteBatch batch, Entity entity);
         public DrawDelegate DrawFunction;
-
-        public float Parallax { get; set; } = 1;
     }
 }
