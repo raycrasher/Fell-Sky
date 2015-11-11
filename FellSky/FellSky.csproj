@@ -101,6 +101,7 @@
     <Compile Include="EntityComponents\AreaShieldingComponent.cs" />
     <Compile Include="EntityComponents\ArmorComponent.cs" />
     <Compile Include="EntityComponents\BarrierShieldingComponent.cs" />
+    <Compile Include="EntityComponents\BoundingBoxSelectionComponent.cs" />
     <Compile Include="EntityComponents\BulletComponent.cs" />
     <Compile Include="EntityComponents\ChildEntityComponent.cs" />
     <Compile Include="EntityComponents\DatanetComponent.cs" />
@@ -166,6 +167,7 @@
     <Compile Include="StrategicScene\StandingOrders\ThrusterBoostStrategicStandingOrder.cs" />
     <Compile Include="StrategicScene\StrategicSceneManager.cs" />
     <Compile Include="Systems\BoundingBoxRendererSystem.cs" />
+    <Compile Include="Systems\BoundingBoxSelectionSystem.cs" />
     <Compile Include="Systems\GenericDrawableRendererSystem.cs" />
     <Compile Include="Systems\GridRendererSystem.cs" />
     <Compile Include="Systems\GuiSystem.cs" />

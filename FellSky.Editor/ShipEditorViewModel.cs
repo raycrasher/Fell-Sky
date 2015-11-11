@@ -43,7 +43,7 @@ namespace FellSky.Editor
         }
 
         public Camera2D Camera { get; set; }
-        
+
         public Dictionary<string, Graphics.Sprite> Sprites { get; set; }
         public SpriteSheet CurrentSpriteSheet { get; set; }
 
@@ -52,7 +52,7 @@ namespace FellSky.Editor
         public XnaColor DefaultColor { get; set; } = XnaColor.White;
         public XnaColor TrimColor { get; set; } = XnaColor.CornflowerBlue;
         public XnaColor BaseColor { get; set; } = XnaColor.Gold;
-        public XnaColor BackgroundColor { get; set; } = new XnaColor(5,10,20);
+        public XnaColor BackgroundColor { get; set; } = new XnaColor(5, 10, 20);
         public XnaColor GridColor { get; set; } = new XnaColor(30, 40, 50);
 
         public Ship Ship { get; set; }
@@ -65,6 +65,7 @@ namespace FellSky.Editor
 
         private MouseService _mouse;
         private MouseControlledTransformSystem _transformSystem;
+        private List<Action> ActionsNextFrame { get; } = new List<Action>();
 
         internal void Initialize(D3D11Host host)
         {
@@ -73,7 +74,7 @@ namespace FellSky.Editor
             _host = host;
             _mouse = new MouseService(host);
 
-            _mouse.ButtonUp += OnMouseButtonUp;
+            _mouse.ButtonDown += OnMouseButtonDown;
 
             Artemis.System.EntitySystem.BlackBoard.SetEntry("GraphicsDevice", _host.GraphicsDevice);
             Artemis.System.EntitySystem.BlackBoard.SetEntry("ServiceProvider", Services);
@@ -157,14 +158,17 @@ namespace FellSky.Editor
             }
         }
 
-        private void OnMouseButtonUp(Microsoft.Xna.Framework.Point arg1, int arg2)
+        private void OnMouseButtonDown(Microsoft.Xna.Framework.Point arg1, int arg2)
         {
-            ClearControlledEntities();
+            ActionsNextFrame.Add(ClearSelection);
             _transformSystem.Mode = null;
         }
 
         internal void Render(TimeSpan timespan)
         {
+            foreach (var a in ActionsNextFrame) a();
+            ActionsNextFrame.Clear();
+
             Camera.ScreenSize = new Vector2((float)_host.ActualWidth, (float)_host.ActualHeight);
             _host.GraphicsDevice.RasterizerState = RasterizerState.CullNone;
             _host.GraphicsDevice.Clear(BackgroundColor);
@@ -206,29 +210,46 @@ namespace FellSky.Editor
         public Entity CameraEntity { get; private set; }
         public Entity GridEntity { get; private set; }
 
-        private void AddHullToShip(JsonSprite o)
+        private void AddHullToShip(JsonSprite sprite)
         {
+            ClearSelection();
+
             var pos = _host.PointToScreen(new System.Windows.Point(_host.ActualWidth / 2, _host.ActualHeight / 2));
             _mouse.ScreenPosition = new Vector2((float)pos.X, (float)pos.Y);
             _transformSystem.Mode = MouseControlledTransformMode.Translate;
             _transformSystem.Origin = Vector2.Zero;
-            var hull = new Hull(o.Id, Vector2.Zero, 0, Vector2.One, new Vector2(o.OriginX ?? o.W/2, o.OriginY ?? o.H/2), XnaColor.White);
+            var hull = new Hull(sprite.Id, Vector2.Zero, 0, Vector2.One, new Vector2(sprite.OriginX ?? sprite.W/2, sprite.OriginY ?? sprite.H/2), XnaColor.White);
             Ship.Hulls.Add(hull);
-            ClearControlledEntities();
             var entity = World.CreateEntity();
             entity.AddComponent(hull);
+            
             entity.AddComponent(hull.Transform);
             entity.AddComponent(new MouseControlledTransformComponent());
             entity.AddComponent(new ChildEntityComponent(ShipEntity));
-            entity.AddComponent(new DrawBoundingBoxComponent(hull.BoundingBox));
+
+            var select = new BoundingBoxSelectionComponent(hull.BoundingBox) { IsEnabled = false };
+            entity.AddComponent(select);
+            var drawbounds = new DrawBoundingBoxComponent(hull.BoundingBox);
+            entity.AddComponent(drawbounds);
+            select.SelectedChanged += (s, e) =>
+            {
+                drawbounds.IsEnabled = select.IsSelected;
+            };
+
             entity.Refresh();
             SelectedPartEntities.Add(entity);
         }
 
-        private void ClearControlledEntities()
+        private void ClearSelection()
         {
             foreach (var entity in SelectedPartEntities)
-                entity.Delete();
+            {
+                entity.GetComponent<BoundingBoxSelectionComponent>().IsSelected = false;
+                entity.GetComponent<BoundingBoxSelectionComponent>().IsEnabled = true;
+                entity.GetComponent<DrawBoundingBoxComponent>().IsEnabled = false;
+                entity.RemoveComponent<MouseControlledTransformComponent>();
+                entity.Refresh();
+            }
             SelectedPartEntities.Clear();
         }
 

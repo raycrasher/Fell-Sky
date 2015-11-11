@@ -20,7 +20,7 @@ namespace FellSky.Systems
         public override void LoadContent()
         {
             base.LoadContent();
-            _spriteBatch = BlackBoard.GetEntry<IServiceProvider>("ServiceProvider")?.GetService<SpriteBatch>();
+            _spriteBatch = BlackBoard.GetService<SpriteBatch>();
         }
 
         protected override void Begin()
@@ -32,10 +32,12 @@ namespace FellSky.Systems
 
         public override void Process(Entity entity, Transform xform, DrawBoundingBoxComponent box)
         {
-            var matrix = xform.GetMatrix();
-            var child = entity.GetComponent<ChildEntityComponent>();
-            if (child != null)
-                matrix = child.ParentWorldMatrix * matrix;
+            if (!box.IsEnabled) return;
+
+            var matrix = entity.GetWorldMatrix();
+            //var child = entity.GetComponent<ChildEntityComponent>();
+            //if (child != null)
+            //    matrix = child.ParentWorldMatrix * matrix;
 
             var p1 = new Vector2(box.BoundingBox.Left, box.BoundingBox.Top);
             var p2 = new Vector2(box.BoundingBox.Right, box.BoundingBox.Top);

@@ -50,8 +50,7 @@ namespace FellSky.Systems
 
         public override void LoadContent()
         {
-            var provider = BlackBoard.GetEntry<IServiceProvider>("ServiceProvider");
-            _mouse = provider.GetService<IMouseService>();
+            _mouse = BlackBoard.GetService<IMouseService>();
             base.LoadContent();
         }
 

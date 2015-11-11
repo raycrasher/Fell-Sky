@@ -68,5 +68,21 @@ namespace FellSky
         {
             return (T)provider.GetService(typeof(T));
         }
+
+        public static T GetService<T>(this Artemis.Blackboard.BlackBoard blackboard)
+            where T : class
+        {
+            return blackboard.GetEntry<IServiceProvider>("ServiceProvider")?.GetService<T>();
+        }
+
+        public static Matrix GetWorldMatrix(this Artemis.Entity entity)
+        {
+            var xform = entity.GetComponent<Transform>();
+            var matrix = xform.GetMatrix();
+            var child = entity.GetComponent<EntityComponents.ChildEntityComponent>();
+            if (child != null)
+                matrix = child.ParentWorldMatrix * matrix;
+            return matrix;
+        }
     }
 }

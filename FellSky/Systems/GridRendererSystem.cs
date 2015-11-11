@@ -20,8 +20,7 @@ namespace FellSky.Systems
         public override void LoadContent()
         {
             base.LoadContent();
-            var serviceProvider = BlackBoard.GetEntry<IServiceProvider>("ServiceProvider");
-            _spriteBatch = serviceProvider.GetService<SpriteBatch>();
+            _spriteBatch = BlackBoard.GetService<SpriteBatch>();
         }
 
         protected override void Begin()
