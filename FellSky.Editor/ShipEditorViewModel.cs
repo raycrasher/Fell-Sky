@@ -69,7 +69,6 @@ namespace FellSky.Editor
 
         internal void Initialize(D3D11Host host)
         {
-            SelectedPartEntities = new List<Entity>();
             Services = new Microsoft.Xna.Framework.GameServiceContainer();
             _host = host;
             _mouse = new MouseService(host);
@@ -108,6 +107,7 @@ namespace FellSky.Editor
             CreateNewShip();            
 
             _transformSystem = World.SystemManager.GetSystem<Systems.MouseControlledTransformSystem>();
+            SelectedPartEntities = World.SystemManager.GetSystem<Systems.BoundingBoxSelectionSystem>().SelectedEntities;
             host.KeyUp += HandleKeyboardInput;
         }
 
@@ -116,12 +116,15 @@ namespace FellSky.Editor
             switch (e.Key)
             {
                 case Key.R:
+                    TransformSelectedParts();
                     _transformSystem.Mode = MouseControlledTransformMode.Rotate;
                     break;
                 case Key.T:
+                    TransformSelectedParts();
                     _transformSystem.Mode = MouseControlledTransformMode.Translate;
                     break;
                 case Key.S:
+                    //TransformSelectedItems();
                     _transformSystem.Mode = MouseControlledTransformMode.Scale;
                     break;
                 case Key.Delete:
@@ -139,6 +142,17 @@ namespace FellSky.Editor
                 case Key.Right:
                     TranslateSelectedParts(new Vector2(Keyboard.IsKeyDown(Key.LeftShift) ? 1 : 10, 0));
                     break;
+            }
+        }
+
+        private void TransformSelectedParts()
+        {
+            foreach(var entity in SelectedPartEntities)
+            {
+                if (!entity.HasComponent<MouseControlledTransformComponent>()) {
+                    entity.AddComponent(new MouseControlledTransformComponent());
+                    entity.Refresh();
+                }
             }
         }
 
