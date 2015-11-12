@@ -110,6 +110,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converters.cs" />
     <Compile Include="D3D11Host.cs" />
     <Compile Include="D3D11Image.cs" />
     <Compile Include="D3D9.cs" />

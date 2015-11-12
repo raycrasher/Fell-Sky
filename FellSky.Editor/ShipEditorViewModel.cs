@@ -6,7 +6,6 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Forms.Integration;
 using FellSky.Graphics;
 using System.Drawing;
 using System.Windows.Media.Imaging;
@@ -15,21 +14,14 @@ using System.Windows.Input;
 using FellSky.Mechanics.Ships;
 using Microsoft.Xna.Framework.Content;
 using Artemis;
-//using Microsoft.Xna.Framework;
 using XnaColor = Microsoft.Xna.Framework.Color;
 using WpfColor = System.Windows.Media.Color;
 using Microsoft.Xna.Framework;
 using FellSky.EntityComponents;
-using System.Runtime.InteropServices;
 using FellSky.Systems;
 
 namespace FellSky.Editor
 {
-    public enum EditMode
-    {
-        Move, Rotate
-    }
-
     [PropertyChanged.ImplementPropertyChanged]
     public class ShipEditorViewModel
     {
@@ -62,6 +54,12 @@ namespace FellSky.Editor
 
         public List<Entity> SelectedPartEntities { get; set; }
         public SpriteBatch SpriteBatch { get; private set; }
+
+        public ICommand AddHull { get { return new DelegateCommand(o => AddHullToShip((JsonSprite)o)); } }
+
+        public Entity ShipEntity { get; private set; }
+        public Entity CameraEntity { get; private set; }
+        public Entity GridEntity { get; private set; }
 
         private MouseService _mouse;
         private MouseControlledTransformSystem _transformSystem;
@@ -218,11 +216,7 @@ namespace FellSky.Editor
             return image;
         }
 
-        public ICommand AddHull { get { return new DelegateCommand(o => AddHullToShip((JsonSprite)o)); } }
 
-        public Entity ShipEntity { get; private set; }
-        public Entity CameraEntity { get; private set; }
-        public Entity GridEntity { get; private set; }
 
         private void AddHullToShip(JsonSprite sprite)
         {
@@ -278,41 +272,6 @@ namespace FellSky.Editor
             
             Artemis.System.EntitySystem.BlackBoard.SetEntry("PlayerShip", Ship);
             Artemis.System.EntitySystem.BlackBoard.SetEntry("PlayerShipEntity", ShipEntity);
-
-        }
-
-
-    }
-
-    public class SpriteToIntRectConverter : System.Windows.Data.IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            var sprite = value as JsonSprite;
-            if (sprite == null) return null;
-            return new System.Windows.Int32Rect(sprite.X, sprite.Y, sprite.W, sprite.H);
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-    public class XnaColorToBrushConverter : System.Windows.Data.IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            if(!(value is XnaColor)) return null;
-            var color = (XnaColor)value;
-            return new System.Windows.Media.SolidColorBrush(WpfColor.FromArgb(color.A,color.R,color.G,color.B));
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            var brush = value as System.Windows.Media.SolidColorBrush;
-            if (brush == null) return null;
-            return new XnaColor(brush.Color.R,brush.Color.G,brush.Color.B,brush.Color.A);
         }
     }
 }

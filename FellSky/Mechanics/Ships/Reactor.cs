@@ -5,16 +5,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FellSky.Graphics;
+using Newtonsoft.Json;
 
 namespace FellSky.Mechanics.Ships
 {
-    public abstract class ReactorBase : IModule, IPowerConsumer, IHeatProducer
+    public abstract class ReactorBase : ShipPart, IModule, IPowerConsumer, IHeatProducer
     {
         public ModuleClass Class { get; set; } = ModuleClass.Power;
         public string Description { get; set; } = "A reactor provides power through the generation of heat and/or charged particles.";
+        [JsonIgnore]
         public Sprite IconSprite { get; set; }
         public string IconSpriteId { get; set; }
-        public string Name { get; set; } = "Reactor";
         public PowerStatus PowerStatus { get; set; }
         public float RequestedPower { get; protected set; }
         public ModuleSize Size { get; set; } = ModuleSize.Medium;
