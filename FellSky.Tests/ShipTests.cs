@@ -26,7 +26,7 @@ namespace FellSky.Tests
             Assert.IsTrue(ship.Hulls.Intersect(group.Hulls).Count() == group.Hulls.Count);
             Assert.IsTrue(ship.Groups.Contains(group));
             Assert.IsTrue(group.Hulls.Select(s => s.Group).Distinct().Count() == 1 && group.Hulls.Select(s => s.Group).Distinct().First() == group);
-            //Assert.IsTrue(group.Thrusters.Select(s => s.Group).Distinct().Count() == 1 && group.Hulls.Select(s => s.Group).Distinct().First() == group);
+            Assert.IsTrue(group.Thrusters.Select(s => s.Group).Distinct().Count() == 1 && group.Hulls.Select(s => s.Group).Distinct().First() == group);
         }
 
         [TestMethod]
