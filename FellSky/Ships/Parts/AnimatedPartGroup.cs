@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace FellSky.Ships.Parts
 {
-    public class ThermalRadiator: IComponent
+    public class AnimatedPartGroup: IComponent
     {
-        public float RadiativeArea { get; set; } // in m^2
-        public float DissipationRateBonus { get; set; }
+
     }
 }

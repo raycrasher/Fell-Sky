@@ -15,7 +15,7 @@ namespace FellSky.Ships.Parts
     /// <summary>
     /// The physical parts of a ship. Determines the graphics and collision data of the ship.
     /// </summary>
-    public class Hull: ShipPart, IComponent
+    public sealed class Hull: ShipPart, IComponent
     {
         public Hull() { }
 

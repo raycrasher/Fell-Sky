@@ -26,6 +26,7 @@ namespace FellSky.Ships
 
         public List<Reactor> Reactors { get; set; } = new List<Reactor>();
 
+        public float CombatReadiness { get; set; }
 
         public ShipHandlingParameters Handling { get; set; } = new ShipHandlingParameters();
 
@@ -49,19 +50,21 @@ namespace FellSky.Ships
                     .Where(g => g != null);
         } }
 
-        public bool InstallHullGroup(PartGroup group)
+        public bool InstallPartGroup(PartGroup group)
         {
             if (group == null) throw new ArgumentNullException(nameof(group));
             if (Hulls.Cast<ShipPart>().Concat(Thrusters).Concat(WeaponMounts).Any(p => p.Group == group)) return false;
 
+            foreach (var part in group.Hulls.Cast<ShipPart>().Concat(group.Thrusters).Concat(WeaponMounts))
+                part.Group = group;
+
             Hulls.AddRange(group.Hulls);
             Thrusters.AddRange(group.Thrusters);
             WeaponMounts.AddRange(group.WeaponMounts);
-
             return true;
         }
 
-        public void RemoveHullGroup(PartGroup group)
+        public void RemovePartGroup(PartGroup group)
         {
             Hulls.RemoveAll(h => h.Group == group);
             Thrusters.RemoveAll(t => t.Group == group);
