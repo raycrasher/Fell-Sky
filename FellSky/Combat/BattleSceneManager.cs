@@ -1,5 +1,5 @@
 ﻿using Artemis;
-using FellSky.Core.Diplomacy;
+using FellSky.Campaign.Diplomacy;
 using System;
 using System.Collections.Generic;
 using System.Linq;

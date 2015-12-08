@@ -1,7 +1,7 @@
 ﻿using Artemis.Interface;
 using FellSky.Campaign.Bases;
+using FellSky.Campaign.Diplomacy;
 using FellSky.Core.Crew;
-using FellSky.Core.Diplomacy;
 using FellSky.Ships;
 using FellSky.Space;
 using System;
