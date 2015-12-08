@@ -1,0 +1,14 @@
+﻿using Artemis.Interface;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace FellSky.Campaign.Diplomacy
+{
+    public class Faction: IComponent
+    {
+        public string Name { get; set; }
+    }
+}

@@ -52,7 +52,7 @@ namespace FellSky.Editor
                 BackBufferHeight = 1,
 
                 // Use dummy window handle.
-                DeviceWindowHandle = GetDesktopWindow()
+                DeviceWindowHandle = NativeMethods.GetDesktopWindow()
             };
 
 
@@ -126,8 +126,11 @@ namespace FellSky.Editor
 
         #region Methods
 
-        [DllImport("user32.dll", SetLastError = false)]
-        private static extern IntPtr GetDesktopWindow();
+        static class NativeMethods
+        {
+            [DllImport("user32.dll", SetLastError = false)]
+            internal static extern IntPtr GetDesktopWindow();
+        }
 
 
         private void ThrowIfDisposed()

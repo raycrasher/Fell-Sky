@@ -15,7 +15,7 @@ namespace FellSky.Editor
     /// <summary>
     /// Host a Direct3D 11 scene.
     /// </summary>
-    public class D3D11Host : Image, IGraphicsDeviceService
+    public class D3D11Host : Image, IGraphicsDeviceService, IDisposable
     {
         #region Fields
         // The Direct3D 11 device (shared by all D3D11Host elements):
@@ -280,6 +280,12 @@ namespace FellSky.Editor
         private void Render(TimeSpan time)
         {
             Rendering?.Invoke(time);
+        }
+
+        public void Dispose()
+        {
+            _d3D11Image.Dispose();
+            _renderTarget.Dispose();
         }
         #endregion
     }

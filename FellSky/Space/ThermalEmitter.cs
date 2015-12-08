@@ -1,0 +1,14 @@
+﻿using Artemis.Interface;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace FellSky.Space
+{
+    public class ThermalEmitter: IComponent
+    {
+        public float Temperature { get; set; }
+    }
+}

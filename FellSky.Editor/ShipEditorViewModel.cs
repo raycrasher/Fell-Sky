@@ -11,14 +11,14 @@ using System.Drawing;
 using System.Windows.Media.Imaging;
 using System.Globalization;
 using System.Windows.Input;
-using FellSky.Mechanics.Ships;
+using FellSky.Ships;
 using Microsoft.Xna.Framework.Content;
 using Artemis;
 using XnaColor = Microsoft.Xna.Framework.Color;
 using WpfColor = System.Windows.Media.Color;
 using Microsoft.Xna.Framework;
-using FellSky.EntityComponents;
-using FellSky.Systems;
+using FellSky.Ships.Parts;
+using FellSky.Framework;
 
 namespace FellSky.Editor
 {
@@ -100,12 +100,12 @@ namespace FellSky.Editor
             Artemis.System.EntitySystem.BlackBoard.SetEntry(Camera2D.PlayerCameraName, Camera);
             GridEntity = World.CreateEntityFromTemplate("Grid", new Vector2(50,50), GridColor);
 
-            World.CreateEntityFromTemplate("GenericDrawable", EntityTemplates.GenericDrawableTemplate.Circle(Vector2.Zero, 10, 10, XnaColor.Red));
+            World.CreateEntityFromTemplate("GenericDrawable", Entities.GenericDrawableTemplate.Circle(Vector2.Zero, 10, 10, XnaColor.Red));
 
             CreateNewShip();            
 
-            _transformSystem = World.SystemManager.GetSystem<Systems.MouseControlledTransformSystem>();
-            SelectedPartEntities = World.SystemManager.GetSystem<Systems.BoundingBoxSelectionSystem>().SelectedEntities;
+            _transformSystem = World.SystemManager.GetSystem<MouseControlledTransformSystem>();
+            SelectedPartEntities = World.SystemManager.GetSystem<BoundingBoxSelectionSystem>().SelectedEntities;
             host.KeyUp += HandleKeyboardInput;
         }
 
@@ -147,8 +147,8 @@ namespace FellSky.Editor
         {
             foreach(var entity in SelectedPartEntities)
             {
-                if (!entity.HasComponent<MouseControlledTransformComponent>()) {
-                    entity.AddComponent(new MouseControlledTransformComponent());
+                if (!entity.HasComponent<MouseControlledTransform>()) {
+                    entity.AddComponent(new MouseControlledTransform());
                     entity.Refresh();
                 }
             }
@@ -164,7 +164,7 @@ namespace FellSky.Editor
 
         private void DeleteSelectedParts()
         {
-            foreach(var part in SelectedPartEntities.Select(e => e.GetComponent<ShipPart>()))
+            foreach(var part in SelectedPartEntities.Select(e => e.Components.OfType<ShipPart>().First()))
             {
                 Ship.RemovePart(part);
             }
@@ -232,10 +232,10 @@ namespace FellSky.Editor
             entity.AddComponent(hull);
             
             entity.AddComponent(hull.Transform);
-            entity.AddComponent(new MouseControlledTransformComponent());
-            entity.AddComponent(new ChildEntityComponent(ShipEntity));
+            entity.AddComponent(new MouseControlledTransform());
+            entity.AddComponent(new ChildEntity(ShipEntity));
 
-            var select = new BoundingBoxSelectionComponent(hull.BoundingBox) { IsEnabled = false };
+            var select = new BoundingBoxSelector(hull.BoundingBox) { IsEnabled = false };
             entity.AddComponent(select);
             var drawbounds = new DrawBoundingBoxComponent(hull.BoundingBox);
             entity.AddComponent(drawbounds);
@@ -252,10 +252,10 @@ namespace FellSky.Editor
         {
             foreach (var entity in SelectedPartEntities)
             {
-                entity.GetComponent<BoundingBoxSelectionComponent>().IsSelected = false;
-                entity.GetComponent<BoundingBoxSelectionComponent>().IsEnabled = true;
+                entity.GetComponent<BoundingBoxSelector>().IsSelected = false;
+                entity.GetComponent<BoundingBoxSelector>().IsEnabled = true;
                 entity.GetComponent<DrawBoundingBoxComponent>().IsEnabled = false;
-                entity.RemoveComponent<MouseControlledTransformComponent>();
+                entity.RemoveComponent<MouseControlledTransform>();
                 entity.Refresh();
             }
             SelectedPartEntities.Clear();
@@ -266,7 +266,7 @@ namespace FellSky.Editor
             Ship = new Ship();
             ShipEntity = World.CreateEntity();
             ShipEntity.AddComponent(Ship);
-            ShipEntity.AddComponent(new FellSky.EntityComponents.ShipSpriteComponent(Ship));
+            ShipEntity.AddComponent(new ShipSpriteComponent(Ship));
             ShipEntity.AddComponent(new Transform());
             ShipEntity.Refresh();
             

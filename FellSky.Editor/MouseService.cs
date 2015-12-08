@@ -54,7 +54,7 @@ namespace FellSky.Editor
             get { return _screenPosition; }
             set {
                 _screenPosition = value;
-                SetCursorPos((int)value.X, (int)value.Y);
+                NativeMethods.SetCursorPos((int)value.X, (int)value.Y);
             }
         }
 
@@ -63,8 +63,11 @@ namespace FellSky.Editor
         public event Action<Point> Move;
         public event Action<int> WheelChanged;
 
-        [DllImport("user32.dll")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        static extern bool SetCursorPos(int X, int Y);
+        static class NativeMethods
+        {
+            [DllImport("user32.dll")]
+            [return: MarshalAs(UnmanagedType.Bool)]
+            internal static extern bool SetCursorPos(int X, int Y);
+        }
     }
 }

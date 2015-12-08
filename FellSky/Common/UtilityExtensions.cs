@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using FellSky.Framework;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -79,7 +80,7 @@ namespace FellSky
         {
             var xform = entity.GetComponent<Transform>();
             var matrix = xform.GetMatrix();
-            var child = entity.GetComponent<EntityComponents.ChildEntityComponent>();
+            var child = entity.GetComponent<ChildEntity>();
             if (child != null)
                 matrix = child.ParentWorldMatrix * matrix;
             return matrix;
