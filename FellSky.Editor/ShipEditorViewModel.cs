@@ -237,7 +237,11 @@ namespace FellSky.Editor
 
             var select = new BoundingBoxSelector(hull.BoundingBox) { IsEnabled = false };
             entity.AddComponent(select);
-            var drawbounds = new DrawBoundingBoxComponent(hull.BoundingBox);
+
+            var bb = hull.BoundingBox;
+            bb.Inflate(2,2);
+            
+            var drawbounds = new DrawBoundingBoxComponent(bb);
             entity.AddComponent(drawbounds);
             select.SelectedChanged += (s, e) =>
             {
