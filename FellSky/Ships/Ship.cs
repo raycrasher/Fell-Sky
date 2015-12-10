@@ -1,6 +1,7 @@
 ﻿using Artemis.Interface;
 using FellSky.Ships.Parts;
 using Microsoft.Xna.Framework;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -76,6 +77,16 @@ namespace FellSky.Ships
             if (part is Hull) Hulls.Remove((Hull)part);
             else if (part is Thruster) Thrusters.Remove((Thruster)part);
             else if (part is WeaponMount) WeaponMounts.Remove((WeaponMount)part);
+        }
+
+        public void SaveToFile(string filename)
+        {
+            System.IO.File.WriteAllText( filename, JsonConvert.SerializeObject(this) );
+        }
+
+        public static Ship LoadFromFile(string filename)
+        {
+            return JsonConvert.DeserializeObject<Ship>(System.IO.File.ReadAllText(filename));
         }
     }
 }

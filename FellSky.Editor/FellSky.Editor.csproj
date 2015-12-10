@@ -151,7 +151,7 @@
     <Compile Include="DelegateCommand.cs" />
     <Compile Include="MouseService.cs" />
     <Compile Include="ShipEditorViewModel.cs" />
-    <Page Include="ShipEditor.xaml">
+    <Page Include="ShipEditorWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -159,8 +159,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ShipEditor.xaml.cs">
-      <DependentUpon>ShipEditor.xaml</DependentUpon>
+    <Compile Include="ShipEditorWindow.xaml.cs">
+      <DependentUpon>ShipEditorWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>

@@ -19,6 +19,7 @@ using WpfColor = System.Windows.Media.Color;
 using Microsoft.Xna.Framework;
 using FellSky.Ships.Parts;
 using FellSky.Framework;
+using System.Windows;
 
 namespace FellSky.Editor
 {
@@ -40,6 +41,7 @@ namespace FellSky.Editor
         public SpriteSheet CurrentSpriteSheet { get; set; }
 
         public Dictionary<string, List<JsonSprite>> HullSprites { get; set; }
+        public object PropertyObject { get; set; }
 
         public XnaColor DefaultColor { get; set; } = XnaColor.White;
         public XnaColor TrimColor { get; set; } = XnaColor.CornflowerBlue;
@@ -276,6 +278,9 @@ namespace FellSky.Editor
             
             Artemis.System.EntitySystem.BlackBoard.SetEntry("PlayerShip", Ship);
             Artemis.System.EntitySystem.BlackBoard.SetEntry("PlayerShipEntity", ShipEntity);
+            PropertyObject = Ship;
         }
+
+        public ICommand Quit => new DelegateCommand(o => Application.Current.Shutdown());
     }
 }
