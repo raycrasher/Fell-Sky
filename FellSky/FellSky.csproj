@@ -106,6 +106,9 @@
     <Compile Include="Combat\Beam.cs" />
     <Compile Include="Combat\Explosion.cs" />
     <Compile Include="Combat\Projectile.cs" />
+    <Compile Include="Framework\FrameUpdateComponent.cs" />
+    <Compile Include="Framework\GenericFrameUpdateSystem.cs" />
+    <Compile Include="Framework\TimerService.cs" />
     <Compile Include="Ships\Parts\AnimatedPartGroup.cs" />
     <Compile Include="Space\Datanet.cs" />
     <Compile Include="Space\Dockable.cs" />

@@ -24,7 +24,7 @@ namespace FellSky.Framework
 
         public int SelectionButton { get; set; } = 0;
         public bool MarqueeBoxSelectionEnabled { get; set; } = true;
-        public Color MarqueeBoxColor { get; set; } = Color.White;
+        public Color MarqueeBoxColor { get; set; } = Color.LightGray;
         public float MarqueeBoxThickness { get; set; } = 1;
 
         public BoundingBoxSelectionSystem()

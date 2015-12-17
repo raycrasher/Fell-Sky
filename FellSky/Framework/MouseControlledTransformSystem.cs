@@ -16,14 +16,25 @@ namespace FellSky.Framework
         Translate = 1, Rotate = 2, Scale = 3
     }
 
+    public enum MouseRotateMode
+    {
+        Local, Centroid, Origin
+    }
+
     [ArtemisEntitySystem(ExecutionType =Artemis.Manager.ExecutionType.Synchronous, GameLoopType =Artemis.Manager.GameLoopType.Update, Layer = 4)]
-    public class MouseControlledTransformSystem : Artemis.System.EntityComponentProcessingSystem<MouseControlledTransform, Transform>
+    public class MouseControlledTransformSystem : Artemis.System.EntityProcessingSystem
     {
         private Camera2D _camera;
         private IMouseService _mouse;
         public Vector2 Origin { get; set; }
 
-        public override void OnAdded(Entity entity) => GetInitialTransform(entity);
+        public MouseRotateMode RotateMode {
+            get { return _rotateMode; }
+            set {
+                if (_rotateMode != value) _modeChanged = true;
+                _rotateMode = value;
+            }
+        } 
 
         //public override void OnChange(Entity entity) => GetInitialTransform(entity);
 
@@ -38,6 +49,11 @@ namespace FellSky.Framework
         private MouseControlledTransformMode? _mode = null;
         private bool _modeChanged=false;
         private Vector2? _rotateOffset;
+        private Vector2 _centroid;
+        private MouseRotateMode _rotateMode = MouseRotateMode.Centroid;
+
+        public MouseControlledTransformSystem() : base(Aspect.All(typeof(MouseControlledTransform), typeof(Transform))) { }
+        public override void OnAdded(Entity entity) => GetInitialTransform(entity);
 
         private void GetInitialTransform(Entity entity)
         {
@@ -59,8 +75,19 @@ namespace FellSky.Framework
             _camera = BlackBoard.GetEntry<Camera2D>(Camera2D.PlayerCameraName);
         }
 
-        public override void Process(Entity entity, MouseControlledTransform control, Transform transform)
+        protected override void ProcessEntities(IDictionary<int, Entity> entities)
         {
+            if(_modeChanged && Mode == MouseControlledTransformMode.Rotate && RotateMode == MouseRotateMode.Centroid)
+            {
+                _centroid = entities.Values.Aggregate(Vector2.Zero, (current, input) => current + input.GetComponent<Transform>().Position) / entities.Count;
+            }
+            base.ProcessEntities(entities);
+        }
+
+        public override void Process(Entity entity)
+        {
+            var control = entity.GetComponent<MouseControlledTransform>();
+            var transform = entity.GetComponent<Transform>();
             var worldMousePos = _camera.ScreenToCameraSpace(_mouse.ScreenPosition);
             Matrix? parentMatrix = null;
             if (_modeChanged)
@@ -77,10 +104,55 @@ namespace FellSky.Framework
                 case MouseControlledTransformMode.Scale:
                     break;
                 case MouseControlledTransformMode.Rotate:
-                    DoRotate(worldMousePos, control, transform, ref parentMatrix);
+                    switch (RotateMode)
+                    {
+                        case MouseRotateMode.Local:
+                            DoRotateLocal(worldMousePos, control, transform, ref parentMatrix);
+                            break;
+                        case MouseRotateMode.Centroid:
+                            DoRotateCentroid(worldMousePos, control, transform, _centroid, ref parentMatrix);
+                            break;
+                        case MouseRotateMode.Origin:
+                            DoRotateOrigin(worldMousePos, control, transform, ref parentMatrix);
+                            break;
+                    }
+                    
                     break;
             }
             _modeChanged = false;
+        }
+
+        private void DoRotateOrigin(Vector2 worldMousePos, MouseControlledTransform control, Transform transform, ref Matrix? parentMatrix)
+        {
+
+            
+        }
+
+        private void DoRotateCentroid(Vector2 worldMousePos, MouseControlledTransform control, Transform transform, Vector2 _centroid, ref Matrix? parentMatrix)
+        {
+            DoRotateLocal(worldMousePos, control, transform, ref parentMatrix);
+
+            if (_rotateOffset != null)
+            {
+                var offset = worldMousePos - (parentMatrix != null ? Vector2.Transform(transform.Position, parentMatrix.Value) : transform.Position);
+                var initialAngle = (_rotateOffset.Value - _centroid).ToAngleRadians();
+                //transform.Rotation = MathHelper.WrapAngle(offset.ToAngleRadians() - initialAngle);
+
+                var rot = offset.ToAngleRadians();
+                var sin = Math.Sin(MathHelper.WrapAngle(rot));
+                var cos = Math.Cos(MathHelper.WrapAngle(rot));
+                var rotPos = control.InitialTransform.Position - _centroid;
+                Vector2 newPos;
+                newPos.X = (float)(rotPos.X * cos - rotPos.Y * sin);
+                newPos.Y = (float)(-rotPos.X * sin + rotPos.Y * cos);
+                //transform.Position = newPos + _centroid;
+            }
+            else
+            {
+                if (Vector2.DistanceSquared(Origin, worldMousePos) > 40)
+                    _rotateOffset = worldMousePos;
+            }
+            
         }
 
         private void DoTranslate(Vector2 worldMousePos, MouseControlledTransform control, Transform transform, ref Matrix? parent)
@@ -90,8 +162,9 @@ namespace FellSky.Framework
             transform.Position = parent != null ? Vector2.Transform(worldMousePos, parent.Value) : worldMousePos;
         }
 
-        private void DoRotate(Vector2 worldMousePos, MouseControlledTransform control, Transform transform, ref Matrix? parent)
+        private void DoRotateLocal(Vector2 worldMousePos, MouseControlledTransform control, Transform transform, ref Matrix? parent)
         {
+            
             if(_modeChanged) _rotateOffset = null;
 
             if(_rotateOffset!=null)
@@ -99,12 +172,14 @@ namespace FellSky.Framework
                 var offset = worldMousePos - (parent != null ? Vector2.Transform(transform.Position, parent.Value) : transform.Position);
                 var initialAngle = (_rotateOffset.Value - control.InitialTransform.Position).ToAngleRadians();
 
-                transform.Rotation = -MathHelper.WrapAngle(initialAngle - offset.ToAngleRadians());
+                transform.Rotation = MathHelper.WrapAngle(offset.ToAngleRadians() - initialAngle);
             }
             else { 
                 if(Vector2.DistanceSquared(Origin, worldMousePos) > 40)
                     _rotateOffset = worldMousePos;
             }
         }
+
+
     }
 }

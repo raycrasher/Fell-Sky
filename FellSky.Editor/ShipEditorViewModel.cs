@@ -32,7 +32,7 @@ namespace FellSky.Editor
         public class SpriteSheet
         {
             public JsonSpriteSheet SpriteDefinitions { get; set; }
-            public System.Windows.Media.Imaging.BitmapImage Image { get; set; }
+            public BitmapImage Image { get; set; }
         }
 
         public Camera2D Camera { get; set; }
@@ -51,7 +51,7 @@ namespace FellSky.Editor
 
         public Ship Ship { get; set; }
         public ContentManager Content { get; set; }
-        public Microsoft.Xna.Framework.GameServiceContainer Services { get; set; }
+        public GameServiceContainer Services { get; set; }
         public EntityWorld World { get; set; }
 
         public List<Entity> SelectedPartEntities { get; set; }
@@ -62,6 +62,7 @@ namespace FellSky.Editor
         public Entity ShipEntity { get; private set; }
         public Entity CameraEntity { get; private set; }
         public Entity GridEntity { get; private set; }
+        public Entity TransformEntity { get; private set; }
 
         private MouseService _mouse;
         private MouseControlledTransformSystem _transformSystem;
@@ -69,7 +70,7 @@ namespace FellSky.Editor
 
         internal void Initialize(D3D11Host host)
         {
-            Services = new Microsoft.Xna.Framework.GameServiceContainer();
+            Services = new GameServiceContainer();
             _host = host;
             _mouse = new MouseService(host);
 
@@ -204,7 +205,7 @@ namespace FellSky.Editor
 
         private BitmapImage TextureToImage(Texture2D tex)
         {
-            var image = new System.Windows.Media.Imaging.BitmapImage();
+            var image = new BitmapImage();
             using(var stream=new MemoryStream())
             {
                 tex.SaveAsPng(stream, tex.Width, tex.Height);
@@ -245,10 +246,7 @@ namespace FellSky.Editor
             
             var drawbounds = new DrawBoundingBoxComponent(bb);
             entity.AddComponent(drawbounds);
-            select.SelectedChanged += (s, e) =>
-            {
-                drawbounds.IsEnabled = select.IsSelected;
-            };
+            select.SelectedChanged += (s, e) => drawbounds.IsEnabled = select.IsSelected;
 
             entity.Refresh();
             SelectedPartEntities.Add(entity);

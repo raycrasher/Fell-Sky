@@ -9,7 +9,7 @@ namespace FellSky.Framework
 {
     public interface ITimerService
     {
-        GameTime RenderTime { get; }
-        GameTime UpdateTime { get; }
+        GameTime LastFrameRenderTime { get; }
+        GameTime LastFrameUpdateTime { get; }
     }
 }

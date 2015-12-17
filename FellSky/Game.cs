@@ -13,12 +13,14 @@ namespace FellSky
         public static Game Instance { get; private set; }
         public static GraphicsDeviceManager Graphics { get; private set; }
         public static Properties.Settings Settings { get { return Properties.Settings.Default; } }
-        public static GameTime CurrentUpdateTime { get; private set; }
+        
         public static CoroutineManager Coroutines { get; } = new CoroutineManager();
         public static KeyboardManager Keyboard { get; private set; }
         public static MouseManager Mouse { get; private set; }
         public static GameState State { get; set; }
         public static SpriteBatch SpriteBatch { get; private set; }
+
+        public static TimerService GameTime { get; private set; } = new TimerService();
 
         private Game()
         {
@@ -55,13 +57,14 @@ namespace FellSky
         protected override void Update(GameTime gameTime)
         {
             Coroutines.RunCoroutines(gameTime.ElapsedGameTime);
-            CurrentUpdateTime = gameTime;
+            GameTime.LastFrameUpdateTime = gameTime;
             State?.Update(gameTime);
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
+            GameTime.LastFrameRenderTime = gameTime;
             State?.Draw(gameTime);
             base.Draw(gameTime);
         }
