@@ -128,38 +128,45 @@ namespace FellSky.Framework
             
         }
 
-        private void DoRotateCentroid(Vector2 worldMousePos, MouseControlledTransform control, Transform transform, Vector2 _centroid, ref Matrix? parentMatrix)
+        private void DoRotateCentroid(Vector2 worldMousePos, MouseControlledTransform control, Transform transform, Vector2 _centroid, ref Matrix? parent)
         {
-            DoRotateLocal(worldMousePos, control, transform, ref parentMatrix);
+            if (_modeChanged) _rotateOffset = null;
+
+            if (Vector2.DistanceSquared(worldMousePos, _centroid) > 40)
+                _rotateOffset = _rotateOffset ?? worldMousePos;
 
             if (_rotateOffset != null)
             {
-                var offset = worldMousePos - (parentMatrix != null ? Vector2.Transform(transform.Position, parentMatrix.Value) : transform.Position);
                 var initialAngle = (_rotateOffset.Value - _centroid).ToAngleRadians();
-                //transform.Rotation = MathHelper.WrapAngle(offset.ToAngleRadians() - initialAngle);
+                var angle = (worldMousePos - _centroid).ToAngleRadians();
 
-                var rot = offset.ToAngleRadians();
-                var sin = Math.Sin(MathHelper.WrapAngle(rot));
-                var cos = Math.Cos(MathHelper.WrapAngle(rot));
-                var rotPos = control.InitialTransform.Position - _centroid;
-                Vector2 newPos;
-                newPos.X = (float)(rotPos.X * cos - rotPos.Y * sin);
-                newPos.Y = (float)(-rotPos.X * sin + rotPos.Y * cos);
-                //transform.Position = newPos + _centroid;
+                var newMatrix = Matrix.CreateScale(new Vector3(control.InitialTransform.Scale,0))
+                    //* Matrix.CreateRotationZ(control.InitialTransform.Rotation)
+                    * Matrix.CreateTranslation(new Vector3(control.InitialTransform.Position,0))
+                    * Matrix.CreateTranslation(new Vector3(-_centroid, 0))
+                    * Matrix.CreateRotationZ(MathHelper.WrapAngle(angle - initialAngle))
+                    * Matrix.CreateTranslation(new Vector3(_centroid, 0));
+
+                //var newMatrix = Matrix.CreateTranslation(new Vector3(-_centroid,0))
+                //    * control.InitialTransform.Matrix 
+                //    * Matrix.CreateRotationZ(MathHelper.WrapAngle(angle - initialAngle))
+                //    * Matrix.CreateTranslation(new Vector3(_centroid, 0))
+                //    ;
+                Vector2 position, scale;
+                float rotation;
+                Utilities.DecomposeMatrix2D(ref newMatrix, out position, out rotation, out scale);
+                transform.Position = position;
+                transform.Rotation = control.InitialTransform.Rotation + MathHelper.WrapAngle(angle - initialAngle);
+                transform.Scale = scale;
             }
-            else
-            {
-                if (Vector2.DistanceSquared(Origin, worldMousePos) > 40)
-                    _rotateOffset = worldMousePos;
-            }
-            
+
         }
 
         private void DoTranslate(Vector2 worldMousePos, MouseControlledTransform control, Transform transform, ref Matrix? parent)
         {
             var offset = worldMousePos - Origin;
             //transform.Position = Vector2.Transform(control.InitialTransform.Position + offset, control.TransformationMatrix);
-            transform.Position = parent != null ? Vector2.Transform(worldMousePos, parent.Value) : worldMousePos;
+            transform.Position = parent != null ? Vector2.Transform(control.InitialTransform.Position + offset, parent.Value) : worldMousePos;
         }
 
         private void DoRotateLocal(Vector2 worldMousePos, MouseControlledTransform control, Transform transform, ref Matrix? parent)

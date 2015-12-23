@@ -10,6 +10,7 @@ namespace FellSky.Framework
 {
     public static class Animation
     {
+        /*
         public static Coroutine Rotate(Transform xform, float speed) => Game.Coroutines.StartCoroutine(DoRotate(xform, speed));
         public static Coroutine RotateTo(Transform xform, float speed, float deltaAngle, bool smooth = true) => Game.Coroutines.StartCoroutine(DoRotateTo(xform, speed, deltaAngle, smooth));
         //public static Coroutine RotateTo(Transform xform, TimeSpan speed, float deltaAngle, bool smooth = true) => Game.Coroutines.StartCoroutine(DoRotateTo(xform, speed, deltaAngle, smooth));
@@ -52,5 +53,6 @@ namespace FellSky.Framework
                 yield return null;
             }
         }
+        */
     }
 }

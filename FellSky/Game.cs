@@ -47,7 +47,7 @@ namespace FellSky
             Services.AddService(SpriteBatch);
             Content.RootDirectory = Path.GetFullPath(Settings.DataFolder);
             Environment.CurrentDirectory = Path.GetFullPath(Settings.DataFolder);
-            Gui.GuiManager.Initialize(Graphics.GraphicsDevice, Coroutines, Content, Keyboard, Mouse);
+            Gui.GuiManager.Initialize(Graphics.GraphicsDevice, Coroutines, Content, Keyboard, Mouse, GameTime);
             State = new MainGameState();
             State.LoadContent();
             SpriteManager.AddSpriteSheetFromFile(Content,"Textures/hulls.json");

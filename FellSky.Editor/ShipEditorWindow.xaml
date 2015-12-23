@@ -11,6 +11,7 @@
         xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
         Title="Ship Editor" Height="768" Width="1024" 
         MinHeight="480" MinWidth="800"
+        WindowState="Maximized"
         >
     <Window.Resources>
         <fe:ShipEditorViewModel x:Key="model"/>
@@ -46,7 +47,7 @@
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <Button Width="64" Height="64" Command="{Binding Source={StaticResource model}, Path=AddHull}" CommandParameter="{Binding}" BorderThickness="0">
-                                        <Image Stretch="UniformToFill" StretchDirection="DownOnly" SnapsToDevicePixels="True" >
+                                        <Image Stretch="Uniform" StretchDirection="DownOnly" SnapsToDevicePixels="True" >
                                             <Image.Source>
                                                 <CroppedBitmap Source="{Binding Source={StaticResource model}, Path=CurrentSpriteSheet.Image}" SourceRect="{Binding Converter={StaticResource spriteToIntRectConverter}}"/>
                                             </Image.Source>

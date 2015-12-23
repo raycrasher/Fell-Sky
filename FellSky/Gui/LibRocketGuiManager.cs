@@ -13,11 +13,11 @@ namespace FellSky.Gui
         public static bool UseVbo = true;
         public static TimeSpan LastRenderTime;
 
-        public static void Initialize(GraphicsDevice graphics, CoroutineManager manager, ContentManager content, KeyboardManager keyboard, MouseManager mouse)
+        public static void Initialize(GraphicsDevice graphics, CoroutineManager manager, ContentManager content, IKeyboardService keyboard, IMouseService mouse, ITimerService timer)
         {
             _renderInterface = new LibRocketRenderInterface(graphics, content, UseVbo);
             LibRocketNet.Core.RenderInterface = _renderInterface;
-            LibRocketNet.Core.SystemInterface = new LibRocketSystemInterface();
+            LibRocketNet.Core.SystemInterface = new LibRocketSystemInterface(timer);
             LibRocketNet.Core.Initialize();
             MainContext = LibRocketNet.Core.CreateContext("main", new LibRocketNet.Vector2i(graphics.Viewport.Width, graphics.Viewport.Height));
             LibRocketNet.Core.InitDebugger(MainContext);

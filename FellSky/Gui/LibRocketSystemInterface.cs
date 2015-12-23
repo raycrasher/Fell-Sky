@@ -1,16 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using FellSky.Framework;
+using System;
 
 namespace FellSky.Gui
 {
     class LibRocketSystemInterface : LibRocketNet.SystemInterface
     {
+        private ITimerService _timer;
+
+        public LibRocketSystemInterface(ITimerService timer)
+        {
+            _timer = timer;
+        }
         protected override float GetElapsedTime()
         {
-            return (float)Game.CurrentUpdateTime.ElapsedGameTime.TotalSeconds;
+            return (float) _timer.LastFrameUpdateTime.ElapsedGameTime.TotalSeconds;
         }
 
         protected override bool LogMessage(LibRocketNet.LogType type, string message)

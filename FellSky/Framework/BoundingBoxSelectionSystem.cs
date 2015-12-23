@@ -106,7 +106,7 @@ namespace FellSky.Framework
                         Math.Abs(start.X - end.X),
                         Math.Abs(start.Y - end.Y));
 
-                    if(rect.Intersects(box.BoundingBox))
+                    if(rect.Intersects(box.BoundingBox) || rect.Contains(box.BoundingBox))
                     {
                         box.IsSelected = true;
                         SelectedEntities.Add(entity);

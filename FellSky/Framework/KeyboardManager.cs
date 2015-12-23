@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace FellSky.Framework
 {
-    public class KeyboardManager
+    public class KeyboardManager: IKeyboardService
     {
         private HashSet<Keys> _downKeys = new HashSet<Keys>();
 
