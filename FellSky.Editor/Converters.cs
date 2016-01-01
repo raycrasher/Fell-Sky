@@ -42,16 +42,33 @@ namespace FellSky.Editor
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (!(value is WpfColor))
-                return value;
-            WpfColor color = (WpfColor)value;
+            if (!(value is System.Windows.Media.SolidColorBrush))
+                return System.Windows.Media.Brushes.Black;
+            WpfColor color = ((System.Windows.Media.SolidColorBrush)value).Color;
             double Y = 0.2126 * color.ScR + 0.7152 * color.ScG + 0.0722 * color.ScB;
-            return Y > 0.4 ? System.Windows.Media.Brushes.Black : System.Windows.Media.Brushes.White;
+            return Y > 0.2 ? System.Windows.Media.Brushes.Black : System.Windows.Media.Brushes.White;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             throw new NotSupportedException();
+        }
+    }
+
+    public class EnumToBooleanConverter : System.Windows.Data.IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return value.ToString() == parameter.ToString();
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if(value.Equals(true))
+            {
+                return Enum.Parse(targetType, parameter.ToString());
+            }
+            return null;
         }
     }
 }

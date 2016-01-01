@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace FellSky.Framework
 {
-    [Artemis.Attributes.ArtemisEntitySystem(ExecutionType = Artemis.Manager.ExecutionType.Synchronous, GameLoopType = Artemis.Manager.GameLoopType.Update )]
+    [Artemis.Attributes.ArtemisEntitySystem(ExecutionType = Artemis.Manager.ExecutionType.Synchronous, GameLoopType = Artemis.Manager.GameLoopType.Draw )]
     public class BoundingBoxSelectionSystem : Artemis.System.EntitySystem
     {
         private IMouseService _mouse;
@@ -87,26 +87,45 @@ namespace FellSky.Framework
             }
             else if(_isMarqueeActive && !_isMouseDown)
             {
+                if(Vector2.DistanceSquared(_marqueeBoxStart, _mousePos) < 2)
+                {
+                    DoClickSelection(entities);
+                    return;
+                }
+
+                var camera = BlackBoard.GetEntry<Camera2D>(Camera2D.PlayerCameraName);
+                var marqueeShape = new FarseerPhysics.Collision.Shapes.PolygonShape( FarseerPhysics.Common.PolygonTools.CreateRectangle(
+                    Math.Abs(_marqueeBoxStart.X - _mouse.ScreenPosition.X) / 2,
+                    Math.Abs(_marqueeBoxStart.Y - _mouse.ScreenPosition.Y) / 2), 1);
+
+                var marqueeBoxCenter = camera.ScreenToCameraSpace(new Vector2(_marqueeBoxStart.X + _mouse.ScreenPosition.X, _marqueeBoxStart.Y + _mouse.ScreenPosition.Y) / 2);                
+
+                var marqueeBoxRot = new FarseerPhysics.Common.Rot(0);
+                var marqueeXForm = new FarseerPhysics.Common.Transform(
+                    ref marqueeBoxCenter, ref marqueeBoxRot
+                    );
                 _marqueeBoxEntity.Delete();
                 _isMarqueeActive = false;
-                var camera = BlackBoard.GetEntry<Camera2D>(Camera2D.PlayerCameraName);
+                
 
                 foreach (var entity in entities.Values)
                 {
                     var box = entity.GetComponent<BoundingBoxSelector>();
+                    var xform = entity.GetComponent<Transform>();
                     var matrix = Matrix.Invert(camera.GetViewMatrix(box.Parallax)) * Matrix.Invert(entity.GetWorldMatrix());
 
-                    Vector2 start, end;
-                    Vector2.Transform(ref _mousePos, ref matrix, out end);
-                    Vector2.Transform(ref _marqueeBoxStart, ref matrix, out start);
+                    var itemShape = new FarseerPhysics.Collision.Shapes.PolygonShape(FarseerPhysics.Common.PolygonTools.CreateRectangle(
+                        box.BoundingBox.Width/2,
+                        box.BoundingBox.Height/2
+                        ), 1);
 
-                    var rect = new FloatRect(
-                        Math.Min(start.X, end.X),
-                        Math.Min(start.Y, end.Y),
-                        Math.Abs(start.X - end.X),
-                        Math.Abs(start.Y - end.Y));
+                    var manifold = new FarseerPhysics.Collision.Manifold();
+                    var itemCenter = xform.Position;
+                    var itemRot = new FarseerPhysics.Common.Rot(xform.Rotation);
+                    var itemXForm = new FarseerPhysics.Common.Transform(ref itemCenter, ref itemRot);
 
-                    if(rect.Intersects(box.BoundingBox) || rect.Contains(box.BoundingBox))
+                    FarseerPhysics.Collision.Collision.CollidePolygons(ref manifold, marqueeShape, ref marqueeXForm, itemShape, ref itemXForm);
+                    if (manifold.PointCount > 0)
                     {
                         box.IsSelected = true;
                         SelectedEntities.Add(entity);

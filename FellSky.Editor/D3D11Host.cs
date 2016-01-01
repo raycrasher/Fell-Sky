@@ -120,6 +120,7 @@ namespace FellSky.Editor
                         DeviceWindowHandle = IntPtr.Zero,
                     };
                     _graphicsDevice = new  GraphicsDevice(GraphicsAdapter.DefaultAdapter, GraphicsProfile.HiDef, presentationParameters);
+                    
                 }
             }
         }

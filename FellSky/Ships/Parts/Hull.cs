@@ -4,12 +4,13 @@ using Microsoft.Xna.Framework;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace FellSky.Ships.Parts
 {
     public enum HullColorType
     {
-        None, Base, Trim
+        Hull, BaseDecal, TrimDecal
     }
 
     /// <summary>
@@ -19,7 +20,7 @@ namespace FellSky.Ships.Parts
     {
         public Hull() { }
 
-        public Hull(string id, Vector2 position, int rotation, Vector2 scale, Vector2 origin, Color color)
+        public Hull(string id, Vector2 position, float rotation, Vector2 scale, Vector2 origin, Color color)
         {
             SpriteId = id;
             Sprite = SpriteManager.Sprites[id];
@@ -30,13 +31,14 @@ namespace FellSky.Ships.Parts
             Color = color;
         }
 
-        [JsonIgnore]
+        [JsonIgnore, ]
         public Sprite Sprite { get; set; }
-        public Color Color { get; set; }
-        public HullColorType ColorType { get; set; }
-
         public string SpriteId { get; set; }
 
+        public Color Color { get; set; }
+        public HullColorType ColorType { get; set; } = HullColorType.Hull;
+
+        [Xceed.Wpf.Toolkit.PropertyGrid.Attributes.ExpandableObject]
         public Transform Transform { get; set; } = new Transform();
 
         [JsonIgnore]
@@ -46,5 +48,7 @@ namespace FellSky.Ships.Parts
         [JsonIgnore]
         public FarseerPhysics.Dynamics.Fixture Fixture { get; set; }
         public FloatRect BoundingBox => new FloatRect(Vector2.Zero, new Vector2(Sprite.TextureRect.Width, Sprite.TextureRect.Height));
+
+        public SpriteEffects SpriteEffect { get; set; }
     }
 }

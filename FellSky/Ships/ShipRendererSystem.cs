@@ -59,6 +59,7 @@ namespace FellSky.Ships
             }
         }
         
+        
 
         private void DrawHulls(ICollection<Entity> entities)
         {
@@ -68,10 +69,23 @@ namespace FellSky.Ships
                 var shipSprite = ship.GetComponent<ShipSpriteComponent>();
                 var xform = ship.GetComponent<Transform>();
                 var shipMatrix = xform.Matrix;
+                var shipComponent = ship.GetComponent<Ship>();
+                var basedecal = shipComponent.BaseDecalColor.ToVector4();
+                var trimdecal = shipComponent.TrimDecalColor.ToVector4();
 
                 foreach (var hull in shipSprite.Ship.Hulls)
                 {
-                    hull.Sprite.Draw(batch: _spriteBatch, matrix: hull.Transform.Matrix * shipMatrix, color: hull.Color, depth: hull.Depth);
+                    var color = hull.Color;
+                    switch (hull.ColorType)
+                    {
+                        case Parts.HullColorType.BaseDecal:
+                            color = new Color(basedecal * color.ToVector4());
+                            break;
+                        case Parts.HullColorType.TrimDecal:
+                            color = new Color(trimdecal * color.ToVector4());
+                            break;
+                    }
+                    hull.Sprite.Draw(batch: _spriteBatch, matrix: hull.Transform.Matrix * shipMatrix, color:color, depth: hull.Depth, effects: hull.SpriteEffect);
                 }
             }
         }

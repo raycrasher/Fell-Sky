@@ -14,5 +14,6 @@ namespace FellSky.Ships.Parts
         public List<Hull> Hulls { get; set; } = new List<Hull>();
         public List<Thruster> Thrusters { get; set; } = new List<Thruster>();
         public List<WeaponMount> WeaponMounts { get; set; } = new List<WeaponMount>();
+        public List<ShipLight> Lights { get; set; } = new List<ShipLight>();
     }
 }

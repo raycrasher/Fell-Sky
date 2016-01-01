@@ -141,6 +141,7 @@
     <Compile Include="D3D9.cs" />
     <Compile Include="DelegateCommand.cs" />
     <Compile Include="MouseService.cs" />
+    <Compile Include="ShipEditorService.cs" />
     <Compile Include="ShipEditorViewModel.cs" />
     <Page Include="ShipEditorWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

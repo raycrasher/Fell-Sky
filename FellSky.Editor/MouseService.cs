@@ -17,7 +17,8 @@ namespace FellSky.Editor
         public MouseService(System.Windows.FrameworkElement host)
         {
             this.host = host;
-
+            var pos = Mouse.GetPosition(host);
+            _screenPosition = new Vector2((float)pos.X, (float)pos.Y);
             host.MouseMove += OnMouseMove;
             host.MouseDown += OnButtonDown;
             host.MouseUp += OnButtonUp;
@@ -32,12 +33,14 @@ namespace FellSky.Editor
         private void OnButtonUp(object sender, MouseButtonEventArgs e)
         {
             var pos = e.GetPosition(host);
+            _screenPosition = new Vector2((float)pos.X, (float)pos.Y);
             ButtonUp?.Invoke(new Point((int)pos.X, (int)pos.Y), (int) e.ChangedButton);
         }
 
         private void OnButtonDown(object sender, MouseButtonEventArgs e)
         {
             var pos = e.GetPosition(host);
+            _screenPosition = new Vector2((float)pos.X, (float)pos.Y);
             ButtonDown?.Invoke(new Point((int)pos.X, (int)pos.Y), (int)e.ChangedButton);
 
         }
@@ -53,8 +56,8 @@ namespace FellSky.Editor
         {
             get { return _screenPosition; }
             set {
-                _screenPosition = value;
                 NativeMethods.SetCursorPos((int)value.X, (int)value.Y);
+                _screenPosition = value;
             }
         }
 

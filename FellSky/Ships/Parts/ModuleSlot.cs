@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace FellSky.Ships.Parts
 {
-    public class ModuleSlot: IComponent
+    public class ModuleSlot: ShipPart, IComponent
     {
         public IModule Module { get; set; }
         public ModuleSize Size { get; set; }

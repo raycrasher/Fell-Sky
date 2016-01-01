@@ -11,7 +11,7 @@ namespace FellSky.Ships.Parts
         Idle, Charging, Warping, Dewarping,
     }
 
-    public class WarpDrive
+    public class WarpDrive: ShipPart
     {
         public float WarpMultiplier { get; set; }
         public float MaxExoticMatterAmount { get; set; }

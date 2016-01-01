@@ -76,6 +76,14 @@ namespace FellSky.Graphics
             Draw(batch, position, rotation, scale, Vector2.Zero, color, effects, depth);
         }
 
+        public void Draw(SpriteBatch batch, Matrix matrix, Vector2 origin, Color color, float depth, SpriteEffects effects)
+        {
+            Vector2 position, scale;
+            float rotation;
+            Utilities.DecomposeMatrix2D(ref matrix, out position, out rotation, out scale);
+            Draw(batch, position, rotation, scale, origin, color, effects, depth);
+        }
+
         public void Draw(SpriteBatch batch, Vector2 position, float rotation, Vector2 scale, Vector2 origin, SpriteEffects effects = SpriteEffects.None, float depth = 0)
         {
             batch.Draw(Texture, position, TextureRect, Color.White, rotation, origin, scale, effects, depth);

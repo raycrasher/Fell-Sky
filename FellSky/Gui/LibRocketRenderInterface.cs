@@ -64,6 +64,7 @@ namespace FellSky.Gui
         RasterizerState _rStateNoScissor = new RasterizerState { CullMode = CullMode.None, ScissorTestEnable = false };
         RasterizerState _rStateScissor = new RasterizerState { CullMode = CullMode.None, ScissorTestEnable = true };
         private ContentManager _content;
+        private static object LibRocketTextureTag = new object();
 
         public LibRocketRenderInterface(GraphicsDevice device, ContentManager content, bool useVbo = false)
         {
@@ -113,7 +114,7 @@ namespace FellSky.Gui
         {
             var rstate = GraphicsDevice.RasterizerState;
 
-            GraphicsDevice.BlendState = BlendState.NonPremultiplied;
+            var blendState = BlendState.NonPremultiplied;
             GraphicsDevice.SamplerStates[0] = SamplerState.PointClamp;
 
             if (_vertices.Length < num_vertices) Array.Resize(ref _vertices, num_vertices);
@@ -128,6 +129,10 @@ namespace FellSky.Gui
             {
                 _effect.TextureEnabled = true;
                 _effect.Texture = _textures[texture];
+                if (_effect.Texture.Tag == LibRocketTextureTag)
+                    blendState = BlendState.NonPremultiplied;
+                else
+                    blendState = BlendState.AlphaBlend;
             }
             else
             {
@@ -135,6 +140,7 @@ namespace FellSky.Gui
                 _effect.Texture = null;
             }
 
+            GraphicsDevice.BlendState = blendState;
             GraphicsDevice.RasterizerState = _scissor ? _rStateScissor : _rStateNoScissor;
 
             foreach (var pass in _effect.CurrentTechnique.Passes)
@@ -157,7 +163,7 @@ namespace FellSky.Gui
         {
             if (!UseVBO) return;
             var rstate = GraphicsDevice.RasterizerState;
-            GraphicsDevice.BlendState = BlendState.NonPremultiplied;
+            var blendState = BlendState.NonPremultiplied;
             GraphicsDevice.SamplerStates[0] = SamplerState.PointClamp;
 
             var geom = _geometries[geometry];
@@ -165,6 +171,10 @@ namespace FellSky.Gui
             {
                 _effect.TextureEnabled = true;
                 _effect.Texture = geom.Texture;
+                if (_effect.Texture.Tag == LibRocketTextureTag)
+                    blendState = BlendState.NonPremultiplied;
+                else
+                    blendState = BlendState.AlphaBlend;
             }
             else
             {
@@ -175,7 +185,7 @@ namespace FellSky.Gui
             _effect.World = Matrix.CreateTranslation(translation.X, translation.Y, 0);
             GraphicsDevice.SetVertexBuffer(geom.Vertices);
             GraphicsDevice.Indices = geom.Indices;
-
+            GraphicsDevice.BlendState = blendState;
             GraphicsDevice.RasterizerState = _scissor ? _rStateScissor : _rStateNoScissor;
 
             foreach (var pass in _effect.CurrentTechnique.Passes)
@@ -199,25 +209,26 @@ namespace FellSky.Gui
 
             texture_handle = (IntPtr)tex.GetHashCode();
             _textures[texture_handle] = tex;
-            tex.Tag = "librocket";
+            tex.Tag = LibRocketTextureTag;
 
             return true;
         }
 
         protected override bool LoadTexture(ref IntPtr texture_handle, ref LibRocketNet.Vector2i texture_dimensions, string source)
         {
+            const string ContentTag = "content:";
             try
             {
                 Texture2D tex;
-                if (source.StartsWith("content:"))
+                if (source.StartsWith(ContentTag))
                 {
-                    source = source.Replace("content:", "");
+                    source = source.Substring(ContentTag.Length);
                     tex = _content.Load<Texture2D>(source);
                 }
                 else
                 {
                     tex = _content.Load<Texture2D>(source);
-                    tex.Tag = "librocket";
+                    tex.Tag = LibRocketTextureTag;
                 }
 
                 texture_dimensions = new LibRocketNet.Vector2i(tex.Width, tex.Height);
@@ -243,7 +254,7 @@ namespace FellSky.Gui
         protected override void ReleaseTexture(IntPtr texture)
         {
             var tex = _textures[texture];
-            if (object.Equals(tex.Tag, "librocket"))
+            if (tex.Tag == LibRocketTextureTag)
             {
                 tex.Dispose();
             }

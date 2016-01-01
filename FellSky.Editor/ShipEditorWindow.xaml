@@ -9,7 +9,7 @@
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:xcad="http://schemas.xceed.com/wpf/xaml/avalondock"
         xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
-        Title="Ship Editor" Height="768" Width="1024" 
+        Title="Ship Editor" Height="768" Width="1366" 
         MinHeight="480" MinWidth="800"
         WindowState="Maximized"
         >
@@ -17,7 +17,28 @@
         <fe:ShipEditorViewModel x:Key="model"/>
         <fe:SpriteToIntRectConverter x:Key="spriteToIntRectConverter"/>
         <fe:XnaColorToBrushConverter x:Key="xnaColorToBrushConverter" />
+        <fe:ContrastingColorConverter x:Key="contrastingColorConverter"/>
+        <fe:EnumToBooleanConverter x:Key="enumToBooleanConverter" />
         <SolidColorBrush x:Key="TabControlNormalBorderBrush" Color="#8C8E94"/>
+        <Style x:Key="ColorRadioButtonStyle" TargetType="{x:Type RadioButton}" BasedOn="{StaticResource {x:Type ToggleButton}}">
+            <Setter Property="BorderBrush" Value="Black" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type RadioButton}">
+                        <Border x:Name="border" Background="{TemplateBinding Background}" BorderThickness="1" BorderBrush="gray">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="true">
+                                <Setter TargetName="border" Property="BorderBrush" Value="#444" />
+                                <Setter TargetName="border" Property="BorderThickness" Value="3" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Window.Resources>
     <Grid DataContext="{StaticResource model}">
         <Grid.ColumnDefinitions>
@@ -61,10 +82,10 @@
             </TabControl>
         </Grid>
         <GridSplitter Width="3" Grid.Row="1" Opacity="0"/>
-        <fe:D3D11Host x:Name="D3D11Host" Grid.Column="1" Grid.Row="1" Stretch="UniformToFill" Initializing="D3D11Host_Initializing" Rendering="D3D11Host_Rendering" Focusable="True" MouseEnter="D3D11Host_MouseEnter" />
-        <Menu VerticalAlignment="Stretch" Background="{x:Null}" HorizontalContentAlignment="Left" FontSize="12" >
+        <fe:D3D11Host x:Name="D3D11Host" Grid.Column="1" Grid.Row="1" Stretch="UniformToFill" Initializing="D3D11Host_Initializing" Rendering="D3D11Host_Rendering" Focusable="True" MouseEnter="D3D11Host_MouseEnter" MouseDown="D3D11Host_MouseDown"/>
+        <Menu Name="mainMenu" VerticalAlignment="Stretch" Background="{x:Null}" HorizontalContentAlignment="Left" FontSize="12" >
             <MenuItem Header="Ship" VerticalAlignment="Center" >
-                <MenuItem Header="New Ship"/>
+                <MenuItem Header="New Ship" Command="{Binding CreateNewShipCommand}"/>
                 <MenuItem Header="Open..."/>
                 <MenuItem Header="Save"/>
                 <MenuItem Header="Save As..."/>
@@ -79,15 +100,138 @@
             </MenuItem>
             <MenuItem Header="Options">
             </MenuItem>
+            <MenuItem Name="helpToggle" Header="Help" IsCheckable="True"/>
         </Menu>
+        
         <StackPanel Grid.Column="1" Orientation="Horizontal">
+            <StackPanel.Resources>
+                <Style TargetType="Button">
+                    <Setter Property="Margin" Value="2"/>
+                    <Setter Property="VerticalContentAlignment" Value="Center"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                    <Setter Property="Width" Value="30" />
+                </Style>
+            </StackPanel.Resources>
+            <Button ToolTip="Move (Key: T)">
+                <Path Stroke="Black" 
+                      Data="M 8,8 L 0,8 L 3,5 M 0,8 L 3,11 M 8,8 L 16,8 L 13,5 M 16,8 L 13,11 M 8,8 L 8,0 L 5,3 M 8 0 L 11,3 M 8,8 L 8,16 L 5,13 M 8 16 L 11,13"
+                      />
+            </Button>
+            <Button ToolTip="Rotate (Key: R)">
+                <Path Stroke="Black"
+                      Data="M 11.54,3.70 L 12.00,6.00 L 11.54,8.30 L 10.24,10.24 L 8.30,11.54 L 6.00,12.00 L 3.70,11.54 L 1.76,10.24 L 0.46,8.30 L 0.00,6.00 L 0.46,3.70 L 1.76,1.76 L 3.70,0.46 L 6.00,0.00 L 8,0 L 5,-3 M 8,0 L 5,3"
+                      />
+            </Button>
+            <Button ToolTip="Scale (Key: S)">
+                <Path Stroke="Black"
+                      Data="M 5,8 L 0,8 L 3,5 M 0,8 L 3,11 M 11,8 L 16,8 L 13,5 M 16,8 L 13,11 M 8,5 L 8,0 L 5,3 M 8 0 L 11,3 M 8,11 L 8,16 L 5,13 M 8 16 L 11,13 M 5,5 L 11,5 L 11,11 L 5, 11 L 5,5"
+                      />
+            </Button>
+            <Button ToolTip="Clone (Key: C)">
+                <Path Stroke="Black"
+                      Data="M 0,0 L 10,0 L 10,10 L 0,10 L 0,0 M 2,5 L 8,5 M 5,2 L 5,8 M 10,5 L 15,5 L 15,15 L 5,15 L 5,10"
+                      />
+            </Button>
+            <Button ToolTip="Delete (Key: Del)">
+                <Path Stroke="Black"
+                      Data="M 0,0 L 10,10 M 0,10 L 10,0"
+                      />
+            </Button>
+            <Button ToolTip="Mirror Lateral (Key: M)" Command="{Binding MirrorLateral}">
+                <Grid>
+                    <Path Stroke="Black"
+                          Data="M 0,8 L 16,8 M 2,0 L 12,5 L 1,5 L 2,0"
+                          />
+                    <Path Stroke="Black" Fill="Black"
+                          Data="M 2,16 L 12,11 L 2,11 Z"
+                          />
+                </Grid>
+            </Button>
+            <Button ToolTip="Mirror Front/Back (Key: Shift-M)">
+                <Grid>
+                    <Path Stroke="Black"
+                          Data="M 8,0 L 8,16 M 16,8 L 11,11 L 11,5 Z"
+                          />
+                    <Path Stroke="Black" Fill="Black"
+                          Data="M 0,8 L 5,11 L 5,5 Z"
+                          />
+                </Grid>
+            </Button>
             
+            <Separator Visibility="Hidden" Width="10"/>
+            <ToggleButton Margin="2" ToolTip="Toggles Grid. Key: G">GRID</ToggleButton>
+            <ToggleButton Margin="2" ToolTip="Toggle Snap. Key: P">SNAP</ToggleButton>
+            <StackPanel Orientation="Horizontal">
+                <Label FontSize="10" VerticalAlignment="Center">Size</Label>
+                <xctk:ShortUpDown FontSize="10" Value="22" Height="20"/>
+            </StackPanel>
+                
         </StackPanel>
         <GridSplitter Width="3" Grid.Row="1" Grid.Column="1" Opacity="0"/>
-        <StackPanel Grid.Column="2" Grid.RowSpan="2" Orientation="Vertical">
+        <StackPanel Name="sidePanel" Grid.Column="2" Grid.RowSpan="2" Orientation="Vertical">
+            <StackPanel.Resources>
+                <Style TargetType="ToggleButton">
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                    <Setter Property="Height" Value="20"/>
+                </Style>
+            </StackPanel.Resources>
+            <Expander Header="Colors" IsExpanded="True">
+                <Grid>
+                    <UniformGrid Columns="3" xmlns:fs="clr-namespace:FellSky.Ships.Parts;assembly=FellSky">
+                        <RadioButton 
+                            Name="hullColorBtn" 
+                            HorizontalContentAlignment="Center" 
+                            Style="{DynamicResource ColorRadioButtonStyle}" 
+                            Background="{Binding EditorService.HullColor, Converter={StaticResource xnaColorToBrushConverter}, Mode=TwoWay}" 
+                            Tag="Hull" 
+                            MouseDoubleClick="OpenColorPicker" 
+                            Focusable="False" 
+                            Foreground="{Binding ElementName=hullColorBtn, Path=Background, Converter={StaticResource contrastingColorConverter}}" 
+                            IsChecked="{Binding EditorService.SelectedHullColorType, Converter={StaticResource enumToBooleanConverter}, ConverterParameter=Hull}">HULL</RadioButton>
+                        <RadioButton 
+                            Name="baseColorBtn" 
+                            HorizontalContentAlignment="Center" 
+                            Style="{DynamicResource ColorRadioButtonStyle}" 
+                            Background="{Binding EditorService.BaseColor, Converter={StaticResource xnaColorToBrushConverter}, Mode=TwoWay}" 
+                            Tag="Base" 
+                            MouseDoubleClick="OpenColorPicker" 
+                            Focusable="False" 
+                            Foreground="{Binding ElementName=baseColorBtn, Path=Background, Converter={StaticResource contrastingColorConverter}}"
+                            IsChecked="{Binding EditorService.SelectedHullColorType, Converter={StaticResource enumToBooleanConverter}, ConverterParameter=BaseDecal}">BASE</RadioButton>
+                        <RadioButton 
+                            Name="trimColorBtn" 
+                            HorizontalContentAlignment="Center" 
+                            Style="{DynamicResource ColorRadioButtonStyle}" 
+                            Background="{Binding EditorService.TrimColor, Converter={StaticResource xnaColorToBrushConverter}, Mode=TwoWay}" 
+                            Tag="Trim" 
+                            MouseDoubleClick="OpenColorPicker" 
+                            Focusable="False" 
+                            Foreground="{Binding ElementName=trimColorBtn, Path=Background, Converter={StaticResource contrastingColorConverter}}"
+                            IsChecked="{Binding EditorService.SelectedHullColorType, Converter={StaticResource enumToBooleanConverter}, ConverterParameter=TrimDecal}">TRIM</RadioButton>
+                    </UniformGrid>
+                </Grid>
+            </Expander>
             <Expander Header="Properties" IsExpanded="True">
-                <xctk:PropertyGrid SelectedObject="{Binding PropertyObject}"/>
+                <xctk:PropertyGrid SelectedObject="{Binding PropertyObject}" ShowAdvancedOptions="True" />
             </Expander>
         </StackPanel>
+        <Popup Name="ColorPicker" PlacementTarget="{Binding ElementName=sidePanel}" Placement="Left" Width="200">
+            <StackPanel Background="#efefef">
+                <Label Padding="3">Color Picker</Label>
+                <xctk:ColorCanvas Name="ColorCanvas" SelectedColorChanged="PickerColorChanged"/>
+            </StackPanel>
+        </Popup>
+        <!--
+        <Popup IsOpen="{Binding ElementName=helpToggle, Path=IsChecked}" Placement="Relative" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+               PlacementTarget="{Binding ElementName=sidePanel}" Width="{Binding ElementName=sidePanel, Path=ActualWidth}" Height="{Binding ElementName=sidePanel, Path=ActualHeight}">
+            <Grid HorizontalAlignment="Stretch" Background="White">
+                <TextBlock Margin="10" HorizontalAlignment="Stretch">
+                    <Span FontSize="20">Help</Span><LineBreak/>
+                    <Separator Height="1"/>
+                    Controls:                    
+                </TextBlock>
+            </Grid>
+        </Popup>
+        -->
     </Grid>
 </Controls:MetroWindow>

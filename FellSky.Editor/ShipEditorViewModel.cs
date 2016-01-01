@@ -37,35 +37,43 @@ namespace FellSky.Editor
 
         public Camera2D Camera { get; set; }
 
-        public Dictionary<string, Graphics.Sprite> Sprites { get; set; }
+        public Dictionary<string, Sprite> Sprites { get; set; }
         public SpriteSheet CurrentSpriteSheet { get; set; }
 
         public Dictionary<string, List<JsonSprite>> HullSprites { get; set; }
         public object PropertyObject { get; set; }
 
-        public XnaColor DefaultColor { get; set; } = XnaColor.White;
-        public XnaColor TrimColor { get; set; } = XnaColor.CornflowerBlue;
-        public XnaColor BaseColor { get; set; } = XnaColor.Gold;
         public XnaColor BackgroundColor { get; set; } = new XnaColor(5, 10, 20);
         public XnaColor GridColor { get; set; } = new XnaColor(30, 40, 50);
+        
+        public ShipEditorService EditorService { get; private set; }
 
-        public Ship Ship { get; set; }
         public ContentManager Content { get; set; }
         public GameServiceContainer Services { get; set; }
         public EntityWorld World { get; set; }
 
-        public List<Entity> SelectedPartEntities { get; set; }
+        //public List<Entity> SelectedPartEntities { get; set; }
+        
         public SpriteBatch SpriteBatch { get; private set; }
-
-        public ICommand AddHull { get { return new DelegateCommand(o => AddHullToShip((JsonSprite)o)); } }
-
-        public Entity ShipEntity { get; private set; }
+        public bool IsSnap { get; set; }
+        public bool IsGridVisible { get; set; }
+        public int GridSize {
+            get { return ((int?) GridEntity?.GetComponent<GridComponent>()?.GridSize.X) ?? 10;  }
+            set
+            {
+                var grid = GridEntity?.GetComponent<GridComponent>();
+                if (grid == null) return;
+                grid.GridSize = new Vector2(value, value);
+            }
+        }
+        
         public Entity CameraEntity { get; private set; }
         public Entity GridEntity { get; private set; }
-        public Entity TransformEntity { get; private set; }
+        
 
         private MouseService _mouse;
         private MouseControlledTransformSystem _transformSystem;
+
         private List<Action> ActionsNextFrame { get; } = new List<Action>();
 
         internal void Initialize(D3D11Host host)
@@ -105,11 +113,12 @@ namespace FellSky.Editor
 
             World.CreateEntityFromTemplate("GenericDrawable", Entities.GenericDrawableTemplate.Circle(Vector2.Zero, 10, 10, XnaColor.Red));
 
-            CreateNewShip();            
-
             _transformSystem = World.SystemManager.GetSystem<MouseControlledTransformSystem>();
-            SelectedPartEntities = World.SystemManager.GetSystem<BoundingBoxSelectionSystem>().SelectedEntities;
+            
             host.KeyUp += HandleKeyboardInput;
+
+            EditorService = new ShipEditorService(_mouse, World);
+            CreateNewShipCommand.Execute(null);
         }
 
         private void HandleKeyboardInput(object sender, KeyEventArgs e)
@@ -117,65 +126,40 @@ namespace FellSky.Editor
             switch (e.Key)
             {
                 case Key.R:
-                    TransformSelectedParts();
-                    _transformSystem.Mode = MouseControlledTransformMode.Rotate;
+                    EditorService.RotateParts();
                     break;
                 case Key.T:
-                    TransformSelectedParts();
-                    _transformSystem.Mode = MouseControlledTransformMode.Translate;
+                    EditorService.TranslateParts();
                     break;
                 case Key.S:
-                    //TransformSelectedItems();
-                    _transformSystem.Mode = MouseControlledTransformMode.Scale;
+                    EditorService.ScaleParts();
                     break;
                 case Key.Delete:
-                    DeleteSelectedParts();
+                    EditorService.DeleteParts();
                     break;
                 case Key.Up:
-                    TranslateSelectedParts(new Vector2(0, Keyboard.IsKeyDown(Key.LeftShift) ? -1 : -10));
+                    EditorService.OffsetParts(new Vector2(0, Keyboard.IsKeyDown(Key.LeftShift) ? -1 : -10));
                     break;
                 case Key.Down:
-                    TranslateSelectedParts(new Vector2(0, Keyboard.IsKeyDown(Key.LeftShift) ? 1 : 10));
+                    EditorService.OffsetParts(new Vector2(0, Keyboard.IsKeyDown(Key.LeftShift) ? 1 : 10));
                     break;
                 case Key.Left:
-                    TranslateSelectedParts(new Vector2(Keyboard.IsKeyDown(Key.LeftShift) ? -1 : -10, 0));
+                    EditorService.OffsetParts(new Vector2(Keyboard.IsKeyDown(Key.LeftShift) ? -1 : -10, 0));
                     break;
                 case Key.Right:
-                    TranslateSelectedParts(new Vector2(Keyboard.IsKeyDown(Key.LeftShift) ? 1 : 10, 0));
+                    EditorService.OffsetParts(new Vector2(Keyboard.IsKeyDown(Key.LeftShift) ? 1 : 10, 0));
+                    break;
+                case Key.M:
+                    EditorService.MirrorLateralOnSelected();
                     break;
             }
         }
 
-        private void TransformSelectedParts()
-        {
-            foreach(var entity in SelectedPartEntities)
-            {
-                if (!entity.HasComponent<MouseControlledTransform>()) {
-                    entity.AddComponent(new MouseControlledTransform());
-                    entity.Refresh();
-                }
-            }
-        }
 
-        private void TranslateSelectedParts(Vector2 offset)
-        {
-            foreach (var xform in SelectedPartEntities.Select(e => e.GetComponent<Transform>()).Where(t => t != null))
-            {
-                xform.Position += offset;
-            }
-        }
-
-        private void DeleteSelectedParts()
-        {
-            foreach(var part in SelectedPartEntities.Select(e => e.Components.OfType<ShipPart>().First()))
-            {
-                Ship.RemovePart(part);
-            }
-        }
 
         private void OnMouseButtonDown(Microsoft.Xna.Framework.Point arg1, int arg2)
         {
-            ActionsNextFrame.Add(ClearSelection);
+            ActionsNextFrame.Add(EditorService.ClearSelection);
             _transformSystem.Mode = null;
         }
 
@@ -219,66 +203,19 @@ namespace FellSky.Editor
             return image;
         }
 
-
-
-        private void AddHullToShip(JsonSprite sprite)
+        public ICommand CreateNewShipCommand => new DelegateCommand(o =>
         {
-            ClearSelection();
-
+            EditorService.CreateNewShip();
+            PropertyObject = EditorService.Ship;
+        });
+        public ICommand Quit => new DelegateCommand(o => Application.Current.Shutdown());
+        public ICommand AddHull => new DelegateCommand(o =>
+        {
             var pos = _host.PointToScreen(new System.Windows.Point(_host.ActualWidth / 2, _host.ActualHeight / 2));
             _mouse.ScreenPosition = new Vector2((float)pos.X, (float)pos.Y);
-            _transformSystem.Mode = MouseControlledTransformMode.Translate;
-            _transformSystem.Origin = Vector2.Zero;
-            var hull = new Hull(sprite.Id, Vector2.Zero, 0, Vector2.One, new Vector2(sprite.OriginX ?? sprite.W/2, sprite.OriginY ?? sprite.H/2), XnaColor.White);
-            Ship.Hulls.Add(hull);
-            var entity = World.CreateEntity();
-            entity.AddComponent(hull);
-            
-            entity.AddComponent(hull.Transform);
-            entity.AddComponent(new MouseControlledTransform());
-            entity.AddComponent(new ChildEntity(ShipEntity));
-
-            var select = new BoundingBoxSelector(hull.BoundingBox) { IsEnabled = false };
-            entity.AddComponent(select);
-
-            var bb = hull.BoundingBox;
-            bb.Inflate(2,2);
-            
-            var drawbounds = new DrawBoundingBoxComponent(bb);
-            entity.AddComponent(drawbounds);
-            select.SelectedChanged += (s, e) => drawbounds.IsEnabled = select.IsSelected;
-
-            entity.Refresh();
-            SelectedPartEntities.Add(entity);
-        }
-
-        private void ClearSelection()
-        {
-            foreach (var entity in SelectedPartEntities)
-            {
-                entity.GetComponent<BoundingBoxSelector>().IsSelected = false;
-                entity.GetComponent<BoundingBoxSelector>().IsEnabled = true;
-                entity.GetComponent<DrawBoundingBoxComponent>().IsEnabled = false;
-                entity.RemoveComponent<MouseControlledTransform>();
-                entity.Refresh();
-            }
-            SelectedPartEntities.Clear();
-        }
-
-        public void CreateNewShip()
-        {
-            Ship = new Ship();
-            ShipEntity = World.CreateEntity();
-            ShipEntity.AddComponent(Ship);
-            ShipEntity.AddComponent(new ShipSpriteComponent(Ship));
-            ShipEntity.AddComponent(new Transform());
-            ShipEntity.Refresh();
-            
-            Artemis.System.EntitySystem.BlackBoard.SetEntry("PlayerShip", Ship);
-            Artemis.System.EntitySystem.BlackBoard.SetEntry("PlayerShipEntity", ShipEntity);
-            PropertyObject = Ship;
-        }
-
-        public ICommand Quit => new DelegateCommand(o => Application.Current.Shutdown());
+            EditorService.AddHull((JsonSprite)o);
+        });
+         
+        public ICommand MirrorLateral => new DelegateCommand(o => EditorService.MirrorLateralOnSelected());
     }
 }

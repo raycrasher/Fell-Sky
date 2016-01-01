@@ -140,18 +140,14 @@ namespace FellSky.Framework
                 var initialAngle = (_rotateOffset.Value - _centroid).ToAngleRadians();
                 var angle = (worldMousePos - _centroid).ToAngleRadians();
 
-                var newMatrix = Matrix.CreateScale(new Vector3(control.InitialTransform.Scale,0))
+                var newMatrix =
+                    Matrix.CreateScale(new Vector3(control.InitialTransform.Scale,0))
                     //* Matrix.CreateRotationZ(control.InitialTransform.Rotation)
                     * Matrix.CreateTranslation(new Vector3(control.InitialTransform.Position,0))
                     * Matrix.CreateTranslation(new Vector3(-_centroid, 0))
                     * Matrix.CreateRotationZ(MathHelper.WrapAngle(angle - initialAngle))
                     * Matrix.CreateTranslation(new Vector3(_centroid, 0));
 
-                //var newMatrix = Matrix.CreateTranslation(new Vector3(-_centroid,0))
-                //    * control.InitialTransform.Matrix 
-                //    * Matrix.CreateRotationZ(MathHelper.WrapAngle(angle - initialAngle))
-                //    * Matrix.CreateTranslation(new Vector3(_centroid, 0))
-                //    ;
                 Vector2 position, scale;
                 float rotation;
                 Utilities.DecomposeMatrix2D(ref newMatrix, out position, out rotation, out scale);
