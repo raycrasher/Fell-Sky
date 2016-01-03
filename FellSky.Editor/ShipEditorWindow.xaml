@@ -86,11 +86,31 @@
         <Menu Name="mainMenu" VerticalAlignment="Stretch" Background="{x:Null}" HorizontalContentAlignment="Left" FontSize="12" >
             <MenuItem Header="Ship" VerticalAlignment="Center" >
                 <MenuItem Header="New Ship" Command="{Binding CreateNewShipCommand}"/>
+                <MenuItem Header="New Part Group" />
                 <MenuItem Header="Open..."/>
                 <MenuItem Header="Save"/>
                 <MenuItem Header="Save As..."/>
             </MenuItem>
             <MenuItem Header="Edit">
+                <MenuItem Header="Undo" InputGestureText="Ctrl-Z" />
+                <MenuItem Header="Redo" InputGestureText="Ctrl-Y" />
+                <Separator/>
+                <MenuItem Header="Copy" InputGestureText="Ctrl-C" />
+                <MenuItem Header="Cut" InputGestureText="Ctrl-X" />
+                <MenuItem Header="Paste" InputGestureText="Ctrl-V" />
+                <Separator/>
+                <MenuItem Header="Move Forward" InputGestureText="Page Up"/>
+                <MenuItem Header="Move Backward" InputGestureText="Page Down"/>
+                <Separator/>
+                <MenuItem Header="Move on Clone" IsCheckable="True" IsChecked="{Binding EditorService.CloneTransformAction, Converter={StaticResource enumToBooleanConverter}, ConverterParameter=Move}" />
+                <MenuItem Header="Rotate on Clone" IsCheckable="True" IsChecked="{Binding EditorService.CloneTransformAction, Converter={StaticResource enumToBooleanConverter}, ConverterParameter=Rotate}"/>
+                <MenuItem Header="Scale on Clone" IsCheckable="True" IsChecked="{Binding EditorService.CloneTransformAction, Converter={StaticResource enumToBooleanConverter}, ConverterParameter=Scale}"/>
+                <Separator/>
+                <MenuItem Header="Transform Centroid" IsCheckable="True" IsChecked="{Binding EditorService.TransformOrigin, Converter={StaticResource enumToBooleanConverter}, ConverterParameter=Centroid}"/>
+                <MenuItem Header="Transform Local" IsCheckable="True" IsChecked="{Binding EditorService.TransformOrigin, Converter={StaticResource enumToBooleanConverter}, ConverterParameter=Local}"/>
+                <MenuItem Header="Transform Cursor" IsCheckable="True" IsChecked="{Binding EditorService.TransformOrigin, Converter={StaticResource enumToBooleanConverter}, ConverterParameter=Cursor}"/>
+                <Separator/>
+                <MenuItem Header="Set Cursor to Center"/>
             </MenuItem>
             <MenuItem Header="Parts">
             </MenuItem>
@@ -99,8 +119,8 @@
                 <MenuItem Header="Delete Keyframe"/>
             </MenuItem>
             <MenuItem Header="Options">
+                
             </MenuItem>
-            <MenuItem Name="helpToggle" Header="Help" IsCheckable="True"/>
         </Menu>
         
         <StackPanel Grid.Column="1" Orientation="Horizontal">
@@ -132,12 +152,12 @@
                       Data="M 0,0 L 10,0 L 10,10 L 0,10 L 0,0 M 2,5 L 8,5 M 5,2 L 5,8 M 10,5 L 15,5 L 15,15 L 5,15 L 5,10"
                       />
             </Button>
-            <Button ToolTip="Delete (Key: Del)">
+            <Button ToolTip="Delete (Key: Del)" Command="{Binding DeletePartsCommand}">
                 <Path Stroke="Black"
                       Data="M 0,0 L 10,10 M 0,10 L 10,0"
                       />
             </Button>
-            <Button ToolTip="Mirror Lateral (Key: M)" Command="{Binding MirrorLateral}">
+            <Button ToolTip="Mirror Lateral (Key: M)" Command="{Binding MirrorLateralCommand}">
                 <Grid>
                     <Path Stroke="Black"
                           Data="M 0,8 L 16,8 M 2,0 L 12,5 L 1,5 L 2,0"

@@ -14,6 +14,16 @@ using System.ComponentModel;
 
 namespace FellSky.Editor
 {
+    public enum CloneTransformAction
+    {
+        Move, Rotate, Scale
+    }
+
+    public enum TransformOrigin
+    {
+        Centroid, Local, Cursor
+    }
+
     [ImplementPropertyChanged]
     public class ShipEditorService: System.ComponentModel.INotifyPropertyChanged
     {
@@ -29,6 +39,8 @@ namespace FellSky.Editor
         public Entity TransformEntity { get; private set; }
         public Ship Ship { get; private set; }
 
+        public CloneTransformAction CloneTransformAction { get; set; } = CloneTransformAction.Move;
+        public TransformOrigin TransformOrigin { get; set; } = TransformOrigin.Centroid;
 
         public HullColorType SelectedHullColorType { get; set; }
         public Color HullColor { get; set; } = Color.White;
@@ -42,23 +54,6 @@ namespace FellSky.Editor
             _transformSystem = world.SystemManager.GetSystem<MouseControlledTransformSystem>();
             SelectedPartEntities = _world.SystemManager.GetSystem<BoundingBoxSelectionSystem>().SelectedEntities;
             PropertyChanged += OnColorChanged;
-        }
-
-        private void OnColorChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == nameof(HullColor))
-            {
-                foreach (var hull in SelectedPartEntities.Select(en => en.Components.OfType<Hull>().First()))
-                    hull.Color = HullColor;
-            }
-            else if (e.PropertyName == nameof(BaseColor))
-            {
-                Ship.BaseDecalColor = BaseColor;
-            }
-            else if (e.PropertyName == nameof(TrimColor))
-            {
-                Ship.TrimDecalColor = TrimColor;
-            }
         }
 
         public void RotateParts()
@@ -171,11 +166,21 @@ namespace FellSky.Editor
             foreach(var item in SelectedPartEntities)
             {
                 var part = item.Components.OfType<ShipPart>().First();
-                if(part is Hull) MirrorHull((Hull) part);
+                if(part is Hull) MirrorHullLateral((Hull) part);
             }
         }
 
-        private void MirrorHull(Hull part)
+        public void SaveShip(string filename)
+        {
+
+        }
+
+        public void SaveAsPartGroup(string filename)
+        {
+
+        }
+
+        private void MirrorHullLateral(Hull part)
         {
             Vector2 position = part.Transform.Position * new Vector2(1, -1);
             Vector2 scale = part.Transform.Scale;
@@ -217,6 +222,28 @@ namespace FellSky.Editor
 
             entity.Refresh();
             return entity;
+        }
+
+        private void OnColorChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(HullColor))
+            {
+                foreach (var hull in SelectedPartEntities.Select(en => en.Components.OfType<Hull>().First()))
+                    hull.Color = HullColor;
+            }
+            else if (e.PropertyName == nameof(BaseColor))
+            {
+                Ship.BaseDecalColor = BaseColor;
+            }
+            else if (e.PropertyName == nameof(TrimColor))
+            {
+                Ship.TrimDecalColor = TrimColor;
+            }
+            else if (e.PropertyName == nameof(SelectedHullColorType))
+            {
+                foreach (var hull in SelectedPartEntities.Select(en => en.Components.OfType<Hull>().First()))
+                    hull.ColorType = SelectedHullColorType;
+            }
         }
 
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;

@@ -215,7 +215,9 @@ namespace FellSky.Editor
             _mouse.ScreenPosition = new Vector2((float)pos.X, (float)pos.Y);
             EditorService.AddHull((JsonSprite)o);
         });
-         
-        public ICommand MirrorLateral => new DelegateCommand(o => EditorService.MirrorLateralOnSelected());
+
+        public ICommand DeletePartsCommand => new DelegateCommand(o => EditorService.DeleteParts());
+        public ICommand MirrorLateralCommand => new DelegateCommand(o => EditorService.MirrorLateralOnSelected());
+        public ICommand RotatePartsCommand => new DelegateCommand(o => EditorService.RotateParts());
     }
 }

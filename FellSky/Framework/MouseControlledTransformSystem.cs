@@ -24,8 +24,6 @@ namespace FellSky.Framework
     [ArtemisEntitySystem(ExecutionType =Artemis.Manager.ExecutionType.Synchronous, GameLoopType =Artemis.Manager.GameLoopType.Update, Layer = 4)]
     public class MouseControlledTransformSystem : Artemis.System.EntityProcessingSystem
     {
-        private Camera2D _camera;
-        private IMouseService _mouse;
         public Vector2 Origin { get; set; }
 
         public MouseRotateMode RotateMode {
@@ -51,6 +49,8 @@ namespace FellSky.Framework
         private Vector2? _rotateOffset;
         private Vector2 _centroid;
         private MouseRotateMode _rotateMode = MouseRotateMode.Centroid;
+        private Camera2D _camera;
+        private IMouseService _mouse;
 
         public MouseControlledTransformSystem() : base(Aspect.All(typeof(MouseControlledTransform), typeof(Transform))) { }
         public override void OnAdded(Entity entity) => GetInitialTransform(entity);
