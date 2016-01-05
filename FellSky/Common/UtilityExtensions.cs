@@ -83,7 +83,7 @@ namespace FellSky
         {
             var xform = entity.GetComponent<Transform>();
             var matrix = xform.GetMatrix();
-            var child = entity.GetComponent<ChildEntity>();
+            var child = entity.GetComponent<TransformChildEntity>();
             if (child != null)
                 matrix = child.ParentWorldMatrix * matrix;
             return matrix;

@@ -26,7 +26,7 @@ namespace FellSky.Graphics
         {
             base.Begin();
             _camera = BlackBoard.GetEntry<Camera2D>(Camera2D.PlayerCameraName);
-            _spriteBatch.Begin(transformMatrix:_camera.GetViewMatrix(1.0f));
+            _spriteBatch.Begin(transformMatrix:_camera?.GetViewMatrix(1.0f));
         }
 
         public override void Process(Entity entity, Transform xform, DrawBoundingBoxComponent box)

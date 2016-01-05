@@ -207,7 +207,7 @@ namespace FellSky.Editor
             entity.AddComponent(hull);
             entity.AddComponent(new PartEditorComponent());
             entity.AddComponent(hull.Transform);
-            entity.AddComponent(new ChildEntity(ShipEntity));
+            entity.AddComponent(new TransformChildEntity(ShipEntity));
 
             var select = new BoundingBoxSelector(hull.BoundingBox) { IsEnabled = false };
             entity.AddComponent(select);

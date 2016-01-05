@@ -95,7 +95,7 @@ namespace FellSky.Framework
                 Origin = worldMousePos;
                 control.InitialTransform = transform.Clone();
             }
-            parentMatrix = entity.GetComponent<ChildEntity>()?.ParentWorldMatrix;
+            parentMatrix = entity.GetComponent<TransformChildEntity>()?.ParentWorldMatrix;
             switch (Mode)
             {
                 case MouseControlledTransformMode.Translate:

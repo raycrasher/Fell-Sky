@@ -4,11 +4,11 @@ using Microsoft.Xna.Framework;
 
 namespace FellSky.Framework
 {
-    public class ChildEntity: IComponent
+    public class TransformChildEntity: IComponent
     {
-        public ChildEntity() { }
+        public TransformChildEntity() { }
 
-        public ChildEntity(Entity parent)
+        public TransformChildEntity(Entity parent)
         {
             Parent = parent;
         }
@@ -24,7 +24,7 @@ namespace FellSky.Framework
                     var xform = Parent.GetComponent<Transform>();
                     if (xform != null)
                         matrix = xform.GetMatrix();
-                    var parentchildcomponent = Parent.GetComponent<ChildEntity>();
+                    var parentchildcomponent = Parent.GetComponent<TransformChildEntity>();
                     if (parentchildcomponent != null)
                         matrix = parentchildcomponent.ParentWorldMatrix * matrix;
                 }

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Artemis;
 using Microsoft.Xna.Framework;
+using FellSky.Graphics;
 
 namespace FellSky.Framework
 {
@@ -15,6 +16,7 @@ namespace FellSky.Framework
         public override void LoadContent()
         {
             World = new EntityWorld(false, true, true);
+            Artemis.System.EntitySystem.BlackBoard.SetEntry(Camera2D.PlayerCameraName, new Camera2D());
             base.LoadContent();
         }
         public override void Update(GameTime gameTime)

@@ -117,7 +117,7 @@
     <Compile Include="Space\Datanet.cs" />
     <Compile Include="Space\Dockable.cs" />
     <Compile Include="Framework\BoundingBoxSelector.cs" />
-    <Compile Include="Framework\ChildEntity.cs" />
+    <Compile Include="Framework\TransformChildEntity.cs" />
     <Compile Include="Graphics\DrawBoundingBoxComponent.cs" />
     <Compile Include="Graphics\GenericDrawableComponent.cs" />
     <Compile Include="Graphics\Grid.cs" />
