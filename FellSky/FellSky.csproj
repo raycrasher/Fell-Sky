@@ -63,7 +63,7 @@
     <Reference Include="FarseerPhysics">
       <HintPath>..\Dependencies\FarseerPhysics.dll</HintPath>
     </Reference>
-    <Reference Include="LibRocketNet, Version=1.0.5778.32774, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="LibRocketNet, Version=1.0.5778.34369, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\LibRocketNet.dll</HintPath>
     </Reference>
@@ -81,6 +81,10 @@
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="SharpDX, Version=2.5.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\SharpDX.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -98,102 +102,107 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Campaign\Campaign.cs" />
-    <Compile Include="Common\ColorHSL.cs" />
-    <Compile Include="Common\CommonEnums.cs" />
-    <Compile Include="Common\Disposable.cs" />
-    <Compile Include="Common\FloatRect.cs" />
-    <Compile Include="Common\Point3.cs" />
-    <Compile Include="Common\Transform.cs" />
-    <Compile Include="Common\Utilities.cs" />
-    <Compile Include="Common\UtilityExtensions.cs" />
-    <Compile Include="Combat\Beam.cs" />
-    <Compile Include="Combat\Explosion.cs" />
-    <Compile Include="Combat\Projectile.cs" />
-    <Compile Include="Framework\FrameUpdateComponent.cs" />
-    <Compile Include="Framework\GenericFrameUpdateSystem.cs" />
-    <Compile Include="Framework\TimerService.cs" />
-    <Compile Include="Ships\Parts\AnimatedPartGroup.cs" />
-    <Compile Include="Space\Datanet.cs" />
-    <Compile Include="Space\Dockable.cs" />
-    <Compile Include="Framework\BoundingBoxSelector.cs" />
-    <Compile Include="Framework\TransformChildEntity.cs" />
-    <Compile Include="Graphics\DrawBoundingBoxComponent.cs" />
-    <Compile Include="Graphics\GenericDrawableComponent.cs" />
-    <Compile Include="Graphics\Grid.cs" />
-    <Compile Include="Framework\MouseControlledTransform.cs" />
-    <Compile Include="Framework\PhysicsBody.cs" />
-    <Compile Include="Ships\PlayerShipController.cs" />
-    <Compile Include="Campaign\SensorDetectable.cs" />
-    <Compile Include="Ships\ShipSpriteComponent.cs" />
+    <Compile Include="Components\HealthComponent.cs" />
+    <Compile Include="Components\HealthModOverTimeComponent.cs" />
+    <Compile Include="Components\HullComponent.cs" />
+    <Compile Include="Components\IPartComponent.cs" />
+    <Compile Include="Components\ShipComponent.cs" />
+    <Compile Include="Components\ShipPartComponent.cs" />
+    <Compile Include="Components\ThrusterComponent.cs" />
+    <Compile Include="EntityFactories\HullEntityTemplate.cs" />
+    <Compile Include="Framework\Sprite.cs" />
+    <Compile Include="Framework\SpriteSheet.cs" />
+    <Compile Include="Models\Campaign\Campaign.cs" />
+    <Compile Include="Framework\ColorHSL.cs" />
+    <Compile Include="Framework\CommonEnums.cs" />
+    <Compile Include="Framework\Disposable.cs" />
+    <Compile Include="Framework\FloatRect.cs" />
+    <Compile Include="Framework\Point3.cs" />
+    <Compile Include="Framework\Transform.cs" />
+    <Compile Include="Framework\Utilities.cs" />
+    <Compile Include="Framework\UtilityExtensions.cs" />
+    <Compile Include="Models\Combat\Beam.cs" />
+    <Compile Include="Models\Combat\Explosion.cs" />
+    <Compile Include="Models\Combat\Projectile.cs" />
+    <Compile Include="Components\SteeringBehaviorComponent.cs" />
+    <Compile Include="Services\ICoroutineService.cs" />
+    <Compile Include="Services\ISpriteManagerService.cs" />
+    <Compile Include="Services\TimerService.cs" />
+    <Compile Include="Models\Ships\Parts\AnimatedPartGroup.cs" />
+    <Compile Include="Models\Space\Datanet.cs" />
+    <Compile Include="Models\Space\Dockable.cs" />
+    <Compile Include="Components\BoundingBoxSelectorComponent.cs" />
+    <Compile Include="Components\LocalTransformComponent.cs" />
+    <Compile Include="Components\DrawBoundingBoxComponent.cs" />
+    <Compile Include="Components\GenericDrawableComponent.cs" />
+    <Compile Include="Components\GridComponent.cs" />
+    <Compile Include="Components\MouseControlledTransformComponent.cs" />
+    <Compile Include="Components\PhysicsBodyComponent.cs" />
+    <Compile Include="Components\PlayerShipController.cs" />
+    <Compile Include="Models\Campaign\SensorDetectable.cs" />
     <Compile Include="Framework\SteeringBehaviors\SteeringComponent.cs" />
-    <Compile Include="Framework\Maneuverable.cs" />
-    <Compile Include="Entities\CameraEntityTemplate.cs" />
-    <Compile Include="Entities\GenericDrawableTemplate.cs" />
-    <Compile Include="Entities\GridEntityTemplate.cs" />
+    <Compile Include="EntityFactories\CameraEntityTemplate.cs" />
+    <Compile Include="EntityFactories\GenericDrawableTemplate.cs" />
+    <Compile Include="EntityFactories\GridEntityTemplate.cs" />
     <Compile Include="Framework\Animation.cs" />
-    <Compile Include="Framework\IKeyboardService.cs" />
-    <Compile Include="Framework\IMouseService.cs" />
-    <Compile Include="Framework\ITimerService.cs" />
-    <Compile Include="Graphics\Primitives2D.cs" />
-    <Compile Include="Crew\Character.cs" />
-    <Compile Include="Crew\CrewMember.cs" />
-    <Compile Include="Crew\CrewPerk.cs" />
-    <Compile Include="Campaign\Diplomacy\Faction.cs" />
-    <Compile Include="Ships\Parts\GroupMount.cs" />
-    <Compile Include="Ships\IHeatProducer.cs" />
-    <Compile Include="Ships\Parts\IShipDevice.cs" />
-    <Compile Include="Ships\Parts\IModule.cs" />
-    <Compile Include="Ships\Parts\ModuleSlot.cs" />
-    <Compile Include="Ships\Parts\PartGroup.cs" />
-    <Compile Include="Ships\PowerSubsystem.cs" />
-    <Compile Include="Ships\Parts\ShipPart.cs" />
-    <Compile Include="Ships\Parts\ShipLight.cs" />
-    <Compile Include="Ships\Parts\IShipSubsystem.cs" />
-    <Compile Include="Ships\Parts\ThermalRadiator.cs" />
-    <Compile Include="Ships\ThermalSubsystem.cs" />
-    <Compile Include="Space\Planetoid.cs" />
-    <Compile Include="Space\Fleet.cs" />
-    <Compile Include="Space\Planet.cs" />
-    <Compile Include="Space\HyperspaceObject.cs" />
-    <Compile Include="Space\SpaceTerrain.cs" />
-    <Compile Include="Space\Terrain\AsteroidField.cs" />
-    <Compile Include="Space\Terrain\BlobTerrain.cs" />
-    <Compile Include="Space\Terrain\DarkMatterField.cs" />
-    <Compile Include="Space\Terrain\DustField.cs" />
-    <Compile Include="Space\Terrain\EventHorizon.cs" />
-    <Compile Include="Space\Terrain\MagneticStorm.cs" />
-    <Compile Include="Space\Terrain\Nebula.cs" />
-    <Compile Include="Space\Terrain\RingTerrain.cs" />
-    <Compile Include="Space\Terrain\StellarCorona.cs" />
-    <Compile Include="Space\Terrain\StellarFlare.cs" />
-    <Compile Include="Space\ThermalEmitter.cs" />
-    <Compile Include="Campaign\Commands\DockStrategicCommand.cs" />
-    <Compile Include="Campaign\Commands\FireStandoffWeaponsStrategicCommand.cs" />
-    <Compile Include="Campaign\Commands\GetResourcesStrategicCommand.cs" />
-    <Compile Include="Campaign\Commands\InfiltrateDatanetStrategicCommand.cs" />
-    <Compile Include="Campaign\Commands\MoveStrategicCommand.cs" />
-    <Compile Include="Campaign\Commands\ScanObjectStrategicCommand.cs" />
-    <Compile Include="Campaign\Commands\SendAwayTemStrategicCommand.cs" />
-    <Compile Include="Campaign\Commands\TargetObjectStrategicCommand.cs" />
-    <Compile Include="Campaign\Commands\WarpStrategicCommand.cs" />
-    <Compile Include="Campaign\StandingOrders\EvadeStrategicStandingOrder.cs" />
-    <Compile Include="Campaign\StandingOrders\RunSilentStrategicStandingOrder.cs" />
-    <Compile Include="Campaign\StandingOrders\ThrusterBoostStrategicStandingOrder.cs" />
-    <Compile Include="Campaign\StrategicSceneManager.cs" />
-    <Compile Include="Combat\BattleSceneManager.cs" />
-    <Compile Include="Graphics\BoundingBoxRenderer.cs" />
-    <Compile Include="Framework\BoundingBoxSelectionSystem.cs" />
-    <Compile Include="Graphics\GenericDrawableRendererSystem.cs" />
-    <Compile Include="Graphics\GridRendererSystem.cs" />
-    <Compile Include="Gui\GuiSystem.cs" />
-    <Compile Include="Graphics\Camera2D.cs" />
-    <Compile Include="Framework\Coroutine.cs" />
-    <Compile Include="Framework\CoroutineManager.cs" />
-    <Compile Include="Framework\GameState.cs" />
-    <Compile Include="Framework\KeyboardManager.cs" />
-    <Compile Include="Framework\MainGameState.cs" />
-    <Compile Include="Framework\MouseManager.cs" />
+    <Compile Include="Services\IKeyboardService.cs" />
+    <Compile Include="Services\IMouseService.cs" />
+    <Compile Include="Services\ITimerService.cs" />
+    <Compile Include="Framework\Primitives2D.cs" />
+    <Compile Include="Models\Crew\Character.cs" />
+    <Compile Include="Models\Crew\CrewMember.cs" />
+    <Compile Include="Models\Crew\CrewPerk.cs" />
+    <Compile Include="Models\Campaign\Diplomacy\Faction.cs" />
+    <Compile Include="Models\Ships\Parts\GroupMount.cs" />
+    <Compile Include="Models\Ships\Parts\IShipDevice.cs" />
+    <Compile Include="Models\Ships\Parts\IModule.cs" />
+    <Compile Include="Models\Ships\Parts\ModuleSlot.cs" />
+    <Compile Include="Models\Ships\Parts\PartGroup.cs" />
+    <Compile Include="Models\Ships\Parts\ShipPart.cs" />
+    <Compile Include="Models\Ships\Parts\ShipLight.cs" />
+    <Compile Include="Models\Ships\Parts\IShipSubsystem.cs" />
+    <Compile Include="Models\Ships\Parts\ThermalRadiator.cs" />
+    <Compile Include="Models\Space\Planetoid.cs" />
+    <Compile Include="Models\Space\Fleet.cs" />
+    <Compile Include="Models\Space\Planet.cs" />
+    <Compile Include="Models\Space\HyperspaceObject.cs" />
+    <Compile Include="Models\Space\SpaceTerrain.cs" />
+    <Compile Include="Models\Space\Terrain\AsteroidField.cs" />
+    <Compile Include="Models\Space\Terrain\BlobTerrain.cs" />
+    <Compile Include="Models\Space\Terrain\DarkMatterField.cs" />
+    <Compile Include="Models\Space\Terrain\DustField.cs" />
+    <Compile Include="Models\Space\Terrain\EventHorizon.cs" />
+    <Compile Include="Models\Space\Terrain\MagneticStorm.cs" />
+    <Compile Include="Models\Space\Terrain\Nebula.cs" />
+    <Compile Include="Models\Space\Terrain\RingTerrain.cs" />
+    <Compile Include="Models\Space\Terrain\StellarCorona.cs" />
+    <Compile Include="Models\Space\Terrain\StellarFlare.cs" />
+    <Compile Include="Models\Space\ThermalEmitter.cs" />
+    <Compile Include="Models\Campaign\Commands\DockStrategicCommand.cs" />
+    <Compile Include="Models\Campaign\Commands\FireStandoffWeaponsStrategicCommand.cs" />
+    <Compile Include="Models\Campaign\Commands\GetResourcesStrategicCommand.cs" />
+    <Compile Include="Models\Campaign\Commands\InfiltrateDatanetStrategicCommand.cs" />
+    <Compile Include="Models\Campaign\Commands\MoveStrategicCommand.cs" />
+    <Compile Include="Models\Campaign\Commands\ScanObjectStrategicCommand.cs" />
+    <Compile Include="Models\Campaign\Commands\SendAwayTemStrategicCommand.cs" />
+    <Compile Include="Models\Campaign\Commands\TargetObjectStrategicCommand.cs" />
+    <Compile Include="Models\Campaign\Commands\WarpStrategicCommand.cs" />
+    <Compile Include="Models\Campaign\StandingOrders\EvadeStrategicStandingOrder.cs" />
+    <Compile Include="Models\Campaign\StandingOrders\RunSilentStrategicStandingOrder.cs" />
+    <Compile Include="Models\Campaign\StandingOrders\ThrusterBoostStrategicStandingOrder.cs" />
+    <Compile Include="Models\Campaign\StrategicSceneManager.cs" />
+    <Compile Include="Models\Combat\BattleSceneManager.cs" />
+    <Compile Include="Systems\BoundingBoxRendererSystem.cs" />
+    <Compile Include="Systems\BoundingBoxSelectionSystem.cs" />
+    <Compile Include="Systems\GenericDrawableRendererSystem.cs" />
+    <Compile Include="Systems\GridRendererSystem.cs" />
+    <Compile Include="Components\CameraComponent.cs" />
+    <Compile Include="Services\Coroutine.cs" />
+    <Compile Include="Services\CoroutineService.cs" />
+    <Compile Include="States\GameState.cs" />
+    <Compile Include="Services\KeyboardService.cs" />
+    <Compile Include="States\MainGameState.cs" />
+    <Compile Include="Services\MouseService.cs" />
     <Compile Include="Framework\SteeringBehaviors\AlignmentBehavior.cs" />
     <Compile Include="Framework\SteeringBehaviors\ArrivalBehavior.cs" />
     <Compile Include="Framework\SteeringBehaviors\CohesionBehavior.cs" />
@@ -208,49 +217,43 @@
     <Compile Include="Framework\SteeringBehaviors\SeparationBehavior.cs" />
     <Compile Include="Framework\SteeringBehaviors\UnalignedCollisionAvoidanceBehavior.cs" />
     <Compile Include="Framework\SteeringBehaviors\WanderBehavior.cs" />
-    <Compile Include="Graphics\Sprite.cs" />
-    <Compile Include="Graphics\SpriteManager.cs" />
-    <Compile Include="Ground\GroundOpsManager.cs" />
-    <Compile Include="Ground\GridMapSystem.cs" />
-    <Compile Include="Ground\GroundMiniMapSystem.cs" />
-    <Compile Include="Gui\LibRocketGuiManager.cs" />
-    <Compile Include="Gui\LibRocketRenderInterface.cs" />
-    <Compile Include="Gui\LibRocketSystemInterface.cs" />
-    <Compile Include="Campaign\Bases\AsteroidBase.cs" />
-    <Compile Include="Campaign\Bases\BaseFacility.cs" />
-    <Compile Include="Campaign\Bases\BaseSection.cs" />
-    <Compile Include="Campaign\Bases\Base.cs" />
-    <Compile Include="Combat\Armor.cs" />
-    <Compile Include="Combat\Damage.cs" />
-    <Compile Include="Combat\Weapon.cs" />
-    <Compile Include="Ground\GridMap.cs" />
-    <Compile Include="Ground\GridMapObject.cs" />
-    <Compile Include="Ground\GridMapTile.cs" />
-    <Compile Include="Ground\GridMapWall.cs" />
-    <Compile Include="Inventory\InventoryItem.cs" />
-    <Compile Include="Codex\CodexEntry.cs" />
-    <Compile Include="Campaign\Player.cs" />
-    <Compile Include="Campaign\Diplomacy\Reputation.cs" />
-    <Compile Include="Inventory\Resource.cs" />
-    <Compile Include="Inventory\ResourceConverter.cs" />
-    <Compile Include="Ships\Parts\ArmorPlating.cs" />
-    <Compile Include="Inventory\IResourceConsumer.cs" />
-    <Compile Include="Inventory\IResourceProducer.cs" />
-    <Compile Include="Inventory\IResourceStorage.cs" />
-    <Compile Include="Ships\Parts\Reactor.cs" />
-    <Compile Include="Ships\Parts\Shield.cs" />
-    <Compile Include="Ships\Ship.cs" />
-    <Compile Include="Ships\Parts\Hull.cs" />
-    <Compile Include="Ships\ShipHandlingParameters.cs" />
-    <Compile Include="Ships\Parts\Thruster.cs" />
-    <Compile Include="Ships\Parts\WarpDrive.cs" />
-    <Compile Include="Ships\Parts\WeaponMount.cs" />
-    <Compile Include="Ships\Parts\Weapon.cs" />
-    <Compile Include="Space\SpaceObject.cs" />
-    <Compile Include="Space\Star.cs" />
-    <Compile Include="Space\StarSystem.cs" />
-    <Compile Include="Space\Galaxy.cs" />
-    <Compile Include="Framework\StateManager.cs" />
+    <Compile Include="Components\SpriteComponent.cs" />
+    <Compile Include="Services\SpriteManager.cs" />
+    <Compile Include="Models\Ground\GroundOpsManager.cs" />
+    <Compile Include="Models\Ground\GridMapSystem.cs" />
+    <Compile Include="Models\Ground\GroundMiniMapSystem.cs" />
+    <Compile Include="Services\GuiService.cs" />
+    <Compile Include="Services\Gui\LibRocketRenderInterface.cs" />
+    <Compile Include="Services\Gui\LibRocketSystemInterface.cs" />
+    <Compile Include="Models\Campaign\Bases\AsteroidBase.cs" />
+    <Compile Include="Models\Campaign\Bases\BaseFacility.cs" />
+    <Compile Include="Models\Campaign\Bases\BaseSection.cs" />
+    <Compile Include="Models\Campaign\Bases\Base.cs" />
+    <Compile Include="Models\Combat\Armor.cs" />
+    <Compile Include="Models\Combat\Damage.cs" />
+    <Compile Include="Models\Combat\Weapon.cs" />
+    <Compile Include="Models\Ground\GridMap.cs" />
+    <Compile Include="Models\Ground\GridMapObject.cs" />
+    <Compile Include="Models\Ground\GridMapTile.cs" />
+    <Compile Include="Models\Ground\GridMapWall.cs" />
+    <Compile Include="Models\Codex\CodexEntry.cs" />
+    <Compile Include="Models\Campaign\Player.cs" />
+    <Compile Include="Models\Campaign\Diplomacy\Reputation.cs" />
+    <Compile Include="Models\Ships\Parts\ArmorPlating.cs" />
+    <Compile Include="Models\Ships\Parts\Reactor.cs" />
+    <Compile Include="Models\Ships\Parts\Shield.cs" />
+    <Compile Include="Models\Ships\Ship.cs" />
+    <Compile Include="Models\Ships\Parts\Hull.cs" />
+    <Compile Include="Models\Ships\ShipHandlingParameters.cs" />
+    <Compile Include="Models\Ships\Parts\Thruster.cs" />
+    <Compile Include="Models\Ships\Parts\WarpDrive.cs" />
+    <Compile Include="Models\Ships\Parts\WeaponMount.cs" />
+    <Compile Include="Models\Ships\Parts\Weapon.cs" />
+    <Compile Include="Models\Space\SpaceObject.cs" />
+    <Compile Include="Models\Space\Star.cs" />
+    <Compile Include="Models\Space\StarSystem.cs" />
+    <Compile Include="Models\Space\Galaxy.cs" />
+    <Compile Include="Services\StateManagerService.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
@@ -258,11 +261,11 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="Ships\PlayerShipControlSystem.cs" />
-    <Compile Include="Ships\ShipRendererSystem.cs" />
-    <Compile Include="Ships\ShipBattleUpdateSystem.cs" />
+    <Compile Include="Systems\HealthModOverTimeSystem.cs" />
+    <Compile Include="Systems\PlayerShipControlSystem.cs" />
+    <Compile Include="Systems\ShipRendererSystem.cs" />
     <Compile Include="Framework\SteeringBehaviors\SteeringBehaviorSystem.cs" />
-    <Compile Include="Framework\MouseControlledTransformSystem.cs" />
+    <Compile Include="Systems\MouseControlledTransformSystem.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -271,9 +274,7 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ShipEditor\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="Notes.txt" />
   </ItemGroup>

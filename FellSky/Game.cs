@@ -1,6 +1,8 @@
 ﻿using Artemis.System;
 using FellSky.Framework;
-using FellSky.Graphics;
+
+using FellSky.Services;
+using FellSky.States;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -8,19 +10,20 @@ using System.IO;
 
 namespace FellSky
 {
-    public class Game: Microsoft.Xna.Framework.Game
+    class Game: Microsoft.Xna.Framework.Game
     {
         public static Game Instance { get; private set; }
-        public static GraphicsDeviceManager Graphics { get; private set; }
-        public static Properties.Settings Settings { get { return Properties.Settings.Default; } }
+        public GraphicsDeviceManager Graphics { get; private set; }
+        public Properties.Settings Settings { get { return Properties.Settings.Default; } }
         
-        public static CoroutineManager Coroutines { get; } = new CoroutineManager();
-        public static KeyboardManager Keyboard { get; private set; }
-        public static MouseManager Mouse { get; private set; }
-        public static GameState State { get; set; }
-        public static SpriteBatch SpriteBatch { get; private set; }
-
-        public static TimerService GameTime { get; private set; } = new TimerService();
+        public CoroutineService Coroutines { get; private set; }
+        public KeyboardService Keyboard { get; private set; }
+        public MouseService Mouse { get; private set; }
+        public GameState State { get; set; }
+        public SpriteBatch SpriteBatch { get; private set; }
+        public SpriteManagerService SpriteManager { get; private set; }
+        public TimerService Timer { get; private set; }
+        public GuiService Gui { get; private set; }
 
         private Game()
         {
@@ -33,39 +36,47 @@ namespace FellSky
             IsFixedTimeStep = Settings.FrameLimit > 0;
             if(IsFixedTimeStep) TargetElapsedTime = TimeSpan.FromSeconds(1.0d / Settings.FrameLimit);
             Graphics.ApplyChanges();
-            Keyboard = new KeyboardManager(Coroutines);
-            Mouse = new MouseManager(Coroutines);
-            EntitySystem.BlackBoard.SetEntry("ServiceProvider", Services);
-            Services.AddService<IMouseService>(Mouse);
             this.IsMouseVisible = true;
         }
 
         protected override void LoadContent()
         {
-            EntitySystem.BlackBoard.SetEntry("GraphicsDevice", GraphicsDevice);
-            EntitySystem.BlackBoard.SetEntry("ContentManager", Content);
-            SpriteBatch = new SpriteBatch(GraphicsDevice);
-            Services.AddService(SpriteBatch);
             Content.RootDirectory = Path.GetFullPath(Settings.DataFolder);
             Environment.CurrentDirectory = Path.GetFullPath(Settings.DataFolder);
-            Gui.GuiManager.Initialize(Graphics.GraphicsDevice, Coroutines, Content, Keyboard, Mouse, GameTime);
-            State = new MainGameState();
+
+            SpriteBatch = new SpriteBatch(GraphicsDevice);
+            Services.AddService(SpriteBatch);
+
+            Gui = new GuiService(Graphics.GraphicsDevice, Timer, Keyboard, Mouse, Content, Coroutines);
+            Services.AddService<IGuiService>(Gui);
+            
+            Keyboard = new KeyboardService(Coroutines);
+            Services.AddService<IKeyboardService>(Keyboard);
+
+            Mouse = new MouseService(Coroutines);
+            Services.AddService<IMouseService>(Mouse);
+
+            SpriteManager = new SpriteManagerService();
+            Services.AddService<ISpriteManagerService>(SpriteManager);
+
+            SpriteManager.AddSpriteSheetFromFile(Content, "Textures/hulls.json");
+
+            State = new MainGameState(Services);
             State.LoadContent();
-            SpriteManager.AddSpriteSheetFromFile(Content,"Textures/hulls.json");
             base.LoadContent();
         }
 
         protected override void Update(GameTime gameTime)
         {
             Coroutines.RunCoroutines(gameTime.ElapsedGameTime);
-            GameTime.LastFrameUpdateTime = gameTime;
+            Timer.LastFrameUpdateTime = gameTime;
             State?.Update(gameTime);
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
-            GameTime.LastFrameRenderTime = gameTime;
+            Timer.LastFrameRenderTime = gameTime;
             State?.Draw(gameTime);
             base.Draw(gameTime);
         }
