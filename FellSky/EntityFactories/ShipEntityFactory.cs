@@ -14,10 +14,11 @@ namespace FellSky.EntityFactories
 
         public EntityWorld World { get; set; }
 
-        public ShipEntityFactory(ISpriteManagerService spriteManager, IPhysicsService physics, EntityWorld world)
+        public ShipEntityFactory(EntityWorld world, ISpriteManagerService spriteManager, IPhysicsService physics = null)
         {
             _spriteManager = spriteManager;
             _physics = physics;
+            World = world;
         }
         
         public Entity CreateShipEntity(Ship ship, Vector2 position, float rotation=0, bool addPhysics=false)

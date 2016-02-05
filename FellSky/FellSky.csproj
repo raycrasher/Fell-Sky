@@ -230,7 +230,7 @@
     <Compile Include="Framework\SteeringBehaviors\UnalignedCollisionAvoidanceBehavior.cs" />
     <Compile Include="Framework\SteeringBehaviors\WanderBehavior.cs" />
     <Compile Include="Components\SpriteComponent.cs" />
-    <Compile Include="Services\SpriteManager.cs" />
+    <Compile Include="Services\SpriteManagerService.cs" />
     <Compile Include="Models\Ground\GroundOpsManager.cs" />
     <Compile Include="Models\Ground\GridMapSystem.cs" />
     <Compile Include="Models\Ground\GroundMiniMapSystem.cs" />

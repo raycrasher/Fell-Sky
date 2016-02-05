@@ -20,6 +20,7 @@ namespace FellSky.Services
             var sheet = JsonConvert.DeserializeObject<SpriteSheet>(System.IO.File.ReadAllText(filename));
             foreach(var s in sheet.Sprites)
             {
+                s.Texture = sheet.Texture;
                 Sprites[s.Id] = s;
             }
             return sheet;

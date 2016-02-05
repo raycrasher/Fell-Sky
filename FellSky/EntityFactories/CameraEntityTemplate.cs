@@ -5,11 +5,18 @@ using FellSky.Components;
 
 namespace FellSky.EntityFactories
 {
-    [Artemis.Attributes.ArtemisEntityTemplate("Camera")]
-    public class CameraEntityTemplate : IEntityTemplate
+    public class CameraEntityFactory
     {
-        public Entity BuildEntity(Entity entity, EntityWorld entityWorld, params object[] args)
+        public CameraEntityFactory(EntityWorld world)
         {
+            World = world;
+        }
+
+        public EntityWorld World { get; private set; }
+
+        public Entity CreateCamera()
+        {
+            var entity = World.CreateEntity();
             var camera = new CameraComponent();
             entity.AddComponent(camera);
             entity.AddComponent(camera.Transform);

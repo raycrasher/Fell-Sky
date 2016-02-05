@@ -5,19 +5,24 @@ using FellSky.Components;
 
 namespace FellSky.EntityFactories
 {
-    [Artemis.Attributes.ArtemisEntityTemplate("Grid")]
-    public class GridEntityTemplate : IEntityTemplate
+    public class GridEntityFactory
     {
-        public Entity BuildEntity(Entity entity, EntityWorld entityWorld, params object[] args)
+        public GridEntityFactory(EntityWorld world)
         {
-            var grid = new GridComponent();
+            World = world;
+        }
 
-            if (args.Length > 0)
+        public EntityWorld World { get; private set; }
+
+        public Entity CreateGrid(Vector2 gridSize, Color color)
+        {
+            var entity = World.CreateEntity();
+            var grid = new GridComponent
             {
-                grid.GridSize = (Vector2)args[0];
-                grid.GridColor = (Color)args[1];
-            }
-
+                GridSize = gridSize,
+                GridColor = color
+            };
+            
             entity.AddComponent(grid);
             return entity;
         }
