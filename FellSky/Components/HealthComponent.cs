@@ -1,4 +1,5 @@
 ﻿using Artemis.Interface;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace FellSky.Components
 {
     public class HealthComponent: IComponent
     {
-        public float Health { get; set; } = 100;
+        public float Health { get; set; }
         public float MaxHealth { get; set; } = 100;
 
         public bool IsAlive => Health > 0;
@@ -25,6 +26,11 @@ namespace FellSky.Components
         {
             MaxHealth = maxHealth;
             Health = MaxHealth;
+        }
+
+        public void ApplyDamage(DamageComponent damage)
+        {
+            Health = MathHelper.Clamp(Health - damage.TotalDamage, 0, MaxHealth);
         }
     }
 }

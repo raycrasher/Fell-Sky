@@ -12,7 +12,6 @@ using FellSky.Framework;
 
 namespace FellSky.Components
 {
-    [ArtemisEntitySystem(ExecutionType = Artemis.Manager.ExecutionType.Synchronous, GameLoopType = Artemis.Manager.GameLoopType.Draw, Layer = 8)]
     public class GridRendererSystem : Artemis.System.EntityComponentProcessingSystem<GridComponent>
     {
         private CameraComponent _camera;

@@ -1,8 +1,9 @@
-﻿using FellSky.Graphics;
+﻿
 using System;
 using System.Globalization;
 using XnaColor = Microsoft.Xna.Framework.Color;
 using WpfColor = System.Windows.Media.Color;
+using FellSky.Framework;
 
 namespace FellSky.Editor
 {
@@ -10,7 +11,7 @@ namespace FellSky.Editor
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var sprite = value as JsonSprite;
+            var sprite = value as Sprite;
             if (sprite == null) return null;
             return new System.Windows.Int32Rect(sprite.X, sprite.Y, sprite.W, sprite.H);
         }

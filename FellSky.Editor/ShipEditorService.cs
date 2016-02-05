@@ -7,10 +7,13 @@ using System.Threading.Tasks;
 using Artemis;
 using Microsoft.Xna.Framework;
 using FellSky.Ships;
-using FellSky.Graphics;
-using FellSky.Ships.Parts;
+using FellSky.Models.Ships.Parts;
 using PropertyChanged;
 using System.ComponentModel;
+using FellSky.Components;
+using FellSky.Systems;
+using FellSky.Services;
+using FellSky.EntityFactories;
 
 namespace FellSky.Editor
 {
@@ -32,6 +35,7 @@ namespace FellSky.Editor
         private IMouseService _mouse;
         private MouseControlledTransformSystem _transformSystem;
         private EntityWorld _world;
+        private GameServiceContainer _services;
 
         public List<Entity> SelectedPartEntities { get; private set; }
         public List<Entity> PartEntities { get; private set; }
@@ -47,9 +51,10 @@ namespace FellSky.Editor
         public Color TrimColor { get; set; } = Color.CornflowerBlue;
         public Color BaseColor { get; set; } = Color.Gold;
 
-        public ShipEditorService(IMouseService mouse, Artemis.EntityWorld world)
+        public ShipEditorService(GameServiceContainer services, Artemis.EntityWorld world)
         {
-            _mouse = mouse;
+            _services = services;
+            _mouse = _services.GetService<IMouseService>();
             _world = world;
             _transformSystem = world.SystemManager.GetSystem<MouseControlledTransformSystem>();
             SelectedPartEntities = _world.SystemManager.GetSystem<BoundingBoxSelectionSystem>().SelectedEntities;
@@ -85,12 +90,13 @@ namespace FellSky.Editor
 
         public void DeleteParts()
         {
+            var ship = ShipEntity.GetComponent<ShipComponent>();
             foreach (var e in SelectedPartEntities)
             {
-                Ship.RemovePart(e.Components.OfType<ShipPart>().First());
+                ship.RemovePart(e.Components.OfType<ShipPart>().First());
                 e.Delete();
             }
-            SelectedPartEntities.Clear();       
+            SelectedPartEntities.Clear();
         }
 
         public void OffsetParts(Vector2 offset)
@@ -101,24 +107,24 @@ namespace FellSky.Editor
             }
         }
 
-        public void AddHull(JsonSprite sprite)
+        public void AddHull(Sprite sprite)
         {
             ClearSelection();
             var entity = AddHullInternal(sprite.Id, Vector2.Zero, 0, Vector2.One, new Vector2(sprite.OriginX ?? sprite.W / 2, sprite.OriginY ?? sprite.H / 2), HullColor, SelectedHullColorType);
             SelectedPartEntities.Add(entity);
             _transformSystem.Mode = MouseControlledTransformMode.Translate;
             _transformSystem.Origin = Vector2.Zero;
-            entity.AddComponent(new MouseControlledTransform());
+            entity.AddComponent(new MouseControlledTransformComponent());
         }
 
         public void ClearSelection()
         {
             foreach (var entity in SelectedPartEntities)
             {
-                entity.GetComponent<BoundingBoxSelector>().IsSelected = false;
-                entity.GetComponent<BoundingBoxSelector>().IsEnabled = true;
+                entity.GetComponent<BoundingBoxSelectorComponent>().IsSelected = false;
+                entity.GetComponent<BoundingBoxSelectorComponent>().IsEnabled = true;
                 entity.GetComponent<DrawBoundingBoxComponent>().IsEnabled = false;
-                entity.RemoveComponent<MouseControlledTransform>();
+                entity.RemoveComponent<MouseControlledTransformComponent>();
                 entity.Refresh();
             }
             SelectedPartEntities.Clear();
@@ -136,38 +142,35 @@ namespace FellSky.Editor
 
             Ship = new Ship();
             ShipEntity = _world.CreateEntity();
-            ShipEntity.AddComponent(Ship);
-            ShipEntity.AddComponent(new ShipSpriteComponent(Ship));
+            ShipEntity.AddComponent(new ShipComponent(Ship));
             ShipEntity.AddComponent(new Transform());
             ShipEntity.Refresh();
-
-            Artemis.System.EntitySystem.BlackBoard.SetEntry("PlayerShip", Ship);
-            Artemis.System.EntitySystem.BlackBoard.SetEntry("PlayerShipEntity", ShipEntity);
+            ShipEntity.Tag = "PlayerShip";
         }
 
         private void StartTransformOnSelectedParts()
         {
             foreach (var entity in SelectedPartEntities)
             {
-                if (!entity.HasComponent<MouseControlledTransform>())
+                if (!entity.HasComponent<MouseControlledTransformComponent>())
                 {
-                    entity.AddComponent(new MouseControlledTransform());
+                    entity.AddComponent(new MouseControlledTransformComponent());
                     entity.Refresh();
                 }
                 else
                 {
-                    entity.GetComponent<MouseControlledTransform>().InitialTransform = entity.GetComponent<Transform>().Clone();
+                    entity.GetComponent<MouseControlledTransformComponent>().InitialTransform = entity.GetComponent<Transform>().Clone();
                 }
             }
         }
 
         public void MirrorLateralOnSelected()
         {
-            foreach(var item in SelectedPartEntities)
-            {
-                var part = item.Components.OfType<ShipPart>().First();
-                if(part is Hull) MirrorHullLateral((Hull) part);
-            }
+            //foreach(var item in SelectedPartEntities)
+            //{
+            //    var part = item.GetComponent<ShipPartComponent<Hull>>();
+            //    if(part is Hull) MirrorHullLateral((Hull) part);
+            //}
         }
 
         public void SaveShip(string filename)
@@ -197,33 +200,30 @@ namespace FellSky.Editor
             newHull.SpriteEffect = oldHull.SpriteEffect ^ Microsoft.Xna.Framework.Graphics.SpriteEffects.FlipVertically;
             newHull.ColorType = oldHull.ColorType;
         }
-
+        
         private Entity AddHullInternal(string id, Vector2 position, float rotation, Vector2 scale, Vector2 origin, Color color, HullColorType colorType = HullColorType.Hull)
         {
             var hull = new Hull(id, position, rotation, scale, origin, color);
+            var hullEntity = _services.GetService<ShipEntityFactory>().CreateHullEntity(ShipEntity, hull, false);
+            var hullComponent = hullEntity.GetComponent<HullComponent>();
             hull.ColorType = colorType;
-            Ship.Hulls.Add(hull);
-            var entity = _world.CreateEntity();
-            entity.AddComponent(hull);
-            entity.AddComponent(new PartEditorComponent());
-            entity.AddComponent(hull.Transform);
-            entity.AddComponent(new TransformChildEntity(ShipEntity));
+            hullEntity.AddComponent(new PartEditorComponent());
+            var boundingbox = hullEntity.GetComponent<BoundingBoxComponent>();
+            boundingbox.Box.Inflate(2, 2);
 
-            var select = new BoundingBoxSelector(hull.BoundingBox) { IsEnabled = false };
-            entity.AddComponent(select);
+            var select = new BoundingBoxSelectorComponent() { IsEnabled = false };
+            hullEntity.AddComponent(select);
 
-            var bb = hull.BoundingBox;
-            bb.Inflate(2, 2);
-
-            var drawbounds = new DrawBoundingBoxComponent(bb);
+            var drawbounds = new DrawBoundingBoxComponent();
             drawbounds.IsEnabled = false;
-            entity.AddComponent(drawbounds);
+            hullEntity.AddComponent(drawbounds);
             select.SelectedChanged += (s, e) => drawbounds.IsEnabled = select.IsSelected;
 
-            entity.Refresh();
-            return entity;
+            hullEntity.Refresh();
+            return hullEntity;
         }
 
+        
         private void OnColorChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == nameof(HullColor))

@@ -4,7 +4,6 @@ using FellSky.Components;
 
 namespace FellSky.Systems
 {
-    [Artemis.Attributes.ArtemisEntitySystem(ExecutionType = Artemis.Manager.ExecutionType.Synchronous, GameLoopType = Artemis.Manager.GameLoopType.Draw, Layer = 10)]
     public class GenericDrawableRendererSystem : Artemis.System.EntityComponentProcessingSystem<GenericDrawableComponent>
     {
         private SpriteBatch _spritebatch;

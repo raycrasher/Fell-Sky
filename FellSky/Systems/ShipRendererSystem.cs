@@ -10,11 +10,6 @@ using FellSky.Components;
 
 namespace FellSky.Systems
 {
-    [Artemis.Attributes.ArtemisEntitySystem(
-        ExecutionType = Artemis.Manager.ExecutionType.Synchronous, 
-        GameLoopType = Artemis.Manager.GameLoopType.Draw,
-        Layer = 10
-        )]
     public class ShipRendererSystem : Artemis.System.EntitySystem
     {
         SpriteBatch _spriteBatch;
@@ -39,7 +34,6 @@ namespace FellSky.Systems
         protected override void ProcessEntities(IDictionary<int, Entity> entities)
         {
             if (_camera == null) return;
-            //_device.SetRenderTarget(null);
             _matrix = _camera.GetViewMatrix(1.0f);
             _spriteBatch.Begin(SpriteSortMode.BackToFront, blendState: BlendState.AlphaBlend, transformMatrix: _matrix);
             DrawThrusters(entities.Values);
@@ -69,7 +63,6 @@ namespace FellSky.Systems
             
             foreach (var ship in entities)
             {
-                //var shipSprite = ship.GetComponent<ShipSpriteComponent>();
                 var xform = ship.GetComponent<Transform>();
                 var shipMatrix = xform.Matrix;
                 var shipComponent = ship.GetComponent<ShipComponent>();
@@ -79,6 +72,7 @@ namespace FellSky.Systems
                 foreach (var hullEntity in shipComponent.HullEntities)
                 {
                     var hullComponent = hullEntity.GetComponent<HullComponent>();
+                    var sprite = hullEntity.GetComponent<SpriteComponent>();
                     var hull = hullComponent.Part;
                     var color = hull.Color;
                     switch (hull.ColorType)
@@ -90,7 +84,7 @@ namespace FellSky.Systems
                             color = new Color(trimdecal * color.ToVector4());
                             break;
                     }
-                    hullComponent.Sprite.Draw(batch: _spriteBatch, matrix: hull.Transform.Matrix * shipMatrix, color:color, depth: hull.Depth, effects: hull.SpriteEffect);
+                    sprite.Draw(batch: _spriteBatch, matrix: hull.Transform.Matrix * shipMatrix, color:color, depth: hull.Depth, effects: hull.SpriteEffect);
                 }
             }
         }

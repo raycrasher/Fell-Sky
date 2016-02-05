@@ -102,14 +102,21 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BoundingBoxComponent.cs" />
+    <Compile Include="Components\BulletComponent.cs" />
+    <Compile Include="Components\CollisionComponent.cs" />
+    <Compile Include="Components\DamageComponent.cs" />
+    <Compile Include="Components\DamageReductionComponent.cs" />
+    <Compile Include="Components\FactionComponent.cs" />
     <Compile Include="Components\HealthComponent.cs" />
     <Compile Include="Components\HealthModOverTimeComponent.cs" />
     <Compile Include="Components\HullComponent.cs" />
     <Compile Include="Components\IPartComponent.cs" />
+    <Compile Include="Components\RigidBodyFixtureComponent.cs" />
     <Compile Include="Components\ShipComponent.cs" />
     <Compile Include="Components\ShipPartComponent.cs" />
     <Compile Include="Components\ThrusterComponent.cs" />
-    <Compile Include="EntityFactories\HullEntityTemplate.cs" />
+    <Compile Include="EntityFactories\ShipEntityFactory.cs" />
     <Compile Include="Framework\Sprite.cs" />
     <Compile Include="Framework\SpriteSheet.cs" />
     <Compile Include="Models\Campaign\Campaign.cs" />
@@ -126,6 +133,8 @@
     <Compile Include="Models\Combat\Projectile.cs" />
     <Compile Include="Components\SteeringBehaviorComponent.cs" />
     <Compile Include="Services\ICoroutineService.cs" />
+    <Compile Include="Services\IEventService.cs" />
+    <Compile Include="Services\IPhysicsService.cs" />
     <Compile Include="Services\ISpriteManagerService.cs" />
     <Compile Include="Services\TimerService.cs" />
     <Compile Include="Models\Ships\Parts\AnimatedPartGroup.cs" />
@@ -137,12 +146,12 @@
     <Compile Include="Components\GenericDrawableComponent.cs" />
     <Compile Include="Components\GridComponent.cs" />
     <Compile Include="Components\MouseControlledTransformComponent.cs" />
-    <Compile Include="Components\PhysicsBodyComponent.cs" />
+    <Compile Include="Components\RigidBodyComponent.cs" />
     <Compile Include="Components\PlayerShipController.cs" />
     <Compile Include="Models\Campaign\SensorDetectable.cs" />
     <Compile Include="Framework\SteeringBehaviors\SteeringComponent.cs" />
     <Compile Include="EntityFactories\CameraEntityTemplate.cs" />
-    <Compile Include="EntityFactories\GenericDrawableTemplate.cs" />
+    <Compile Include="EntityFactories\GenericDrawableFactory.cs" />
     <Compile Include="EntityFactories\GridEntityTemplate.cs" />
     <Compile Include="Framework\Animation.cs" />
     <Compile Include="Services\IKeyboardService.cs" />
@@ -194,6 +203,9 @@
     <Compile Include="Models\Combat\BattleSceneManager.cs" />
     <Compile Include="Systems\BoundingBoxRendererSystem.cs" />
     <Compile Include="Systems\BoundingBoxSelectionSystem.cs" />
+    <Compile Include="Systems\BulletSystem.cs" />
+    <Compile Include="Systems\DiplomacySystem.cs" />
+    <Compile Include="Systems\PhysicsCollisionSystem.cs" />
     <Compile Include="Systems\GenericDrawableRendererSystem.cs" />
     <Compile Include="Systems\GridRendererSystem.cs" />
     <Compile Include="Components\CameraComponent.cs" />
@@ -263,6 +275,7 @@
     </Compile>
     <Compile Include="Systems\HealthModOverTimeSystem.cs" />
     <Compile Include="Systems\PlayerShipControlSystem.cs" />
+    <Compile Include="Systems\ShipUpdateSystem.cs" />
     <Compile Include="Systems\ShipRendererSystem.cs" />
     <Compile Include="Framework\SteeringBehaviors\SteeringBehaviorSystem.cs" />
     <Compile Include="Systems\MouseControlledTransformSystem.cs" />

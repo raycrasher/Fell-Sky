@@ -10,7 +10,6 @@ using FellSky.Components;
 
 namespace FellSky.Systems
 {
-    [Artemis.Attributes.ArtemisEntitySystem(ExecutionType = Artemis.Manager.ExecutionType.Synchronous, GameLoopType = Artemis.Manager.GameLoopType.Draw )]
     public class BoundingBoxSelectionSystem : Artemis.System.EntitySystem
     {
         private IMouseService _mouse;
@@ -43,7 +42,7 @@ namespace FellSky.Systems
             _mouse.ButtonDown += OnButtonDown;
             _mouse.ButtonUp += OnButtonUp;
             _mouse.Move += OnMouseMove;
-            _marqueeBoxDrawable = new GenericDrawableComponent() { DrawFunction = DrawMarquee };
+            _marqueeBoxDrawable = new GenericDrawableComponent(DrawMarquee);
         }
 
         public override void UnloadContent()
@@ -115,13 +114,15 @@ namespace FellSky.Systems
 
                 foreach (var entity in entities.Values)
                 {
-                    var box = entity.GetComponent<BoundingBoxSelectorComponent>();
+                    var select = entity.GetComponent<BoundingBoxSelectorComponent>();
+                    var box = entity.GetComponent<BoundingBoxComponent>();
                     var xform = entity.GetComponent<Transform>();
-                    var matrix = Matrix.Invert(camera.GetViewMatrix(box.Parallax)) * Matrix.Invert(entity.GetWorldMatrix());
+                    var matrix = Matrix.Invert(camera.GetViewMatrix(select.Parallax)) * Matrix.Invert(entity.GetWorldMatrix());
+
 
                     var itemShape = new FarseerPhysics.Collision.Shapes.PolygonShape(FarseerPhysics.Common.PolygonTools.CreateRectangle(
-                        box.BoundingBox.Width/2,
-                        box.BoundingBox.Height/2
+                        box.Box.Width/2,
+                        box.Box.Height/2
                         ), 1);
 
                     var manifold = new FarseerPhysics.Collision.Manifold();
@@ -132,12 +133,12 @@ namespace FellSky.Systems
                     FarseerPhysics.Collision.Collision.CollidePolygons(ref manifold, marqueeShape, ref marqueeXForm, itemShape, ref itemXForm);
                     if (manifold.PointCount > 0)
                     {
-                        box.IsSelected = true;
+                        select.IsSelected = true;
                         SelectedEntities.Add(entity);
                     }
                     else
                     {
-                        box.IsSelected = false;
+                        select.IsSelected = false;
                         SelectedEntities.Remove(entity);
                     }
                 }
@@ -168,21 +169,22 @@ namespace FellSky.Systems
                 var camera = EntityWorld.GetCamera(CameraTag);
                 foreach (var entity in entities.Values)
                 {
-                    var box = entity.GetComponent<BoundingBoxSelectorComponent>();
-                    if (!box.IsEnabled) continue;
+                    var select = entity.GetComponent<BoundingBoxSelectorComponent>();
+                    var box = entity.GetComponent<BoundingBoxComponent>();
+                    if (!select.IsEnabled) continue;
 
-                    var matrix = Matrix.Invert(camera.GetViewMatrix(box.Parallax)) * Matrix.Invert(entity.GetWorldMatrix());
+                    var matrix = Matrix.Invert(camera.GetViewMatrix(select.Parallax)) * Matrix.Invert(entity.GetWorldMatrix());
 
                     Vector2 position = _mousePos;
                     Vector2.Transform(ref position, ref matrix, out position);
-                    if (box.BoundingBox.Contains(position))
+                    if (box.Box.Contains(position))
                     {
-                        box.IsSelected = true;
+                        select.IsSelected = true;
                         SelectedEntities.Add(entity);
                     }
                     else
                     {
-                        box.IsSelected = false;
+                        select.IsSelected = false;
                         SelectedEntities.Remove(entity);
                     }
                 }

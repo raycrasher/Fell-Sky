@@ -23,7 +23,6 @@ namespace FellSky.Systems
         Local, Centroid, Origin
     }
 
-    [ArtemisEntitySystem(ExecutionType =Artemis.Manager.ExecutionType.Synchronous, GameLoopType =Artemis.Manager.GameLoopType.Update, Layer = 4)]
     public class MouseControlledTransformSystem : Artemis.System.EntityProcessingSystem
     {
         public Vector2 Origin { get; set; }

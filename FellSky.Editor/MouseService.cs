@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Microsoft.Xna.Framework;
 using System.Runtime.InteropServices;
+using FellSky.Services;
 
 namespace FellSky.Editor
 {
-    class MouseService : Framework.IMouseService
+    class MouseService : IMouseService
     {
         private System.Windows.FrameworkElement host;
         private Vector2 _screenPosition;

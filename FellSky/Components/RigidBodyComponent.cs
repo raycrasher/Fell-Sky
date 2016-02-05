@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace FellSky.Components
 {
-    public class PhysicsBodyComponent: IComponent
+    public class RigidBodyComponent: IComponent
     {
         public Body Body { get; set; }
     }

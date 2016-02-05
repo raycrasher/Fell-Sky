@@ -197,7 +197,7 @@
             </StackPanel.Resources>
             <Expander Header="Colors" IsExpanded="True">
                 <Grid>
-                    <UniformGrid Columns="3" xmlns:fs="clr-namespace:FellSky.Ships.Parts;assembly=FellSky">
+                    <UniformGrid Columns="3" xmlns:fs="clr-namespace:FellSky.Models.Ships.Parts;assembly=FellSky">
                         <RadioButton 
                             Name="hullColorBtn" 
                             HorizontalContentAlignment="Center" 

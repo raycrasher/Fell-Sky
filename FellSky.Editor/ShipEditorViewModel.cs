@@ -3,23 +3,18 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using FellSky.Graphics;
-using System.Drawing;
 using System.Windows.Media.Imaging;
-using System.Globalization;
 using System.Windows.Input;
-using FellSky.Ships;
 using Microsoft.Xna.Framework.Content;
 using Artemis;
 using XnaColor = Microsoft.Xna.Framework.Color;
-using WpfColor = System.Windows.Media.Color;
 using Microsoft.Xna.Framework;
-using FellSky.Ships.Parts;
 using FellSky.Framework;
 using System.Windows;
+using FellSky.Components;
+using FellSky.Systems;
+using FellSky.Services;
+using FellSky.EntityFactories;
 
 namespace FellSky.Editor
 {
@@ -27,20 +22,21 @@ namespace FellSky.Editor
     public class ShipEditorViewModel
     {
         private D3D11Host _host;
+        public const string CameraTag = "EditorCamera";
 
         [PropertyChanged.ImplementPropertyChanged]
         public class SpriteSheet
         {
-            public JsonSpriteSheet SpriteDefinitions { get; set; }
+            public Framework.SpriteSheet SpriteDefinitions { get; set; }
             public BitmapImage Image { get; set; }
         }
 
-        public Camera2D Camera { get; set; }
+        public CameraComponent Camera { get; set; }
 
         public Dictionary<string, Sprite> Sprites { get; set; }
         public SpriteSheet CurrentSpriteSheet { get; set; }
 
-        public Dictionary<string, List<JsonSprite>> HullSprites { get; set; }
+        public Dictionary<string, List<Sprite>> HullSprites { get; set; }
         public object PropertyObject { get; set; }
 
         public XnaColor BackgroundColor { get; set; } = new XnaColor(5, 10, 20);
@@ -70,7 +66,6 @@ namespace FellSky.Editor
         public Entity CameraEntity { get; private set; }
         public Entity GridEntity { get; private set; }
         
-
         private MouseService _mouse;
         private MouseControlledTransformSystem _transformSystem;
 
@@ -79,10 +74,8 @@ namespace FellSky.Editor
         internal void Initialize(D3D11Host host)
         {
             Services = new GameServiceContainer();
-            _host = host;
-            _mouse = new MouseService(host);
 
-            _mouse.ButtonDown += OnMouseButtonDown;
+            _host = host;
 
             Artemis.System.EntitySystem.BlackBoard.SetEntry("GraphicsDevice", _host.GraphicsDevice);
             Artemis.System.EntitySystem.BlackBoard.SetEntry("ServiceProvider", Services);
@@ -91,9 +84,17 @@ namespace FellSky.Editor
             
             Services.AddService<IGraphicsDeviceService>(host);
             Services.AddService(host.GraphicsDevice);
-            Services.AddService<Framework.IMouseService>(_mouse);
+
+            _mouse = new MouseService(host);
+            Services.AddService<IMouseService>(_mouse);
+            _mouse.ButtonDown += OnMouseButtonDown;
+
             SpriteBatch = new SpriteBatch(host.GraphicsDevice);
             Services.AddService(SpriteBatch);
+
+            SpriteManager = new SpriteManagerService();
+            Services.AddService<ISpriteManagerService>(SpriteManager);
+
 
             Content = new ContentManager(Services);
             Content.RootDirectory = Environment.CurrentDirectory;
@@ -101,23 +102,33 @@ namespace FellSky.Editor
 
             Artemis.System.EntitySystem.BlackBoard.SetEntry("ContentManager", Content);
 
-            World = new EntityWorld(false, true, false);
-            World.InitializeAll(typeof(FellSky.Game).Assembly, GetType().Assembly);
-            Artemis.System.EntitySystem.BlackBoard.SetEntry("World", World);
+            World = new EntityWorld(false,false, false);           
+            World.SystemManager.SetSystem(new GridRendererSystem(SpriteBatch, CameraTag), Artemis.Manager.GameLoopType.Draw, 1);
+            World.SystemManager.SetSystem(new ShipRendererSystem(SpriteBatch, CameraTag), Artemis.Manager.GameLoopType.Draw, 2);
+            World.SystemManager.SetSystem(new BoundingBoxRendererSystem(SpriteBatch, CameraTag), Artemis.Manager.GameLoopType.Update, 3);
+            World.SystemManager.SetSystem(new GenericDrawableRendererSystem(SpriteBatch, host.GraphicsDevice, CameraTag), Artemis.Manager.GameLoopType.Update, 4);
+
+            _transformSystem = new MouseControlledTransformSystem(_mouse, CameraTag);
+            World.SystemManager.SetSystem(_transformSystem, Artemis.Manager.GameLoopType.Update, 1);
+            World.SystemManager.SetSystem(new ShipUpdateSystem(), Artemis.Manager.GameLoopType.Update, 2);
+            World.SystemManager.SetSystem(new BoundingBoxSelectionSystem(_mouse, CameraTag), Artemis.Manager.GameLoopType.Update, 3);
+
+            World.InitializeAll();
+
+            Services.AddService(new GenericDrawableFactory(World));
+            Services.AddService(new ShipEntityFactory(SpriteManager, null, World));
 
             CameraEntity = World.CreateEntityFromTemplate("Camera");
-            Camera = CameraEntity.GetComponent<Camera2D>();
+            CameraEntity.Tag = CameraTag;
+            Camera = CameraEntity.GetComponent<CameraComponent>();
 
-            Artemis.System.EntitySystem.BlackBoard.SetEntry(Camera2D.PlayerCameraName, Camera);
             GridEntity = World.CreateEntityFromTemplate("Grid", new Vector2(50,50), GridColor);
 
-            World.CreateEntityFromTemplate("GenericDrawable", Entities.GenericDrawableTemplate.Circle(Vector2.Zero, 10, 10, XnaColor.Red));
-
-            _transformSystem = World.SystemManager.GetSystem<MouseControlledTransformSystem>();
+            Services.GetService<GenericDrawableFactory>().CreateCircle(Vector2.Zero, 10, 8, XnaColor.Red);
             
             host.KeyUp += HandleKeyboardInput;
 
-            EditorService = new ShipEditorService(_mouse, World);
+            EditorService = new ShipEditorService(Services, World);
             CreateNewShipCommand.Execute(null);
         }
 
@@ -178,7 +189,7 @@ namespace FellSky.Editor
         private void LoadHullSprites(string sheetfile)
         {
             var sheet = new SpriteSheet();
-            sheet.SpriteDefinitions = Graphics.SpriteManager.AddSpriteSheetFromFile(Content, sheetfile);
+            sheet.SpriteDefinitions = SpriteManager.AddSpriteSheetFromFile(Content, sheetfile);
             CurrentSpriteSheet = sheet;
             HullSprites = CurrentSpriteSheet.SpriteDefinitions.Sprites
                 .Where(s => s.Type == "hull")
@@ -213,11 +224,13 @@ namespace FellSky.Editor
         {
             var pos = _host.PointToScreen(new System.Windows.Point(_host.ActualWidth / 2, _host.ActualHeight / 2));
             _mouse.ScreenPosition = new Vector2((float)pos.X, (float)pos.Y);
-            EditorService.AddHull((JsonSprite)o);
+            EditorService.AddHull((Sprite)o);
         });
 
         public ICommand DeletePartsCommand => new DelegateCommand(o => EditorService.DeleteParts());
         public ICommand MirrorLateralCommand => new DelegateCommand(o => EditorService.MirrorLateralOnSelected());
         public ICommand RotatePartsCommand => new DelegateCommand(o => EditorService.RotateParts());
+
+        public SpriteManagerService SpriteManager { get; private set; }
     }
 }

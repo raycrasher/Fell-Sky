@@ -6,7 +6,6 @@ namespace FellSky.Components
 {
     public class BoundingBoxSelectorComponent: IComponent
     {
-        public FloatRect BoundingBox { get; set; }
         public bool IsSelected {
             get { return _isSelected; }
             set {
@@ -24,10 +23,6 @@ namespace FellSky.Components
         private bool _isSelected = false;
 
         public BoundingBoxSelectorComponent() { }
-        public BoundingBoxSelectorComponent(FloatRect boundingBox)
-        {
-            BoundingBox = boundingBox;
-        }
 
         public bool IsEnabled { get; set; } = true;
     }
