@@ -7,6 +7,5 @@ namespace FellSky.Components
 {
     public class MouseControlledTransformComponent: IComponent
     {
-        public Transform InitialTransform { get; set; }
     }
 }

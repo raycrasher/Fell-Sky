@@ -82,7 +82,13 @@
             </TabControl>
         </Grid>
         <GridSplitter Width="3" Grid.Row="1" Opacity="0"/>
-        <fe:D3D11Host x:Name="D3D11Host" Grid.Column="1" Grid.Row="1" Stretch="UniformToFill" Initializing="D3D11Host_Initializing" Rendering="D3D11Host_Rendering" Focusable="True" MouseEnter="D3D11Host_MouseEnter" MouseDown="D3D11Host_MouseDown"/>
+
+        <fe:D3D11Host x:Name="D3D11Host" Stretch="UniformToFill"
+                        Initializing="D3D11Host_Initializing" Rendering="D3D11Host_Rendering" Focusable="True" 
+                        MouseEnter="D3D11Host_MouseEnter" MouseDown="D3D11Host_MouseDown" 
+                        Grid.Column="1" Grid.Row="1" 
+                        />
+
         <Menu Name="mainMenu" VerticalAlignment="Stretch" Background="{x:Null}" HorizontalContentAlignment="Left" FontSize="12" >
             <MenuItem Header="Ship" VerticalAlignment="Center" >
                 <MenuItem Header="New Ship" Command="{Binding CreateNewShipCommand}"/>

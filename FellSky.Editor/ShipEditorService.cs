@@ -14,6 +14,7 @@ using FellSky.Components;
 using FellSky.Systems;
 using FellSky.Services;
 using FellSky.EntityFactories;
+using FellSky.Systems.MouseControlledTransformSystemStates;
 
 namespace FellSky.Editor
 {
@@ -28,7 +29,7 @@ namespace FellSky.Editor
     }
 
     [ImplementPropertyChanged]
-    public class ShipEditorService: System.ComponentModel.INotifyPropertyChanged
+    public class ShipEditorService: INotifyPropertyChanged
     {
         class PartEditorComponent : Artemis.Interface.IComponent { }
 
@@ -63,29 +64,25 @@ namespace FellSky.Editor
 
         public void RotateParts()
         {
-            if (_transformSystem.Mode != MouseControlledTransformMode.Rotate)
+            if (!(_transformSystem.State is RotateCentroidState))
             {
+                _transformSystem.StartTransform<RotateCentroidState>();
                 StartTransformOnSelectedParts();
-                _transformSystem.Mode = MouseControlledTransformMode.Rotate;
             }
         }
 
         public void TranslateParts()
         {
-            if (_transformSystem.Mode != MouseControlledTransformMode.Translate)
+            if (!(_transformSystem.State is TranslateState))
             {
+                _transformSystem.StartTransform<TranslateState>();
                 StartTransformOnSelectedParts();
-                _transformSystem.Mode = MouseControlledTransformMode.Translate;
             }
         }
 
         public void ScaleParts()
         {
-            if (_transformSystem.Mode != MouseControlledTransformMode.Scale)
-            {
-                StartTransformOnSelectedParts();
-                _transformSystem.Mode = MouseControlledTransformMode.Scale;
-            }
+            // not implemented yet
         }
 
         public void DeleteParts()
@@ -112,8 +109,7 @@ namespace FellSky.Editor
             ClearSelection();
             var entity = AddHullInternal(sprite.Id, Vector2.Zero, 0, Vector2.One, new Vector2(sprite.OriginX ?? sprite.W / 2, sprite.OriginY ?? sprite.H / 2), HullColor, SelectedHullColorType);
             SelectedPartEntities.Add(entity);
-            _transformSystem.Mode = MouseControlledTransformMode.Translate;
-            _transformSystem.Origin = Vector2.Zero;
+            _transformSystem.StartTransform<TranslateState>();
             entity.AddComponent(new MouseControlledTransformComponent());
         }
 
@@ -156,10 +152,6 @@ namespace FellSky.Editor
                 {
                     entity.AddComponent(new MouseControlledTransformComponent());
                     entity.Refresh();
-                }
-                else
-                {
-                    entity.GetComponent<MouseControlledTransformComponent>().InitialTransform = entity.GetComponent<Transform>().Clone();
                 }
             }
         }
@@ -246,6 +238,6 @@ namespace FellSky.Editor
             }
         }
 
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 }

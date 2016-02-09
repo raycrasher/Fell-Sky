@@ -134,6 +134,16 @@ namespace FellSky
             _matrixNeedsUpdate = true;
         }
 
+        public void CopyValuesFrom(Transform xform)
+        {
+            _position = xform._position;
+            _scale = xform._scale;
+            _rotation = xform._rotation;
+            _origin = xform._origin;
+            _matrix = xform.Matrix;
+            _matrixNeedsUpdate = false;
+        }
+
         public void Clear()
         {
             Position = Vector2.Zero;

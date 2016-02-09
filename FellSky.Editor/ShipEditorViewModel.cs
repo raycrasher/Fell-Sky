@@ -112,6 +112,7 @@ namespace FellSky.Editor
             World.SystemManager.SetSystem(_transformSystem, Artemis.Manager.GameLoopType.Update, 1);
             World.SystemManager.SetSystem(new ShipUpdateSystem(), Artemis.Manager.GameLoopType.Update, 2);
             World.SystemManager.SetSystem(new BoundingBoxSelectionSystem(_mouse, CameraTag), Artemis.Manager.GameLoopType.Update, 3);
+            World.SystemManager.SetSystem(new CameraUiDraggingSystem(CameraTag, _mouse), Artemis.Manager.GameLoopType.Update, 4);
 
             World.InitializeAll();
 
@@ -119,6 +120,7 @@ namespace FellSky.Editor
             Services.AddService(new ShipEntityFactory(World, SpriteManager, null));
             Services.AddService(new CameraEntityFactory(World));
             Services.AddService(new GridEntityFactory(World));
+            
 
             CameraEntity = Services.GetService<CameraEntityFactory>().CreateCamera();
             CameraEntity.Tag = CameraTag;
@@ -167,17 +169,17 @@ namespace FellSky.Editor
                     break;
             }
         }
-
-
-
+        
         private void OnMouseButtonDown(Microsoft.Xna.Framework.Point arg1, int arg2)
         {
             ActionsNextFrame.Add(EditorService.ClearSelection);
-            _transformSystem.Mode = null;
+            _transformSystem.CancelTransform();
         }
 
         internal void Render(TimeSpan timespan)
         {
+            _mouse.Update();
+
             foreach (var a in ActionsNextFrame) a();
             ActionsNextFrame.Clear();
 
@@ -224,9 +226,11 @@ namespace FellSky.Editor
         public ICommand Quit => new DelegateCommand(o => Application.Current.Shutdown());
         public ICommand AddHull => new DelegateCommand(o =>
         {
-            var pos = _host.PointToScreen(new System.Windows.Point(_host.ActualWidth / 2, _host.ActualHeight / 2));
-            _mouse.ScreenPosition = new Vector2((float)pos.X, (float)pos.Y);
-            EditorService.AddHull((Sprite)o);
+            ActionsNextFrame.Add(() => {
+                var pos = _host.PointToScreen(new System.Windows.Point(_host.ActualWidth / 2, _host.ActualHeight / 2));
+                _mouse.ScreenPosition = new Vector2((float)pos.X, (float)pos.Y);
+                EditorService.AddHull((Sprite)o);
+            });
         });
 
         public ICommand DeletePartsCommand => new DelegateCommand(o => EditorService.DeleteParts());

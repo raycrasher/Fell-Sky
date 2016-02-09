@@ -204,7 +204,11 @@
     <Compile Include="Systems\BoundingBoxRendererSystem.cs" />
     <Compile Include="Systems\BoundingBoxSelectionSystem.cs" />
     <Compile Include="Systems\BulletSystem.cs" />
+    <Compile Include="Systems\CameraUiDraggingSystem.cs" />
     <Compile Include="Systems\DiplomacySystem.cs" />
+    <Compile Include="Systems\MouseControlledTransformSystemStates\IMouseControlledTransformSystemState.cs" />
+    <Compile Include="Systems\MouseControlledTransformSystemStates\RotateCentroidState.cs" />
+    <Compile Include="Systems\MouseControlledTransformSystemStates\TranslateState.cs" />
     <Compile Include="Systems\PhysicsCollisionSystem.cs" />
     <Compile Include="Systems\GenericDrawableRendererSystem.cs" />
     <Compile Include="Systems\GridRendererSystem.cs" />

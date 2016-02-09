@@ -54,6 +54,9 @@ namespace FellSky.EntityFactories
             {
                 entity.AddComponent(_physics.CreateAndAttachFixture(hull.ShapeId, hull.Transform));
             }
+
+            ship?.GetComponent<ShipComponent>().HullEntities.Add(entity);
+            ship?.GetComponent<ShipComponent>().Ship.Hulls.Add(hull);
             return entity;
         }
     }
