@@ -51,9 +51,11 @@ namespace FellSky.Editor
         public Color HullColor { get; set; } = Color.White;
         public Color TrimColor { get; set; } = Color.CornflowerBlue;
         public Color BaseColor { get; set; } = Color.Gold;
+        public string CameraTag { get; set; }
 
-        public ShipEditorService(GameServiceContainer services, Artemis.EntityWorld world)
+        public ShipEditorService(GameServiceContainer services, Artemis.EntityWorld world, string cameraTag)
         {
+            CameraTag = cameraTag;
             _services = services;
             _mouse = _services.GetService<IMouseService>();
             _world = world;
@@ -107,10 +109,10 @@ namespace FellSky.Editor
         public void AddHull(Sprite sprite)
         {
             ClearSelection();
-            var entity = AddHullInternal(sprite.Id, Vector2.Zero, 0, Vector2.One, new Vector2(sprite.OriginX ?? sprite.W / 2, sprite.OriginY ?? sprite.H / 2), HullColor, SelectedHullColorType);
+            var entity = AddHullInternal(sprite.Id, _world.GetCamera(CameraTag).ScreenToCameraSpace(_mouse.ScreenPosition), 0, Vector2.One, new Vector2(sprite.OriginX ?? sprite.W / 2, sprite.OriginY ?? sprite.H / 2), HullColor, SelectedHullColorType);
             SelectedPartEntities.Add(entity);
-            _transformSystem.StartTransform<TranslateState>();
             entity.AddComponent(new MouseControlledTransformComponent());
+            _transformSystem.StartTransform<TranslateState>();
         }
 
         public void ClearSelection()

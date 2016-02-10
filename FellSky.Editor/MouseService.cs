@@ -59,8 +59,9 @@ namespace FellSky.Editor
 
                 _updateActions.Add(() =>
                 {
-                    NativeMethods.SetCursorPos((int)value.X, (int)value.Y);
                     _newScreenPos = value;
+                    _screenPos = value;
+                    NativeMethods.SetCursorPos((int)value.X, (int)value.Y);
                 });
             }
         }

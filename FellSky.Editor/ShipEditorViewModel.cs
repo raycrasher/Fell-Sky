@@ -132,7 +132,7 @@ namespace FellSky.Editor
             
             host.KeyUp += HandleKeyboardInput;
 
-            EditorService = new ShipEditorService(Services, World);
+            EditorService = new ShipEditorService(Services, World, CameraTag);
             CreateNewShipCommand.Execute(null);
         }
 
@@ -170,10 +170,11 @@ namespace FellSky.Editor
             }
         }
         
-        private void OnMouseButtonDown(Microsoft.Xna.Framework.Point arg1, int arg2)
+        private void OnMouseButtonDown(Microsoft.Xna.Framework.Point pos, int button)
         {
             ActionsNextFrame.Add(EditorService.ClearSelection);
-            _transformSystem.CancelTransform();
+            if (button == 2) _transformSystem.CancelTransform();
+            else if (button == 0) _transformSystem.ApplyTransform();
         }
 
         internal void Render(TimeSpan timespan)
