@@ -108,6 +108,7 @@
     <Compile Include="Components\DamageComponent.cs" />
     <Compile Include="Components\DamageReductionComponent.cs" />
     <Compile Include="Components\FactionComponent.cs" />
+    <Compile Include="Components\FadeInComponent.cs" />
     <Compile Include="Components\HealthComponent.cs" />
     <Compile Include="Components\HealthModOverTimeComponent.cs" />
     <Compile Include="Components\HullComponent.cs" />

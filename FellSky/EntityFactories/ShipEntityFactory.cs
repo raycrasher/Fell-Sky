@@ -49,7 +49,7 @@ namespace FellSky.EntityFactories
             entity.AddComponent(new HealthComponent(hull.Health));
             var spriteComponent = _spriteManager.CreateSpriteComponent(hull.SpriteId);
             entity.AddComponent(spriteComponent);
-            entity.AddComponent(new BoundingBoxComponent(new FloatRect(spriteComponent.TextureRect)));
+            entity.AddComponent(new BoundingBoxComponent(new FloatRect(0,0, spriteComponent.TextureRect.Width, spriteComponent.TextureRect.Height)));
             if (addPhysics)
             {
                 entity.AddComponent(_physics.CreateAndAttachFixture(hull.ShapeId, hull.Transform));

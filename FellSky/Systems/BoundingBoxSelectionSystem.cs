@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Artemis;
 using FellSky.Framework;
-
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using FellSky.Services;
@@ -119,7 +118,7 @@ namespace FellSky.Systems
                     var xform = entity.GetComponent<Transform>();
                     var matrix = Matrix.Invert(camera.GetViewMatrix(select.Parallax)) * Matrix.Invert(entity.GetWorldMatrix());
 
-
+                    // perform polygon test with oriented bounding boxes
                     var itemShape = new FarseerPhysics.Collision.Shapes.PolygonShape(FarseerPhysics.Common.PolygonTools.CreateRectangle(
                         box.Box.Width/2,
                         box.Box.Height/2

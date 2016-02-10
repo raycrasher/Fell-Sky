@@ -203,7 +203,7 @@ namespace FellSky.Editor
             hull.ColorType = colorType;
             hullEntity.AddComponent(new PartEditorComponent());
             var boundingbox = hullEntity.GetComponent<BoundingBoxComponent>();
-            boundingbox.Box.Inflate(2, 2);
+            boundingbox.Box.Inflate(4, 4);
 
             var select = new BoundingBoxSelectorComponent() { IsEnabled = false };
             hullEntity.AddComponent(select);

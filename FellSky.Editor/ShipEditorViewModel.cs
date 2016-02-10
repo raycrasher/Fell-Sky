@@ -102,11 +102,12 @@ namespace FellSky.Editor
 
             Artemis.System.EntitySystem.BlackBoard.SetEntry("ContentManager", Content);
 
-            World = new EntityWorld(false,false, false);           
+            World = new EntityWorld(false,false, false);
+                
             World.SystemManager.SetSystem(new GridRendererSystem(SpriteBatch, CameraTag), Artemis.Manager.GameLoopType.Draw, 1);
             World.SystemManager.SetSystem(new ShipRendererSystem(SpriteBatch, CameraTag), Artemis.Manager.GameLoopType.Draw, 2);
-            World.SystemManager.SetSystem(new BoundingBoxRendererSystem(SpriteBatch, CameraTag), Artemis.Manager.GameLoopType.Update, 3);
-            World.SystemManager.SetSystem(new GenericDrawableRendererSystem(SpriteBatch, host.GraphicsDevice, CameraTag), Artemis.Manager.GameLoopType.Update, 4);
+            World.SystemManager.SetSystem(new BoundingBoxRendererSystem(SpriteBatch, CameraTag), Artemis.Manager.GameLoopType.Draw, 3);
+            World.SystemManager.SetSystem(new GenericDrawableRendererSystem(SpriteBatch, host.GraphicsDevice, CameraTag), Artemis.Manager.GameLoopType.Draw, 4);
 
             _transformSystem = new MouseControlledTransformSystem(_mouse, CameraTag);
             World.SystemManager.SetSystem(_transformSystem, Artemis.Manager.GameLoopType.Update, 1);
