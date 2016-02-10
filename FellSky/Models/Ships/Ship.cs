@@ -22,6 +22,7 @@ namespace FellSky.Ships
         public List<ShipLight> Lights { get; set; } = new List<ShipLight>();
         public List<ModuleSlot> ModuleSlots { get; set; } = new List<ModuleSlot>();
 
+        [JsonIgnore]
         public IEnumerable<ShipPart> Parts { get {
                 foreach (var p in Hulls) yield return p;
                 if(Thrusters != null) foreach (var p in Thrusters) yield return p;
@@ -41,6 +42,7 @@ namespace FellSky.Ships
 
         public ShipHandlingParameters Handling { get; set; } = new ShipHandlingParameters();
 
+        [JsonIgnore]
         public IEnumerable<PartGroup> Groups { get {
             return Hulls.Cast<ShipPart>()
                     .Concat(Thrusters)
@@ -85,12 +87,12 @@ namespace FellSky.Ships
             else if (part is ShipLight) Lights.Remove((ShipLight)part);
         }
 
-        public void SaveToFile(string filename)
+        public void SaveToJsonFile(string filename)
         {
             System.IO.File.WriteAllText( filename, JsonConvert.SerializeObject(this) );
         }
 
-        public static Ship LoadFromFile(string filename)
+        public static Ship LoadFromJsonFile(string filename)
         {
             return JsonConvert.DeserializeObject<Ship>(System.IO.File.ReadAllText(filename));
         }

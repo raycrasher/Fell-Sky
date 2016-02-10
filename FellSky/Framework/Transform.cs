@@ -2,6 +2,7 @@
 using Artemis.Interface;
 using Microsoft.Xna.Framework;
 using System.Runtime.Serialization;
+using Newtonsoft.Json;
 
 namespace FellSky
 {
@@ -85,6 +86,7 @@ namespace FellSky
             }
         }
 
+        [JsonIgnore]
         public Matrix Matrix
         {
             get

@@ -22,9 +22,12 @@ namespace FellSky.Systems
         public override void OnRemoved(Entity entity)
         {
             var shipComponent = entity.GetComponent<ShipComponent>();
-            foreach(var child in shipComponent.ChildEntities)
+            if (shipComponent != null)
             {
-                child.Delete();
+                foreach (var child in shipComponent.ChildEntities)
+                {
+                    child.Delete();
+                }
             }
 
             base.OnRemoved(entity);

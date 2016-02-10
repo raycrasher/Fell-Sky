@@ -21,6 +21,7 @@ namespace FellSky.Components
         public float DesiredTorque { get; set; }
         public Vector2 LinearThrustVector { get; set; }
         public bool AttemptBoost { get; set; }
+        public IEnumerable<Entity> PartEntities => HullEntities.Concat(ThrusterEntities);
 
         // functions
 
@@ -44,7 +45,5 @@ namespace FellSky.Components
             list.Remove(entity);
             entity.Delete();
         }
-
-               
     }
 }

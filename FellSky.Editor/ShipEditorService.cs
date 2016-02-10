@@ -15,6 +15,7 @@ using FellSky.Systems;
 using FellSky.Services;
 using FellSky.EntityFactories;
 using FellSky.Systems.MouseControlledTransformSystemStates;
+using System.Windows;
 
 namespace FellSky.Editor
 {
@@ -39,7 +40,6 @@ namespace FellSky.Editor
         private GameServiceContainer _services;
 
         public List<Entity> SelectedPartEntities { get; private set; }
-        public List<Entity> PartEntities { get; private set; }
         public Entity ShipEntity { get; private set; }
         public Entity TransformEntity { get; private set; }
         public Ship Ship { get; private set; }
@@ -136,6 +136,7 @@ namespace FellSky.Editor
                 entity.Delete();
             }
 
+            if (ShipEntity != null) ShipEntity.Tag = null;
             ShipEntity?.Delete();
 
             Ship = new Ship();
@@ -169,7 +170,39 @@ namespace FellSky.Editor
 
         public void SaveShip(string filename)
         {
+            try
+            {
+                Ship.SaveToJsonFile(filename);
+            }
+            catch (Newtonsoft.Json.JsonException)
+            {
+                MessageBox.Show($"There has been an error saving the ship to the following file: {filename}", "Error saving ship", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
 
+        public void LoadShip(string fileName)
+        {
+            try
+            {
+                ClearSelection();
+                foreach (var entity in _world.EntityManager.GetEntities(Aspect.All(typeof(PartEditorComponent))))
+                {
+                    entity.Delete();
+                }
+                if (ShipEntity != null) ShipEntity.Tag = null;
+                ShipEntity?.Delete();
+                Ship = Ship.LoadFromJsonFile(fileName);
+                ShipEntity = _services.GetService<ShipEntityFactory>().CreateShipEntity(Ship, Vector2.Zero, 0, false);
+                ShipEntity.Tag = "PlayerShip";
+                foreach(var entity in ShipEntity.GetComponent<ShipComponent>().PartEntities)
+                {
+                    AddEditorComponentsToPartEntity(entity);
+                }
+            }
+            catch (Newtonsoft.Json.JsonException)
+            {
+                MessageBox.Show($"There has been an error saving the ship to the following file: {fileName}", "Error saving ship", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         public void SaveAsPartGroup(string filename)
@@ -201,23 +234,25 @@ namespace FellSky.Editor
             var hullEntity = _services.GetService<ShipEntityFactory>().CreateHullEntity(ShipEntity, hull, false);
             var hullComponent = hullEntity.GetComponent<HullComponent>();
             hull.ColorType = colorType;
-            hullEntity.AddComponent(new PartEditorComponent());
-            var boundingbox = hullEntity.GetComponent<BoundingBoxComponent>();
-            boundingbox.Box.Inflate(4, 4);
-
-            var select = new BoundingBoxSelectorComponent() { IsEnabled = false };
-            hullEntity.AddComponent(select);
-
-            var drawbounds = new DrawBoundingBoxComponent();
-            drawbounds.IsEnabled = false;
-            hullEntity.AddComponent(drawbounds);
-            select.SelectedChanged += (s, e) => drawbounds.IsEnabled = select.IsSelected;
-
-            hullEntity.Refresh();
+            AddEditorComponentsToPartEntity(hullEntity);
             return hullEntity;
         }
 
-        
+        private void AddEditorComponentsToPartEntity(Entity entity)
+        {
+            entity.AddComponent(new PartEditorComponent());
+
+            var select = new BoundingBoxSelectorComponent() { IsEnabled = false };
+            entity.AddComponent(select);
+
+            var drawbounds = new DrawBoundingBoxComponent();
+            drawbounds.IsEnabled = false;
+            entity.AddComponent(drawbounds);
+            select.SelectedChanged += (s, e) => drawbounds.IsEnabled = select.IsSelected;
+
+            entity.Refresh();
+        }
+
         private void OnColorChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == nameof(HullColor))
@@ -241,5 +276,7 @@ namespace FellSky.Editor
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        
     }
 }

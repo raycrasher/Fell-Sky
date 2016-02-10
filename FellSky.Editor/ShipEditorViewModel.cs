@@ -238,6 +238,35 @@ namespace FellSky.Editor
         public ICommand DeletePartsCommand => new DelegateCommand(o => EditorService.DeleteParts());
         public ICommand MirrorLateralCommand => new DelegateCommand(o => EditorService.MirrorLateralOnSelected());
         public ICommand RotatePartsCommand => new DelegateCommand(o => EditorService.RotateParts());
+        public ICommand SaveShipCommand => new DelegateCommand(o => {
+            ActionsNextFrame.Add(() =>
+            {
+                var dialog = new Microsoft.Win32.SaveFileDialog
+                {
+                    AddExtension = true,
+                    DefaultExt = ".ship.json"
+                };
+                if (dialog.ShowDialog() == true)
+                    EditorService.SaveShip(dialog.FileName);
+            });
+        });
+        public ICommand LoadShipCommand => new DelegateCommand(o => {
+            ActionsNextFrame.Add(() =>
+            {
+                var dialog = new Microsoft.Win32.OpenFileDialog
+                {
+                    AddExtension = true,
+                    DefaultExt = ".ship.json"
+                };
+                if (dialog.ShowDialog() == true)
+                {
+                    EditorService.LoadShip(dialog.FileName);
+                }
+                PropertyObject = EditorService.Ship;
+            });
+        });
+
+        
 
         public SpriteManagerService SpriteManager { get; private set; }
     }

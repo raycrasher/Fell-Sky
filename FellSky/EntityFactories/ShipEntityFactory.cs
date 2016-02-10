@@ -34,13 +34,20 @@ namespace FellSky.EntityFactories
 
             foreach(var hull in ship.Hulls)
             {
-                CreateHullEntity(shipEntity, hull, addPhysics);
+                CreateHullEntityInternal(shipEntity, hull, addPhysics);
             }
 
             return shipEntity;
         }
 
         public Entity CreateHullEntity(Entity ship, Hull hull, bool addPhysics = false)
+        {
+            var entity = CreateHullEntityInternal(ship, hull, addPhysics);
+            ship?.GetComponent<ShipComponent>().Ship.Hulls.Add(hull);
+            return entity;
+        }
+
+        private Entity CreateHullEntityInternal(Entity ship, Hull hull, bool addPhysics)
         {
             var entity = World.CreateEntity();
             entity.AddComponent(new HullComponent(hull, ship));
@@ -49,14 +56,12 @@ namespace FellSky.EntityFactories
             entity.AddComponent(new HealthComponent(hull.Health));
             var spriteComponent = _spriteManager.CreateSpriteComponent(hull.SpriteId);
             entity.AddComponent(spriteComponent);
-            entity.AddComponent(new BoundingBoxComponent(new FloatRect(0,0, spriteComponent.TextureRect.Width, spriteComponent.TextureRect.Height)));
+            entity.AddComponent(new BoundingBoxComponent(new FloatRect(0, 0, spriteComponent.TextureRect.Width, spriteComponent.TextureRect.Height)));
+            ship?.GetComponent<ShipComponent>().HullEntities.Add(entity);
             if (addPhysics)
             {
                 entity.AddComponent(_physics.CreateAndAttachFixture(hull.ShapeId, hull.Transform));
             }
-
-            ship?.GetComponent<ShipComponent>().HullEntities.Add(entity);
-            ship?.GetComponent<ShipComponent>().Ship.Hulls.Add(hull);
             return entity;
         }
     }

@@ -93,8 +93,8 @@
             <MenuItem Header="Ship" VerticalAlignment="Center" >
                 <MenuItem Header="New Ship" Command="{Binding CreateNewShipCommand}"/>
                 <MenuItem Header="New Part Group" />
-                <MenuItem Header="Open..."/>
-                <MenuItem Header="Save"/>
+                <MenuItem Header="Load..." Command="{Binding LoadShipCommand}"/>
+                <MenuItem Header="Save" Command="{Binding SaveShipCommand}"/>
                 <MenuItem Header="Save As..."/>
             </MenuItem>
             <MenuItem Header="Edit">
