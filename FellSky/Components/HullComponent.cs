@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework;
 
 namespace FellSky.Components
 {
-    public class HullComponent: IComponent, IPartComponent<Hull>
+    public class HullComponent: IComponent, IPartComponent<Hull>, IPartComponent
     {
         public HullComponent(Hull hull, Entity ship)
         {
@@ -18,5 +18,7 @@ namespace FellSky.Components
 
         public Hull Part { get; set; }
         public Entity Ship { get; set; }
+
+        ShipPart IPartComponent.Part => Part;
     }
 }

@@ -133,7 +133,7 @@ namespace FellSky.Editor
             
             host.KeyUp += HandleKeyboardInput;
 
-            EditorService = new ShipEditorService(Services, World, CameraTag);
+            EditorService = new ShipEditorService(_mouse, Services.GetService<ShipEntityFactory>(), World, CameraTag);
             CreateNewShipCommand.Execute(null);
         }
 
@@ -166,7 +166,7 @@ namespace FellSky.Editor
                     EditorService.OffsetParts(new Vector2(Keyboard.IsKeyDown(Key.LeftShift) ? 1 : 10, 0));
                     break;
                 case Key.M:
-                    EditorService.MirrorLateralOnSelected();
+                    EditorService.MirrorSelectedLaterally();
                     break;
             }
         }
@@ -236,7 +236,7 @@ namespace FellSky.Editor
         });
 
         public ICommand DeletePartsCommand => new DelegateCommand(o => EditorService.DeleteParts());
-        public ICommand MirrorLateralCommand => new DelegateCommand(o => EditorService.MirrorLateralOnSelected());
+        public ICommand MirrorLateralCommand => new DelegateCommand(o => EditorService.MirrorSelectedLaterally());
         public ICommand RotatePartsCommand => new DelegateCommand(o => EditorService.RotateParts());
         public ICommand SaveShipCommand => new DelegateCommand(o => {
             ActionsNextFrame.Add(() =>

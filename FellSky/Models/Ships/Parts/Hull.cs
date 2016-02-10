@@ -31,12 +31,10 @@ namespace FellSky.Models.Ships.Parts
             Color = color;
         }
 
-        public string SpriteId { get; set; }
         public Color Color { get; set; }
         public HullColorType ColorType { get; set; } = HullColorType.Hull;
 
         [Xceed.Wpf.Toolkit.PropertyGrid.Attributes.ExpandableObject]
-        public Transform Transform { get; set; } = new Transform();
         public string ShapeId { get; set; }
         public SpriteEffects SpriteEffect { get; set; }
         public float Health { get; set; } = 100;

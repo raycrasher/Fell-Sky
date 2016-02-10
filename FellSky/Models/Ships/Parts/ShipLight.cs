@@ -6,10 +6,7 @@ using System;
 namespace FellSky.Models.Ships.Parts
 {
     public sealed class ShipLight: ShipPart
-    {
-        public Transform Transform { get; set; } = new Transform();
-        public string SpriteId { get; set; }
-        
+    {      
         public KeyFrame[] Frames { get; set; } = new[] { new KeyFrame(TimeSpan.FromSeconds(1), Color.LightCyan, 1.0f) };
 
         public int CurrentFrame { get; set; } = 0;

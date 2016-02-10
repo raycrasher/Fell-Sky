@@ -29,7 +29,7 @@ namespace FellSky.Ships
                 if (WeaponMounts != null) foreach (var p in WeaponMounts) yield return p;
                 if (Lights != null) foreach (var p in Lights) yield return p;
                 if (ModuleSlots != null) foreach (var p in ModuleSlots) yield return p;
-                yield return WarpDrive;
+                if(WarpDrive!=null) yield return WarpDrive;
                 if (Reactors != null) foreach (var p in Reactors) yield return p;
             } }
 

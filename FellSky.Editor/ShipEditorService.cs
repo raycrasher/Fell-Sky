@@ -37,7 +37,7 @@ namespace FellSky.Editor
         private IMouseService _mouse;
         private MouseControlledTransformSystem _transformSystem;
         private EntityWorld _world;
-        private GameServiceContainer _services;
+        private ShipEntityFactory _shipFactory;
 
         public List<Entity> SelectedPartEntities { get; private set; }
         public Entity ShipEntity { get; private set; }
@@ -53,12 +53,12 @@ namespace FellSky.Editor
         public Color BaseColor { get; set; } = Color.Gold;
         public string CameraTag { get; set; }
 
-        public ShipEditorService(GameServiceContainer services, Artemis.EntityWorld world, string cameraTag)
+        public ShipEditorService(IMouseService mouse, ShipEntityFactory shipFactory, Artemis.EntityWorld world, string cameraTag)
         {
             CameraTag = cameraTag;
-            _services = services;
-            _mouse = _services.GetService<IMouseService>();
+            _mouse = mouse;
             _world = world;
+            _shipFactory = shipFactory;
             _transformSystem = world.SystemManager.GetSystem<MouseControlledTransformSystem>();
             SelectedPartEntities = _world.SystemManager.GetSystem<BoundingBoxSelectionSystem>().SelectedEntities;
             PropertyChanged += OnColorChanged;
@@ -109,7 +109,16 @@ namespace FellSky.Editor
         public void AddHull(Sprite sprite)
         {
             ClearSelection();
-            var entity = AddHullInternal(sprite.Id, _world.GetCamera(CameraTag).ScreenToCameraSpace(_mouse.ScreenPosition), 0, Vector2.One, new Vector2(sprite.OriginX ?? sprite.W / 2, sprite.OriginY ?? sprite.H / 2), HullColor, SelectedHullColorType);
+            var entity = AddHullInternal(sprite.Id, 
+                _world.GetCamera(CameraTag).ScreenToCameraSpace(_mouse.ScreenPosition), 
+                0, 
+                Vector2.One, 
+                new Vector2(
+                    sprite.OriginX ?? sprite.W / 2, 
+                    sprite.OriginY ?? sprite.H / 2), 
+                HullColor, 
+                SelectedHullColorType);
+
             SelectedPartEntities.Add(entity);
             entity.AddComponent(new MouseControlledTransformComponent());
             _transformSystem.StartTransform<TranslateState>();
@@ -159,15 +168,6 @@ namespace FellSky.Editor
             }
         }
 
-        public void MirrorLateralOnSelected()
-        {
-            //foreach(var item in SelectedPartEntities)
-            //{
-            //    var part = item.GetComponent<ShipPartComponent<Hull>>();
-            //    if(part is Hull) MirrorHullLateral((Hull) part);
-            //}
-        }
-
         public void SaveShip(string filename)
         {
             try
@@ -192,7 +192,7 @@ namespace FellSky.Editor
                 if (ShipEntity != null) ShipEntity.Tag = null;
                 ShipEntity?.Delete();
                 Ship = Ship.LoadFromJsonFile(fileName);
-                ShipEntity = _services.GetService<ShipEntityFactory>().CreateShipEntity(Ship, Vector2.Zero, 0, false);
+                ShipEntity = _shipFactory.CreateShipEntity(Ship, Vector2.Zero, 0, false);
                 ShipEntity.Tag = "PlayerShip";
                 foreach(var entity in ShipEntity.GetComponent<ShipComponent>().PartEntities)
                 {
@@ -210,28 +210,37 @@ namespace FellSky.Editor
 
         }
 
-        private void MirrorHullLateral(Hull part)
+        public void MirrorSelectedLaterally()
         {
-            Vector2 position = part.Transform.Position * new Vector2(1, -1);
-            Vector2 scale = part.Transform.Scale;
-            Vector2 origin = part.Transform.Origin;
-            float rotation = (part.Transform.Rotation.ToVector() * new Vector2(-1, 1)).ToAngleRadians();
-            
-            if (Ship.Hulls.Any(h => Vector2.DistanceSquared(h.Transform.Position, position) < 1
-                                    && Math.Abs(h.Transform.Rotation - rotation) < 1 / Math.PI))
-                return;
 
-            var oldHull = part as Hull;
-            var hullEntity = AddHullInternal(oldHull.SpriteId, position, rotation, scale, origin, oldHull.Color, oldHull.ColorType);
-            var newHull = hullEntity.Components.OfType<Hull>().First();
-            newHull.SpriteEffect = oldHull.SpriteEffect ^ Microsoft.Xna.Framework.Graphics.SpriteEffects.FlipVertically;
-            newHull.ColorType = oldHull.ColorType;
+
+            foreach(var part in SelectedPartEntities.Select(s => s.Components.OfType<IPartComponent>().First().Part))
+            {
+                Vector2 position = part.Transform.Position * new Vector2(1, -1);
+                Vector2 scale = part.Transform.Scale;
+                Vector2 origin = part.Transform.Origin;
+                float rotation = (part.Transform.Rotation.ToVector() * new Vector2(-1, 1)).ToAngleRadians();
+
+                if (Ship.Parts.Any(part2 => Vector2.DistanceSquared(part2.Transform.Position, position) < 1
+                                        && Math.Abs(part2.Transform.Rotation - rotation) < 1 / Math.PI
+                                        && part2.SpriteId == part2.SpriteId
+                                        )) return;
+
+                if (part is Hull)
+                {
+                    var oldHull = part as Hull;
+                    var hullEntity = AddHullInternal(oldHull.SpriteId, position, rotation, scale, origin, oldHull.Color, oldHull.ColorType);
+                    var newHull = hullEntity.GetComponent<HullComponent>().Part;
+                    newHull.SpriteEffect = oldHull.SpriteEffect ^ Microsoft.Xna.Framework.Graphics.SpriteEffects.FlipVertically;
+                    newHull.ColorType = oldHull.ColorType;
+                }
+            }            
         }
         
         private Entity AddHullInternal(string id, Vector2 position, float rotation, Vector2 scale, Vector2 origin, Color color, HullColorType colorType = HullColorType.Hull)
         {
             var hull = new Hull(id, position, rotation, scale, origin, color);
-            var hullEntity = _services.GetService<ShipEntityFactory>().CreateHullEntity(ShipEntity, hull, false);
+            var hullEntity = _shipFactory.CreateHullEntity(ShipEntity, hull, false);
             var hullComponent = hullEntity.GetComponent<HullComponent>();
             hull.ColorType = colorType;
             AddEditorComponentsToPartEntity(hullEntity);

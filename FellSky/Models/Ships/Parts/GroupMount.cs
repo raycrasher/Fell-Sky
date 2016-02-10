@@ -9,7 +9,6 @@ namespace FellSky.Models.Ships.Parts
     public class GroupMount: ShipPart
     {
         public Transform OriginalTransform { get; set; } = new Transform();
-        public Transform Transform { get; set; } = new Transform();
         
     }
 }
