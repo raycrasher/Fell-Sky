@@ -1,13 +1,13 @@
-﻿using Artemis.Interface;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FellSky.Models.Space.Terrain
+namespace FellSky.Services
 {
-    class EventHorizon: IComponent
+    class GamePersistenceService
     {
+        
     }
 }

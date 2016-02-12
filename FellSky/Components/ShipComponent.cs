@@ -22,6 +22,7 @@ namespace FellSky.Components
         public Vector2 LinearThrustVector { get; set; }
         public bool AttemptBoost { get; set; }
         public IEnumerable<Entity> PartEntities => HullEntities.Concat(ThrusterEntities);
+        public Vector2 CenterOfMass { get; set; }
 
         // functions
 
@@ -40,10 +41,19 @@ namespace FellSky.Components
 
             if (list == null) throw new InvalidOperationException("Part type is invalid");
 
-            var entity = list.First(s => s.Components.OfType<IPartComponent<T>>().First().Part == part);
+            var entity = list.First(s => s.Components.OfType<ShipPartComponent<T>>().First().Part == part);
             Ship.RemovePart(part);
             list.Remove(entity);
             entity.Delete();
+        }
+
+        public Entity[] ThrusterAssignmentsCCW { get; set; }
+        public Entity[] ThrusterAssignmentsCW { get; set; }
+        public Entity[] ThrusterAssignmentsMain { get; set; }
+
+        public void UpdateThrusterAssignments()
+        {
+            
         }
     }
 }

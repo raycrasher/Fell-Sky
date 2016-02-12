@@ -53,6 +53,13 @@ namespace FellSky.Editor
         public Color BaseColor { get; set; } = Color.Gold;
         public string CameraTag { get; set; }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="mouse"></param>
+        /// <param name="shipFactory"></param>
+        /// <param name="world"></param>
+        /// <param name="cameraTag">The tag of the camera entity</param>
         public ShipEditorService(IMouseService mouse, ShipEntityFactory shipFactory, Artemis.EntityWorld world, string cameraTag)
         {
             CameraTag = cameraTag;
@@ -64,6 +71,9 @@ namespace FellSky.Editor
             PropertyChanged += OnColorChanged;
         }
 
+        /// <summary>
+        /// Starts a rotate operation
+        /// </summary>
         public void RotateParts()
         {
             if (!(_transformSystem.State is RotateCentroidState))
@@ -73,6 +83,9 @@ namespace FellSky.Editor
             }
         }
 
+        /// <summary>
+        /// Starts a translate operation
+        /// </summary>
         public void TranslateParts()
         {
             if (!(_transformSystem.State is TranslateState))
@@ -82,17 +95,27 @@ namespace FellSky.Editor
             }
         }
 
+        /// <summary>
+        /// Not implemented yet.
+        /// </summary>
         public void ScaleParts()
         {
             // not implemented yet
         }
 
+        /// <summary>
+        /// Delete parts
+        /// </summary>
         public void DeleteParts()
         {
             var ship = ShipEntity.GetComponent<ShipComponent>();
             foreach (var e in SelectedPartEntities)
             {
                 ship.RemovePart(e.Components.OfType<ShipPart>().First());
+                if(e.HasComponent<HullComponent>())
+                    ship.HullEntities.Remove(e);
+                if (e.HasComponent<ThrusterComponent>())
+                    ship.ThrusterEntities.Remove(e);
                 e.Delete();
             }
             SelectedPartEntities.Clear();
@@ -214,7 +237,7 @@ namespace FellSky.Editor
         {
 
 
-            foreach(var part in SelectedPartEntities.Select(s => s.Components.OfType<IPartComponent>().First().Part))
+            foreach(var part in SelectedPartEntities.Select(s => s.Components.OfType<IShipPartComponent>().First().Part))
             {
                 Vector2 position = part.Transform.Position * new Vector2(1, -1);
                 Vector2 scale = part.Transform.Scale;
@@ -234,7 +257,7 @@ namespace FellSky.Editor
                     newHull.SpriteEffect = oldHull.SpriteEffect ^ Microsoft.Xna.Framework.Graphics.SpriteEffects.FlipVertically;
                     newHull.ColorType = oldHull.ColorType;
                 }
-            }            
+            }
         }
         
         private Entity AddHullInternal(string id, Vector2 position, float rotation, Vector2 scale, Vector2 origin, Color color, HullColorType colorType = HullColorType.Hull)

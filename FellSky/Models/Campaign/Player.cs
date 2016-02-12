@@ -1,16 +1,16 @@
 ﻿using Artemis.Interface;
 using FellSky.Campaign.Bases;
 using FellSky.Campaign.Diplomacy;
-using FellSky.Core.Crew;
 using FellSky.Ships;
-using FellSky.Space;
+using FellSky.Models.Space;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FellSky.Models.Crew;
 
-namespace FellSky.Core
+namespace FellSky.Models.Campaign
 {
     public class Player: IComponent
     {

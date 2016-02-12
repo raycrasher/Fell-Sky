@@ -6,14 +6,7 @@ using System.Threading.Tasks;
 
 namespace FellSky.Models.Space
 {
-    public enum PlanetType
+    class StarSystemState
     {
-        Rock,
-        GasGiant
-    }
-
-    public class Planet
-    {
-        public PlanetType PlanetType { get; set; }
     }
 }

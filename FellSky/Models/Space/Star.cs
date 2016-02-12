@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FellSky.Space
+namespace FellSky.Models.Space
 {
     public class Star: IComponent
     {

@@ -43,15 +43,12 @@ namespace FellSky.Ships
         public ShipHandlingParameters Handling { get; set; } = new ShipHandlingParameters();
 
         [JsonIgnore]
-        public IEnumerable<PartGroup> Groups { get {
-            return Hulls.Cast<ShipPart>()
-                    .Concat(Thrusters)
-                    .Concat(WeaponMounts)
-                    .Concat(Lights)
-                    .Select(p => p.Group)
-                    .Distinct()
-                    .Where(g => g != null);
-        } }
+        public IEnumerable<PartGroup> Groups => Hulls.Cast<ShipPart>()
+                                                    .Concat(Thrusters)
+                                                    .Concat(WeaponMounts)
+                                                    .Concat(Lights)
+                                                    .Select(p => p.Group)
+                                                    .Distinct();
 
         public Color BaseDecalColor { get; set; } = Color.White;
         public Color TrimDecalColor { get; set; } = Color.White;

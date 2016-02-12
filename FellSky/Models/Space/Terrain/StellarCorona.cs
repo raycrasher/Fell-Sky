@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FellSky.Space.Terrain
+namespace FellSky.Models.Space.Terrain
 {
     class StellarCorona
     {

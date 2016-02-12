@@ -8,7 +8,7 @@ using FellSky.Components;
 
 namespace FellSky.Systems
 {
-    public class ShipUpdateSystem: Artemis.System.EntitySystem
+    public class ShipUpdateSystem: Artemis.System.ParallelEntityProcessingSystem
     {
         public ShipUpdateSystem()
             : base (Aspect.All(typeof(ShipComponent)))
@@ -31,6 +31,16 @@ namespace FellSky.Systems
             }
 
             base.OnRemoved(entity);
+        }
+
+        public override void Process(Entity entity)
+        {
+            var shipComponent = entity.GetComponent<ShipComponent>();
+            var xform = entity.GetComponent<Transform>();           
+        }
+
+        private void UpdateThrusters(IList<Entity> thrusterEntities)
+        {
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using Artemis.Interface;
 using Microsoft.Xna.Framework;
 
-namespace FellSky.Space
+namespace FellSky.Models.Space
 {
     public sealed class SpaceObject: IComponent
     {

@@ -112,13 +112,14 @@
     <Compile Include="Components\HealthComponent.cs" />
     <Compile Include="Components\HealthModOverTimeComponent.cs" />
     <Compile Include="Components\HullComponent.cs" />
-    <Compile Include="Components\IPartComponent.cs" />
+    <Compile Include="Components\ShipPartComponent.cs" />
     <Compile Include="Components\RigidBodyFixtureComponent.cs" />
     <Compile Include="Components\ShipComponent.cs" />
     <Compile Include="Components\ThrusterComponent.cs" />
     <Compile Include="EntityFactories\ShipEntityFactory.cs" />
     <Compile Include="Framework\Sprite.cs" />
     <Compile Include="Framework\SpriteSheet.cs" />
+    <Compile Include="Models\Campaign\CampaignSettings.cs" />
     <Compile Include="Models\Campaign\Campaign.cs" />
     <Compile Include="Framework\ColorHSL.cs" />
     <Compile Include="Framework\CommonEnums.cs" />
@@ -132,6 +133,8 @@
     <Compile Include="Models\Combat\Explosion.cs" />
     <Compile Include="Models\Combat\Projectile.cs" />
     <Compile Include="Components\SteeringBehaviorComponent.cs" />
+    <Compile Include="Models\Space\StarSystemState.cs" />
+    <Compile Include="Services\GamePersistenceService.cs" />
     <Compile Include="Services\ICoroutineService.cs" />
     <Compile Include="Services\IEventService.cs" />
     <Compile Include="Services\IPhysicsService.cs" />
@@ -148,7 +151,6 @@
     <Compile Include="Components\MouseControlledTransformComponent.cs" />
     <Compile Include="Components\RigidBodyComponent.cs" />
     <Compile Include="Components\PlayerShipController.cs" />
-    <Compile Include="Models\Campaign\SensorDetectable.cs" />
     <Compile Include="Framework\SteeringBehaviors\SteeringComponent.cs" />
     <Compile Include="EntityFactories\CameraEntityTemplate.cs" />
     <Compile Include="EntityFactories\GenericDrawableFactory.cs" />
@@ -186,7 +188,6 @@
     <Compile Include="Models\Space\Terrain\RingTerrain.cs" />
     <Compile Include="Models\Space\Terrain\StellarCorona.cs" />
     <Compile Include="Models\Space\Terrain\StellarFlare.cs" />
-    <Compile Include="Models\Space\ThermalEmitter.cs" />
     <Compile Include="Models\Campaign\Commands\DockStrategicCommand.cs" />
     <Compile Include="Models\Campaign\Commands\FireStandoffWeaponsStrategicCommand.cs" />
     <Compile Include="Models\Campaign\Commands\GetResourcesStrategicCommand.cs" />
@@ -199,7 +200,6 @@
     <Compile Include="Models\Campaign\StandingOrders\EvadeStrategicStandingOrder.cs" />
     <Compile Include="Models\Campaign\StandingOrders\RunSilentStrategicStandingOrder.cs" />
     <Compile Include="Models\Campaign\StandingOrders\ThrusterBoostStrategicStandingOrder.cs" />
-    <Compile Include="Models\Campaign\StrategicSceneManager.cs" />
     <Compile Include="Models\Combat\BattleSceneManager.cs" />
     <Compile Include="Systems\BoundingBoxRendererSystem.cs" />
     <Compile Include="Systems\BoundingBoxSelectionSystem.cs" />
@@ -279,6 +279,7 @@
     </Compile>
     <Compile Include="Systems\HealthModOverTimeSystem.cs" />
     <Compile Include="Systems\PlayerShipControlSystem.cs" />
+    <Compile Include="Systems\RigidBodyToTransformSystem.cs" />
     <Compile Include="Systems\ShipUpdateSystem.cs" />
     <Compile Include="Systems\ShipRendererSystem.cs" />
     <Compile Include="Framework\SteeringBehaviors\SteeringBehaviorSystem.cs" />

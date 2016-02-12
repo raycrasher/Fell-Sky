@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FellSky.Core.Crew
+namespace FellSky.Models.Crew
 {
     public class Character: IComponent
     {

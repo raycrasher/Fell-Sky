@@ -1,6 +1,6 @@
-﻿using Artemis.Interface;
+﻿using Artemis;
+using Artemis.Interface;
 using FellSky.Framework;
-
 using FellSky.Models.Ships.Parts;
 using System;
 using System.Collections.Generic;
@@ -10,11 +10,15 @@ using System.Threading.Tasks;
 
 namespace FellSky.Components
 {
-    public class ThrusterComponent: IComponent, IPartComponent<Thruster>
+    public class ThrusterComponent: ShipPartComponent<Thruster>
     {
+        public ThrusterComponent(Thruster part, Entity ship)
+            : base(part,ship)
+        {            
+        }
         public SpriteComponent Sprite { get; set; }
         public float ThrustPercentage { get; set; }
         public bool IsDamaged { get; set; }
-        public Thruster Part { get; set; }
+        public AngularDirection TurnDirection { get; set; }
     }
 }

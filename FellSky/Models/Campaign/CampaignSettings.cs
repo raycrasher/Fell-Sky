@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FellSky.Campaign
+namespace FellSky.Models.Campaign
 {
-    public class StrategicSceneManager
+    class CampaignSettings
     {
     }
 }
