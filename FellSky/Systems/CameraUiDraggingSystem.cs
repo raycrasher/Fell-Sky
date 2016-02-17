@@ -17,11 +17,17 @@ namespace FellSky.Systems
         private bool _isDragging = false;
         private Vector2 _offset;
         private Vector2 _origin;
+        private float _targetZoom = 1;
+        private float _currentZoom = 1;
+        private float _zoomLerpTime=1;
+
+        //private ITimerService _timer;
 
         public CameraUiDraggingSystem(string cameraTag, IMouseService mouse)
             : base(cameraTag)
         {
             _mouse = mouse;
+            //_timer = timer;
         }
 
         public string CameraTag { get; private set; }
@@ -30,7 +36,16 @@ namespace FellSky.Systems
         {
             _mouse.ButtonDown += OnButtonDown;
             _mouse.ButtonUp += OnButtonUp;
+            _mouse.WheelChanged += WheelChanged;
             base.LoadContent();
+        }
+
+        private void WheelChanged(int delta)
+        {
+            if (delta > 0) _targetZoom -= 0.1f;
+            else if (delta < 0) _targetZoom += 1.1f;
+            _zoomLerpTime = 0;
+            _targetZoom = MathHelper.Clamp(_targetZoom, 0.5f, 2f);
         }
 
         private void OnButtonUp(Point pos, int button)
@@ -47,7 +62,7 @@ namespace FellSky.Systems
         {
             if (_mouseDown && !_isDragging) {
                 var camera = entity.GetComponent<CameraComponent>();
-                _offset = camera.ScreenToCameraSpace(_mouse.ScreenPosition);
+                _offset = _mouse.ScreenPosition;
                 _isDragging = true;
                 var xform = entity.GetComponent<Transform>();
                 _origin = xform.Position;
@@ -58,7 +73,16 @@ namespace FellSky.Systems
             {
                 var xform = entity.GetComponent<Transform>();
                 var camera = entity.GetComponent<CameraComponent>();
-                xform.Position = _origin + (_offset - camera.ScreenToCameraSpace(_mouse.ScreenPosition));
+                xform.Position = _origin + (_offset - _mouse.ScreenPosition);
+            }
+
+            // if zooming
+            if(_zoomLerpTime < 1)
+            {
+                _currentZoom = MathHelper.Lerp(_currentZoom, _targetZoom, _zoomLerpTime);
+                _zoomLerpTime += 0.1f;
+                var camera = entity.GetComponent<CameraComponent>();
+                camera.Zoom = _currentZoom;
             }
         }
     }

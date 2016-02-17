@@ -36,11 +36,11 @@ namespace FellSky.Systems
         public override void Process(Entity entity)
         {
             var shipComponent = entity.GetComponent<ShipComponent>();
-            var xform = entity.GetComponent<Transform>();           
         }
 
-        private void UpdateThrusters(IList<Entity> thrusterEntities)
+        private void UpdateThrusters(Entity ship, IList<Entity> thrusterEntities)
         {
+            
         }
     }
 }

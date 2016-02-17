@@ -18,7 +18,6 @@ namespace FellSky.Components
         }
         public SpriteComponent Sprite { get; set; }
         public float ThrustPercentage { get; set; }
-        public bool IsDamaged { get; set; }
         public AngularDirection TurnDirection { get; set; }
     }
 }

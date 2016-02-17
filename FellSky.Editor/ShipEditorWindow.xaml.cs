@@ -68,6 +68,7 @@ namespace FellSky.Editor
         private void D3D11Host_MouseDown(object sender, MouseButtonEventArgs e)
         {
             ColorPicker.IsOpen = false;
+            D3D11Host.Focus();
         }
     }
 }

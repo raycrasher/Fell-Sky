@@ -44,17 +44,23 @@ namespace FellSky
             Content.RootDirectory = Path.GetFullPath(Settings.DataFolder);
             Environment.CurrentDirectory = Path.GetFullPath(Settings.DataFolder);
 
+            Timer = new TimerService();
+            Services.AddService<ITimerService>(Timer);
+
+            Coroutines = new CoroutineService();
+            Services.AddService<ICoroutineService>(Coroutines);
+
             SpriteBatch = new SpriteBatch(GraphicsDevice);
             Services.AddService(SpriteBatch);
-
-            Gui = new GuiService(Graphics.GraphicsDevice, Timer, Keyboard, Mouse, Content, Coroutines);
-            Services.AddService<IGuiService>(Gui);
-            
+                       
             Keyboard = new KeyboardService(Coroutines);
             Services.AddService<IKeyboardService>(Keyboard);
 
             Mouse = new MouseService(Coroutines);
             Services.AddService<IMouseService>(Mouse);
+
+            Gui = new GuiService(Graphics.GraphicsDevice, Timer, Keyboard, Mouse, Content, Coroutines);
+            Services.AddService<IGuiService>(Gui);
 
             SpriteManager = new SpriteManagerService();
             Services.AddService<ISpriteManagerService>(SpriteManager);

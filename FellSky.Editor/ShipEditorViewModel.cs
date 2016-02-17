@@ -109,11 +109,11 @@ namespace FellSky.Editor
             World.SystemManager.SetSystem(new BoundingBoxRendererSystem(SpriteBatch, CameraTag), Artemis.Manager.GameLoopType.Draw, 3);
             World.SystemManager.SetSystem(new GenericDrawableRendererSystem(SpriteBatch, host.GraphicsDevice, CameraTag), Artemis.Manager.GameLoopType.Draw, 4);
 
+            World.SystemManager.SetSystem(new CameraUiDraggingSystem(CameraTag, _mouse), Artemis.Manager.GameLoopType.Update, 1);
             _transformSystem = new MouseControlledTransformSystem(_mouse, CameraTag);
-            World.SystemManager.SetSystem(_transformSystem, Artemis.Manager.GameLoopType.Update, 1);
-            World.SystemManager.SetSystem(new ShipUpdateSystem(), Artemis.Manager.GameLoopType.Update, 2);
-            World.SystemManager.SetSystem(new BoundingBoxSelectionSystem(_mouse, CameraTag), Artemis.Manager.GameLoopType.Update, 3);
-            World.SystemManager.SetSystem(new CameraUiDraggingSystem(CameraTag, _mouse), Artemis.Manager.GameLoopType.Update, 4);
+            World.SystemManager.SetSystem(_transformSystem, Artemis.Manager.GameLoopType.Update, 2);
+            World.SystemManager.SetSystem(new ShipUpdateSystem(), Artemis.Manager.GameLoopType.Update, 3);
+            World.SystemManager.SetSystem(new BoundingBoxSelectionSystem(_mouse, CameraTag), Artemis.Manager.GameLoopType.Update, 4);
 
             World.InitializeAll();
 

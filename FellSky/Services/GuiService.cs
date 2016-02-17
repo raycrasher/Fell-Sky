@@ -34,12 +34,12 @@ namespace FellSky.Services
             _coroutines = coroutines;
 
             LibRocketNet.Core.SystemInterface = new Gui.LibRocketSystemInterface(_timer);
+            LibRocketNet.Core.RenderInterface = _renderInterface;
             LibRocketNet.Core.Initialize();
 
             Context = LibRocketNet.Core.CreateContext(
                 ContextName,
-                new Vector2i(graphics.Viewport.Width, graphics.Viewport.Height),
-                _renderInterface);
+                new Vector2i(graphics.Viewport.Width, graphics.Viewport.Height));
 
             LoadFonts();
             LibRocketNet.Core.InitDebugger(Context);

@@ -7,6 +7,7 @@ using Artemis;
 using Microsoft.Xna.Framework;
 using FellSky.Systems;
 using Microsoft.Xna.Framework.Graphics;
+using FellSky.Services;
 
 namespace FellSky.States
 {
@@ -38,6 +39,7 @@ namespace FellSky.States
 
         public override void Update(GameTime gameTime)
         {
+            _services.GetService<IGuiService>().Context.Update();
             World.Update();
             
         }
@@ -45,6 +47,7 @@ namespace FellSky.States
         {
             Game.Instance.GraphicsDevice.Clear(Color.CornflowerBlue);
             World.Draw();
+            _services.GetService<IGuiService>().Context.Render();
         }
     }
 }
