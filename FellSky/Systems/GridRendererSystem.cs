@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework.Graphics;
 using FellSky.Components;
 using FellSky.Framework;
 
-namespace FellSky.Components
+namespace FellSky.Systems
 {
     public class GridRendererSystem : Artemis.System.EntityComponentProcessingSystem<GridComponent>
     {

@@ -140,7 +140,7 @@
     <Compile Include="Services\IPhysicsService.cs" />
     <Compile Include="Services\ISpriteManagerService.cs" />
     <Compile Include="Services\TimerService.cs" />
-    <Compile Include="Models\Ships\Parts\AnimatedPartGroup.cs" />
+    <Compile Include="Models\Ships\Parts\RevoluteJointBody.cs" />
     <Compile Include="Models\Space\Datanet.cs" />
     <Compile Include="Models\Space\Dockable.cs" />
     <Compile Include="Components\BoundingBoxSelectorComponent.cs" />

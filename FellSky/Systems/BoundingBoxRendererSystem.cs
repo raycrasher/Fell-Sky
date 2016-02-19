@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework;
 using FellSky.Components;
 using FellSky.Framework;
 
-namespace FellSky.Components
+namespace FellSky.Systems
 {
     public class BoundingBoxRendererSystem : Artemis.System.EntityComponentProcessingSystem<Transform, DrawBoundingBoxComponent, BoundingBoxComponent>
     {

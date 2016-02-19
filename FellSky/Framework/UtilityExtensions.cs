@@ -1,12 +1,11 @@
 ﻿using FellSky.Components;
 using Microsoft.Xna.Framework;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace FellSky
 {
-
-
     public static class UtilityExtensions
     {
         public static Matrix GetMatrix(this ITransform xform)
@@ -91,6 +90,5 @@ namespace FellSky
         {
             return world.TagManager.GetEntity(cameraTag)?.GetComponent<CameraComponent>();
         }
-
     }
 }

@@ -24,6 +24,8 @@ namespace FellSky.Components
         public IEnumerable<Entity> PartEntities => HullEntities.Concat(ThrusterEntities);
         public Vector2 CenterOfMass { get; set; }
 
+        public List<Entity> AdditionalRigidBodies { get; set; } = new List<Entity>();
+
         // functions
 
         public ShipComponent(Ship ship)
