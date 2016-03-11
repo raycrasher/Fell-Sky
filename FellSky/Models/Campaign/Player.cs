@@ -20,5 +20,6 @@ namespace FellSky.Models.Campaign
         public Ship ControlledShip { get; set; }
         public Character PlayerCharacter { get; set; }
         public Base Base { get; set; }
+
     }
 }

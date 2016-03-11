@@ -123,6 +123,7 @@
     <Compile Include="EntityFactories\ShipEntityFactory.cs" />
     <Compile Include="Framework\Sprite.cs" />
     <Compile Include="Framework\SpriteSheet.cs" />
+    <Compile Include="Models\Campaign\BasicResources.cs" />
     <Compile Include="Models\Campaign\CampaignSettings.cs" />
     <Compile Include="Models\Campaign\Campaign.cs" />
     <Compile Include="Framework\ColorHSL.cs" />
@@ -137,6 +138,11 @@
     <Compile Include="Models\Combat\Explosion.cs" />
     <Compile Include="Models\Combat\Projectile.cs" />
     <Compile Include="Components\SteeringBehaviorComponent.cs" />
+    <Compile Include="Models\Ships\Modules\MothershipBrainModule.cs" />
+    <Compile Include="Models\Ships\Modules\ShipModule.cs" />
+    <Compile Include="Models\Ships\Modules\SensorModule.cs" />
+    <Compile Include="Models\Ships\Modules\WarpCoreModule.cs" />
+    <Compile Include="Models\Ships\Mothership.cs" />
     <Compile Include="Models\Space\StarSystemState.cs" />
     <Compile Include="Services\GamePersistenceService.cs" />
     <Compile Include="Services\ICoroutineService.cs" />
@@ -297,7 +303,9 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Models\Campaign\StorySequence\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="Notes.txt" />
   </ItemGroup>
