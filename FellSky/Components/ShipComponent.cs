@@ -15,7 +15,7 @@ namespace FellSky.Components
         public List<Entity> HullEntities { get; set; } = new List<Entity>();
         public List<Entity> ThrusterEntities { get; set; } = new List<Entity>();
 
-        public IEnumerable<Entity> ChildEntities => HullEntities.Concat(ThrusterEntities);
+        //public IEnumerable<Entity> ChildEntities => HullEntities.Concat(ThrusterEntities);
 
         // control
         public float DesiredTorque { get; set; }

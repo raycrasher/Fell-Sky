@@ -81,6 +81,10 @@
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="Priority Queue, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\OptimizedPriorityQueue.2.0.0\lib\net45\Priority Queue.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="SharpDX, Version=2.5.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\SharpDX.dll</HintPath>
@@ -136,7 +140,7 @@
     <Compile Include="Models\Space\StarSystemState.cs" />
     <Compile Include="Services\GamePersistenceService.cs" />
     <Compile Include="Services\ICoroutineService.cs" />
-    <Compile Include="Services\IEventService.cs" />
+    <Compile Include="Services\EventService.cs" />
     <Compile Include="Services\IPhysicsService.cs" />
     <Compile Include="Services\ISpriteManagerService.cs" />
     <Compile Include="Services\TimerService.cs" />
@@ -287,6 +291,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>PublicSettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
