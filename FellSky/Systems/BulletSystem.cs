@@ -25,8 +25,6 @@ namespace FellSky.Systems
         private DiplomacySystem _diplomacy;
         private IEventService _events;
 
-        public List<BulletHitEventArgs> BulletHitEvents { get; } = new List<BulletHitEventArgs>();
-
         public BulletSystem(IEventService events)
         {
             _events = events;
@@ -41,19 +39,6 @@ namespace FellSky.Systems
 
         protected override void ProcessEntities(IDictionary<int, Entity> entities)
         {
-            foreach(var item in BulletHitEvents)
-            {
-                var damage = item.Bullet.GetComponent<DamageComponent>();
-                var health = item.Bullet.GetComponent<HealthComponent>();
-
-                if (health != null && damage!=null)
-                {
-                    health.ApplyDamage(damage);
-                }
-
-                _events.FireEvent(this, EventId.BulletHit, item);
-            }
-            BulletHitEvents.Clear();
             base.ProcessEntities(entities);
         }
 
@@ -70,8 +55,7 @@ namespace FellSky.Systems
                 if (!_diplomacy.IsFriendlyFirePossibleBetween(factionA, factionB))
                     args.IgnoreCollision = true;
             }
-
-            BulletHitEvents.Add(new BulletHitEventArgs
+            _events.FireEventNextFrame(this, EventId.BulletHit, new BulletHitEventArgs
             {
                 Bullet = args.EntityA,
                 Target = args.EntityB

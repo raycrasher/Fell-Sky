@@ -86,7 +86,9 @@ namespace FellSky.Services
 
         public void Update(GameTime gameTime)
         {
-            
+            // update and fire timed events
+            _elapsedTime += gameTime.ElapsedGameTime;
+
             // fire next frame events
             var queuesize = _nextFrameEvents.Count;
             for(int i = 0; i < queuesize; i++)
@@ -95,10 +97,8 @@ namespace FellSky.Services
                 FireEvent(evt.Sender, evt.Id, evt.Args);
             }
 
-            // update and fire timed events
-            _elapsedTime += gameTime.ElapsedGameTime;
+
             var seconds = _elapsedTime.TotalSeconds;
-            queuesize = _timedEvents.Count;
             while (_timedEvents.Count > 0 && _timedEvents.First.Time <= _elapsedTime)
             {
                 var evt = _timedEvents.Dequeue();
