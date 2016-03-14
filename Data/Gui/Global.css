@@ -1,0 +1,112 @@
+body {
+	font-family: Lacuna;
+	color:#ffffffff;
+	font-size: 14px;
+}
+
+div {
+	display:block;
+}
+
+p, h1,h2,h3,h4,h5,h6 {
+	display:block;
+	margin-top: 6px;
+	margin-bottom: 6px;
+}
+
+h1 { font-size: 48px; }
+h2 { font-size: 42px; }
+h3 { font-size: 36px; }
+h4 { font-size: 30px; }
+h5 { font-size: 24px; }
+h6 { font-size: 18px; }
+
+pre {
+	font-family: "Lucida Console";
+	white-space: pre;
+}
+
+small {
+	font-size: 10px;
+}
+
+input.text {
+	vertical-align:middle;
+}
+
+button, .button, input.button {
+	padding: 4px;
+	text-align:center;
+}
+
+em {
+	font-style:italic;
+	font-size: 12px;
+}
+
+hr
+{
+	border-width: 1px;
+}
+
+.hidden {
+	display:none;
+}
+
+
+.window {
+	border-color: #ffffff88;
+	border-width: 1px;
+	background-color: #000000bb;
+}
+
+.border-thin {
+	border-color: #ffffff88;
+	border-width: 1px;
+}
+
+.border-thick {
+	border-color: #ffffff88;
+	border-width: 2px;
+}
+
+
+
+/* scroll bars */
+
+scrollbarvertical, input.vertical
+{
+	width: 10px;
+}
+
+scrollbarvertical sliderbar, input.vertical sliderbar
+{
+	width: 6px;
+	border-width: 1px;
+	
+}
+
+sliderbar {
+	background-color: #666666ff;
+}
+
+sliderarrowdec
+{
+	display:none;
+}
+
+sliderarrowinc
+{
+	display:none;
+}
+
+scrollbarhorizontal
+{
+	height: 6px;
+}
+
+scrollbarhorizontal sliderbar
+{
+	height: 3px;
+	border-width: 1px;
+}
