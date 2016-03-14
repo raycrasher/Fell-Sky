@@ -37,20 +37,11 @@ namespace FellSky.Models.Ships.Modules
             ModuleName = "Warp Core";
         }
 
-        protected override IEnumerable<Upgrades> GetAvailableUpgrades()
-        {
-            Upgrades? u;
-            u = GetNextLevelledUpgrade(Strength, Upgrades.StrengthLv1, Upgrades.StrengthLv2, Upgrades.StrengthLv3);
-            if (u != null) yield return (Upgrades)u;
-
-            u = GetNextLevelledUpgrade(Size, Upgrades.SizeLv1, Upgrades.SizeLv2, Upgrades.SizeLv2);
-            if (u != null) yield return (Upgrades)u;
-
-            u = GetNextLevelledUpgrade(Control, Upgrades.ControlLv1, Upgrades.ControlLv2, Upgrades.ControlLv3);
-            if (u != null) yield return (Upgrades)u;
-
-            u = GetNextLevelledUpgrade(Containment, Upgrades.ContainmentLv1, Upgrades.ContainmentLv2, Upgrades.ContainmentLv3);
-            if (u != null) yield return (Upgrades)u;
-        }
+        protected override IEnumerable<Upgrades> GetAvailableUpgrades() => (new[] {
+            GetNextLevelledUpgrade(Strength, Upgrades.StrengthLv1, Upgrades.StrengthLv2, Upgrades.StrengthLv3),
+            GetNextLevelledUpgrade(Size, Upgrades.SizeLv1, Upgrades.SizeLv2, Upgrades.SizeLv3),
+            GetNextLevelledUpgrade(Control, Upgrades.ControlLv1, Upgrades.ControlLv2, Upgrades.ControlLv3),
+            GetNextLevelledUpgrade(Containment, Upgrades.ContainmentLv1, Upgrades.ContainmentLv2, Upgrades.ContainmentLv3)
+        }).Where(u => u != null).Cast<Upgrades>();
     }
 }
