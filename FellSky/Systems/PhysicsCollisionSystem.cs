@@ -75,7 +75,7 @@ namespace FellSky.Systems
                 FixtureA = fixtureA,
                 FixtureB = fixtureB
             };
-            _events.FireEvent(this, EventId.PhysicsOnSeparation, eventArgs);
+            _events.FireEventNextFrame(this, EventId.PhysicsOnSeparation, eventArgs);
         }
 
         private void HandleAfterCollision(Fixture fixtureA, Fixture fixtureB, Contact contact, ContactVelocityConstraint impulse)
@@ -87,7 +87,7 @@ namespace FellSky.Systems
                 Contact = contact,
                 Impulse = impulse
             };
-            _events.FireEvent(this, EventId.PhysicsOnSeparation, eventArgs);
+            _events.FireEventNextFrame(this, EventId.PhysicsOnSeparation, eventArgs);
         }
 
         private bool HandleBeforeCollision(Fixture fixtureA, Fixture fixtureB)
@@ -97,7 +97,7 @@ namespace FellSky.Systems
                 FixtureA = fixtureA,
                 FixtureB = fixtureB
             };
-            _events.FireEvent(this, EventId.PhysicsOnSeparation, eventArgs);
+            _events.FireEventNextFrame(this, EventId.PhysicsOnSeparation, eventArgs);
             return eventArgs.IgnoreCollision ?? (fixtureA.CollidesWith | fixtureB.CollidesWith) > 0;
         }
 
@@ -111,7 +111,7 @@ namespace FellSky.Systems
             };
 
             // filter here
-            _events.FireEvent(this, EventId.PhysicsCollision, eventArgs);
+            _events.FireEventNextFrame(this, EventId.PhysicsCollision, eventArgs);
             return eventArgs.IgnoreCollision ?? (fixtureA.CollidesWith | fixtureB.CollidesWith) > 0;
         }
     }
