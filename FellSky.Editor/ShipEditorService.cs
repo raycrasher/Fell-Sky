@@ -217,6 +217,43 @@ namespace FellSky.Editor
             }
         }
 
+        public void CloneParts()
+        {
+            if (SelectedPartEntities.Count <= 0) return;
+
+            if (_transformSystem.State != null)
+                _transformSystem.ApplyTransform();
+
+            Func<ShipPart, Entity> CreatePartEntity = (ShipPart part) =>
+            {
+                Entity e;
+                if (part is Hull)
+                {
+                    var hull = (Hull)part;
+                    e = AddHullInternal(hull.SpriteId, hull.Transform.Position, hull.Transform.Rotation, hull.Transform.Scale, hull.Transform.Origin, hull.Color, hull.ColorType);
+                    var newHull = e.GetComponent<HullComponent>().Part;
+                    newHull.SpriteEffect = hull.SpriteEffect;
+                }
+                else throw new InvalidOperationException();
+                //AddEditorComponentsToPartEntity(e);
+                return e;
+            };
+
+            var toClone = SelectedPartEntities.ToArray();
+            ClearSelection();
+
+            
+            SelectedPartEntities.AddRange(from entity in toClone
+                                    let part = entity.Components.OfType<IShipPartComponent>().First().Part
+                                    select CreatePartEntity(part));
+
+            foreach(var item in SelectedPartEntities.Select(e => e.GetComponent<BoundingBoxSelectorComponent>()))
+            {
+                item.IsSelected = true;
+            }
+            TranslateParts();
+        }
+
         public void SaveShip(string filename)
         {
             try

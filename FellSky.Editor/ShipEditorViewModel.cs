@@ -132,7 +132,7 @@ namespace FellSky.Editor
 
             Services.GetService<GenericDrawableFactory>().CreateCircle(Vector2.Zero, 10, 8, XnaColor.Red);
             
-            host.KeyUp += HandleKeyboardInput;
+            host.PreviewKeyDown += HandleKeyboardInput;
 
             EditorService = new ShipEditorService(_mouse, Services.GetService<ShipEntityFactory>(), World, CameraTag);
             CreateNewShipCommand.Execute(null);           
@@ -140,6 +140,7 @@ namespace FellSky.Editor
 
         private void HandleKeyboardInput(object sender, KeyEventArgs e)
         {
+            e.Handled = true;
             switch (e.Key)
             {
                 case Key.R:
@@ -166,6 +167,9 @@ namespace FellSky.Editor
                     else
                         EditorService.AxisConstraint = Axis.None;
                     break;
+                case Key.C:
+                    EditorService.CloneParts();
+                    break;
                 case Key.Up:
                     EditorService.OffsetParts(new Vector2(0, Keyboard.IsKeyDown(Key.LeftShift) ? -1 : -10));
                     break;
@@ -180,6 +184,9 @@ namespace FellSky.Editor
                     break;
                 case Key.M:
                     EditorService.MirrorSelectedLaterally();
+                    break;
+                default:
+                    e.Handled = false;
                     break;
             }
         }

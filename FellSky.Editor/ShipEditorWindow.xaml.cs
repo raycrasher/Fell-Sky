@@ -46,7 +46,9 @@ namespace FellSky.Editor
 
         private void D3D11Host_MouseEnter(object sender, MouseEventArgs e)
         {
+            D3D11Host.Focusable = true;
             D3D11Host.Focus();
+            Keyboard.Focus(D3D11Host);            
         }
 
         private void OpenColorPicker(object sender, MouseButtonEventArgs e)

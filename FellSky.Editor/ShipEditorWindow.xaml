@@ -81,12 +81,13 @@
                 </TabControl.ContentTemplate>
             </TabControl>
         </Grid>
-        <GridSplitter Width="3" Grid.Row="1" Opacity="0"/>
+        <GridSplitter Width="3" Grid.Row="1" Opacity="0" />
 
         <fe:D3D11Host x:Name="D3D11Host" Stretch="UniformToFill"
                         Initializing="D3D11Host_Initializing" Rendering="D3D11Host_Rendering" Focusable="True"
                         MouseEnter="D3D11Host_MouseEnter" MouseDown="D3D11Host_MouseDown" Visibility="Visible" IsEnabled="True"
-                        Grid.Column="1" Grid.Row="1" 
+                        Grid.Column="1" Grid.Row="1" FocusManager.IsFocusScope="True"
+                      
                         />
 
         <Menu Name="mainMenu" VerticalAlignment="Stretch" Background="{x:Null}" HorizontalContentAlignment="Left" FontSize="12" >

@@ -20,9 +20,13 @@ namespace FellSky.Models.Ships.Parts
              Name = Name ?? this.GetType().Name;
         }
 
-        public virtual object Clone()
+        object ICloneable.Clone() => Clone();
+
+        public virtual ShipPart Clone()
         {
-            return MemberwiseClone();
+            var part = (ShipPart) MemberwiseClone();
+            part.Transform = Transform.Clone();
+            return part;
         }
     }
 }

@@ -17,7 +17,7 @@ namespace FellSky
     }
 
     [Serializable]
-    public class Transform : ITransform, IComponent
+    public class Transform : ITransform, IComponent, ICloneable
     {
         [NonSerialized]
         private bool _matrixNeedsUpdate;
@@ -145,6 +145,8 @@ namespace FellSky
             _matrix = xform.Matrix;
             _matrixNeedsUpdate = false;
         }
+
+        object ICloneable.Clone() => Clone();
 
         public void Clear()
         {
