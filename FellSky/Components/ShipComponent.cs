@@ -33,6 +33,18 @@ namespace FellSky.Components
             Ship = ship;
         }
 
+        public void RemovePart(Entity e)
+        {
+            var part = e.Components.OfType<IShipPartComponent>().First().Part;
+            IList<Entity> list =
+                part is Hull ? HullEntities :
+                part is Thruster ? ThrusterEntities :
+                null;
+            Ship.RemovePart(part);
+            list.Remove(e);
+            e.Delete();
+        }
+
         public void RemovePart<T>(T part)
             where T: ShipPart
         {

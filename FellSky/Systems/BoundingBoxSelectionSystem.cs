@@ -13,7 +13,6 @@ namespace FellSky.Systems
     {
         private IMouseService _mouse;
         private bool _isClick;
-        private Vector2 _mousePos;
         private bool _isMarqueeActive = false;
         private Entity _marqueeBoxEntity;
         private GenericDrawableComponent _marqueeBoxDrawable;
@@ -40,7 +39,6 @@ namespace FellSky.Systems
             base.LoadContent();
             _mouse.ButtonDown += OnButtonDown;
             _mouse.ButtonUp += OnButtonUp;
-            _mouse.Move += OnMouseMove;
             _marqueeBoxDrawable = new GenericDrawableComponent(DrawMarquee);
         }
 
@@ -49,19 +47,12 @@ namespace FellSky.Systems
             base.UnloadContent();
             _mouse.ButtonDown -= OnButtonDown;
             _mouse.ButtonUp -= OnButtonUp;
-            _mouse.Move -= OnMouseMove;
-        }
-
-        private void OnMouseMove(Point point)
-        {
-            _mousePos = _mouse.ScreenPosition;
         }
 
         private void OnButtonDown(Point point, int button)
         {
             if (button != SelectionButton) return;
             _isClick = true;
-            _mousePos = _mouse.ScreenPosition;
             _isMouseDown = true;
         }
 
@@ -69,7 +60,6 @@ namespace FellSky.Systems
         {
             if (button != SelectionButton) return;
             _isMouseDown = false;
-            _mousePos = _mouse.ScreenPosition;
         }
 
         protected override void ProcessEntities(IDictionary<int, Entity> entities)
@@ -80,28 +70,32 @@ namespace FellSky.Systems
 
         private void DoMarqueeSelection(IDictionary<int, Entity> entities)
         {
-            if(!_isMarqueeActive && _isMouseDown)
+            var camera = EntityWorld.GetCamera(CameraTag);
+            var mousePos = camera.ScreenToCameraSpace(_mouse.ScreenPosition);
+
+            if (!_isMarqueeActive && _isMouseDown)
             {
                 _marqueeBoxEntity = EntityWorld.CreateEntity();
                 _marqueeBoxEntity.AddComponent(_marqueeBoxDrawable);
                 _marqueeBoxEntity.Refresh();
                 _isMarqueeActive = true;
-                _marqueeBoxStart = _mouse.ScreenPosition;
+                _marqueeBoxStart = mousePos;
             }
             else if(_isMarqueeActive && !_isMouseDown)
             {
-                if(Vector2.DistanceSquared(_marqueeBoxStart, _mousePos) < 2)
+                if(Vector2.DistanceSquared(_marqueeBoxStart, mousePos) < 2)
                 {
                     DoClickSelection(entities);
                     return;
                 }
 
-                var camera = EntityWorld.GetCamera(CameraTag);
-                var marqueeShape = new FarseerPhysics.Collision.Shapes.PolygonShape( FarseerPhysics.Common.PolygonTools.CreateRectangle(
-                    Math.Abs(_marqueeBoxStart.X - _mouse.ScreenPosition.X) / 2,
-                    Math.Abs(_marqueeBoxStart.Y - _mouse.ScreenPosition.Y) / 2), 1);
+                
 
-                var marqueeBoxCenter = camera.ScreenToCameraSpace(new Vector2(_marqueeBoxStart.X + _mouse.ScreenPosition.X, _marqueeBoxStart.Y + _mouse.ScreenPosition.Y) / 2);                
+                var marqueeShape = new FarseerPhysics.Collision.Shapes.PolygonShape( FarseerPhysics.Common.PolygonTools.CreateRectangle(
+                    Math.Abs(_marqueeBoxStart.X - mousePos.X) / 2,
+                    Math.Abs(_marqueeBoxStart.Y - mousePos.Y) / 2), 1);
+
+                var marqueeBoxCenter = new Vector2(_marqueeBoxStart.X + mousePos.X, _marqueeBoxStart.Y + mousePos.Y) / 2;                
 
                 var marqueeBoxRot = new FarseerPhysics.Common.Rot(0);
                 var marqueeXForm = new FarseerPhysics.Common.Transform(
@@ -149,7 +143,7 @@ namespace FellSky.Systems
             var camera = EntityWorld.GetCamera(CameraTag);
 
             var mousePos = camera.ScreenToCameraSpace(_mouse.ScreenPosition);
-            var start = camera.ScreenToCameraSpace(_marqueeBoxStart);
+            var start = _marqueeBoxStart;
             Primitives2D.DrawRectangle(
                 batch,
                 new Vector2(Math.Min(start.X, mousePos.X),
@@ -174,7 +168,7 @@ namespace FellSky.Systems
 
                     var matrix = Matrix.Invert(camera.GetViewMatrix(select.Parallax)) * Matrix.Invert(entity.GetWorldMatrix());
 
-                    Vector2 position = _mousePos;
+                    Vector2 position = _mouse.ScreenPosition;
                     Vector2.Transform(ref position, ref matrix, out position);
                     if (box.Box.Contains(position))
                     {

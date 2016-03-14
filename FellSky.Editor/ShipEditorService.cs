@@ -129,7 +129,7 @@ namespace FellSky.Editor
             var ship = ShipEntity.GetComponent<ShipComponent>();
             foreach (var e in SelectedPartEntities)
             {
-                ship.RemovePart(e.Components.OfType<ShipPart>().First());
+                ship.RemovePart(e);
                 if(e.HasComponent<HullComponent>())
                     ship.HullEntities.Remove(e);
                 if (e.HasComponent<ThrusterComponent>())
@@ -154,8 +154,11 @@ namespace FellSky.Editor
         public void AddHull(Sprite sprite)
         {
             ClearSelection();
+            //_mouse.ScreenPosition = new Vector2(_mouse.ScreenPosition);
+
             var entity = AddHullInternal(sprite.Id, 
-                _world.GetCamera(CameraTag).ScreenToCameraSpace(_mouse.ScreenPosition), 
+                //_world.GetCamera(CameraTag).ScreenToCameraSpace(_mouse.ScreenPosition), 
+                Vector2.Zero,
                 0, 
                 Vector2.One, 
                 new Vector2(
@@ -166,6 +169,7 @@ namespace FellSky.Editor
 
             SelectedPartEntities.Add(entity);
             entity.AddComponent(new MouseControlledTransformComponent());
+            
             _transformSystem.StartTransform<TranslateState>();
         }
 

@@ -135,7 +135,7 @@ namespace FellSky.Editor
             host.KeyUp += HandleKeyboardInput;
 
             EditorService = new ShipEditorService(_mouse, Services.GetService<ShipEntityFactory>(), World, CameraTag);
-            CreateNewShipCommand.Execute(null);
+            CreateNewShipCommand.Execute(null);           
         }
 
         private void HandleKeyboardInput(object sender, KeyEventArgs e)
@@ -244,6 +244,7 @@ namespace FellSky.Editor
             ActionsNextFrame.Add(() => {
                 var pos = _host.PointToScreen(new System.Windows.Point(_host.ActualWidth / 2, _host.ActualHeight / 2));
                 _mouse.ScreenPosition = new Vector2((float)pos.X, (float)pos.Y);
+                System.Threading.Thread.Sleep(10);
                 EditorService.AddHull((Sprite)o);
             });
         });
