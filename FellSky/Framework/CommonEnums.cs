@@ -10,4 +10,9 @@ namespace FellSky
     {
         None = 0, CW = -1, CCW = 1,
     }
+
+    public enum Axis
+    {
+        None = 0, X = 1, Y = 2, Z = 3
+    }
 }

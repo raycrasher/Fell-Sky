@@ -84,8 +84,8 @@
         <GridSplitter Width="3" Grid.Row="1" Opacity="0"/>
 
         <fe:D3D11Host x:Name="D3D11Host" Stretch="UniformToFill"
-                        Initializing="D3D11Host_Initializing" Rendering="D3D11Host_Rendering" Focusable="True" 
-                        MouseEnter="D3D11Host_MouseEnter" MouseDown="D3D11Host_MouseDown" 
+                        Initializing="D3D11Host_Initializing" Rendering="D3D11Host_Rendering" Focusable="True"
+                        MouseEnter="D3D11Host_MouseEnter" MouseDown="D3D11Host_MouseDown" Visibility="Visible" IsEnabled="True"
                         Grid.Column="1" Grid.Row="1" 
                         />
 
@@ -173,7 +173,7 @@
                           />
                 </Grid>
             </Button>
-            <Button ToolTip="Mirror Front/Back (Key: Shift-M)">
+            <Button ToolTip="Mirror Front/Back (Key: Shift-M)" IsEnabled="False">
                 <Grid>
                     <Path Stroke="Black"
                           Data="M 8,0 L 8,16 M 16,8 L 11,11 L 11,5 Z"
@@ -186,10 +186,10 @@
             
             <Separator Visibility="Hidden" Width="10"/>
             <ToggleButton Margin="2" ToolTip="Toggles Grid. Key: G">GRID</ToggleButton>
-            <ToggleButton Margin="2" ToolTip="Toggle Snap. Key: P">SNAP</ToggleButton>
+            <ToggleButton Margin="2" ToolTip="Toggle Snap. Key: P" IsChecked="{Binding EditorService.IsSnapEnabled}">SNAP</ToggleButton>
             <StackPanel Orientation="Horizontal">
                 <Label FontSize="10" VerticalAlignment="Center">Size</Label>
-                <xctk:ShortUpDown FontSize="10" Value="22" Height="20"/>
+                <xctk:ShortUpDown FontSize="10" Value="{Binding GridSize}" Height="20"/>
             </StackPanel>
                 
         </StackPanel>

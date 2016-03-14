@@ -17,6 +17,9 @@ namespace FellSky.Systems.MouseControlledTransformSystemStates
         private Dictionary<Entity, Transform> _initialTransforms;
         private Vector2 _origin;
 
+        public float SnapAmount { get; set; }
+        public bool IsSnapEnabled { get; set; }
+
         public void Apply()
         {            
         }
@@ -50,6 +53,12 @@ namespace FellSky.Systems.MouseControlledTransformSystemStates
                     var control = entity.GetComponent<MouseControlledTransformComponent>();
                     var initialAngle = (_rotateOffset.Value - _centroid).ToAngleRadians();
                     var angle = (worldMousePosition - _centroid).ToAngleRadians();
+
+                    if(IsSnapEnabled)
+                    {
+                        angle = ((int)angle / SnapAmount) * SnapAmount;
+                    }
+
                     var initialTransform = _initialTransforms[entity];
                     var newMatrix =
                         Matrix.CreateScale(new Vector3(initialTransform.Scale, 0))

@@ -15,16 +15,16 @@ namespace FellSky.Components
         public List<Entity> HullEntities { get; set; } = new List<Entity>();
         public List<Entity> ThrusterEntities { get; set; } = new List<Entity>();
 
-        //public IEnumerable<Entity> ChildEntities => HullEntities.Concat(ThrusterEntities);
+        public IEnumerable<Entity> ChildEntities => HullEntities.Concat(ThrusterEntities);
 
         // control
         public float DesiredTorque { get; set; }
         public Vector2 LinearThrustVector { get; set; }
         public bool AttemptBoost { get; set; }
-        public IEnumerable<Entity> PartEntities => HullEntities.Concat(ThrusterEntities);
+        //public IEnumerable<Entity> PartEntities => HullEntities.Concat(ThrusterEntities);
         public Vector2 CenterOfMass { get; set; }
 
-        public List<Entity> AdditionalRigidBodies { get; set; } = new List<Entity>();
+        public List<Entity> AdditionalRigidBodyEntities { get; set; } = new List<Entity>();
 
         // functions
 

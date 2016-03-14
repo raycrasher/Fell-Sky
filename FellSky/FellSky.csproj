@@ -134,6 +134,7 @@
     <Compile Include="Framework\Transform.cs" />
     <Compile Include="Framework\Utilities.cs" />
     <Compile Include="Framework\UtilityExtensions.cs" />
+    <Compile Include="States\IntroSequence.cs" />
     <Compile Include="Models\Combat\Beam.cs" />
     <Compile Include="Models\Combat\Explosion.cs" />
     <Compile Include="Models\Combat\Projectile.cs" />
@@ -303,9 +304,7 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\Campaign\StorySequence\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="Notes.txt" />
   </ItemGroup>

@@ -57,6 +57,7 @@ namespace FellSky.Editor
             get { return ((int?) GridEntity?.GetComponent<GridComponent>()?.GridSize.X) ?? 10;  }
             set
             {
+                EditorService.SnapAmount = value;
                 var grid = GridEntity?.GetComponent<GridComponent>();
                 if (grid == null) return;
                 grid.GridSize = new Vector2(value, value);
@@ -152,6 +153,18 @@ namespace FellSky.Editor
                     break;
                 case Key.Delete:
                     EditorService.DeleteParts();
+                    break;
+                case Key.X:
+                    if (EditorService.AxisConstraint != Axis.X)
+                        EditorService.AxisConstraint = Axis.X;
+                    else
+                        EditorService.AxisConstraint = Axis.None;
+                    break;
+                case Key.Y:
+                    if (EditorService.AxisConstraint != Axis.Y)
+                        EditorService.AxisConstraint = Axis.Y;
+                    else
+                        EditorService.AxisConstraint = Axis.None;
                     break;
                 case Key.Up:
                     EditorService.OffsetParts(new Vector2(0, Keyboard.IsKeyDown(Key.LeftShift) ? -1 : -10));

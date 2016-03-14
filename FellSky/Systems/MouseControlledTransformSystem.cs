@@ -14,6 +14,22 @@ namespace FellSky.Systems
         private IMouseService _mouse;
         private bool _startState = false;
 
+        public bool IsSnapEnabled {
+            get { return State?.IsSnapEnabled ?? false; }
+            set
+            {
+                if (State != null) State.IsSnapEnabled = value;
+            }
+        }
+
+        public float SnapAmount
+        {
+            get { return State?.SnapAmount ?? 0; }
+            set {
+                if (State != null) State.SnapAmount = value;
+            }
+        }
+
         public MouseControlledTransformSystem(IMouseService mouseService, string cameraTag) 
             : base(Aspect.All(typeof(MouseControlledTransformComponent), typeof(Transform)))
         {

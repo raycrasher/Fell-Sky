@@ -14,5 +14,9 @@ namespace FellSky.Systems.MouseControlledTransformSystemStates
         void Apply();
         void Cancel();
         void Start(IEnumerable<Entity> entities, Vector2 worldMousePosition);
+
+        float SnapAmount { get; set; }
+        bool IsSnapEnabled { get; set; }
+
     }
 }

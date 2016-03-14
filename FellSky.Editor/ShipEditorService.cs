@@ -53,6 +53,24 @@ namespace FellSky.Editor
         public Color BaseColor { get; set; } = Color.Gold;
         public string CameraTag { get; set; }
 
+        public bool IsSnapEnabled
+        {
+            get { return _transformSystem.IsSnapEnabled; }
+            set { _transformSystem.IsSnapEnabled = value; }
+        }
+
+        public float SnapAmount
+        {
+            get { return _transformSystem.SnapAmount; }
+            set { _transformSystem.SnapAmount = value; }
+        }
+
+        public Axis AxisConstraint
+        {
+            get { return (_transformSystem.State as TranslateState)?.Constraint ?? Axis.None; }
+            set { if (_transformSystem.State is TranslateState) ((TranslateState)_transformSystem.State).Constraint = value; }
+        }
+
         /// <summary>
         /// Constructor
         /// </summary>
@@ -129,6 +147,10 @@ namespace FellSky.Editor
             }
         }
 
+        /// <summary>
+        /// Add a hull
+        /// </summary>
+        /// <param name="sprite"></param>
         public void AddHull(Sprite sprite)
         {
             ClearSelection();
@@ -217,7 +239,7 @@ namespace FellSky.Editor
                 Ship = Ship.LoadFromJsonFile(fileName);
                 ShipEntity = _shipFactory.CreateShipEntity(Ship, Vector2.Zero, 0, false);
                 ShipEntity.Tag = "PlayerShip";
-                foreach(var entity in ShipEntity.GetComponent<ShipComponent>().PartEntities)
+                foreach(var entity in ShipEntity.GetComponent<ShipComponent>().ChildEntities)
                 {
                     AddEditorComponentsToPartEntity(entity);
                 }

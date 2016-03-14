@@ -64,7 +64,7 @@ namespace FellSky.EntityFactories
                 if (hull.PhysicsBodyIndex == 0)
                     body = ship?.GetComponent<RigidBodyComponent>();
                 else
-                    body = ship?.GetComponent<ShipComponent>()?.AdditionalRigidBodies[hull.PhysicsBodyIndex].GetComponent<RigidBodyComponent>();
+                    body = ship?.GetComponent<ShipComponent>()?.AdditionalRigidBodyEntities[hull.PhysicsBodyIndex].GetComponent<RigidBodyComponent>();
                 entity.AddComponent(_physics.CreateAndAttachFixture(body, hull.ShapeId, hull.Transform));
             }
             return entity;

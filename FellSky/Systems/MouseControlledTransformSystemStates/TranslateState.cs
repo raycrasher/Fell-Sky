@@ -16,6 +16,10 @@ namespace FellSky.Systems.MouseControlledTransformSystemStates
         private Dictionary<Entity, Transform> _initialTransforms;
         private Vector2 _origin;
 
+        public float SnapAmount { get; set; }
+        public bool IsSnapEnabled { get; set; }
+        public Axis Constraint { get; set; }
+
         public void Apply()
         {
         }
@@ -43,6 +47,16 @@ namespace FellSky.Systems.MouseControlledTransformSystemStates
                 var transform = entity.GetComponent<Transform>();
                 var control = entity.GetComponent<MouseControlledTransformComponent>();
                 var offset = worldMousePosition - _origin;
+
+                if (Constraint == Axis.X) offset.Y = 0;
+                else if (Constraint == Axis.Y) offset.X = 0;
+
+                if (IsSnapEnabled)
+                {
+                    offset.X = ((int)offset.X / SnapAmount) * SnapAmount;
+                    offset.Y = ((int)offset.Y / SnapAmount) * SnapAmount;
+                }
+
                 var initialTransform = _initialTransforms[entity];
                 Matrix? parentMatrix = entity.GetComponent<LocalTransformComponent>()?.ParentWorldMatrix;
                 //transform.Position = Vector2.Transform(control.InitialTransform.Position + offset, control.TransformationMatrix);
