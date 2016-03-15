@@ -11,8 +11,10 @@ namespace FellSky.Models.Ships.Parts
     {
         public string Name { get; set; }
         public PartGroup Group { get; set; }
+        [Xceed.Wpf.Toolkit.PropertyGrid.Attributes.ExpandableObject]
         public Transform Transform { get; set; } = new Transform();
         public string SpriteId { get; set; }
+
         public float Depth { get; set; } = 0;
 
         public ShipPart()

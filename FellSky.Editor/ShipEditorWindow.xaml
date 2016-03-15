@@ -4,11 +4,13 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:fe="clr-namespace:FellSky.Editor"
+        xmlns:fsparts="clr-namespace:FellSky.Models.Ships.Parts;assembly=FellSky"
         xmlns:wf="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"  
         xmlns:ext="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:xcad="http://schemas.xceed.com/wpf/xaml/avalondock"
         xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:diag="clr-namespace:System.Diagnostics;assembly=WindowsBase"
         Title="Ship Editor" Height="768" Width="1366" 
         MinHeight="480" MinWidth="800"
         WindowState="Maximized"
@@ -239,7 +241,20 @@
                 </Grid>
             </Expander>
             <Expander Header="Properties" IsExpanded="True">
-                <xctk:PropertyGrid SelectedObject="{Binding PropertyObject}" ShowAdvancedOptions="True" />
+                <xctk:PropertyGrid SelectedObject="{Binding EditorService.PropertyObject}" ShowAdvancedOptions="True">
+                    <xctk:PropertyGrid.EditorDefinitions>
+                        <xctk:EditorDefinition TargetType="{x:Type fsparts:Hull}">
+                            <xctk:EditorDefinition.PropertiesDefinitions>
+                                <xctk:PropertyDefinition Name="Depth"/>
+                            </xctk:EditorDefinition.PropertiesDefinitions>
+                            <xctk:EditorDefinition.EditorTemplate>
+                                <DataTemplate>
+                                    <xctk:DecimalUpDown Value="{Binding Value, Converter={StaticResource NullableNumericConverter}}" Minimum="0.01" Maximum="1.9" Increment="0.01" />
+                                </DataTemplate>
+                            </xctk:EditorDefinition.EditorTemplate>
+                        </xctk:EditorDefinition>
+                    </xctk:PropertyGrid.EditorDefinitions>
+                </xctk:PropertyGrid>
             </Expander>
         </StackPanel>
         <Popup Name="ColorPicker" PlacementTarget="{Binding ElementName=sidePanel}" Placement="Left" Width="200">

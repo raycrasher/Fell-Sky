@@ -123,6 +123,7 @@
     <Compile Include="EntityFactories\ShipEntityFactory.cs" />
     <Compile Include="Framework\Sprite.cs" />
     <Compile Include="Framework\SpriteSheet.cs" />
+    <Compile Include="Framework\Vertex.cs" />
     <Compile Include="Models\Campaign\BasicResources.cs" />
     <Compile Include="Models\Campaign\CampaignSettings.cs" />
     <Compile Include="Models\Campaign\Campaign.cs" />

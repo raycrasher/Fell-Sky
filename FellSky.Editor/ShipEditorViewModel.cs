@@ -37,10 +37,9 @@ namespace FellSky.Editor
         public SpriteSheet CurrentSpriteSheet { get; set; }
 
         public Dictionary<string, List<Sprite>> HullSprites { get; set; }
-        public object PropertyObject { get; set; }
 
         public XnaColor BackgroundColor { get; set; } = new XnaColor(5, 10, 20);
-        public XnaColor GridColor { get; set; } = new XnaColor(30, 40, 50);
+        public XnaColor GridColor { get; set; } = new XnaColor(30, 40, 50, 50);
         
         public ShipEditorService EditorService { get; private set; }
 
@@ -68,7 +67,9 @@ namespace FellSky.Editor
         public Entity GridEntity { get; private set; }
         
         private MouseService _mouse;
+
         private MouseControlledTransformSystem _transformSystem;
+        private KeyboardService _keyboard;
 
         private List<Action> ActionsNextFrame { get; } = new List<Action>();
 
@@ -90,6 +91,8 @@ namespace FellSky.Editor
             Services.AddService<IMouseService>(_mouse);
             _mouse.ButtonDown += OnMouseButtonDown;
 
+            _keyboard = new KeyboardService(host);
+
             SpriteBatch = new SpriteBatch(host.GraphicsDevice);
             Services.AddService(SpriteBatch);
 
@@ -105,12 +108,12 @@ namespace FellSky.Editor
 
             World = new EntityWorld(false,false, false);
                 
-            World.SystemManager.SetSystem(new GridRendererSystem(SpriteBatch, CameraTag), Artemis.Manager.GameLoopType.Draw, 1);
+            World.SystemManager.SetSystem(new GridRendererSystem(host.GraphicsDevice, CameraTag), Artemis.Manager.GameLoopType.Draw, 1);
             World.SystemManager.SetSystem(new ShipRendererSystem(SpriteBatch, CameraTag), Artemis.Manager.GameLoopType.Draw, 2);
             World.SystemManager.SetSystem(new BoundingBoxRendererSystem(SpriteBatch, CameraTag), Artemis.Manager.GameLoopType.Draw, 3);
             World.SystemManager.SetSystem(new GenericDrawableRendererSystem(SpriteBatch, host.GraphicsDevice, CameraTag), Artemis.Manager.GameLoopType.Draw, 4);
 
-            World.SystemManager.SetSystem(new CameraUiDraggingSystem(CameraTag, _mouse), Artemis.Manager.GameLoopType.Update, 1);
+            World.SystemManager.SetSystem(new CameraUiDraggingSystem(CameraTag, _mouse, _keyboard), Artemis.Manager.GameLoopType.Update, 1);
             _transformSystem = new MouseControlledTransformSystem(_mouse, CameraTag);
             World.SystemManager.SetSystem(_transformSystem, Artemis.Manager.GameLoopType.Update, 2);
             World.SystemManager.SetSystem(new ShipUpdateSystem(), Artemis.Manager.GameLoopType.Update, 3);
@@ -135,7 +138,17 @@ namespace FellSky.Editor
             host.PreviewKeyDown += HandleKeyboardInput;
 
             EditorService = new ShipEditorService(_mouse, Services.GetService<ShipEntityFactory>(), World, CameraTag);
-            CreateNewShipCommand.Execute(null);           
+            CreateNewShipCommand.Execute(null);
+
+            _mouse.WheelChanged += OnWheelChanged;
+        }
+
+        private void OnWheelChanged(int delta)
+        {
+            if (_keyboard.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.LeftControl))
+            {
+                EditorService.ChangePartDepth(Math.Sign(-delta));
+            }
         }
 
         private void HandleKeyboardInput(object sender, KeyEventArgs e)
@@ -166,6 +179,18 @@ namespace FellSky.Editor
                         EditorService.AxisConstraint = Axis.Y;
                     else
                         EditorService.AxisConstraint = Axis.None;
+                    break;
+                case Key.F:
+                    if(_keyboard.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.LeftControl))
+                        EditorService.FlipLocal(SpriteEffects.FlipHorizontally);
+                    else
+                        EditorService.FlipGroup(SpriteEffects.FlipHorizontally);
+                    break;
+                case Key.V:
+                    if (_keyboard.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.LeftControl))
+                        EditorService.FlipLocal(SpriteEffects.FlipVertically);
+                    else
+                        EditorService.FlipGroup(SpriteEffects.FlipVertically);
                     break;
                 case Key.C:
                     EditorService.CloneParts();
@@ -243,7 +268,6 @@ namespace FellSky.Editor
         public ICommand CreateNewShipCommand => new DelegateCommand(o =>
         {
             EditorService.CreateNewShip();
-            PropertyObject = EditorService.Ship;
         });
         public ICommand Quit => new DelegateCommand(o => Application.Current.Shutdown());
         public ICommand AddHull => new DelegateCommand(o =>
@@ -283,7 +307,6 @@ namespace FellSky.Editor
                 {
                     EditorService.LoadShip(dialog.FileName);
                 }
-                PropertyObject = EditorService.Ship;
             });
         });
 

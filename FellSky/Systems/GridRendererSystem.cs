@@ -9,20 +9,24 @@ using Microsoft.Xna.Framework.Graphics;
 
 using FellSky.Components;
 using FellSky.Framework;
+using Microsoft.Xna.Framework;
 
 namespace FellSky.Systems
 {
     public class GridRendererSystem : Artemis.System.EntityComponentProcessingSystem<GridComponent>
     {
         private CameraComponent _camera;
-        private SpriteBatch _spriteBatch;
+        private BasicEffect _effect;
+        private GraphicsDevice _device;
+        private Vertex[] _vertices = new Vertex[200];
 
         public string CameraTag { get; set; }
 
-        public GridRendererSystem(SpriteBatch spriteBatch, string _cameraTag)
+        public GridRendererSystem(GraphicsDevice device, string _cameraTag)
         {
             CameraTag = _cameraTag;
-            _spriteBatch = spriteBatch;
+            _effect = new BasicEffect(device);
+            _device = device;
         }
 
         protected override void Begin()
@@ -36,15 +40,38 @@ namespace FellSky.Systems
             var matrix = _camera.GetViewMatrix(grid.Parallax);
             var rect = _camera.GetViewRect(grid.Parallax);
 
-            _spriteBatch.Begin(transformMatrix: matrix);
+            var vp = _device.Viewport;
+            Matrix projection;
+            Matrix.CreateOrthographicOffCenter(0, vp.Width, vp.Height, 0, -1, 0, out projection);
+            Matrix.Multiply(ref matrix, ref projection, out projection);
+
+            _effect.VertexColorEnabled = true;
+            _effect.World = projection;
+
+            int index = 0;
+            int numPrimitives = 0;
+            
 
             for(float x = (float)Math.Round(rect.Left / grid.GridSize.X, MidpointRounding.AwayFromZero) * grid.GridSize.X; x < rect.Right; x+= grid.GridSize.X)
-                _spriteBatch.DrawLine(x, rect.Top, x, rect.Bottom, grid.GridColor);
-
+            {
+                if (index > _vertices.Length)
+                    Array.Resize(ref _vertices, (int)(_vertices.Length * 1.5));
+                _vertices[index++] = new Vertex { Position = new Vector2(x, rect.Top), Color = grid.GridColor };
+                _vertices[index++] = new Vertex { Position = new Vector2(x, rect.Bottom), Color = grid.GridColor };
+                numPrimitives++;
+            }
+            
             for (float y = (float)Math.Round(rect.Top / grid.GridSize.Y, MidpointRounding.AwayFromZero) * grid.GridSize.Y; y < rect.Bottom; y += grid.GridSize.Y)
-                _spriteBatch.DrawLine(rect.Left, y, rect.Right, y, grid.GridColor);
+            {
+                if (index > _vertices.Length)
+                    Array.Resize(ref _vertices, (int)(_vertices.Length * 1.5));
+                _vertices[index++] = new Vertex { Position = new Vector2(rect.Left, y), Color = grid.GridColor };
+                _vertices[index++] = new Vertex { Position = new Vector2(rect.Right, y), Color = grid.GridColor };
+                numPrimitives++;
 
-            _spriteBatch.End();
+            }
+            _effect.CurrentTechnique.Passes[0].Apply();
+            _device.DrawUserPrimitives(PrimitiveType.LineList, _vertices, 0, numPrimitives);
         }
     }
 }

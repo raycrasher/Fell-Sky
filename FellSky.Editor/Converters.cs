@@ -72,4 +72,20 @@ namespace FellSky.Editor
             return null;
         }
     }
+
+    public class UpDownFloatConverter : System.Windows.Data.IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            //if (targetType == typeof(float?)) return (float?)(float)value;
+            if (targetType == typeof(decimal?)) return (decimal?)(float)value;
+            //if (targetType == typeof(double?)) return (double?)(float)value;
+            return value;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return (float)(decimal)value;
+        }
+    }
 }

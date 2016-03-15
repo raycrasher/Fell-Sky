@@ -7,12 +7,14 @@ using Artemis;
 using FellSky.Services;
 using Microsoft.Xna.Framework;
 using FellSky.Components;
+using Microsoft.Xna.Framework.Input;
 
 namespace FellSky.Systems
 {
     public class CameraUiDraggingSystem: Artemis.System.TagSystem
     {
         private IMouseService _mouse;
+        private IKeyboardService _keyboard;
         private bool _mouseDown = false;
         private bool _isDragging = false;
         private Vector2 _offset;
@@ -23,10 +25,11 @@ namespace FellSky.Systems
 
         //private ITimerService _timer;
 
-        public CameraUiDraggingSystem(string cameraTag, IMouseService mouse)
+        public CameraUiDraggingSystem(string cameraTag, IMouseService mouse, IKeyboardService keyboard)
             : base(cameraTag)
         {
             _mouse = mouse;
+            _keyboard = keyboard;
             //_timer = timer;
         }
 
@@ -42,10 +45,16 @@ namespace FellSky.Systems
 
         private void WheelChanged(int delta)
         {
-            if (delta > 0) _targetZoom -= 0.1f;
-            else if (delta < 0) _targetZoom += 1.1f;
+            if (_keyboard.IsKeyDown(Keys.LeftShift) ||
+                _keyboard.IsKeyDown(Keys.LeftAlt) ||
+                _keyboard.IsKeyDown(Keys.LeftControl) ||
+                _keyboard.IsKeyDown(Keys.RightShift) ||
+                _keyboard.IsKeyDown(Keys.RightAlt) ||
+                _keyboard.IsKeyDown(Keys.RightControl)) return;
+            if (delta < 0) _targetZoom -= 0.1f;
+            else if (delta > 0) _targetZoom += 1.1f;
             _zoomLerpTime = 0;
-            _targetZoom = MathHelper.Clamp(_targetZoom, 0.5f, 2f);
+            _targetZoom = MathHelper.Clamp(_targetZoom, 0.8f, 3f);
         }
 
         private void OnButtonUp(Point pos, int button)

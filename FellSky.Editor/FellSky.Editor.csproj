@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{5BC68C1D-9C31-4C7E-AEC2-8F0F821B0BB1}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>FellSky.Editor</RootNamespace>
     <AssemblyName>FellSky.Editor</AssemblyName>
@@ -144,6 +144,8 @@
     <Compile Include="D3D11Image.cs" />
     <Compile Include="D3D9.cs" />
     <Compile Include="DelegateCommand.cs" />
+    <Compile Include="FloatUpDownEditor.cs" />
+    <Compile Include="KeyboardService.cs" />
     <Compile Include="MouseService.cs" />
     <Compile Include="ShipEditorService.cs" />
     <Compile Include="ShipEditorViewModel.cs" />

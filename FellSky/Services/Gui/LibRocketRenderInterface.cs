@@ -14,26 +14,11 @@ namespace FellSky.Services.Gui
 
         public bool UseVBO { get; private set; }
 
-        private LRVertex[] _vertices;
+        private Vertex[] _vertices;
         private int[] _indices;
-        private static readonly VertexDeclaration _vertexDeclaration = new VertexDeclaration(
-            new VertexElement(0, VertexElementFormat.Vector2, VertexElementUsage.Position, 0),
-            new VertexElement(8, VertexElementFormat.Color, VertexElementUsage.Color, 0),
-            new VertexElement(12, VertexElementFormat.Vector2, VertexElementUsage.TextureCoordinate, 0)
-            );
+
 
         public GraphicsDevice GraphicsDevice;
-
-        [StructLayout(LayoutKind.Sequential)]
-        struct LRVertex : IVertexType
-        {
-#pragma warning disable 0649
-            public VertexDeclaration VertexDeclaration { get { return _vertexDeclaration; } }
-            public Vector2 Position;
-            public Microsoft.Xna.Framework.Color Color;
-            public Vector2 TextureCoords;
-#pragma warning restore 0649
-        }
 
         class Geometry : IDisposable
         {
@@ -68,7 +53,7 @@ namespace FellSky.Services.Gui
             _content = content;
             GraphicsDevice = device;
             GraphicsDevice.SamplerStates[0] = SamplerState.LinearClamp;
-            _vertices = new LRVertex[NumStartingVertices];
+            _vertices = new Vertex[NumStartingVertices];
             _indices = new int[NumStartingIndices];
             _effect = new BasicEffect(device);
             _effect.VertexColorEnabled = true;
@@ -90,13 +75,13 @@ namespace FellSky.Services.Gui
             var geom = new Geometry();
             if (texture != IntPtr.Zero) geom.Texture = _textures[texture];
 
-            var vbuf = new LRVertex[num_vertices];
+            var vbuf = new Vertex[num_vertices];
             var ibuf = new int[num_indices];
 
             CopyVertices(vertices, vbuf, num_vertices);
             Marshal.Copy((IntPtr)indices, ibuf, 0, num_indices);
 
-            geom.Vertices = new VertexBuffer(GraphicsDevice, _vertexDeclaration, num_vertices, BufferUsage.None);
+            geom.Vertices = new VertexBuffer(GraphicsDevice, Vertex.VertexDeclarationStatic, num_vertices, BufferUsage.None);
             geom.Vertices.SetData(vbuf);
 
             geom.Indices = new IndexBuffer(GraphicsDevice, IndexElementSize.ThirtyTwoBits, num_indices, BufferUsage.None);
@@ -151,7 +136,7 @@ namespace FellSky.Services.Gui
                     _indices,
                     0,
                     num_indices / 3,
-                    _vertexDeclaration);
+                    Vertex.VertexDeclarationStatic);
             }
             GraphicsDevice.RasterizerState = rstate;
         }

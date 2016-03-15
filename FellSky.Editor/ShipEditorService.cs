@@ -16,6 +16,9 @@ using FellSky.Services;
 using FellSky.EntityFactories;
 using FellSky.Systems.MouseControlledTransformSystemStates;
 using System.Windows;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace FellSky.Editor
 {
@@ -39,7 +42,7 @@ namespace FellSky.Editor
         private EntityWorld _world;
         private ShipEntityFactory _shipFactory;
 
-        public List<Entity> SelectedPartEntities { get; private set; }
+        public ObservableCollection<Entity> SelectedPartEntities => _world.SystemManager.GetSystem<BoundingBoxSelectionSystem>().SelectedEntities;
         public Entity ShipEntity { get; private set; }
         public Entity TransformEntity { get; private set; }
         public Ship Ship { get; private set; }
@@ -52,6 +55,8 @@ namespace FellSky.Editor
         public Color TrimColor { get; set; } = Color.CornflowerBlue;
         public Color BaseColor { get; set; } = Color.Gold;
         public string CameraTag { get; set; }
+
+        public object PropertyObject { get; set; }
 
         public bool IsSnapEnabled
         {
@@ -85,8 +90,16 @@ namespace FellSky.Editor
             _world = world;
             _shipFactory = shipFactory;
             _transformSystem = world.SystemManager.GetSystem<MouseControlledTransformSystem>();
-            SelectedPartEntities = _world.SystemManager.GetSystem<BoundingBoxSelectionSystem>().SelectedEntities;
             PropertyChanged += OnColorChanged;
+            SelectedPartEntities.CollectionChanged += OnSelectionChanged;
+        }
+
+        private void OnSelectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if(SelectedPartEntities.Count > 0)
+                PropertyObject = SelectedPartEntities[0].Components.OfType<IShipPartComponent>().First().Part;
+            else
+                PropertyObject = Ship;
         }
 
         /// <summary>
@@ -173,6 +186,17 @@ namespace FellSky.Editor
             _transformSystem.StartTransform<TranslateState>();
         }
 
+        public void ChangePartDepth(int delta)
+        {
+            if(SelectedPartEntities.Count > 0)
+            {
+                foreach(var item in SelectedPartEntities.Select(s => s.Components.OfType<IShipPartComponent>().First().Part))
+                {
+                    item.Depth = MathHelper.Clamp(item.Depth + delta * 0.001f, 0, 2);
+                }
+            }
+        }
+
         public void ClearSelection()
         {
             foreach (var entity in SelectedPartEntities)
@@ -203,6 +227,49 @@ namespace FellSky.Editor
             ShipEntity.AddComponent(new Transform());
             ShipEntity.Refresh();
             ShipEntity.Tag = "PlayerShip";
+            PropertyObject = Ship;
+        }
+
+        public void FlipLocal(SpriteEffects fx)
+        {
+            if (SelectedPartEntities.Count <= 0) return;
+            foreach(var item in SelectedPartEntities.Select(e => e.Components.OfType<IShipPartComponent>().First().Part))
+            {
+                if(item is Hull)
+                {
+                    var hull = (Hull)item;
+                    hull.SpriteEffect ^= fx;
+                }
+            }
+        }
+
+        public void FlipGroup(SpriteEffects flip)
+        {
+            if (flip == SpriteEffects.None) return;
+            if (SelectedPartEntities.Count <= 0) return;
+            var centroid = SelectedPartEntities.Aggregate(Vector2.Zero, (ta, e) => ta += e.GetComponent<Transform>().Position) / SelectedPartEntities.Count;
+            foreach (var item in SelectedPartEntities.Select(e => e.Components.OfType<IShipPartComponent>().First().Part))
+            {
+                if (item is Hull)
+                {
+                    var hull = (Hull)item;
+                    hull.SpriteEffect ^= flip;
+                }
+                if(flip == SpriteEffects.FlipVertically)
+                {
+                    item.Transform.Position = new Vector2(
+                        item.Transform.Position.X,
+                        item.Transform.Position.Y - (item.Transform.Position.Y - centroid.Y)*2
+                        );
+                } else if(flip == SpriteEffects.FlipHorizontally)
+                {
+                    item.Transform.Position = new Vector2(
+                        item.Transform.Position.X - (item.Transform.Position.X - centroid.X) * 2,
+                        item.Transform.Position.Y
+                        );
+                }
+
+            }
         }
 
         private void StartTransformOnSelectedParts()
@@ -233,6 +300,7 @@ namespace FellSky.Editor
                     e = AddHullInternal(hull.SpriteId, hull.Transform.Position, hull.Transform.Rotation, hull.Transform.Scale, hull.Transform.Origin, hull.Color, hull.ColorType);
                     var newHull = e.GetComponent<HullComponent>().Part;
                     newHull.SpriteEffect = hull.SpriteEffect;
+                    newHull.Depth = hull.Depth;
                 }
                 else throw new InvalidOperationException();
                 //AddEditorComponentsToPartEntity(e);
@@ -284,6 +352,7 @@ namespace FellSky.Editor
                 {
                     AddEditorComponentsToPartEntity(entity);
                 }
+                PropertyObject = Ship;
             }
             catch (Newtonsoft.Json.JsonException)
             {
@@ -319,6 +388,7 @@ namespace FellSky.Editor
                     var newHull = hullEntity.GetComponent<HullComponent>().Part;
                     newHull.SpriteEffect = oldHull.SpriteEffect ^ Microsoft.Xna.Framework.Graphics.SpriteEffects.FlipVertically;
                     newHull.ColorType = oldHull.ColorType;
+                    newHull.Depth = oldHull.Depth;
                 }
             }
         }
@@ -352,8 +422,8 @@ namespace FellSky.Editor
         {
             if (e.PropertyName == nameof(HullColor))
             {
-                foreach (var hull in SelectedPartEntities.Select(en => en.Components.OfType<Hull>().First()))
-                    hull.Color = HullColor;
+                foreach (var hull in SelectedPartEntities.Select(en => en.Components.OfType<HullComponent>().First()))
+                    hull.Part.Color = HullColor;
             }
             else if (e.PropertyName == nameof(BaseColor))
             {
@@ -365,8 +435,8 @@ namespace FellSky.Editor
             }
             else if (e.PropertyName == nameof(SelectedHullColorType))
             {
-                foreach (var hull in SelectedPartEntities.Select(en => en.Components.OfType<Hull>().First()))
-                    hull.ColorType = SelectedHullColorType;
+                foreach (var hull in SelectedPartEntities.Select(en => en.Components.OfType<HullComponent>().First()))
+                    hull.Part.ColorType = SelectedHullColorType;
             }
         }
 

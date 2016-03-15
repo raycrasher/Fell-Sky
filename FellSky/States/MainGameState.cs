@@ -38,12 +38,12 @@ namespace FellSky.States
         private void CreateWorld()
         {
             World = new EntityWorld(false, false, false);
-            World.SystemManager.SetSystem(new GridRendererSystem(_services.GetService<SpriteBatch>(), CameraTag), Artemis.Manager.GameLoopType.Draw, 1);
+            World.SystemManager.SetSystem(new GridRendererSystem(_services.GetService<GraphicsDevice>(), CameraTag), Artemis.Manager.GameLoopType.Draw, 1);
             World.SystemManager.SetSystem(new ShipRendererSystem(_services.GetService<SpriteBatch>(), CameraTag), Artemis.Manager.GameLoopType.Draw, 2);
             World.SystemManager.SetSystem(new BoundingBoxRendererSystem(_services.GetService<SpriteBatch>(), CameraTag), Artemis.Manager.GameLoopType.Draw, 3);
             World.SystemManager.SetSystem(new GenericDrawableRendererSystem(_services.GetService<SpriteBatch>(), _services.GetService<GraphicsDevice>(), CameraTag), Artemis.Manager.GameLoopType.Draw, 4);
 
-            World.SystemManager.SetSystem(new CameraUiDraggingSystem(CameraTag, _services.GetService<IMouseService>()), Artemis.Manager.GameLoopType.Update, 1);
+            World.SystemManager.SetSystem(new CameraUiDraggingSystem(CameraTag, _services.GetService<IMouseService>(), _services.GetService<IKeyboardService>()), Artemis.Manager.GameLoopType.Update, 1);
             World.SystemManager.SetSystem(new MouseControlledTransformSystem(_services.GetService<IMouseService>(), CameraTag), Artemis.Manager.GameLoopType.Update, 2);
             World.SystemManager.SetSystem(new ShipUpdateSystem(), Artemis.Manager.GameLoopType.Update, 3);
             World.SystemManager.SetSystem(new BoundingBoxSelectionSystem(_services.GetService<IMouseService>(), CameraTag), Artemis.Manager.GameLoopType.Update, 4);

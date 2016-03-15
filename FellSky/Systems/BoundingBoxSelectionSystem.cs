@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using FellSky.Services;
 using FellSky.Components;
+using System.Collections.ObjectModel;
 
 namespace FellSky.Systems
 {
@@ -19,7 +20,7 @@ namespace FellSky.Systems
         private bool _isMouseDown;
         private Vector2 _marqueeBoxStart;
 
-        public List<Entity> SelectedEntities { get; } = new List<Entity>();
+        public ObservableCollection<Entity> SelectedEntities { get; } = new ObservableCollection<Entity>();
 
         public int SelectionButton { get; set; } = 0;
         public bool MarqueeBoxSelectionEnabled { get; set; } = true;
@@ -64,8 +65,7 @@ namespace FellSky.Systems
 
         protected override void ProcessEntities(IDictionary<int, Entity> entities)
         {
-            if (MarqueeBoxSelectionEnabled) DoMarqueeSelection(entities);
-            else DoClickSelection(entities);
+            DoMarqueeSelection(entities);
         }
 
         private void DoMarqueeSelection(IDictionary<int, Entity> entities)
@@ -85,11 +85,12 @@ namespace FellSky.Systems
             {
                 if(Vector2.DistanceSquared(_marqueeBoxStart, mousePos) < 2)
                 {
-                    DoClickSelection(entities);
-                    return;
                 }
 
-                
+                if (Math.Abs(_marqueeBoxStart.X - mousePos.X) / 2 < float.Epsilon) 
+                    mousePos.X = _marqueeBoxStart.X + 1;
+                if (Math.Abs(_marqueeBoxStart.Y - mousePos.Y) / 2 < float.Epsilon)
+                    mousePos.Y = _marqueeBoxStart.Y + 1;
 
                 var marqueeShape = new FarseerPhysics.Collision.Shapes.PolygonShape( FarseerPhysics.Common.PolygonTools.CreateRectangle(
                     Math.Abs(_marqueeBoxStart.X - mousePos.X) / 2,
@@ -155,34 +156,6 @@ namespace FellSky.Systems
                 );
         }
 
-        private void DoClickSelection(IDictionary<int, Entity> entities)
-        {
-            if (_isClick)
-            {
-                var camera = EntityWorld.GetCamera(CameraTag);
-                foreach (var entity in entities.Values)
-                {
-                    var select = entity.GetComponent<BoundingBoxSelectorComponent>();
-                    var box = entity.GetComponent<BoundingBoxComponent>();
-                    if (!select.IsEnabled) continue;
-
-                    var matrix = Matrix.Invert(camera.GetViewMatrix(select.Parallax)) * Matrix.Invert(entity.GetWorldMatrix());
-
-                    Vector2 position = _mouse.ScreenPosition;
-                    Vector2.Transform(ref position, ref matrix, out position);
-                    if (box.Box.Contains(position))
-                    {
-                        select.IsSelected = true;
-                        SelectedEntities.Add(entity);
-                    }
-                    else
-                    {
-                        select.IsSelected = false;
-                        SelectedEntities.Remove(entity);
-                    }
-                }
-            }
-            _isClick = false;
-        }
+        
     }
 }
