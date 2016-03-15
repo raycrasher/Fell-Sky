@@ -192,7 +192,7 @@ namespace FellSky.Editor
             {
                 foreach(var item in SelectedPartEntities.Select(s => s.Components.OfType<IShipPartComponent>().First().Part))
                 {
-                    item.Depth = MathHelper.Clamp(item.Depth + delta * 0.001f, 0, 2);
+                    item.Depth = MathHelper.Clamp(item.Depth + delta * 0.1f, 0, 1);
                 }
             }
         }

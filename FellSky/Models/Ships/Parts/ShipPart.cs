@@ -15,7 +15,7 @@ namespace FellSky.Models.Ships.Parts
         public Transform Transform { get; set; } = new Transform();
         public string SpriteId { get; set; }
 
-        public float Depth { get; set; } = 0;
+        public float Depth { get; set; } = 0.5f;
 
         public ShipPart()
         {

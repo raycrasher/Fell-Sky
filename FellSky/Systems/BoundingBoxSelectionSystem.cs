@@ -13,7 +13,6 @@ namespace FellSky.Systems
     public class BoundingBoxSelectionSystem : Artemis.System.EntitySystem
     {
         private IMouseService _mouse;
-        private bool _isClick;
         private bool _isMarqueeActive = false;
         private Entity _marqueeBoxEntity;
         private GenericDrawableComponent _marqueeBoxDrawable;
@@ -53,7 +52,6 @@ namespace FellSky.Systems
         private void OnButtonDown(Point point, int button)
         {
             if (button != SelectionButton) return;
-            _isClick = true;
             _isMouseDown = true;
         }
 
@@ -83,10 +81,12 @@ namespace FellSky.Systems
             }
             else if(_isMarqueeActive && !_isMouseDown)
             {
+                bool clickMode = false;
                 if(Vector2.DistanceSquared(_marqueeBoxStart, mousePos) < 2)
                 {
+                    clickMode = true;
                 }
-
+                
                 if (Math.Abs(_marqueeBoxStart.X - mousePos.X) / 2 < float.Epsilon) 
                     mousePos.X = _marqueeBoxStart.X + 1;
                 if (Math.Abs(_marqueeBoxStart.Y - mousePos.Y) / 2 < float.Epsilon)
@@ -127,8 +127,13 @@ namespace FellSky.Systems
                     FarseerPhysics.Collision.Collision.CollidePolygons(ref manifold, marqueeShape, ref marqueeXForm, itemShape, ref itemXForm);
                     if (manifold.PointCount > 0)
                     {
+                        if (clickMode)
+                        {
+                            return;
+                        }
                         select.IsSelected = true;
                         SelectedEntities.Add(entity);
+                        
                     }
                     else
                     {

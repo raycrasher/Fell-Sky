@@ -7,6 +7,7 @@
         xmlns:fsparts="clr-namespace:FellSky.Models.Ships.Parts;assembly=FellSky"
         xmlns:wf="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"  
         xmlns:ext="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:ctl="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:xcad="http://schemas.xceed.com/wpf/xaml/avalondock"
         xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
@@ -53,34 +54,43 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid Grid.Column="0" Grid.Row="1" >
-            <TabControl ItemsSource="{Binding HullSprites}" SelectedIndex="0" TabStripPlacement="Left" >
-                <TabControl.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock FontSize="12" Text="{Binding Key}"/>
-                    </DataTemplate>
-                </TabControl.ItemTemplate>
-                <TabControl.ContentTemplate>
-                    <DataTemplate>
-                        <ListView ItemsSource="{Binding Value}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Background="{x:Null}" BorderThickness="0">
-                            <ListView.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <WrapPanel IsItemsHost="True" />
-                                </ItemsPanelTemplate>
-                            </ListView.ItemsPanel>
-                            <ListView.ItemTemplate>
-                                <DataTemplate>
-                                    <Button Width="64" Height="64" Command="{Binding Source={StaticResource model}, Path=AddHull}" CommandParameter="{Binding}" BorderThickness="0">
-                                        <Image Stretch="Uniform" StretchDirection="DownOnly" SnapsToDevicePixels="True" >
-                                            <Image.Source>
-                                                <CroppedBitmap Source="{Binding Source={StaticResource model}, Path=CurrentSpriteSheet.Image}" SourceRect="{Binding Converter={StaticResource spriteToIntRectConverter}}"/>
-                                            </Image.Source>
-                                        </Image>
-                                    </Button>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                        </ListView>
-                    </DataTemplate>
-                </TabControl.ContentTemplate>
+            <TabControl >
+                <TabItem Header="Hulls" ctl:ControlsHelper.HeaderFontSize="18">
+                    <TabControl ItemsSource="{Binding HullSprites}" SelectedIndex="0" TabStripPlacement="Left" >
+                        <TabControl.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock FontSize="12" Text="{Binding Key}"/>
+                            </DataTemplate>
+                        </TabControl.ItemTemplate>
+                        <TabControl.ContentTemplate>
+                            <DataTemplate>
+                                <ListView ItemsSource="{Binding Value}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Background="{x:Null}" BorderThickness="0">
+                                    <ListView.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <WrapPanel IsItemsHost="True" />
+                                        </ItemsPanelTemplate>
+                                    </ListView.ItemsPanel>
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <Button Width="64" Height="64" Command="{Binding Source={StaticResource model}, Path=AddHull}" CommandParameter="{Binding}" BorderThickness="0">
+                                                <Image Stretch="Uniform" StretchDirection="DownOnly" SnapsToDevicePixels="True" >
+                                                    <Image.Source>
+                                                        <CroppedBitmap Source="{Binding Source={StaticResource model}, Path=CurrentSpriteSheet.Image}" SourceRect="{Binding Converter={StaticResource spriteToIntRectConverter}}"/>
+                                                    </Image.Source>
+                                                </Image>
+                                            </Button>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
+                            </DataTemplate>
+                        </TabControl.ContentTemplate>
+                    </TabControl>
+                </TabItem>
+                <TabItem Header="Thrusters/Effects" ctl:ControlsHelper.HeaderFontSize="18">
+                    
+                </TabItem>
+                <TabItem Header="Hardpoints" ctl:ControlsHelper.HeaderFontSize="18">
+                </TabItem>
             </TabControl>
         </Grid>
         <GridSplitter Width="3" Grid.Row="1" Opacity="0" />
@@ -249,7 +259,7 @@
                             </xctk:EditorDefinition.PropertiesDefinitions>
                             <xctk:EditorDefinition.EditorTemplate>
                                 <DataTemplate>
-                                    <xctk:DecimalUpDown Value="{Binding Value, Converter={StaticResource NullableNumericConverter}}" Minimum="0.01" Maximum="1.9" Increment="0.01" />
+                                    <xctk:DecimalUpDown Value="{Binding Value, Converter={StaticResource NullableNumericConverter}}" Minimum="0" Maximum="1" Increment="0.1" />
                                 </DataTemplate>
                             </xctk:EditorDefinition.EditorTemplate>
                         </xctk:EditorDefinition>

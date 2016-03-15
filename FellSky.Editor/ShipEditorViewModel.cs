@@ -246,7 +246,10 @@ namespace FellSky.Editor
                 .Where(s => s.Type == "hull")
                 .GroupBy(s => s.Subtype)
                 .ToDictionary(s => s.Key, s => s.ToList());
-            sheet.Image = TextureToImage(Content.Load<Texture2D>(sheet.SpriteDefinitions.Texture));            
+            sheet.Image = TextureToImage(Content.Load<Texture2D>(sheet.SpriteDefinitions.Texture));
+            ThrusterSprites = CurrentSpriteSheet.SpriteDefinitions.Sprites
+                .Where(s => s.Type == "thruster")
+                .ToList();
         }
 
         private BitmapImage TextureToImage(Texture2D tex)
@@ -313,5 +316,6 @@ namespace FellSky.Editor
         
 
         public SpriteManagerService SpriteManager { get; private set; }
+        public List<Sprite> ThrusterSprites { get; private set; }
     }
 }
