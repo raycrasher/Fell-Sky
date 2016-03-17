@@ -46,7 +46,7 @@ namespace FellSky.Systems
         }
 
         public override void LoadContent()
-        {            
+        {
             base.LoadContent();
         }
 
@@ -54,16 +54,19 @@ namespace FellSky.Systems
         {
             var collision = entity.GetComponent<CollisionComponent>();
             var fixture = entity.GetComponent<RigidBodyFixtureComponent>();
-            fixture.Fixture.UserData = entity;
 
-            if(collision.HandleCollision)
-                fixture.Fixture.OnCollision += HandleCollision;
-            if(collision.HandleBeforeCollision)
-                fixture.Fixture.BeforeCollision += HandleBeforeCollision;
-            if (collision.HandleAfterCollision)
-                fixture.Fixture.AfterCollision += HandleAfterCollision;
-            if (collision.HandleOnSeparation)
-                fixture.Fixture.OnSeparation += HandleOnSeparation;
+            foreach(var item in fixture.Fixtures)
+            {
+                item.UserData = entity;
+                if (collision.HandleCollision)
+                    item.OnCollision += HandleCollision;
+                if (collision.HandleBeforeCollision)
+                    item.BeforeCollision += HandleBeforeCollision;
+                if (collision.HandleAfterCollision)
+                    item.AfterCollision += HandleAfterCollision;
+                if (collision.HandleOnSeparation)
+                    item.OnSeparation += HandleOnSeparation;
+            }
 
             base.OnAdded(entity);
         }

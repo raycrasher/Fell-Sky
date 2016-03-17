@@ -28,6 +28,7 @@ namespace FellSky
         private Game()
         {
             Instance = this;
+            ServiceLocator.Initialize(Services);
             Graphics = new GraphicsDeviceManager(this);
             Graphics.PreferredBackBufferWidth = Settings.GraphicsWidth;
             Graphics.PreferredBackBufferHeight = Settings.GraphicsHeight;
@@ -58,6 +59,8 @@ namespace FellSky
 
             Mouse = new MouseService(Coroutines);
             Services.AddService<IMouseService>(Mouse);
+
+            Services.AddService<IAnimationService>(new AnimationService(Coroutines, Timer));
 
             Gui = new GuiService(Graphics.GraphicsDevice, Timer, Keyboard, Mouse, Content, Coroutines);
             Services.AddService<IGuiService>(Gui);

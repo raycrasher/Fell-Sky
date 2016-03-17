@@ -121,6 +121,18 @@
     <Compile Include="Components\ShipComponent.cs" />
     <Compile Include="Components\ThrusterComponent.cs" />
     <Compile Include="EntityFactories\ShipEntityFactory.cs" />
+    <Compile Include="Framework\ServiceLocator.cs" />
+    <Compile Include="Framework\ShapeDefinitions\ChainShape.cs" />
+    <Compile Include="Framework\ShapeDefinitions\CircleShape.cs" />
+    <Compile Include="Framework\ShapeDefinitions\CompoundPolygonShape.cs" />
+    <Compile Include="Framework\ShapeDefinitions\EdgeShape.cs" />
+    <Compile Include="Framework\ShapeDefinitions\EllipseShape.cs" />
+    <Compile Include="Framework\ShapeDefinitions\LineArcShape.cs" />
+    <Compile Include="Framework\ShapeDefinitions\LoopShape.cs" />
+    <Compile Include="Framework\ShapeDefinitions\PolygonShape.cs" />
+    <Compile Include="Framework\ShapeDefinitions\RectangleShape.cs" />
+    <Compile Include="Framework\ShapeDefinitions\ShapeDefinition.cs" />
+    <Compile Include="Framework\ShapeDefinitions\SolidArcShape.cs" />
     <Compile Include="Framework\Sprite.cs" />
     <Compile Include="Framework\SpriteSheet.cs" />
     <Compile Include="Framework\Vertex.cs" />
@@ -135,6 +147,7 @@
     <Compile Include="Framework\Transform.cs" />
     <Compile Include="Framework\Utilities.cs" />
     <Compile Include="Framework\UtilityExtensions.cs" />
+    <Compile Include="Services\AnimationService.cs" />
     <Compile Include="States\IntroSequence.cs" />
     <Compile Include="Models\Combat\Beam.cs" />
     <Compile Include="Models\Combat\Explosion.cs" />
@@ -149,7 +162,7 @@
     <Compile Include="Services\GamePersistenceService.cs" />
     <Compile Include="Services\ICoroutineService.cs" />
     <Compile Include="Services\EventService.cs" />
-    <Compile Include="Services\IPhysicsService.cs" />
+    <Compile Include="Services\PhysicsService.cs" />
     <Compile Include="Services\ISpriteManagerService.cs" />
     <Compile Include="Services\TimerService.cs" />
     <Compile Include="Models\Ships\Parts\RevoluteJointBody.cs" />

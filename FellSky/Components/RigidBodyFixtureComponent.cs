@@ -12,12 +12,6 @@ namespace FellSky.Components
 {
     public class RigidBodyFixtureComponent: IComponent
     {
-        public RigidBodyFixtureComponent(Fixture fixture)
-        {
-            Fixture = fixture;
-        }
-
-
-        public Fixture Fixture { get; set; }
+        public List<Fixture> Fixtures { get; set; }
     }
 }
