@@ -86,12 +86,18 @@ namespace FellSky.Ships
 
         public void SaveToJsonFile(string filename)
         {
-            System.IO.File.WriteAllText( filename, JsonConvert.SerializeObject(this) );
+            System.IO.File.WriteAllText( filename, JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented, new JsonSerializerSettings
+            {
+                TypeNameHandling = TypeNameHandling.Auto
+            }));
         }
 
         public static Ship LoadFromJsonFile(string filename)
         {
-            return JsonConvert.DeserializeObject<Ship>(System.IO.File.ReadAllText(filename));
+            return JsonConvert.DeserializeObject<Ship>(System.IO.File.ReadAllText(filename), new JsonSerializerSettings
+            {
+                TypeNameHandling = TypeNameHandling.Auto
+            });
         }
     }
 }

@@ -51,6 +51,8 @@ namespace FellSky
             Coroutines = new CoroutineService();
             Services.AddService<ICoroutineService>(Coroutines);
 
+            Services.AddService(GraphicsDevice);
+
             SpriteBatch = new SpriteBatch(GraphicsDevice);
             Services.AddService(SpriteBatch);
                        
@@ -69,6 +71,8 @@ namespace FellSky
             Services.AddService<ISpriteManagerService>(SpriteManager);
 
             SpriteManager.AddSpriteSheetFromFile(Content, "Textures/hulls.json");
+
+            Systems.PhysicsSystem.LoadShapes("shapes.json");
 
             State = new MainGameState(Services);
             State.LoadContent();

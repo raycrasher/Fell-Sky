@@ -18,7 +18,7 @@ namespace FellSky.Systems
 {
     public class PhysicsSystem: Artemis.System.ProcessingSystem
     {
-        private Dictionary<string, ShapeDefinition> _shapes = new Dictionary<string, ShapeDefinition>();
+        private static Dictionary<string, ShapeDefinition> _shapes = new Dictionary<string, ShapeDefinition>();
         private ITimerService _timer;
 
         public World PhysicsWorld { get; set; }
@@ -30,15 +30,21 @@ namespace FellSky.Systems
             _timer = timer;
         }
 
-        public void LoadShapes(string filename)
+        public static void LoadShapes(string filename)
         {
             if(System.IO.File.Exists(filename))
-                _shapes = JsonConvert.DeserializeObject<Dictionary<string, ShapeDefinition>>(System.IO.File.ReadAllText(filename));
+                _shapes = JsonConvert.DeserializeObject<Dictionary<string, ShapeDefinition>>(System.IO.File.ReadAllText(filename), new JsonSerializerSettings
+                {
+                    TypeNameHandling = TypeNameHandling.Auto
+                });
         }
 
-        public void SaveShapes(string filename)
+        public static void SaveShapes(string filename)
         {
-            System.IO.File.WriteAllText(filename, JsonConvert.SerializeObject(_shapes));
+            System.IO.File.WriteAllText(filename, JsonConvert.SerializeObject(_shapes, Newtonsoft.Json.Formatting.Indented, new JsonSerializerSettings
+            {
+                TypeNameHandling = TypeNameHandling.Auto
+            }));
         }
 
         public RigidBodyFixtureComponent CreateAndAttachFixture(RigidBodyComponent bodyComponent, string shapeId, Transform transform)

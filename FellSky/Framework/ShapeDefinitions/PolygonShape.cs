@@ -11,7 +11,7 @@ namespace FellSky.Framework.ShapeDefinitions
 {
     public class PolygonShape : ShapeDefinition
     {
-        public float Density { get; private set; }
+        public float Density { get; set; }
         public Vector2[] Vertices { get; set; }
         public override List<Fixture> Attach(Transform xform, Body body, object userdata = null)
             => new List<Fixture> { FarseerPhysics.Factories.FixtureFactory.AttachPolygon(
