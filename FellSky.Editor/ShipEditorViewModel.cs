@@ -122,12 +122,12 @@ namespace FellSky.Editor
             World.InitializeAll();
 
             Services.AddService(new GenericDrawableFactory(World));
-            Services.AddService(new ShipEntityFactory(World, SpriteManager, null));
+            Services.AddService(new ShipEntityFactory(World, SpriteManager));
             Services.AddService(new CameraEntityFactory(World));
             Services.AddService(new GridEntityFactory(World));
             
 
-            CameraEntity = Services.GetService<CameraEntityFactory>().CreateCamera();
+            CameraEntity = Services.GetService<CameraEntityFactory>().CreateCamera(CameraTag, _host.GraphicsDevice);
             CameraEntity.Tag = CameraTag;
             Camera = CameraEntity.GetComponent<CameraComponent>();
 

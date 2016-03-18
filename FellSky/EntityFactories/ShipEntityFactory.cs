@@ -4,20 +4,19 @@ using FellSky.Components;
 using FellSky.Services;
 using FellSky.Ships;
 using Microsoft.Xna.Framework;
+using FellSky.Systems;
 
 namespace FellSky.EntityFactories
 {
     public class ShipEntityFactory
     {
         private ISpriteManagerService _spriteManager;
-        private IPhysicsService _physics;
 
         public EntityWorld World { get; set; }
 
-        public ShipEntityFactory(EntityWorld world, ISpriteManagerService spriteManager, IPhysicsService physics = null)
+        public ShipEntityFactory(EntityWorld world, ISpriteManagerService spriteManager)
         {
             _spriteManager = spriteManager;
-            _physics = physics;
             World = world;
         }
         
@@ -29,7 +28,8 @@ namespace FellSky.EntityFactories
 
             if (addPhysics)
             {
-                shipEntity.AddComponent(_physics.CreateRigidBody(position, rotation));
+                var physics = World.SystemManager.GetSystem<PhysicsSystem>();
+                shipEntity.AddComponent(physics.CreateRigidBody(position, rotation));
             }
 
             foreach(var hull in ship.Hulls)
@@ -60,12 +60,13 @@ namespace FellSky.EntityFactories
             ship?.GetComponent<ShipComponent>().HullEntities.Add(entity);
             if (addPhysics)
             {
+                var physics = World.SystemManager.GetSystem<PhysicsSystem>();
                 RigidBodyComponent body;
                 if (hull.PhysicsBodyIndex == 0)
                     body = ship?.GetComponent<RigidBodyComponent>();
                 else
                     body = ship?.GetComponent<ShipComponent>()?.AdditionalRigidBodyEntities[hull.PhysicsBodyIndex].GetComponent<RigidBodyComponent>();
-                entity.AddComponent(_physics.CreateAndAttachFixture(ship.GetComponent<RigidBodyComponent>(), hull.ShapeId, hull.Transform));
+                entity.AddComponent(physics.CreateAndAttachFixture(ship.GetComponent<RigidBodyComponent>(), hull.ShapeId, hull.Transform));
             }
             return entity;
         }

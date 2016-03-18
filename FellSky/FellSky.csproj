@@ -121,6 +121,7 @@
     <Compile Include="Components\ShipComponent.cs" />
     <Compile Include="Components\ThrusterComponent.cs" />
     <Compile Include="EntityFactories\ShipEntityFactory.cs" />
+    <Compile Include="Framework\PrimitiveBatch.cs" />
     <Compile Include="Framework\ServiceLocator.cs" />
     <Compile Include="Framework\ShapeDefinitions\ChainShape.cs" />
     <Compile Include="Framework\ShapeDefinitions\CircleShape.cs" />
@@ -162,7 +163,8 @@
     <Compile Include="Services\GamePersistenceService.cs" />
     <Compile Include="Services\ICoroutineService.cs" />
     <Compile Include="Services\EventService.cs" />
-    <Compile Include="Services\PhysicsService.cs" />
+    <Compile Include="Systems\PhysicsDebugView\DebugView.cs" />
+    <Compile Include="Systems\PhysicsSystem.cs" />
     <Compile Include="Services\ISpriteManagerService.cs" />
     <Compile Include="Services\TimerService.cs" />
     <Compile Include="Models\Ships\Parts\RevoluteJointBody.cs" />
@@ -303,6 +305,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="Systems\HealthModOverTimeSystem.cs" />
+    <Compile Include="Systems\PhysicsDebugDrawSystem.cs" />
     <Compile Include="Systems\PlayerShipControlSystem.cs" />
     <Compile Include="Systems\RigidBodyToTransformSystem.cs" />
     <Compile Include="Systems\ShipUpdateSystem.cs" />

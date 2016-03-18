@@ -49,7 +49,7 @@ namespace FellSky.States
             World.SystemManager.SetSystem(new BoundingBoxSelectionSystem(_services.GetService<IMouseService>(), CameraTag), Artemis.Manager.GameLoopType.Update, 4);
 
             CameraFactory = new EntityFactories.CameraEntityFactory(World);
-            Camera = CameraFactory.CreateCamera(CameraTag);
+            Camera = CameraFactory.CreateCamera(CameraTag, _services.GetService<GraphicsDevice>());
 
             World.InitializeAll();
         }

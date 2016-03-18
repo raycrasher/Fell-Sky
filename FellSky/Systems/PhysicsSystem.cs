@@ -12,32 +12,28 @@ using FellSky.Framework.ShapeDefinitions;
 using Newtonsoft.Json.Linq;
 using Artemis;
 using Newtonsoft.Json;
+using FellSky.Services;
 
-namespace FellSky.Services
+namespace FellSky.Systems
 {
-    public interface IPhysicsService
-    {
-        World World { get; set; }
-        RigidBodyComponent CreateRigidBody(Vector2 position, float rotation);
-        RigidBodyFixtureComponent CreateAndAttachFixture(RigidBodyComponent component, string shapeId, Transform transform);
-        void LoadShapes(string filename);
-        void SaveShapes(string filename);
-        void AddShape(ShapeDefinition shape);
-    }
-
-    public class PhysicsService : IPhysicsService
+    public class PhysicsSystem: Artemis.System.ProcessingSystem
     {
         private Dictionary<string, ShapeDefinition> _shapes = new Dictionary<string, ShapeDefinition>();
-        public World World { get; set; }
+        private ITimerService _timer;
 
-        public PhysicsService()
+        public World PhysicsWorld { get; set; }
+        public float UnitScale { get; set; }
+
+        public PhysicsSystem(ITimerService timer)
         {
-            World = new World(Vector2.Zero);
+            PhysicsWorld = new World(Vector2.Zero);
+            _timer = timer;
         }
 
         public void LoadShapes(string filename)
         {
-            _shapes = JsonConvert.DeserializeObject<Dictionary<string, ShapeDefinition>>(System.IO.File.ReadAllText(filename));
+            if(System.IO.File.Exists(filename))
+                _shapes = JsonConvert.DeserializeObject<Dictionary<string, ShapeDefinition>>(System.IO.File.ReadAllText(filename));
         }
 
         public void SaveShapes(string filename)
@@ -59,13 +55,18 @@ namespace FellSky.Services
         {
             return new RigidBodyComponent
             {
-                Body = FarseerPhysics.Factories.BodyFactory.CreateBody(World)
+                Body = FarseerPhysics.Factories.BodyFactory.CreateBody(PhysicsWorld)
             };
         }
 
         public void AddShape(ShapeDefinition shape)
         {
             _shapes[shape.Id] = shape;
+        }
+
+        public override void ProcessSystem()
+        {
+            PhysicsWorld.Step((float)_timer.DeltaTime.TotalSeconds);
         }
     }
 

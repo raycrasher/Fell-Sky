@@ -1,15 +1,31 @@
 ﻿using Artemis.Interface;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace FellSky.Components
 {
     public class CameraComponent : IComponent
     {
+        public CameraComponent(GraphicsDevice device)
+        {
+            Device = device;
+        }
+
         public Transform Transform { get; set; }
             = new Transform();
 
         public float Zoom { get; set; } = 1;
         public Vector2 ScreenSize { get; set; }
+        public Matrix ProjectionMatrix
+        {
+            get {
+                var vp = Device.Viewport;
+                Matrix projection;
+                Matrix.CreateOrthographicOffCenter(0, vp.Width, vp.Height, 0, -1, 0, out projection);
+                return projection;
+            }
+        }
+        public GraphicsDevice Device { get; set; }
 
         public Matrix GetViewMatrix(float parallax)
         {

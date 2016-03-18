@@ -40,9 +40,7 @@ namespace FellSky.Systems
             var matrix = _camera.GetViewMatrix(grid.Parallax);
             var rect = _camera.GetViewRect(grid.Parallax);
 
-            var vp = _device.Viewport;
-            Matrix projection;
-            Matrix.CreateOrthographicOffCenter(0, vp.Width, vp.Height, 0, -1, 0, out projection);
+            Matrix projection = _camera.ProjectionMatrix;
             Matrix.Multiply(ref matrix, ref projection, out projection);
 
             _effect.VertexColorEnabled = true;
