@@ -8,7 +8,7 @@ namespace FellSky.Services
     public interface ISpriteManagerService
     {
         Dictionary<string, Sprite> Sprites { get; }
-        SpriteSheet AddSpriteSheetFromFile(ContentManager manager, string filename);
+        SpriteSheet LoadSpriteSheet(string filename);
         SpriteComponent CreateSpriteComponent(string spriteId);
     }
 }

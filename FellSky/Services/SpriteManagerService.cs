@@ -14,9 +14,17 @@ namespace FellSky.Services
 
         public Dictionary<string, Sprite> Sprites { get; } = new Dictionary<string, Sprite>();
 
-        public SpriteSheet AddSpriteSheetFromFile(ContentManager content, string filename)
+        public SpriteManagerService(ContentManager content)
         {
             _content = content;
+
+            foreach (var item in Properties.Settings.Default.LoadedSpriteSheets)
+                LoadSpriteSheet(item);
+        }
+
+        public SpriteSheet LoadSpriteSheet(string filename)
+        {
+            
             var sheet = JsonConvert.DeserializeObject<SpriteSheet>(System.IO.File.ReadAllText(filename));
             foreach(var s in sheet.Sprites)
             {

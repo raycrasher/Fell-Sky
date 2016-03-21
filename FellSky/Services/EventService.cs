@@ -67,9 +67,6 @@ namespace FellSky.Services
         private readonly Dictionary<int, EventHandler> _handlers = new Dictionary<int, EventHandler>();
         private readonly Queue<QueuedEvent> _nextFrameEvents = new Queue<QueuedEvent>();
         
-        private int _currentEventList = 0;
-        
-
         public void AddEventListener(int id, EventHandler handler)
         {
             _handlers[id] += handler;

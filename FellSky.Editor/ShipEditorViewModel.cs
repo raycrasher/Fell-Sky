@@ -96,9 +96,8 @@ namespace FellSky.Editor
             SpriteBatch = new SpriteBatch(host.GraphicsDevice);
             Services.AddService(SpriteBatch);
 
-            SpriteManager = new SpriteManagerService();
+            SpriteManager = new SpriteManagerService(Content);
             Services.AddService<ISpriteManagerService>(SpriteManager);
-
 
             Content = new ContentManager(Services);
             Content.RootDirectory = Environment.CurrentDirectory;
@@ -240,7 +239,7 @@ namespace FellSky.Editor
         private void LoadHullSprites(string sheetfile)
         {
             var sheet = new SpriteSheet();
-            sheet.SpriteDefinitions = SpriteManager.AddSpriteSheetFromFile(Content, sheetfile);
+            sheet.SpriteDefinitions = SpriteManager.LoadSpriteSheet(sheetfile);
             CurrentSpriteSheet = sheet;
             HullSprites = CurrentSpriteSheet.SpriteDefinitions.Sprites
                 .Where(s => s.Type == "hull")

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FellSky
+namespace FellSky.Services
 {
     public class ServiceLocator: IServiceProvider
     {

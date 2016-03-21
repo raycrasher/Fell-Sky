@@ -24,6 +24,7 @@ namespace FellSky
         public SpriteManagerService SpriteManager { get; private set; }
         public TimerService Timer { get; private set; }
         public GuiService Gui { get; private set; }
+        public ShapeManagerService ShapeManager { get; private set; }
 
         private Game()
         {
@@ -67,12 +68,11 @@ namespace FellSky
             Gui = new GuiService(Graphics.GraphicsDevice, Timer, Keyboard, Mouse, Content, Coroutines);
             Services.AddService<IGuiService>(Gui);
 
-            SpriteManager = new SpriteManagerService();
+            SpriteManager = new SpriteManagerService(Content);
             Services.AddService<ISpriteManagerService>(SpriteManager);
 
-            SpriteManager.AddSpriteSheetFromFile(Content, "Textures/hulls.json");
-
-            Systems.PhysicsSystem.LoadShapes("shapes.json");
+            ShapeManager = new ShapeManagerService();
+            Services.AddService<IShapeManagerService>(ShapeManager);
 
             State = new MainGameState(Services);
             State.LoadContent();

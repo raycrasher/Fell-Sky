@@ -122,7 +122,7 @@
     <Compile Include="Components\ThrusterComponent.cs" />
     <Compile Include="EntityFactories\ShipEntityFactory.cs" />
     <Compile Include="Framework\PrimitiveBatch.cs" />
-    <Compile Include="Framework\ServiceLocator.cs" />
+    <Compile Include="Services\ServiceLocator.cs" />
     <Compile Include="Framework\ShapeDefinitions\ChainShape.cs" />
     <Compile Include="Framework\ShapeDefinitions\CircleShape.cs" />
     <Compile Include="Framework\ShapeDefinitions\CompoundPolygonShape.cs" />
@@ -149,6 +149,7 @@
     <Compile Include="Framework\Utilities.cs" />
     <Compile Include="Framework\UtilityExtensions.cs" />
     <Compile Include="Services\AnimationService.cs" />
+    <Compile Include="Services\ShapeManagerService.cs" />
     <Compile Include="States\IntroSequence.cs" />
     <Compile Include="Models\Combat\Beam.cs" />
     <Compile Include="Models\Combat\Explosion.cs" />

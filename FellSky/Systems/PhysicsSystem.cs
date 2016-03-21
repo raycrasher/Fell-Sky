@@ -18,38 +18,23 @@ namespace FellSky.Systems
 {
     public class PhysicsSystem: Artemis.System.ProcessingSystem
     {
-        private static Dictionary<string, ShapeDefinition> _shapes = new Dictionary<string, ShapeDefinition>();
         private ITimerService _timer;
+        private IShapeManagerService _shapeManager;
 
         public World PhysicsWorld { get; set; }
         public float UnitScale { get; set; }
 
-        public PhysicsSystem(ITimerService timer)
+        public PhysicsSystem(ITimerService timer, IShapeManagerService shapeManager)
         {
+            _shapeManager = shapeManager;
             PhysicsWorld = new World(Vector2.Zero);
             _timer = timer;
         }
 
-        public static void LoadShapes(string filename)
-        {
-            if(System.IO.File.Exists(filename))
-                _shapes = JsonConvert.DeserializeObject<Dictionary<string, ShapeDefinition>>(System.IO.File.ReadAllText(filename), new JsonSerializerSettings
-                {
-                    TypeNameHandling = TypeNameHandling.Auto
-                });
-        }
-
-        public static void SaveShapes(string filename)
-        {
-            System.IO.File.WriteAllText(filename, JsonConvert.SerializeObject(_shapes, Newtonsoft.Json.Formatting.Indented, new JsonSerializerSettings
-            {
-                TypeNameHandling = TypeNameHandling.Auto
-            }));
-        }
 
         public RigidBodyFixtureComponent CreateAndAttachFixture(RigidBodyComponent bodyComponent, string shapeId, Transform transform)
         {
-            var fixtures = _shapes[shapeId].Attach(transform, bodyComponent.Body);
+            var fixtures = _shapeManager.GetShape(shapeId).Attach(transform, bodyComponent.Body);
             var fixtureComponent = new RigidBodyFixtureComponent
             {
                 Fixtures = fixtures
@@ -63,11 +48,6 @@ namespace FellSky.Systems
             {
                 Body = FarseerPhysics.Factories.BodyFactory.CreateBody(PhysicsWorld)
             };
-        }
-
-        public void AddShape(ShapeDefinition shape)
-        {
-            _shapes[shape.Id] = shape;
         }
 
         public override void ProcessSystem()
