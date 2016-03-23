@@ -19,5 +19,11 @@ namespace FellSky
             position = new Vector2(position3.X, position3.Y);
             scale = new Vector2(scale3.X, scale3.Y);
         }
+
+        public static float GetLesserAngleDifference(float a1, float a2)
+        {
+            return (float)Math.Atan2(Math.Sin(a1 - a2), Math.Cos(a1 - a2));
+        }
+
     }
 }

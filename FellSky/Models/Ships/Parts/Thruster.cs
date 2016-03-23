@@ -12,7 +12,7 @@ namespace FellSky.Models.Ships.Parts
 {
     public enum ThrusterType
     {
-        Main, Cruise, Boost
+        Main, Maneuver, Boost
     }
 
     public class Thruster: ShipPart

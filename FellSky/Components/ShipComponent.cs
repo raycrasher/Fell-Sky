@@ -11,17 +11,45 @@ namespace FellSky.Components
 {
     public class ShipComponent: IComponent
     {
+
+        /// <summary>
+        /// The Ship data model.
+        /// </summary>
         public Ship Ship { get; set; }
+
+        /// <summary>
+        /// Hull entities.
+        /// </summary>
         public List<Entity> HullEntities { get; set; } = new List<Entity>();
+
+        /// <summary>
+        /// Thruster entities.
+        /// </summary>
         public List<Entity> ThrusterEntities { get; set; } = new List<Entity>();
 
+        /// <summary>
+        /// Child entities (parts, thrusters, etc.) This is a readonly IEnumerable.
+        /// </summary>
         public IEnumerable<Entity> ChildEntities => HullEntities.Concat(ThrusterEntities);
 
-        // control
-        public float DesiredTorque { get; set; }
+        /// <summary>
+        /// The angular thrust vector. Negative for CCW, positive for CW. Zero for no torque. 
+        /// </summary>
+        public float AngularThrustVector { get; set; }
+
+        /// <summary>
+        /// The linear thrust vector, in world space. Thrust percentage is given by length (-1 ~ 0 ~ 1)
+        /// </summary>
         public Vector2 LinearThrustVector { get; set; }
+
+        /// <summary>
+        /// Attempt to provide boost during maneuver. Has no effect if boost capability is missing.
+        /// </summary>
         public bool AttemptBoost { get; set; }
-        //public IEnumerable<Entity> PartEntities => HullEntities.Concat(ThrusterEntities);
+        
+        /// <summary>
+        /// Center of mass. Usually is equal to the COM of the main rigid body.
+        /// </summary>
         public Vector2 CenterOfMass { get; set; }
 
         public List<Entity> AdditionalRigidBodyEntities { get; set; } = new List<Entity>();
@@ -59,15 +87,6 @@ namespace FellSky.Components
             Ship.RemovePart(part);
             list.Remove(entity);
             entity.Delete();
-        }
-
-        public Entity[] ThrusterAssignmentsCCW { get; set; }
-        public Entity[] ThrusterAssignmentsCW { get; set; }
-        public Entity[] ThrusterAssignmentsMain { get; set; }
-
-        public void UpdateThrusterAssignments()
-        {
-            
         }
     }
 }

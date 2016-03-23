@@ -16,8 +16,10 @@ namespace FellSky.Components
             : base(part,ship)
         {            
         }
+
+        public bool IsThrusting { get; internal set; }
         public SpriteComponent Sprite { get; set; }
+        public float AngleCutoff { get; set; } = 0.25f;
         public float ThrustPercentage { get; set; }
-        public AngularDirection TurnDirection { get; set; }
     }
 }

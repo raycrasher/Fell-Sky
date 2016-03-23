@@ -37,16 +37,16 @@ namespace FellSky.Systems
     {
         private IEventService _events;
 
-        public World World { get; private set; }
-        public PhysicsCollisionSystem(World world, IEventService eventService)
+        public World PhysicsWorld { get; private set; }
+        public PhysicsCollisionSystem(IEventService eventService)
             : base(Aspect.All(typeof(CollisionComponent), typeof(RigidBodyFixtureComponent)))
         {
             _events = eventService;
-            World = world;
         }
 
         public override void LoadContent()
         {
+            PhysicsWorld = EntityWorld.SystemManager.GetSystem<PhysicsSystem>().PhysicsWorld;
             base.LoadContent();
         }
 

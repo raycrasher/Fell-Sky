@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Artemis;
 using FellSky.Components;
+using Microsoft.Xna.Framework;
+using static FellSky.Utilities;
 
 namespace FellSky.Systems
 {
@@ -40,7 +42,27 @@ namespace FellSky.Systems
 
         private void UpdateThrusters(Entity ship, IList<Entity> thrusterEntities)
         {
-            
+            var shipComponent = ship.GetComponent<ShipComponent>();
+            var thrusters = thrusterEntities.Select(t => t.GetComponent<ThrusterComponent>());
+            var xform = ship.GetComponent<Transform>();
+
+            bool isShipTurning = Math.Abs(shipComponent.AngularThrustVector) <= float.Epsilon;
+
+
+            foreach(var thruster in thrusters)
+            {
+                bool isThrusting = false;
+
+                var offset = Math.Abs(MathHelper.WrapAngle(shipComponent.LinearThrustVector.ToAngleRadians() - xform.Rotation - thruster.Part.Transform.Rotation) / Math.PI);
+                if (offset < thruster.AngleCutoff) isThrusting = true;
+
+                if( thruster.Part.ThrusterType == Models.Ships.Parts.ThrusterType.Maneuver)
+                {
+
+                }
+
+                thruster.IsThrusting = isThrusting;
+            }
         }
     }
 }

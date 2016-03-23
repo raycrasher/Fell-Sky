@@ -59,11 +59,6 @@ namespace FellSky
             return (float)(angle * (180.0 / Math.PI));
         }
 
-        public static float GetLesserAngleDifference(this float a1, float a2)
-        {
-            return (float) Math.Atan2(Math.Sin(a1 - a2), Math.Cos(a1 - a2));
-        }
-
         public static T GetService<T>(this IServiceProvider provider)
         {
             return (T)provider.GetService(typeof(T));
