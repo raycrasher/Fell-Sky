@@ -26,5 +26,20 @@ namespace FellSky.Models.Ships.Parts
         public float MaxThrust { get; set; }
         public TimeSpan RampUpTime { get; set; }
         public TimeSpan RampDownTime { get; set; }
+
+        public Thruster()
+        {
+            Color = Color.White;
+        }
+
+        public Thruster(string id, Vector2 position, float rotation, Vector2 scale, Vector2 origin, Color color)
+        {
+            SpriteId = id;
+            Transform.Position = position;
+            Transform.Scale = scale;
+            Transform.Rotation = rotation;
+            Transform.Origin = origin;
+            Color = color;
+        }
     }
 }

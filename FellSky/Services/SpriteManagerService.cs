@@ -5,6 +5,7 @@ using FellSky.Framework;
 
 using System;
 using FellSky.Components;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace FellSky.Services
 {
@@ -36,7 +37,8 @@ namespace FellSky.Services
 
         public SpriteComponent CreateSpriteComponent(string spriteId)
         {
-            return new SpriteComponent(Sprites[spriteId], _content);
+            var spriteDef = Sprites[spriteId];
+            return new SpriteComponent(spriteDef, _content.Load<Texture2D>(spriteDef.Texture));
         }
     }
 }

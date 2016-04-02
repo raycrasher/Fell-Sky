@@ -16,10 +16,10 @@ namespace FellSky.Components
         {
         }
 
-        public SpriteComponent(Sprite sprite, ContentManager contentManager)
+        public SpriteComponent(Sprite sprite, Texture2D texture)
         {
             Name = sprite.Id;
-            Texture = contentManager.Load<Texture2D>(sprite.Texture);
+            Texture = texture;
             TextureRect = new Rectangle(sprite.X, sprite.Y, sprite.W, sprite.H);
         }
 

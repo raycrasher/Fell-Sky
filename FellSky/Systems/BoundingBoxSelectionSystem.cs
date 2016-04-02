@@ -127,13 +127,12 @@ namespace FellSky.Systems
                     FarseerPhysics.Collision.Collision.CollidePolygons(ref manifold, marqueeShape, ref marqueeXForm, itemShape, ref itemXForm);
                     if (manifold.PointCount > 0)
                     {
+                        select.IsSelected = true;
+                        SelectedEntities.Add(entity);
                         if (clickMode)
                         {
                             return;
                         }
-                        select.IsSelected = true;
-                        SelectedEntities.Add(entity);
-                        
                     }
                     else
                     {

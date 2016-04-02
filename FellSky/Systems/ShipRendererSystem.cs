@@ -45,15 +45,20 @@ namespace FellSky.Systems
         {
             foreach (var ship in entities)
             {
-                var shipComponent = ship.GetComponent<ShipComponent>();
                 var xform = ship.GetComponent<Transform>();
                 var shipMatrix = xform.Matrix;
+                var shipComponent = ship.GetComponent<ShipComponent>();
 
-                foreach(var thrusterComponent in shipComponent.ThrusterEntities.Select(t=>t.GetComponent<ThrusterComponent>()).Where(s=>s.ThrustPercentage>0))
+                foreach(var entity in shipComponent.ThrusterEntities)
                 {
-                    var thruster = thrusterComponent.Part;
-                    var color = Color.Lerp(new Color(thruster.Color, 0), thruster.Color, MathHelper.Clamp(thrusterComponent.ThrustPercentage, 0, 1));
-                    thrusterComponent.Sprite.Draw(batch: _spriteBatch, matrix: thruster.Transform.Matrix * shipMatrix, color: thruster.Color, depth: thruster.Depth);
+                    var thrusterComponent = entity.GetComponent<ThrusterComponent>();
+                    if (thrusterComponent.ThrustPercentage > 0)
+                    {
+                        var sprite = entity.GetComponent<SpriteComponent>();
+                        var thruster = thrusterComponent.Part;
+                        var color = Color.Lerp(new Color(thruster.Color, 0), thruster.Color, MathHelper.Clamp(thrusterComponent.ThrustPercentage, 0, 1));
+                        sprite.Draw(batch: _spriteBatch, matrix: thruster.Transform.Matrix * shipMatrix, color: thruster.Color, depth: thruster.Depth);
+                    }
                 }
             }
         }

@@ -5,6 +5,8 @@ using FellSky.Services;
 using FellSky.Ships;
 using Microsoft.Xna.Framework;
 using FellSky.Systems;
+using System;
+using Artemis.Interface;
 
 namespace FellSky.EntityFactories
 {
@@ -47,16 +49,30 @@ namespace FellSky.EntityFactories
             return entity;
         }
 
-        private Entity CreateHullEntityInternal(Entity ship, Hull hull, bool addPhysics)
+        public Entity CreateThrusterEntity(Entity ship, Thruster thruster)
         {
+            var entity = CreatePartEntity(ship, new ThrusterComponent(thruster, ship));
+            ship?.GetComponent<ShipComponent>().ThrusterEntities.Add(entity);
+            return entity;
+        }
+
+        private Entity CreatePartEntity<TComponent>(Entity ship, TComponent component)
+            where TComponent: IShipPartComponent, IComponent
+        {
+            var part = component.Part;
             var entity = World.CreateEntity();
-            entity.AddComponent(new HullComponent(hull, ship));
+            entity.AddComponent(component);
             entity.AddComponent(new LocalTransformComponent(ship));
-            entity.AddComponent(hull.Transform);
-            entity.AddComponent(new HealthComponent(hull.Health));
-            var spriteComponent = _spriteManager.CreateSpriteComponent(hull.SpriteId);
+            entity.AddComponent(part.Transform);
+            var spriteComponent = _spriteManager.CreateSpriteComponent(part.SpriteId);
             entity.AddComponent(spriteComponent);
             entity.AddComponent(new BoundingBoxComponent(new FloatRect(0, 0, spriteComponent.TextureRect.Width, spriteComponent.TextureRect.Height)));
+            return entity;
+        }
+
+        private Entity CreateHullEntityInternal(Entity ship, Hull hull, bool addPhysics)
+        {
+            var entity = CreatePartEntity(ship, new HullComponent(hull, ship));
             ship?.GetComponent<ShipComponent>().HullEntities.Add(entity);
             if (addPhysics)
             {

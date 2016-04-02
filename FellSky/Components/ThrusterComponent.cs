@@ -18,7 +18,6 @@ namespace FellSky.Components
         }
 
         public bool IsThrusting { get; internal set; }
-        public SpriteComponent Sprite { get; set; }
         public float AngleCutoff { get; set; } = 0.25f;
         public float ThrustPercentage { get; set; }
     }

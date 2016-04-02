@@ -96,11 +96,13 @@ namespace FellSky.Editor
             SpriteBatch = new SpriteBatch(host.GraphicsDevice);
             Services.AddService(SpriteBatch);
 
-            SpriteManager = new SpriteManagerService(Content);
-            Services.AddService<ISpriteManagerService>(SpriteManager);
 
             Content = new ContentManager(Services);
             Content.RootDirectory = Environment.CurrentDirectory;
+
+            SpriteManager = new SpriteManagerService(Content);
+            Services.AddService<ISpriteManagerService>(SpriteManager);
+
             LoadHullSprites("textures/hulls.json");
 
             Artemis.System.EntitySystem.BlackBoard.SetEntry("ContentManager", Content);
@@ -247,7 +249,7 @@ namespace FellSky.Editor
                 .ToDictionary(s => s.Key, s => s.ToList());
             sheet.Image = TextureToImage(Content.Load<Texture2D>(sheet.SpriteDefinitions.Texture));
             ThrusterSprites = CurrentSpriteSheet.SpriteDefinitions.Sprites
-                .Where(s => s.Type == "thruster")
+                .Where(s => s.Subtype == "thruster")
                 .ToList();
         }
 
@@ -282,6 +284,17 @@ namespace FellSky.Editor
             });
         });
 
+        public ICommand AddThruster => new DelegateCommand(o =>
+        {
+            ActionsNextFrame.Add(() =>
+            {
+                var pos = _host.PointToScreen(new System.Windows.Point(_host.ActualWidth / 2, _host.ActualHeight / 2));
+                _mouse.ScreenPosition = new Vector2((float)pos.X, (float)pos.Y);
+                System.Threading.Thread.Sleep(10);
+                EditorService.AddThruster((Sprite)o);
+            });
+        });
+
         public ICommand DeletePartsCommand => new DelegateCommand(o => EditorService.DeleteParts());
         public ICommand MirrorLateralCommand => new DelegateCommand(o => EditorService.MirrorSelectedLaterally());
         public ICommand RotatePartsCommand => new DelegateCommand(o => EditorService.RotateParts());
@@ -290,6 +303,7 @@ namespace FellSky.Editor
             {
                 var dialog = new Microsoft.Win32.SaveFileDialog
                 {
+                    InitialDirectory = Content.RootDirectory,
                     AddExtension = true,
                     DefaultExt = ".ship.json"
                 };
@@ -302,6 +316,7 @@ namespace FellSky.Editor
             {
                 var dialog = new Microsoft.Win32.OpenFileDialog
                 {
+                    InitialDirectory = Content.RootDirectory,
                     AddExtension = true,
                     DefaultExt = ".ship.json"
                 };

@@ -186,6 +186,23 @@ namespace FellSky.Editor
             _transformSystem.StartTransform<TranslateState>();
         }
 
+        public void AddThruster(Sprite sprite)
+        {
+            ClearSelection();
+
+            var entity = AddThrusterInternal(sprite.Id, Vector2.Zero, 0, Vector2.One,
+                new Vector2(
+                    sprite.OriginX ?? sprite.W,
+                    sprite.OriginY ?? sprite.H / 2),
+                HullColor
+                );
+            SelectedPartEntities.Add(entity);
+            entity.AddComponent(new MouseControlledTransformComponent());
+            _transformSystem.StartTransform<TranslateState>();
+        }
+
+
+
         public void ChangePartDepth(int delta)
         {
             if(SelectedPartEntities.Count > 0)
@@ -360,6 +377,8 @@ namespace FellSky.Editor
             }
         }
 
+
+
         public void SaveAsPartGroup(string filename)
         {
 
@@ -401,6 +420,17 @@ namespace FellSky.Editor
             hull.ColorType = colorType;
             AddEditorComponentsToPartEntity(hullEntity);
             return hullEntity;
+        }
+
+        private Entity AddThrusterInternal(string id, Vector2 position, float rotation, Vector2 scale, Vector2 origin, Color color)
+        {
+            var thruster = new Thruster(id, position, rotation, scale, origin, color);
+            var thrusterEntity = _shipFactory.CreateThrusterEntity(ShipEntity, thruster);
+            var thrusterComponent = thrusterEntity.GetComponent<ThrusterComponent>();
+            thrusterComponent.ThrustPercentage = 1;
+            AddEditorComponentsToPartEntity(thrusterEntity);
+
+            return thrusterEntity;
         }
 
         private void AddEditorComponentsToPartEntity(Entity entity)
