@@ -36,7 +36,7 @@ namespace FellSky.Models.Ships.Parts
 
         [Xceed.Wpf.Toolkit.PropertyGrid.Attributes.ExpandableObject]
         public string ShapeId { get; set; }
-        public SpriteEffects SpriteEffect { get; set; }
+        //public SpriteEffects SpriteEffect { get; set; }
         public float Health { get; set; } = 100;
         public int PhysicsBodyIndex { get; set; } = 0;
     }

@@ -90,7 +90,6 @@ namespace FellSky.Editor
             _mouse = new MouseService(host);
             Services.AddService<IMouseService>(_mouse);
             _mouse.ButtonDown += OnMouseButtonDown;
-
             _keyboard = new KeyboardService(host);
 
             SpriteBatch = new SpriteBatch(host.GraphicsDevice);
@@ -246,6 +245,7 @@ namespace FellSky.Editor
             HullSprites = CurrentSpriteSheet.SpriteDefinitions.Sprites
                 .Where(s => s.Type == "hull")
                 .GroupBy(s => s.Subtype)
+                .OrderBy(s => s.Key)
                 .ToDictionary(s => s.Key, s => s.ToList());
             sheet.Image = TextureToImage(Content.Load<Texture2D>(sheet.SpriteDefinitions.Texture));
             ThrusterSprites = CurrentSpriteSheet.SpriteDefinitions.Sprites

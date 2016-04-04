@@ -116,7 +116,6 @@
                         Initializing="D3D11Host_Initializing" Rendering="D3D11Host_Rendering" Focusable="True"
                         MouseEnter="D3D11Host_MouseEnter" MouseDown="D3D11Host_MouseDown" Visibility="Visible" IsEnabled="True"
                         Grid.Column="1" Grid.Row="1" FocusManager.IsFocusScope="True"
-                      
                         />
 
         <Menu Name="mainMenu" VerticalAlignment="Stretch" Background="{x:Null}" HorizontalContentAlignment="Left" FontSize="12" >
@@ -233,14 +232,17 @@
             </StackPanel.Resources>
             <Expander Header="Colors" IsExpanded="True">
                 <Grid>
-                    <UniformGrid Columns="3" xmlns:fs="clr-namespace:FellSky.Models.Ships.Parts;assembly=FellSky">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="70"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0" xmlns:fs="clr-namespace:FellSky.Models.Ships.Parts;assembly=FellSky">
                         <RadioButton 
                             Name="hullColorBtn" 
                             HorizontalContentAlignment="Center" 
                             Style="{DynamicResource ColorRadioButtonStyle}" 
                             Background="{Binding EditorService.HullColor, Converter={StaticResource xnaColorToBrushConverter}, Mode=TwoWay}" 
                             Tag="Hull" 
-                            MouseDoubleClick="OpenColorPicker" 
                             Focusable="False" 
                             Foreground="{Binding ElementName=hullColorBtn, Path=Background, Converter={StaticResource contrastingColorConverter}}" 
                             IsChecked="{Binding EditorService.SelectedHullColorType, Converter={StaticResource enumToBooleanConverter}, ConverterParameter=Hull}">HULL</RadioButton>
@@ -250,7 +252,6 @@
                             Style="{DynamicResource ColorRadioButtonStyle}" 
                             Background="{Binding EditorService.BaseColor, Converter={StaticResource xnaColorToBrushConverter}, Mode=TwoWay}" 
                             Tag="Base" 
-                            MouseDoubleClick="OpenColorPicker" 
                             Focusable="False" 
                             Foreground="{Binding ElementName=baseColorBtn, Path=Background, Converter={StaticResource contrastingColorConverter}}"
                             IsChecked="{Binding EditorService.SelectedHullColorType, Converter={StaticResource enumToBooleanConverter}, ConverterParameter=BaseDecal}">BASE</RadioButton>
@@ -260,11 +261,11 @@
                             Style="{DynamicResource ColorRadioButtonStyle}" 
                             Background="{Binding EditorService.TrimColor, Converter={StaticResource xnaColorToBrushConverter}, Mode=TwoWay}" 
                             Tag="Trim" 
-                            MouseDoubleClick="OpenColorPicker" 
                             Focusable="False" 
                             Foreground="{Binding ElementName=trimColorBtn, Path=Background, Converter={StaticResource contrastingColorConverter}}"
                             IsChecked="{Binding EditorService.SelectedHullColorType, Converter={StaticResource enumToBooleanConverter}, ConverterParameter=TrimDecal}">TRIM</RadioButton>
-                    </UniformGrid>
+                    </StackPanel>
+                    <xctk:ColorCanvas Grid.Column="1"/>
                 </Grid>
             </Expander>
             <Expander Header="Properties" IsExpanded="True">
@@ -284,12 +285,14 @@
                 </xctk:PropertyGrid>
             </Expander>
         </StackPanel>
+        <!--
         <Popup Name="ColorPicker" PlacementTarget="{Binding ElementName=sidePanel}" Placement="Left" Width="200">
             <StackPanel Background="#efefef">
                 <Label Padding="3">Color Picker</Label>
                 <xctk:ColorCanvas Name="ColorCanvas" SelectedColorChanged="PickerColorChanged"/>
             </StackPanel>
         </Popup>
+        -->
         <!--
         <Popup IsOpen="{Binding ElementName=helpToggle, Path=IsChecked}" Placement="Relative" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
                PlacementTarget="{Binding ElementName=sidePanel}" Width="{Binding ElementName=sidePanel, Path=ActualWidth}" Height="{Binding ElementName=sidePanel, Path=ActualHeight}">

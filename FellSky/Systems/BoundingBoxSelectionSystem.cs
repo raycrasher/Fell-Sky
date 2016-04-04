@@ -115,8 +115,8 @@ namespace FellSky.Systems
 
                     // perform polygon test with oriented bounding boxes
                     var itemShape = new FarseerPhysics.Collision.Shapes.PolygonShape(FarseerPhysics.Common.PolygonTools.CreateRectangle(
-                        box.Box.Width/2,
-                        box.Box.Height/2
+                        (box.Box.Width/2) * xform.Scale.X,
+                        (box.Box.Height/2) * xform.Scale.Y
                         ), 1);
 
                     var manifold = new FarseerPhysics.Collision.Manifold();

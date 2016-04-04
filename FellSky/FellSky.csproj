@@ -164,6 +164,7 @@
     <Compile Include="Services\GamePersistenceService.cs" />
     <Compile Include="Services\ICoroutineService.cs" />
     <Compile Include="Services\EventService.cs" />
+    <Compile Include="Systems\MouseControlledTransformSystemStates\ScaleState.cs" />
     <Compile Include="Systems\PhysicsDebugView\DebugView.cs" />
     <Compile Include="Systems\PhysicsSystem.cs" />
     <Compile Include="Services\ISpriteManagerService.cs" />

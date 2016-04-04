@@ -17,6 +17,7 @@ namespace FellSky.Systems.MouseControlledTransformSystemStates
 
         float SnapAmount { get; set; }
         bool IsSnapEnabled { get; set; }
+        Axis Constraint { get; set; }
 
     }
 }

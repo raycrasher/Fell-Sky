@@ -51,25 +51,8 @@ namespace FellSky.Editor
             Keyboard.Focus(D3D11Host);            
         }
 
-        private void OpenColorPicker(object sender, MouseButtonEventArgs e)
-        {
-            var button = (RadioButton)sender;
-            ColorPicker.IsOpen = true;
-            ColorPicker.Tag = button;
-            ColorCanvas.SelectedColor = ((SolidColorBrush)button.Background).Color;
-        }
-
-        private void PickerColorChanged(object sender, RoutedPropertyChangedEventArgs<System.Windows.Media.Color?> e)
-        {
-            var button = ColorPicker.Tag as RadioButton;
-            if (button == null) return;
-            button.SetValue(BackgroundProperty, new SolidColorBrush(e.NewValue.Value));
-            BindingOperations.GetBindingExpression(button, BackgroundProperty).UpdateSource();
-        }
-
         private void D3D11Host_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            ColorPicker.IsOpen = false;
             D3D11Host.Focus();
         }
     }

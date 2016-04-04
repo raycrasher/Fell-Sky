@@ -19,6 +19,7 @@ namespace FellSky.Systems.MouseControlledTransformSystemStates
 
         public float SnapAmount { get; set; }
         public bool IsSnapEnabled { get; set; }
+        public Axis Constraint { get; set; }
 
         public void Apply()
         {            
@@ -73,7 +74,7 @@ namespace FellSky.Systems.MouseControlledTransformSystemStates
                     Utilities.DecomposeMatrix2D(ref newMatrix, out position, out rotation, out scale);
                     transform.Position = position;
                     transform.Rotation = initialTransform.Rotation + MathHelper.WrapAngle(angle - initialAngle);
-                    transform.Scale = scale;
+                    transform.Scale = initialTransform.Scale;
                 }
             }
         }

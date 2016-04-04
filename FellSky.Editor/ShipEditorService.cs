@@ -72,9 +72,11 @@ namespace FellSky.Editor
 
         public Axis AxisConstraint
         {
-            get { return (_transformSystem.State as TranslateState)?.Constraint ?? Axis.None; }
-            set { if (_transformSystem.State is TranslateState) ((TranslateState)_transformSystem.State).Constraint = value; }
+            get { return _transformSystem.State?.Constraint ?? Axis.None; }
+            set { if(_transformSystem.State!=null) _transformSystem.State.Constraint = value; }
         }
+
+        public static ShipEditorService Instance { get; private set; }
 
         /// <summary>
         /// Constructor
@@ -92,6 +94,7 @@ namespace FellSky.Editor
             _transformSystem = world.SystemManager.GetSystem<MouseControlledTransformSystem>();
             PropertyChanged += OnColorChanged;
             SelectedPartEntities.CollectionChanged += OnSelectionChanged;
+            Instance = this;
         }
 
         private void OnSelectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -127,11 +130,15 @@ namespace FellSky.Editor
         }
 
         /// <summary>
-        /// Not implemented yet.
+        /// Scale parts
         /// </summary>
         public void ScaleParts()
         {
-            // not implemented yet
+            if(!(_transformSystem.State is ScaleState))
+            {
+                _transformSystem.StartTransform<ScaleState>();
+                StartTransformOnSelectedParts();
+            }
         }
 
         /// <summary>
@@ -170,8 +177,8 @@ namespace FellSky.Editor
             //_mouse.ScreenPosition = new Vector2(_mouse.ScreenPosition);
 
             var entity = AddHullInternal(sprite.Id, 
-                //_world.GetCamera(CameraTag).ScreenToCameraSpace(_mouse.ScreenPosition), 
-                Vector2.Zero,
+                _world.GetCamera(CameraTag).ScreenToCameraSpace(_mouse.ScreenPosition), 
+                //Vector2.Zero,
                 0, 
                 Vector2.One, 
                 new Vector2(
@@ -190,7 +197,11 @@ namespace FellSky.Editor
         {
             ClearSelection();
 
-            var entity = AddThrusterInternal(sprite.Id, Vector2.Zero, 0, Vector2.One,
+            var entity = AddThrusterInternal(sprite.Id,
+                _world.GetCamera(CameraTag).ScreenToCameraSpace(_mouse.ScreenPosition),
+                //Vector2.Zero, 
+                0, 
+                Vector2.One,
                 new Vector2(
                     sprite.OriginX ?? sprite.W,
                     sprite.OriginY ?? sprite.H / 2),
@@ -209,7 +220,7 @@ namespace FellSky.Editor
             {
                 foreach(var item in SelectedPartEntities.Select(s => s.Components.OfType<IShipPartComponent>().First().Part))
                 {
-                    item.Depth = MathHelper.Clamp(item.Depth + delta * 0.1f, 0, 1);
+                    item.Depth = MathHelper.Clamp(item.Depth + delta * 0.0001f, 0, 1);
                 }
             }
         }
@@ -247,16 +258,18 @@ namespace FellSky.Editor
             PropertyObject = Ship;
         }
 
-        public void FlipLocal(SpriteEffects fx)
+        public void FlipLocal(SpriteEffects flip)
         {
             if (SelectedPartEntities.Count <= 0) return;
             foreach(var item in SelectedPartEntities.Select(e => e.Components.OfType<IShipPartComponent>().First().Part))
             {
-                if(item is Hull)
-                {
-                    var hull = (Hull)item;
-                    hull.SpriteEffect ^= fx;
-                }
+                //if(item is Hull)
+                //{
+                //    var hull = (Hull)item;
+                //    hull.SpriteEffect ^= fx;
+                //}
+                if (flip.HasFlag(SpriteEffects.FlipHorizontally)) item.Transform.Position *= new Vector2(-1, 1);
+                if (flip.HasFlag(SpriteEffects.FlipVertically)) item.Transform.Position *= new Vector2(1, -1);
             }
         }
 
@@ -267,12 +280,16 @@ namespace FellSky.Editor
             var centroid = SelectedPartEntities.Aggregate(Vector2.Zero, (ta, e) => ta += e.GetComponent<Transform>().Position) / SelectedPartEntities.Count;
             foreach (var item in SelectedPartEntities.Select(e => e.Components.OfType<IShipPartComponent>().First().Part))
             {
-                if (item is Hull)
-                {
-                    var hull = (Hull)item;
-                    hull.SpriteEffect ^= flip;
-                }
-                if(flip == SpriteEffects.FlipVertically)
+                //if (item is Hull)
+                //{
+                //    var hull = (Hull)item;
+                //    hull.SpriteEffect ^= flip;
+                //}
+
+                if (flip.HasFlag(SpriteEffects.FlipHorizontally)) item.Transform.Scale *= new Vector2(-1, 1);
+                if (flip.HasFlag(SpriteEffects.FlipVertically)) item.Transform.Scale *= new Vector2(1, -1);
+
+                if (flip == SpriteEffects.FlipVertically)
                 {
                     item.Transform.Position = new Vector2(
                         item.Transform.Position.X,
@@ -316,7 +333,7 @@ namespace FellSky.Editor
                     var hull = (Hull)part;
                     e = AddHullInternal(hull.SpriteId, hull.Transform.Position, hull.Transform.Rotation, hull.Transform.Scale, hull.Transform.Origin, hull.Color, hull.ColorType);
                     var newHull = e.GetComponent<HullComponent>().Part;
-                    newHull.SpriteEffect = hull.SpriteEffect;
+                    //newHull.SpriteEffect = hull.SpriteEffect;
                     newHull.Depth = hull.Depth;
                 }
                 else throw new InvalidOperationException();
@@ -386,12 +403,10 @@ namespace FellSky.Editor
 
         public void MirrorSelectedLaterally()
         {
-
-
             foreach(var part in SelectedPartEntities.Select(s => s.Components.OfType<IShipPartComponent>().First().Part))
             {
                 Vector2 position = part.Transform.Position * new Vector2(1, -1);
-                Vector2 scale = part.Transform.Scale;
+                Vector2 scale = part.Transform.Scale * new Vector2(1,-1);
                 Vector2 origin = part.Transform.Origin;
                 float rotation = (part.Transform.Rotation.ToVector() * new Vector2(-1, 1)).ToAngleRadians();
 
@@ -405,7 +420,7 @@ namespace FellSky.Editor
                     var oldHull = part as Hull;
                     var hullEntity = AddHullInternal(oldHull.SpriteId, position, rotation, scale, origin, oldHull.Color, oldHull.ColorType);
                     var newHull = hullEntity.GetComponent<HullComponent>().Part;
-                    newHull.SpriteEffect = oldHull.SpriteEffect ^ Microsoft.Xna.Framework.Graphics.SpriteEffects.FlipVertically;
+                    //newHull.SpriteEffect = oldHull.SpriteEffect ^ Microsoft.Xna.Framework.Graphics.SpriteEffects.FlipVertically;
                     newHull.ColorType = oldHull.ColorType;
                     newHull.Depth = oldHull.Depth;
                 }
