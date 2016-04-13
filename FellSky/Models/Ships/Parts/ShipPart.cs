@@ -1,4 +1,5 @@
 ﻿using Artemis.Interface;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace FellSky.Models.Ships.Parts
         [Xceed.Wpf.Toolkit.PropertyGrid.Attributes.ExpandableObject]
         public Transform Transform { get; set; } = new Transform();
         public string SpriteId { get; set; }
-
+        public Color Color { get; set; }
         public float Depth { get; set; } = 0.5f;
 
         public ShipPart()

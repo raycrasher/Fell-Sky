@@ -15,6 +15,7 @@ using FellSky.Components;
 using FellSky.Systems;
 using FellSky.Services;
 using FellSky.EntityFactories;
+using System.Windows.Media;
 
 namespace FellSky.Editor
 {
@@ -40,7 +41,16 @@ namespace FellSky.Editor
 
         public XnaColor BackgroundColor { get; set; } = new XnaColor(5, 10, 20);
         public XnaColor GridColor { get; set; } = new XnaColor(30, 40, 50, 50);
-        
+        public System.Windows.Media.Color SelectedColor
+        {
+            get { return _selectedColor; }
+            set
+            {
+                _selectedColor = value;
+                ShipEditorService.Instance.SetHullColor(new XnaColor(value.R, value.G, value.B, value.A));
+            }
+        }
+
         public ShipEditorService EditorService { get; private set; }
 
         public ContentManager Content { get; set; }
@@ -70,6 +80,7 @@ namespace FellSky.Editor
 
         private MouseControlledTransformSystem _transformSystem;
         private KeyboardService _keyboard;
+        private System.Windows.Media.Color _selectedColor;
 
         private List<Action> ActionsNextFrame { get; } = new List<Action>();
 

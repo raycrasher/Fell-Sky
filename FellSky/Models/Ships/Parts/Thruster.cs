@@ -20,7 +20,6 @@ namespace FellSky.Models.Ships.Parts
         public float Length { get; set; }
         public float Width { get; set; }
         public string ParticleTrailId { get; set; } // not required, can be null for no particle trail.
-        public Color Color { get; set; } = Color.White;
         public ThrusterType ThrusterType { get; set; }
 
         public float MaxThrust { get; set; }

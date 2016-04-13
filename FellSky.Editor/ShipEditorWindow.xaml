@@ -265,7 +265,7 @@
                             Foreground="{Binding ElementName=trimColorBtn, Path=Background, Converter={StaticResource contrastingColorConverter}}"
                             IsChecked="{Binding EditorService.SelectedHullColorType, Converter={StaticResource enumToBooleanConverter}, ConverterParameter=TrimDecal}">TRIM</RadioButton>
                     </StackPanel>
-                    <xctk:ColorCanvas Grid.Column="1"/>
+                    <xctk:ColorCanvas Grid.Column="1" SelectedColor="{Binding SelectedColor}"/>
                 </Grid>
             </Expander>
             <Expander Header="Properties" IsExpanded="True">
@@ -277,7 +277,7 @@
                             </xctk:EditorDefinition.PropertiesDefinitions>
                             <xctk:EditorDefinition.EditorTemplate>
                                 <DataTemplate>
-                                    <xctk:DecimalUpDown Value="{Binding Value, Converter={StaticResource NullableNumericConverter}}" Minimum="0" Maximum="1" Increment="0.1" />
+                                    <xctk:DecimalUpDown Value="{Binding Value, Converter={StaticResource UpDownFloatConverter}}" Minimum="0" Maximum="1" Increment="0.1" />
                                 </DataTemplate>
                             </xctk:EditorDefinition.EditorTemplate>
                         </xctk:EditorDefinition>

@@ -487,6 +487,11 @@ namespace FellSky.Editor
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        
+        public void SetHullColor(Color color)
+        {
+            HullColor = color;
+            foreach (var part in SelectedPartEntities.Select(e => e.Components.OfType<IShipPartComponent>().First().Part))
+                part.Color = color;
+        }
     }
 }
