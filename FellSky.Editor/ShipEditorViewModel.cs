@@ -16,9 +16,31 @@ using FellSky.Systems;
 using FellSky.Services;
 using FellSky.EntityFactories;
 using System.Windows.Media;
+using System.Collections.ObjectModel;
 
 namespace FellSky.Editor
 {
+    public enum ColorPaletteSelection
+    {
+        Hull = -1, Base = -2, Trim = -3,
+        Color0 = 0,
+        Color1 = 1,
+        Color2 = 2,
+        Color3 = 3,
+        Color4 = 4,
+        Color5 = 5,
+        Color6 = 6,
+        Color7 = 7,
+        Color8 = 8,
+        Color9 = 9,
+        Color10 = 10,
+        Color11 = 11,
+        Color12 = 12,
+        Color13 = 13,
+        Color14 = 14,
+        Color15 = 15,
+    }
+
     [PropertyChanged.ImplementPropertyChanged]
     public class ShipEditorViewModel
     {
@@ -51,6 +73,9 @@ namespace FellSky.Editor
             }
         }
 
+        public ColorPaletteSelection ColorPaletteSelection { get; set; }
+        public ObservableCollection<XnaColor> ColorPalette { get; } = GetDefaultPalette();
+        
         public ShipEditorService EditorService { get; private set; }
 
         public ContentManager Content { get; set; }
@@ -279,6 +304,13 @@ namespace FellSky.Editor
             
             return image;
         }
+
+        private static ObservableCollection<XnaColor> GetDefaultPalette()
+        {
+            var items = Properties.Settings.Default.Palette.Split(',').Select(s => System.Drawing.ColorTranslator.FromHtml(s).ToXnaColor()).ToList();
+            return new ObservableCollection<XnaColor>(items);
+        }
+
 
         public ICommand CreateNewShipCommand => new DelegateCommand(o =>
         {

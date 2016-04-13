@@ -84,9 +84,11 @@ namespace FellSky.Editor.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::System.Collections.Specialized.StringCollection Palette {
+        [global::System.Configuration.DefaultSettingValueAttribute("#FFFFFF,#A86E3D,#FACFAA,#CE986A,#834C1C,#582B04,#A8803D,#FADCAA,#CEA96A,#835C1C,#" +
+            "583804,#A8513D,#FAB9AA,#CE7D6A,#83301C,#581404")]
+        public string Palette {
             get {
-                return ((global::System.Collections.Specialized.StringCollection)(this["Palette"]));
+                return ((string)(this["Palette"]));
             }
             set {
                 this["Palette"] = value;

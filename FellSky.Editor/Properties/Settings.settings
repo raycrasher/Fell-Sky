@@ -17,8 +17,8 @@
     <Setting Name="TrimColor" Type="System.Drawing.Color" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="Palette" Type="System.Collections.Specialized.StringCollection" Scope="User">
-      <Value Profile="(Default)" />
+    <Setting Name="Palette" Type="System.String" Scope="User">
+      <Value Profile="(Default)">#FFFFFF,#A86E3D,#FACFAA,#CE986A,#834C1C,#582B04,#A8803D,#FADCAA,#CEA96A,#835C1C,#583804,#A8513D,#FAB9AA,#CE7D6A,#83301C,#581404</Value>
     </Setting>
     <Setting Name="BackgroundColor" Type="System.String" Scope="User">
       <Value Profile="(Default)" />

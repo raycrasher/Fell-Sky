@@ -39,6 +39,29 @@ namespace FellSky.Editor
         }
     }
 
+    public class XnaColorToWindowsColorConverter : System.Windows.Data.IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if(value is XnaColor)
+            {
+                var c = (XnaColor)value;
+                return WpfColor.FromArgb(c.A, c.R, c.G, c.B);
+            }
+            else if(value is WpfColor)
+            {
+                var c = (WpfColor)value;
+                return new XnaColor(c.R, c.G, c.B, c.A);
+            }
+            throw new NotSupportedException();
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return Convert(value, targetType, parameter, culture);
+        }
+    }
+
     public class ContrastingColorConverter : System.Windows.Data.IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

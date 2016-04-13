@@ -237,33 +237,80 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <StackPanel Grid.Column="0" xmlns:fs="clr-namespace:FellSky.Models.Ships.Parts;assembly=FellSky">
-                        <RadioButton 
-                            Name="hullColorBtn" 
+                        <Button 
                             HorizontalContentAlignment="Center" 
-                            Style="{DynamicResource ColorRadioButtonStyle}" 
                             Background="{Binding EditorService.HullColor, Converter={StaticResource xnaColorToBrushConverter}, Mode=TwoWay}" 
-                            Tag="Hull" 
                             Focusable="False" 
                             Foreground="{Binding ElementName=hullColorBtn, Path=Background, Converter={StaticResource contrastingColorConverter}}" 
-                            IsChecked="{Binding EditorService.SelectedHullColorType, Converter={StaticResource enumToBooleanConverter}, ConverterParameter=Hull}">HULL</RadioButton>
-                        <RadioButton 
-                            Name="baseColorBtn" 
+                            CommandParameter="{x:Static fe:ColorPaletteSelection.Hull}">HULL</Button>
+                        <Button 
                             HorizontalContentAlignment="Center" 
-                            Style="{DynamicResource ColorRadioButtonStyle}" 
-                            Background="{Binding EditorService.BaseColor, Converter={StaticResource xnaColorToBrushConverter}, Mode=TwoWay}" 
-                            Tag="Base" 
+                            Background="{Binding EditorService.HullColor, Converter={StaticResource xnaColorToBrushConverter}, Mode=TwoWay}" 
                             Focusable="False" 
-                            Foreground="{Binding ElementName=baseColorBtn, Path=Background, Converter={StaticResource contrastingColorConverter}}"
-                            IsChecked="{Binding EditorService.SelectedHullColorType, Converter={StaticResource enumToBooleanConverter}, ConverterParameter=BaseDecal}">BASE</RadioButton>
-                        <RadioButton 
-                            Name="trimColorBtn" 
+                            Foreground="{Binding ElementName=hullColorBtn, Path=Background, Converter={StaticResource contrastingColorConverter}}" 
+                            CommandParameter="{x:Static fe:ColorPaletteSelection.Base}">BASE
+                            </Button>
+                        <Button 
                             HorizontalContentAlignment="Center" 
-                            Style="{DynamicResource ColorRadioButtonStyle}" 
-                            Background="{Binding EditorService.TrimColor, Converter={StaticResource xnaColorToBrushConverter}, Mode=TwoWay}" 
-                            Tag="Trim" 
+                            Background="{Binding EditorService.HullColor, Converter={StaticResource xnaColorToBrushConverter}, Mode=TwoWay}" 
                             Focusable="False" 
-                            Foreground="{Binding ElementName=trimColorBtn, Path=Background, Converter={StaticResource contrastingColorConverter}}"
-                            IsChecked="{Binding EditorService.SelectedHullColorType, Converter={StaticResource enumToBooleanConverter}, ConverterParameter=TrimDecal}">TRIM</RadioButton>
+                            Foreground="{Binding ElementName=hullColorBtn, Path=Background, Converter={StaticResource contrastingColorConverter}}" 
+                            CommandParameter="{x:Static fe:ColorPaletteSelection.Trim}">TRIM</Button>
+                        <UniformGrid Columns="2">
+                            <Button FontSize="8">Load</Button>
+                            <Button FontSize="8">Save</Button>
+                        </UniformGrid>
+                        <ListView Height="158" ItemsSource="{Binding ColorPalette}" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectedItem="{Binding SelectedColor, Converter={StaticResource XnaColorToWindowsColorConverter}}" diag:PresentationTraceSources.TraceLevel="High">
+                            <ListView.Resources>
+                                <ControlTemplate x:Key="SelectedTemplate" TargetType="ListViewItem">
+                                    <Border SnapsToDevicePixels="true" 
+                                        BorderBrush="{TemplateBinding BorderBrush}" 
+                                        BorderThickness="{TemplateBinding BorderThickness}" 
+                                        Background="{TemplateBinding Background}"
+                                        CornerRadius="5" x:Name="border">   
+                                        <ContentControl 
+                                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
+                                            Margin="2,2,2,2" 
+                                            VerticalAlignment="Stretch"
+                                            Content="{TemplateBinding Content}" />
+                                    </Border>
+                                </ControlTemplate>
+                                <Style TargetType="ListViewItem">
+                                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                    <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+                                    <Setter Property="Margin" Value="0"/>
+                                    <Setter Property="Padding" Value="1"/>
+                                    <Setter Property="Width" Value="16"/>
+                                    <Setter Property="Height" Value="16"/>
+                                    <Setter Property="Background" Value="{Binding Converter={StaticResource xnaColorToBrushConverter}, Mode=OneWay}" />
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="BorderBrush" Value="Red"/>
+                                            <Setter Property="BorderThickness" Value="2"/>
+                                        </Trigger>
+                                        <MultiTrigger>
+                                            <MultiTrigger.Conditions>
+                                                <Condition Property="IsSelected" Value="true" />
+                                                <Condition Property="Selector.IsSelectionActive" Value="true" />
+                                            </MultiTrigger.Conditions>
+                                            <Setter Property="BorderBrush" Value="Black" />
+                                            <Setter Property="BorderThickness" Value="2" />
+                                            <Setter Property="Background" Value="{Binding Converter={StaticResource xnaColorToBrushConverter}, Mode=OneWay}"/>
+                                        </MultiTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ListView.Resources>
+                            <ListView.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel/>
+                                </ItemsPanelTemplate>
+                            </ListView.ItemsPanel>
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid/>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
                     </StackPanel>
                     <xctk:ColorCanvas Grid.Column="1" SelectedColor="{Binding SelectedColor}"/>
                 </Grid>

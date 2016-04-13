@@ -149,6 +149,7 @@
     <Compile Include="MouseService.cs" />
     <Compile Include="ShipEditorService.cs" />
     <Compile Include="ShipEditorViewModel.cs" />
+    <Compile Include="Utilities.cs" />
     <Page Include="ShipEditorWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
