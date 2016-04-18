@@ -485,7 +485,9 @@ namespace FellSky.Editor
             }
         }
 
+#pragma warning disable CS0067
         public event PropertyChangedEventHandler PropertyChanged;
+#pragma warning restore CS0067
 
         public void SetHullColor(Color color)
         {

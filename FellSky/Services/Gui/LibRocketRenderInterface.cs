@@ -173,7 +173,9 @@ namespace FellSky.Services.Gui
             foreach (var pass in _effect.CurrentTechnique.Passes)
             {
                 pass.Apply();
+#pragma warning disable CS0618
                 GraphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, geom.Vertices.VertexCount, 0, geom.Indices.IndexCount);
+#pragma warning restore CS0618
             }
             GraphicsDevice.RasterizerState = rstate;
         }
