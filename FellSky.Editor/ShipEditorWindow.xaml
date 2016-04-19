@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:fe="clr-namespace:FellSky.Editor"
-        xmlns:fsparts="clr-namespace:FellSky.Models.Ships.Parts;assembly=FellSky"
+        xmlns:fsparts="clr-namespace:FellSky.Game.Ships.Parts;assembly=FellSky"
         xmlns:wf="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"  
         xmlns:ext="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:ctl="http://metro.mahapps.com/winfx/xaml/controls"
@@ -236,7 +236,7 @@
                         <ColumnDefinition Width="70"/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <StackPanel Grid.Column="0" xmlns:fs="clr-namespace:FellSky.Models.Ships.Parts;assembly=FellSky">
+                    <StackPanel Grid.Column="0" xmlns:fs="clr-namespace:FellSky.Game.Ships.Parts;assembly=FellSky">
                         <Button 
                             HorizontalContentAlignment="Center" 
                             Background="{Binding EditorService.HullColor, Converter={StaticResource xnaColorToBrushConverter}, Mode=TwoWay}" 

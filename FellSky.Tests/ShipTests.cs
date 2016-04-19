@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using FellSky.Models.Ships.Parts;
-using FellSky.Ships;
+using FellSky.Game.Ships.Parts;
+using FellSky.Game.Ships;
 using System.Linq;
 
 namespace FellSky.Tests

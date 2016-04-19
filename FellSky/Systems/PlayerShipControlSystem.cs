@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Artemis;
 using Microsoft.Xna.Framework;
 using Artemis.Attributes;
-using FellSky.Ships;
+using FellSky.Game.Ships;
 
 using FellSky.Framework;
 using FellSky.Components;

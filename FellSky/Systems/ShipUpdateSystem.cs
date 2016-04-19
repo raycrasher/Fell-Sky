@@ -56,7 +56,7 @@ namespace FellSky.Systems
                 var offset = Math.Abs(MathHelper.WrapAngle(shipComponent.LinearThrustVector.ToAngleRadians() - xform.Rotation - thruster.Part.Transform.Rotation) / Math.PI);
                 if (offset < thruster.AngleCutoff) isThrusting = true;
 
-                if( thruster.Part.ThrusterType == Models.Ships.Parts.ThrusterType.Maneuver)
+                if( thruster.Part.ThrusterType == Game.Ships.Parts.ThrusterType.Maneuver)
                 {
 
                 }

@@ -1,7 +1,7 @@
 ﻿using Artemis;
 using Artemis.Interface;
 using FellSky.Framework;
-using FellSky.Models.Ships.Parts;
+using FellSky.Game.Ships.Parts;
 using System;
 using System.Collections.Generic;
 using System.Linq;

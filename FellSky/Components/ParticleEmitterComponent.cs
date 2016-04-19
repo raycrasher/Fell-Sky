@@ -51,8 +51,10 @@ namespace FellSky.Components
         public float EffectScale { get; set; }
         public bool IsRelative { get; set; }
 
+
         public Vector2 PreviousLocation { get; set; }
         public TimeSpan TimeToFire { get; set; }
-        public int CurrentParticleCount { get; internal set; }
+        public int CurrentParticleCount { get; set; }
+        public double ParticlesLeft { get; set; }
     }
 }

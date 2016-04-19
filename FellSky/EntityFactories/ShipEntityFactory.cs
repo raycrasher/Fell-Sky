@@ -1,8 +1,8 @@
 ﻿using Artemis;
-using FellSky.Models.Ships.Parts;
+using FellSky.Game.Ships.Parts;
 using FellSky.Components;
 using FellSky.Services;
-using FellSky.Ships;
+using FellSky.Game.Ships;
 using Microsoft.Xna.Framework;
 using FellSky.Systems;
 using System;

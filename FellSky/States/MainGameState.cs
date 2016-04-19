@@ -62,7 +62,7 @@ namespace FellSky.States
         }
         public override void Draw(GameTime gameTime)
         {
-            Game.Instance.GraphicsDevice.Clear(Color.CornflowerBlue);
+            GameEngine.Instance.GraphicsDevice.Clear(Color.CornflowerBlue);
             World.Draw();
             _guiService.Context.Render();
         }

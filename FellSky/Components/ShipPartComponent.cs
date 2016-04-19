@@ -1,6 +1,6 @@
 ﻿using Artemis;
 using Artemis.Interface;
-using FellSky.Models.Ships.Parts;
+using FellSky.Game.Ships.Parts;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
