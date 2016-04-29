@@ -39,6 +39,69 @@ Battle Flow:
 		
 		
 	
-
-	Intro Sequence
-		
+	Story:
+		Act One: Exile
+			- Small text-and-image intro screen.
+			- Tutorial mission - pirate hunting
+			- Alien fleet invades.
+			- Human coalition attacks aliens in massive strike.
+			- Player is ordered to attack alien forces in orbit
+			- Player's strike force is decimated
+			- Unknown entity contacts player, and temporarily confuses enemy communications to allow player to escape.
+			- Unknown entity guides player to human Ark-Mothership. Player can rescue units along the way.
+			- Human attack fails.
+			- It is then revealed to player that he/she is the unknown entity, the AI controlling the Ark-Mothership.
+			- Player then uses the Ark-Mothership to do an emergency jump to parts unknown.
+		Act Two: Contact
+			- Ark-Mothership jumps to an empty star system.
+			- Tutorial for personnel and resource gathering. Note that the tutorials are masked as the Ark's systems coming online.
+			- Tutorial for ship-building. (Note that this time, player receives strange energy readings - they turn out to be cloaked observer ships to be revealed later on).
+			- Tutorial for base-building.
+			- Tutorial for travelling between star-systems.
+			- Player receives unknown alien signal in a new star system. This is revealed to be an ancient stargate.
+			- Player activates stargate, and enemy alien forces stream through.
+			- Player undertakes multiple missions to stop enemies and defend home territory. (Sidequests)
+			- Player defeats forces, but large enemy reinforcements arrive.
+			- Friendly aliens decloak and help the player.
+			- Friendly aliens then conduct diplomacy with player.
+			- Aliens advise player of the political landscape. Player then learns about possible allies, neutral parties, and enemies. Player also learns about the Empire, the race that attacked Earth.
+			- Player then starts mission to gain allies and free Earth. 
+			- Player moves Ark through the Stargate and into the greater galactic sector.
+		Act Three: Freedom
+			- Player gathers allies, resources and intelligence. (Sidequests)
+			- Player retrieves jump coordinates to Earth, but needs to upgrade the Ark to interface with the ancient Stargate.
+			- Player goes on a series of sidequests to find components.
+			- Player modifies Ark, and then jumps to Sol system.
+			- Player defeats and frees Earth in a series of battles. (Sidequests and multiple main quests)
+			- Boss battle: Archenemy
+			- Player defeats archenemy, but PLOT TWIST archenemy is only protecting the rest of galactic civilization.
+			- Player learns of the Great Filters - a massive fleet of very strong ships, commanded by godlike beings who live in the galactic core.
+			- It is then revealed that the player is not an actual AI, but a human merged with an artificial intelligence, cyberized and preserved in the Ark-Mothership, 
+				and the existence of the Player is the reason for the Invasion - that the Great Filters will undertake a Purge, wiping all life in the galaxy via gamma-ray-burst if a threat to their 
+				'godhood' is detected. It is then surmised that the Path to 'godhood' starts via cyberization and expansion of the gestalt through melding with artificial intelligence 
+				(which the Player has done). In-game fluff-reference to the player leveling up was the player moving up the Path.
+			- Arch enemy dies, and commands player to stop the Purge.
+		Act Four: Ascension
+			- Player embarks on journey to the Galactic Core to stop the Purge, and meets new races, allies, and enemies.
+			- Player gathers resources, allies, and intelligence, again. (Sidequests)
+			- The Core Gods sends multiple Great Filter fleets, and attempt to overwhelm the entire galaxy. All races are now occupied with defending themselves.
+			- The player must stop the fleets attacking each race to get their support for a desperate counter-strike at the Core. (Sidequests)
+			- Player then goes to original Stargate, modifies it and the Ark, then jumps to the Galactic Core.
+			- Player then encounters severe resistance. 
+			- Player undertakes several missions to gain foothold. (Sidequests)
+			- Allies arrive. Player undertakes several missions to assist allies (Sidequests)
+			- Player and allies must then push to the core under heavy resistance (Sidequests)
+			- Boss battle: Player fights Guardian of the Core (hyper-massive ship)
+			- END SEQUENCE: Player then meets the Core Gods, and learns the truth - that low-order life, when given power, greatly accelerates Entropy and the heat-death of the Universe.
+			- Boss battle: Core Gods Alpha and Omega, and a reanimated Guardian of the Core.
+			- Boss battle: Ultimate intelligence: The One
+			- As the Player defeats the Ultimate Intelligence, it charges the entirety of life in the galaxy to fight against the encroaching Heat-death.
+			  This comes at the cost of the Ark being destroyed.
+		Epilogue
+			- Photo montage of the results of the Player's actions.
+			- Photo montage of the Player going to other galaxies in a new Ark, through the Stargate.
+			- Gameplay starts, mirroring the start of Act One, but with a different ship and different character.
+			- The ship then enters a huge portal, together with ships from all other (non-destroyed) races. 
+			- It is then explained that in the far future, the life in the universe banded together to create the Heaven's Door, 
+			  a Kerr Metric naked singularity that leads to an infinity of multiverses, thereby defeating Entropy.
+			- Credits.

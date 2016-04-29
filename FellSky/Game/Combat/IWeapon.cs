@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace FellSky.Game.Combat
 {
-    class Weapon
+    public interface IWeapon
     {
+        void Fire();
     }
 }

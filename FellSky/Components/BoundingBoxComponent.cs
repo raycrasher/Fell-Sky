@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FellSky
+namespace FellSky.Components
 {
     public class BoundingBoxComponent: IComponent
     {

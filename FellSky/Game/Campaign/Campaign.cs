@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 
 namespace FellSky.Game.Campaign
 {
+    
+
     class Campaign
     {
         public Player Player { get; set; }
@@ -20,6 +22,13 @@ namespace FellSky.Game.Campaign
         public Campaign(CampaignSettings settings)
         {
             Settings = settings;
+        }
+
+        
+
+        public void UpdateCampaign()
+        {
+
         }
     }
 }

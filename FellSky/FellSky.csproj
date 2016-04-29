@@ -106,8 +106,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BoundingBoxComponent.cs" />
+    <Compile Include="Components\BoundingBoxComponent.cs" />
     <Compile Include="Components\BulletComponent.cs" />
+    <Compile Include="Components\ClientPredictedTransformComponent.cs" />
     <Compile Include="Components\CollisionComponent.cs" />
     <Compile Include="Components\DamageComponent.cs" />
     <Compile Include="Components\DamageReductionComponent.cs" />
@@ -116,14 +117,18 @@
     <Compile Include="Components\HealthComponent.cs" />
     <Compile Include="Components\HealthModOverTimeComponent.cs" />
     <Compile Include="Components\HullComponent.cs" />
+    <Compile Include="Components\IdFriendOrFoeComponent.cs" />
     <Compile Include="Components\ParticleEmitterComponent.cs" />
     <Compile Include="Components\ShipPartComponent.cs" />
     <Compile Include="Components\RigidBodyFixtureComponent.cs" />
     <Compile Include="Components\ShipComponent.cs" />
     <Compile Include="Components\ThrusterComponent.cs" />
+    <Compile Include="Components\TurretComponent.cs" />
     <Compile Include="EntityFactories\ShipEntityFactory.cs" />
     <Compile Include="Framework\FloatColor.cs" />
     <Compile Include="Framework\PrimitiveBatch.cs" />
+    <Compile Include="Game\Campaign\Story.cs" />
+    <Compile Include="Game\Space\Outpost.cs" />
     <Compile Include="Services\ServiceLocator.cs" />
     <Compile Include="Framework\ShapeDefinitions\ChainShape.cs" />
     <Compile Include="Framework\ShapeDefinitions\CircleShape.cs" />
@@ -166,6 +171,8 @@
     <Compile Include="Services\GamePersistenceService.cs" />
     <Compile Include="Services\ICoroutineService.cs" />
     <Compile Include="Services\EventService.cs" />
+    <Compile Include="Systems\ClientPredictedTransformSystem.cs" />
+    <Compile Include="Systems\CommandBufferSystem.cs" />
     <Compile Include="Systems\MouseControlledTransformSystemStates\ScaleState.cs" />
     <Compile Include="Systems\ParticleSystem.cs" />
     <Compile Include="Systems\PhysicsDebugView\DebugView.cs" />
@@ -279,7 +286,7 @@
     <Compile Include="Game\Campaign\Bases\Base.cs" />
     <Compile Include="Game\Combat\Armor.cs" />
     <Compile Include="Game\Combat\Damage.cs" />
-    <Compile Include="Game\Combat\Weapon.cs" />
+    <Compile Include="Game\Combat\IWeapon.cs" />
     <Compile Include="Game\Ground\GridMap.cs" />
     <Compile Include="Game\Ground\GridMapObject.cs" />
     <Compile Include="Game\Ground\GridMapTile.cs" />
@@ -326,7 +333,9 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Services\Networking\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="Notes.txt" />
   </ItemGroup>

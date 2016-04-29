@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace FellSky.Game.Codex
 {
-    class CodexEntry
+    public class CodexEntry
     {
+        public string Id { get; set; }
+        public string Content { get; set; }
     }
 }

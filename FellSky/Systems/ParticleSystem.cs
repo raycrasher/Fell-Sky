@@ -198,6 +198,7 @@ namespace FellSky.Systems
                 B = (float)((emitter.ColorEnd.B / 255.0f - p.Color.B) / p.TimeToLive.TotalSeconds),
                 A = (float)((emitter.ColorEnd.A / 255.0f - p.Color.A) / p.TimeToLive.TotalSeconds)
             };
+            p.Emitter = emitter;
             emitter.CurrentParticleCount++;
             _particles.Add(p);
         }

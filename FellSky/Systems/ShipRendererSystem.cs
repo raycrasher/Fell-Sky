@@ -12,6 +12,7 @@ namespace FellSky.Systems
 {
     public class ShipRendererSystem : Artemis.System.EntitySystem
     {
+        Transform _tmpXform = new Transform();
         SpriteBatch _spriteBatch;
         CameraComponent _camera;
         private Matrix _matrix;
@@ -35,7 +36,7 @@ namespace FellSky.Systems
         {
             if (_camera == null) return;
             _matrix = _camera.GetViewMatrix(1.0f);
-            _spriteBatch.Begin(SpriteSortMode.BackToFront, blendState: BlendState.AlphaBlend, transformMatrix: _matrix);
+            _spriteBatch.Begin(SpriteSortMode.BackToFront, blendState: BlendState.AlphaBlend, transformMatrix: _matrix, samplerState: SamplerState.PointClamp);
             DrawThrusters(entities.Values);
             DrawHulls(entities.Values);
             _spriteBatch.End();
@@ -65,7 +66,7 @@ namespace FellSky.Systems
 
         private void DrawHulls(ICollection<Entity> entities)
         {
-            Transform tmpXform = new Transform();
+            
             foreach (var ship in entities)
             {
                 var xform = ship.GetComponent<Transform>();
@@ -90,22 +91,22 @@ namespace FellSky.Systems
                             break;
                     }
 
-                    tmpXform.CopyValuesFrom(hull.Transform);
+                    _tmpXform.CopyValuesFrom(hull.Transform);
 
                     SpriteEffects fx = SpriteEffects.None;
-                    if (tmpXform.Scale.X < 0)
+                    if (_tmpXform.Scale.X < 0)
                     {
                         fx |= SpriteEffects.FlipHorizontally;
-                        tmpXform.Scale *= new Vector2(-1, 1);
+                        _tmpXform.Scale *= new Vector2(-1, 1);
 
                     }
-                    if (tmpXform.Scale.Y < 0)
+                    if (_tmpXform.Scale.Y < 0)
                     {
                         fx |= SpriteEffects.FlipVertically;
-                        tmpXform.Scale *= new Vector2(1, -1);
+                        _tmpXform.Scale *= new Vector2(1, -1);
                     }
 
-                    sprite.Draw(batch: _spriteBatch, matrix: tmpXform.Matrix * shipMatrix, color:color, depth: hull.Depth, effects: fx);
+                    sprite.Draw(batch: _spriteBatch, matrix: _tmpXform.Matrix * shipMatrix, color:color, depth: hull.Depth, effects: fx);
                 }
             }
         }
