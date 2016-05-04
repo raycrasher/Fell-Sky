@@ -13,6 +13,7 @@ namespace FellSky.Systems
     {
         CoroutineService _service = new CoroutineService();
         private ITimerService _timer;
+        private Dictionary<Entity, Coroutine> _coroutines = new Dictionary<Entity, Coroutine>();
 
         public CoroutineSystem(ITimerService timer)
             : base(Aspect.All(typeof(CoroutineComponent)))
@@ -24,13 +25,16 @@ namespace FellSky.Systems
         {
             var component = entity.GetComponent<CoroutineComponent>();
             component.Coroutine = _service.StartCoroutine(component.CoroutineFunction);
+            component.Coroutine.OnDone = component.OnDone;
+            _coroutines[entity] = component.Coroutine;
             base.OnAdded(entity);
         }
 
         public override void OnRemoved(Entity entity)
         {
-            var component = entity.GetComponent<CoroutineComponent>();
-            component.Coroutine.Stop();
+            var coroutine = _coroutines[entity];
+            coroutine.Stop();
+            _coroutines.Remove(entity);
             base.OnRemoved(entity);
         }
 

@@ -10,6 +10,10 @@ namespace FellSky.Components
 {
     public class GuiComponent: IComponent
     {
-        public Element Element;
+        public GuiComponent(Element element)
+        {
+            Element = element;
+        }
+        public readonly Element Element;
     }
 }

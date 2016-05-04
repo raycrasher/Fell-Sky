@@ -46,17 +46,23 @@ namespace FellSky.Game.Campaign.Storyline
 
         private IEnumerable Intro(Story story, EntityWorld world)
         {
-            var entity = world.CreateStoryOverlay("<h3>December 21, 2199</h3>");
+            var entity = world.CreateStoryOverlay(Properties.Resources.String_ActOne_Intro01);
             yield return Coroutine.WaitFor(TimeSpan.FromSeconds(2));
-            entity.FadeGuiElement(TimeSpan.FromSeconds(1.5),0);
-            
+            entity.FadeGuiElement(TimeSpan.FromSeconds(1.5), 0)
+                .OnDone = () => entity.Delete();
+            yield return Coroutine.WaitFor(TimeSpan.FromSeconds(2));
+            story.State.Fire(Story.Triggers.NextScene);
 
-            yield return null;
         }
 
         private IEnumerable Tutorial(Story story, EntityWorld world)
         {
-            yield return null;
+            var entity = world.CreateStoryOverlay(Properties.Resources.String_ActOne_Tutorial01,"");
+            yield return Coroutine.WaitFor(TimeSpan.FromSeconds(2));
+            entity.FadeGuiElement(TimeSpan.FromSeconds(1.5), 0)
+                .OnDone = () => entity.Delete();
+            yield return Coroutine.WaitFor(TimeSpan.FromSeconds(2));
+            story.State.Fire(Story.Triggers.NextScene);
         }
 
         private IEnumerable AlienInvasionIntro(Story story, EntityWorld world)

@@ -23,17 +23,32 @@ namespace FellSky.Framework
             A = (byte)MathHelper.Clamp((v.W * 255), 0, 255)
         };
 
-        public static void FadeGuiElement(this Entity entity, TimeSpan duration, byte alpha)
+        public static Coroutine FadeGuiElement(this Entity entity, TimeSpan duration, byte alphaFrom, byte alphaTo)
         {
             var component = entity.GetComponent<GuiComponent>();
-            if (component == null) return;
+            if (component == null) return null;
+            var bg = component.Element.GetPropertyColor("background-color");
+            var fg = component.Element.GetPropertyColor("color");
+
+            bg.A = alphaFrom;
+            fg.A = alphaFrom;
+
+            component.Element.SetProperty("background-color", bg.ToString());
+            component.Element.SetProperty("color", fg.ToString());
+
+            return entity.FadeGuiElement(duration, alphaTo);
+        }
+
+        public static Coroutine FadeGuiElement(this Entity entity, TimeSpan duration, byte alpha)
+        {
+            var component = entity.GetComponent<GuiComponent>();
+            if (component == null) return null;
             var bg = component.Element.GetPropertyColor("background-color");
             var fg = component.Element.GetPropertyColor("color");
 
             TimeSpan currentTime = TimeSpan.Zero;
-            _animationService.Animate(t =>
+            return _animationService.Animate(t =>
             {
-                
                 float amount = (float)(currentTime.TotalSeconds / duration.TotalSeconds);
                 LibRocketNet.Color c = bg;
                 c.A = (byte) MathHelper.Lerp(bg.A, alpha, amount);

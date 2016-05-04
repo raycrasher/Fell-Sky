@@ -10,6 +10,18 @@
         <member name="M:Artemis.Aspect.#ctor">
             <summary>Initializes a new instance of the <see cref="T:Artemis.Aspect"/> class.</summary>
         </member>
+        <member name="P:Artemis.Aspect.ContainsTypesMap">
+            <summary>Gets or sets the contains types map.</summary>
+            <value>The contains types map.</value>
+        </member>
+        <member name="P:Artemis.Aspect.ExcludeTypesMap">
+            <summary>Gets or sets the exclude types map.</summary>
+            <value>The exclude types map.</value>
+        </member>
+        <member name="P:Artemis.Aspect.OneTypesMap">
+            <summary>Gets or sets the one types map.</summary>
+            <value>The one types map.</value>
+        </member>
         <member name="M:Artemis.Aspect.All(System.Type[])">
             <summary>All the specified types.</summary>
             <param name="types">The types.</param>
@@ -58,18 +70,6 @@
             <param name="builder">The builder.</param>
             <param name="headerMessage">The header message.</param>
             <param name="typeBits">The type bits.</param>
-        </member>
-        <member name="P:Artemis.Aspect.ContainsTypesMap">
-            <summary>Gets or sets the contains types map.</summary>
-            <value>The contains types map.</value>
-        </member>
-        <member name="P:Artemis.Aspect.ExcludeTypesMap">
-            <summary>Gets or sets the exclude types map.</summary>
-            <value>The exclude types map.</value>
-        </member>
-        <member name="P:Artemis.Aspect.OneTypesMap">
-            <summary>Gets or sets the one types map.</summary>
-            <value>The one types map.</value>
         </member>
         <member name="T:Artemis.Attributes.ArtemisComponentCreate">
             <summary>Class ArtemisComponentCreate.</summary>
@@ -199,27 +199,32 @@
         <member name="T:Artemis.Blackboard.SimpleTrigger">
             <summary>Class SimpleTrigger.</summary>
         </member>
+        <member name="F:Artemis.Blackboard.SimpleTrigger.condition">
+            <summary>The condition.</summary>
+        </member>
+        <member name="F:Artemis.Blackboard.SimpleTrigger.onFire">
+            <summary>The on fire.</summary>
+        </member>
+        <member name="M:Artemis.Blackboard.SimpleTrigger.#ctor(System.String,System.Func{Artemis.Blackboard.BlackBoard,Artemis.Blackboard.TriggerStateType,System.Boolean},System.Action{Artemis.Blackboard.TriggerStateType})">
+            <summary>Initializes a new instance of the <see cref="T:Artemis.Blackboard.SimpleTrigger"/> class.</summary>
+            <param name="name">The name.</param>
+            <param name="condition">The condition.</param>
+            <param name="onFire">The on fire.</param>
+        </member>
+        <member name="M:Artemis.Blackboard.SimpleTrigger.CalledOnFire(Artemis.Blackboard.TriggerStateType)">
+            <summary>Called if is fired.</summary>
+            <param name="triggerStateType">State of the trigger.</param>
+        </member>
+        <member name="M:Artemis.Blackboard.SimpleTrigger.CheckConditionToFire">
+            <summary>Checks the condition to fire.</summary>
+            <returns><see langword="true" /> if is ready to fire, <see langword="false" /> otherwise</returns>
+        </member>
         <member name="T:Artemis.Blackboard.Trigger">
             <summary>Class Trigger.</summary>
         </member>
         <member name="M:Artemis.Blackboard.Trigger.#ctor(System.String[])">
             <summary>Initializes a new instance of the <see cref="T:Artemis.Blackboard.Trigger"/> class.</summary>
             <param name="propertyName">Name of the property.</param>
-        </member>
-        <member name="M:Artemis.Blackboard.Trigger.RemoveThisTrigger">
-            <summary>Removes the this trigger.</summary>
-        </member>
-        <member name="M:Artemis.Blackboard.Trigger.Fire(Artemis.Blackboard.TriggerStateType)">
-            <summary>Fires the specified trigger state.</summary>
-            <param name="triggerStateType">State of the trigger.</param>
-        </member>
-        <member name="M:Artemis.Blackboard.Trigger.CalledOnFire(Artemis.Blackboard.TriggerStateType)">
-            <summary>Called if is fired.</summary>
-            <param name="triggerStateType">State of the trigger.</param>
-        </member>
-        <member name="M:Artemis.Blackboard.Trigger.CheckConditionToFire">
-            <summary>Checks the condition to fire.</summary>
-            <returns><see langword="true" /> if XXXX, <see langword="false" /> otherwise</returns>
         </member>
         <member name="E:Artemis.Blackboard.Trigger.OnFire">
             <summary>Occurs when [on fire].</summary>
@@ -240,25 +245,20 @@
             <summary>Gets or sets a value indicating whether this instance is fired.</summary>
             <value><see langword="true" /> if this instance is fired; otherwise, <see langword="false" />.</value>
         </member>
-        <member name="F:Artemis.Blackboard.SimpleTrigger.condition">
-            <summary>The condition.</summary>
+        <member name="M:Artemis.Blackboard.Trigger.RemoveThisTrigger">
+            <summary>Removes the this trigger.</summary>
         </member>
-        <member name="F:Artemis.Blackboard.SimpleTrigger.onFire">
-            <summary>The on fire.</summary>
+        <member name="M:Artemis.Blackboard.Trigger.Fire(Artemis.Blackboard.TriggerStateType)">
+            <summary>Fires the specified trigger state.</summary>
+            <param name="triggerStateType">State of the trigger.</param>
         </member>
-        <member name="M:Artemis.Blackboard.SimpleTrigger.#ctor(System.String,System.Func{Artemis.Blackboard.BlackBoard,Artemis.Blackboard.TriggerStateType,System.Boolean},System.Action{Artemis.Blackboard.TriggerStateType})">
-            <summary>Initializes a new instance of the <see cref="T:Artemis.Blackboard.SimpleTrigger"/> class.</summary>
-            <param name="name">The name.</param>
-            <param name="condition">The condition.</param>
-            <param name="onFire">The on fire.</param>
-        </member>
-        <member name="M:Artemis.Blackboard.SimpleTrigger.CalledOnFire(Artemis.Blackboard.TriggerStateType)">
+        <member name="M:Artemis.Blackboard.Trigger.CalledOnFire(Artemis.Blackboard.TriggerStateType)">
             <summary>Called if is fired.</summary>
             <param name="triggerStateType">State of the trigger.</param>
         </member>
-        <member name="M:Artemis.Blackboard.SimpleTrigger.CheckConditionToFire">
+        <member name="M:Artemis.Blackboard.Trigger.CheckConditionToFire">
             <summary>Checks the condition to fire.</summary>
-            <returns><see langword="true" /> if is ready to fire, <see langword="false" /> otherwise</returns>
+            <returns><see langword="true" /> if XXXX, <see langword="false" /> otherwise</returns>
         </member>
         <member name="T:Artemis.Blackboard.TriggerMultiCondition">
             <summary>Class TriggerMultiCondition.</summary>
@@ -335,25 +335,6 @@
             </summary>
             <typeparam name="T">The type of object to store in the Pool. Pools can only hold class types.</typeparam>
         </member>
-        <member name="T:Artemis.Interface.IComponentPool`1">
-            <summary>Interface IComponentPool.</summary>
-            <typeparam name="T">The <see langword="Type"/> T.</typeparam>
-        </member>
-        <member name="M:Artemis.Interface.IComponentPool`1.CleanUp">
-            <summary>
-            <para>Cleans up the pool by checking each valid object</para>
-            <para>to ensure it is still actually valid.</para>
-            <para>Must be called regularly to free returned Objects.</para>
-            </summary>
-        </member>
-        <member name="M:Artemis.Interface.IComponentPool`1.New">
-            <summary>Gets a new object from the Pool.</summary>
-            <returns>The next object in the pool if available, null if all instances are valid.</returns>
-        </member>
-        <member name="M:Artemis.Interface.IComponentPool`1.ReturnObject(`0)">
-            <summary>Returns the specified component.</summary>
-            <param name="component">The component.</param>
-        </member>
         <member name="F:Artemis.ComponentPool`1.allocate">
             <summary>The allocate.</summary>
         </member>
@@ -381,23 +362,6 @@
             <exception cref="T:System.ArgumentNullException">AllocateFunc must not be null.</exception>
             <exception cref="T:System.ArgumentNullException">InnerType must not be null.</exception>
         </member>
-        <member name="M:Artemis.ComponentPool`1.CleanUp">
-            <summary>
-            <para>Cleans up the pool by checking each valid object</para>
-            <para>to ensure it is still actually valid.</para>
-            <para>Must be called regularly to free returned Objects.</para>
-            </summary>
-        </member>
-        <member name="M:Artemis.ComponentPool`1.New">
-            <summary>Returns a new object from the Pool.</summary>
-            <returns>The next object in the pool if available, null if all instances are valid.</returns>
-            <exception cref="T:System.Exception">Limit Exceeded components.Length and the pool was set to not resize.</exception>
-            <exception cref="T:System.InvalidOperationException">The pool's allocate method returned a null object reference.</exception>
-        </member>
-        <member name="M:Artemis.ComponentPool`1.ReturnObject(`0)">
-            <summary>Returns the object.</summary>
-            <param name="component">The component.</param>
-        </member>
         <member name="P:Artemis.ComponentPool`1.InvalidCount">
             <summary>Gets the number of invalid objects in the pool.</summary>
             <value>The invalid count.</value>
@@ -416,24 +380,38 @@
             <returns>A valid object found at the index</returns>
             <exception cref="T:System.IndexOutOfRangeException">The index must be less than or equal to ValidCount.</exception>
         </member>
+        <member name="M:Artemis.ComponentPool`1.CleanUp">
+            <summary>
+            <para>Cleans up the pool by checking each valid object</para>
+            <para>to ensure it is still actually valid.</para>
+            <para>Must be called regularly to free returned Objects.</para>
+            </summary>
+        </member>
+        <member name="M:Artemis.ComponentPool`1.New">
+            <summary>Returns a new object from the Pool.</summary>
+            <returns>The next object in the pool if available, null if all instances are valid.</returns>
+            <exception cref="T:System.Exception">Limit Exceeded components.Length and the pool was set to not resize.</exception>
+            <exception cref="T:System.InvalidOperationException">The pool's allocate method returned a null object reference.</exception>
+        </member>
+        <member name="M:Artemis.ComponentPool`1.ReturnObject(`0)">
+            <summary>Returns the object.</summary>
+            <param name="component">The component.</param>
+        </member>
         <member name="T:Artemis.ComponentPoolable">
             <summary>Class ComponentPool-able.</summary>
         </member>
-        <member name="T:Artemis.Interface.IComponent">
-            <summary>Empty Interface that all Components must extend.</summary>
-        </member>
         <member name="M:Artemis.ComponentPoolable.#ctor">
             <summary>Initializes a new instance of the <see cref="T:Artemis.ComponentPoolable"/> class.</summary>
+        </member>
+        <member name="P:Artemis.ComponentPoolable.PoolId">
+            <summary>Gets or sets the pool id.</summary>
+            <value>The pool id.</value>
         </member>
         <member name="M:Artemis.ComponentPoolable.CleanUp">
             <summary>Cleans up.</summary>
         </member>
         <member name="M:Artemis.ComponentPoolable.Initialize">
             <summary>Initializes this instance.</summary>
-        </member>
-        <member name="P:Artemis.ComponentPoolable.PoolId">
-            <summary>Gets or sets the pool id.</summary>
-            <value>The pool id.</value>
         </member>
         <member name="T:Artemis.ComponentPoolMultiThread`1">
             <summary><para>A collection that maintains a set of class instances</para>
@@ -451,25 +429,11 @@
             <summary>Initializes a new instance of the <see cref="T:Artemis.ComponentPoolMultiThread`1"/> class.</summary>
             <param name="initialSize">The initial size.</param>
             <param name="resizePool">The resize pool.</param>
-            <param name="resizes">if set to <see langword="true"/> [resizes].</param>
-            <param name="allocateFunc">The allocate <see langword="Func"/>.</param>
+            <param name="resizes">if set to <see langword="true" /> [resizes].</param>
+            <param name="allocateFunc">The allocate <see langword="Func" />.</param>
             <param name="innerType">Type of the inner.</param>
             <exception cref="T:System.ArgumentOutOfRangeException">initialSize and resizePool must be at least 1.</exception>
             <exception cref="T:System.ArgumentNullException">allocateFunc or innerType is null.</exception>
-        </member>
-        <member name="M:Artemis.ComponentPoolMultiThread`1.CleanUp">
-            <summary>Cleans up the pool by checking each valid object to ensure it is still actually valid.
-            Must be called regularly to free returned Objects</summary>
-        </member>
-        <member name="M:Artemis.ComponentPoolMultiThread`1.New">
-            <summary>Returns a new object from the Pool.</summary>
-            <returns>The next object in the pool if available, null if all instances are valid.</returns>
-            <exception cref="T:System.Exception">Limit Exceeded components.Length, and the pool was set to not resize</exception>
-            <exception cref="T:System.InvalidOperationException">The pool's allocate method returned a null object reference.</exception>
-        </member>
-        <member name="M:Artemis.ComponentPoolMultiThread`1.ReturnObject(`0)">
-            <summary>Return an object to the pool</summary>
-            <param name="component">The component.</param>
         </member>
         <member name="P:Artemis.ComponentPoolMultiThread`1.InvalidCount">
             <summary>Gets the number of invalid objects in the pool.</summary>
@@ -488,6 +452,20 @@
             <param name="index">The index.</param>
             <returns>A valid object found at the index</returns>
             <exception cref="T:System.IndexOutOfRangeException">The index must be less than or equal to ValidCount.</exception>
+        </member>
+        <member name="M:Artemis.ComponentPoolMultiThread`1.CleanUp">
+            <summary>Cleans up the pool by checking each valid object to ensure it is still actually valid.
+            Must be called regularly to free returned Objects</summary>
+        </member>
+        <member name="M:Artemis.ComponentPoolMultiThread`1.New">
+            <summary>Returns a new object from the Pool.</summary>
+            <returns>The next object in the pool if available, null if all instances are valid.</returns>
+            <exception cref="T:System.Exception">Limit Exceeded components.Length, and the pool was set to not resize</exception>
+            <exception cref="T:System.InvalidOperationException">The pool's allocate method returned a null object reference.</exception>
+        </member>
+        <member name="M:Artemis.ComponentPoolMultiThread`1.ReturnObject(`0)">
+            <summary>Return an object to the pool</summary>
+            <param name="component">The component.</param>
         </member>
         <member name="T:Artemis.ComponentType">
             <summary>Represents a Component Type.</summary>
@@ -543,6 +521,60 @@
             <summary>Initializes a new instance of the <see cref="T:Artemis.Entity"/> class.</summary>
             <param name="entityWorld">The entity world.</param>
             <param name="id">The id.</param>
+        </member>
+        <member name="P:Artemis.Entity.Components">
+            <summary>
+              <para>Gets all components belonging to this entity.</para>
+              <para>Warning: Use only for debugging purposes, it is dead slow.</para>
+              <para>The returned bag is only valid until this method is called</para>
+              <para>again, then it is overwritten.</para>
+            </summary>
+            <value>All components of this entity.</value>
+        </member>
+        <member name="P:Artemis.Entity.DeletingState">
+            <summary>Gets or sets a value indicating whether [deleting state].</summary>
+            <value><see langword="true" /> if [deleting state]; otherwise, <see langword="false" />.</value>
+        </member>
+        <member name="P:Artemis.Entity.IsEnabled">
+            <summary>Gets or sets a value indicating whether this <see cref="T:Artemis.Entity" /> is enabled.</summary>
+            <value><see langword="true" /> if enabled; otherwise, <see langword="false" />.</value>
+        </member>
+        <member name="P:Artemis.Entity.Group">
+            <summary>Gets or sets the group.</summary>
+            <value>The group.</value>
+        </member>
+        <member name="P:Artemis.Entity.Id">
+            <summary>
+            <para>Gets the internal id for this entity within the framework.</para>
+            <para>No other entity will have the same ID,</para>
+            <para>but IDs are however reused so another entity may acquire</para>
+            <para>this ID if the previous entity was deleted.</para>
+            </summary>
+            <value>The id.</value>
+        </member>
+        <member name="P:Artemis.Entity.RefreshingState">
+            <summary>Gets or sets a value indicating whether [refreshing state].</summary>
+            <value><see langword="true" /> if [refreshing state]; otherwise, <see langword="false" />.</value>
+        </member>
+        <member name="P:Artemis.Entity.Tag">
+            <summary>Gets or sets the tag.</summary>
+            <value>The tag.</value>
+        </member>
+        <member name="P:Artemis.Entity.UniqueId">
+            <summary>Gets the unique id.</summary>
+            <value>The unique id.</value>
+        </member>
+        <member name="P:Artemis.Entity.IsActive">
+            <summary>Gets a value indicating whether this instance is active.</summary>
+            <value><see langword="true" /> if this instance is active; otherwise, <see langword="false" />.</value>
+        </member>
+        <member name="P:Artemis.Entity.SystemBits">
+            <summary>Gets or sets the system bits.</summary>
+            <value>The system bits.</value>
+        </member>
+        <member name="P:Artemis.Entity.TypeBits">
+            <summary>Gets or sets the type bits.</summary>
+            <value>The type bits.</value>
         </member>
         <member name="M:Artemis.Entity.AddComponent(Artemis.Interface.IComponent)">
             <summary>Adds the component.</summary>
@@ -602,11 +634,11 @@
             </summary>
         </member>
         <member name="M:Artemis.Entity.RemoveComponent``1">
-            <summary>Remove Component from this entity.</summary>
+            <summary>Marks the component to remove. The actual removal is deferred and will happen in the next EntityWorld update.</summary>
             <typeparam name="T">Component Type.</typeparam>
         </member>
         <member name="M:Artemis.Entity.RemoveComponent(Artemis.ComponentType)">
-            <summary><para>Removes the component.</para>
+            <summary><para>Marks the component to remove. The actual removal is deferred and will happen in the next EntityWorld update.</para>
               <para>Faster removal of components from a entity.</para></summary>
             <param name="componentType">The type.</param>
         </member>
@@ -614,8 +646,8 @@
             <summary>Resets this instance.</summary>
         </member>
         <member name="M:Artemis.Entity.ToString">
-            <summary>Returns a <see cref="T:System.String"/> that represents this instance.</summary>
-            <returns>A <see cref="T:System.String"/> that represents this instance.</returns>
+            <summary>Returns a <see cref="T:System.String" /> that represents this instance.</summary>
+            <returns>A <see cref="T:System.String" /> that represents this instance.</returns>
         </member>
         <member name="M:Artemis.Entity.AddSystemBit(System.Numerics.BigInteger)">
             <summary>Adds the system bit.</summary>
@@ -632,60 +664,6 @@
         <member name="M:Artemis.Entity.RemoveTypeBit(System.Numerics.BigInteger)">
             <summary>Removes the type bit.</summary>
             <param name="bit">The bit.</param>
-        </member>
-        <member name="P:Artemis.Entity.Components">
-            <summary>
-              <para>Gets all components belonging to this entity.</para>
-              <para>Warning: Use only for debugging purposes, it is dead slow.</para>
-              <para>The returned bag is only valid until this method is called</para>
-              <para>again, then it is overwritten.</para>
-            </summary>
-            <value>All components of this entity.</value>
-        </member>
-        <member name="P:Artemis.Entity.DeletingState">
-            <summary>Gets or sets a value indicating whether [deleting state].</summary>
-            <value><see langword="true" /> if [deleting state]; otherwise, <see langword="false" />.</value>
-        </member>
-        <member name="P:Artemis.Entity.IsEnabled">
-            <summary>Gets or sets a value indicating whether this <see cref="T:Artemis.Entity"/> is enabled.</summary>
-            <value><see langword="true"/> if enabled; otherwise, <see langword="false"/>.</value>
-        </member>
-        <member name="P:Artemis.Entity.Group">
-            <summary>Gets or sets the group.</summary>
-            <value>The group.</value>
-        </member>
-        <member name="P:Artemis.Entity.Id">
-            <summary>
-            <para>Gets the internal id for this entity within the framework.</para>
-            <para>No other entity will have the same ID,</para>
-            <para>but IDs are however reused so another entity may acquire</para>
-            <para>this ID if the previous entity was deleted.</para>
-            </summary>
-            <value>The id.</value>
-        </member>
-        <member name="P:Artemis.Entity.RefreshingState">
-            <summary>Gets or sets a value indicating whether [refreshing state].</summary>
-            <value><see langword="true" /> if [refreshing state]; otherwise, <see langword="false" />.</value>
-        </member>
-        <member name="P:Artemis.Entity.Tag">
-            <summary>Gets or sets the tag.</summary>
-            <value>The tag.</value>
-        </member>
-        <member name="P:Artemis.Entity.UniqueId">
-            <summary>Gets the unique id.</summary>
-            <value>The unique id.</value>
-        </member>
-        <member name="P:Artemis.Entity.IsActive">
-            <summary>Gets a value indicating whether this instance is active.</summary>
-            <value><see langword="true" /> if this instance is active; otherwise, <see langword="false" />.</value>
-        </member>
-        <member name="P:Artemis.Entity.SystemBits">
-            <summary>Gets or sets the system bits.</summary>
-            <value>The system bits.</value>
-        </member>
-        <member name="P:Artemis.Entity.TypeBits">
-            <summary>Gets or sets the type bits.</summary>
-            <value>The type bits.</value>
         </member>
         <member name="T:Artemis.EntityWorld">
             <summary><para>The Entity World Class.</para>
@@ -716,11 +694,43 @@
         </member>
         <member name="M:Artemis.EntityWorld.#ctor(System.Boolean,System.Boolean,System.Boolean)">
             <summary>
-            Initializes a new instance of the <see cref="T:Artemis.EntityWorld"/> class.
+            Initializes a new instance of the <see cref="T:Artemis.EntityWorld" /> class.
             </summary>
             <param name="isSortedEntities">if set to <c>true</c> [is sorted entities].</param>
             <param name="processAttributes">if set to <c>true</c> [process attributes].</param>
             <param name="initializeAll">if set to <c>true</c> [initialize all]. If you pass true here, there will be no need to call EntityWorld.InitializeAll() method</param>
+        </member>
+        <member name="P:Artemis.EntityWorld.CurrentState">
+            <summary>Gets the current state of the entity world.</summary>
+            <value>The state of the current.</value>
+        </member>
+        <member name="P:Artemis.EntityWorld.Delta">
+            <summary>Gets the delta time since last game loop in ticks.</summary>
+            <value>The delta in ticks.</value>
+        </member>
+        <member name="P:Artemis.EntityWorld.EntityManager">
+            <summary>Gets the entity manager.</summary>
+            <value>The entity manager.</value>
+        </member>
+        <member name="P:Artemis.EntityWorld.GroupManager">
+            <summary>Gets the group manager.</summary>
+            <value>The group manager.</value>
+        </member>
+        <member name="P:Artemis.EntityWorld.PoolCleanupDelay">
+            <summary>Gets or sets the interval in FrameUpdates between pools cleanup. Default is 10.</summary>
+            <value>The pool cleanup delay.</value>
+        </member>
+        <member name="P:Artemis.EntityWorld.SystemManager">
+            <summary>Gets the system manager.</summary>
+            <value>The system manager.</value>
+        </member>
+        <member name="P:Artemis.EntityWorld.TagManager">
+            <summary>Gets the tag manager.</summary>
+            <value>The tag manager.</value>
+        </member>
+        <member name="P:Artemis.EntityWorld.IsSortedEntities">
+            <summary>Gets a value indicating whether this instance is sorted entities.</summary>
+            <value><see langword="true" /> if this instance is sorted entities; otherwise, <see langword="false" />.</value>
         </member>
         <member name="M:Artemis.EntityWorld.Clear">
             <summary>Clears this instance.</summary>
@@ -788,7 +798,7 @@
             <param name="groupName">Name of the group. Can be null.</param>
             <param name="components">The components.</param>
             <param name="templateArgs">Parameters for entity template.</param>
-            <returns>The <see cref="T:Artemis.Entity"/>.</returns>
+            <returns>The <see cref="T:Artemis.Entity" />.</returns>
         </member>
         <member name="M:Artemis.EntityWorld.SetEntityTemplate(System.String,Artemis.Interface.IEntityTemplate)">
             <summary>Sets the entity template.</summary>
@@ -825,58 +835,48 @@
             <returns>The Entity.</returns>
             <exception cref="T:Artemis.Exceptions.MissingEntityTemplateException">Template for entity is missing.</exception>
         </member>
-        <member name="P:Artemis.EntityWorld.CurrentState">
-            <summary>Gets the current state of the entity world.</summary>
-            <value>The state of the current.</value>
-        </member>
-        <member name="P:Artemis.EntityWorld.Delta">
-            <summary>Gets the delta time since last game loop in ticks.</summary>
-            <value>The delta in ticks.</value>
-        </member>
-        <member name="P:Artemis.EntityWorld.EntityManager">
-            <summary>Gets the entity manager.</summary>
-            <value>The entity manager.</value>
-        </member>
-        <member name="P:Artemis.EntityWorld.GroupManager">
-            <summary>Gets the group manager.</summary>
-            <value>The group manager.</value>
-        </member>
-        <member name="P:Artemis.EntityWorld.PoolCleanupDelay">
-            <summary>Gets or sets the interval in FrameUpdates between pools cleanup. Default is 10.</summary>
-            <value>The pool cleanup delay.</value>
-        </member>
-        <member name="P:Artemis.EntityWorld.SystemManager">
-            <summary>Gets the system manager.</summary>
-            <value>The system manager.</value>
-        </member>
-        <member name="P:Artemis.EntityWorld.TagManager">
-            <summary>Gets the tag manager.</summary>
-            <value>The tag manager.</value>
-        </member>
-        <member name="P:Artemis.EntityWorld.IsSortedEntities">
-            <summary>Gets a value indicating whether this instance is sorted entities.</summary>
-            <value><see langword="true" /> if this instance is sorted entities; otherwise, <see langword="false" />.</value>
-        </member>
         <member name="T:Artemis.Exceptions.MissingEntityTemplateException">
             <summary>Exception that is thrown when trying to use a EntityTemplate which does not exist.</summary>
         </member>
         <member name="M:Artemis.Exceptions.MissingEntityTemplateException.#ctor(System.String)">
-            <summary>Initializes a new instance of the <see cref="T:Artemis.Exceptions.MissingEntityTemplateException"/> class.</summary>
+            <summary>Initializes a new instance of the <see cref="T:Artemis.Exceptions.MissingEntityTemplateException" /> class.</summary>
             <param name="entityTemplateTag">The entity template tag.</param>
         </member>
         <member name="M:Artemis.Exceptions.MissingEntityTemplateException.#ctor(System.String,System.Exception)">
-            <summary>Initializes a new instance of the <see cref="T:Artemis.Exceptions.MissingEntityTemplateException"/> class.</summary>
+            <summary>Initializes a new instance of the <see cref="T:Artemis.Exceptions.MissingEntityTemplateException" /> class.</summary>
             <param name="entityTemplateTag">The entity template tag.</param>
             <param name="inner">The inner.</param>
         </member>
         <member name="M:Artemis.Exceptions.MissingEntityTemplateException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
-            <summary>Initializes a new instance of the <see cref="T:Artemis.Exceptions.MissingEntityTemplateException"/> class.</summary>
+            <summary>Initializes a new instance of the <see cref="T:Artemis.Exceptions.MissingEntityTemplateException" /> class.</summary>
             <param name="info">The serialization info.</param>
             <param name="context">The serialization context.</param>
+        </member>
+        <member name="T:Artemis.Interface.IComponent">
+            <summary>Empty Interface that all Components must extend.</summary>
         </member>
         <member name="T:Artemis.Interface.IComponent`1">
             <summary>Interface that can be used if the component can be sub-classed but should still be treated as the base class, 'T' when being added to a entity.</summary>
             <typeparam name="T">The Type T.</typeparam>
+        </member>
+        <member name="T:Artemis.Interface.IComponentPool`1">
+            <summary>Interface IComponentPool.</summary>
+            <typeparam name="T">The <see langword="Type"/> T.</typeparam>
+        </member>
+        <member name="M:Artemis.Interface.IComponentPool`1.CleanUp">
+            <summary>
+            <para>Cleans up the pool by checking each valid object</para>
+            <para>to ensure it is still actually valid.</para>
+            <para>Must be called regularly to free returned Objects.</para>
+            </summary>
+        </member>
+        <member name="M:Artemis.Interface.IComponentPool`1.New">
+            <summary>Gets a new object from the Pool.</summary>
+            <returns>The next object in the pool if available, null if all instances are valid.</returns>
+        </member>
+        <member name="M:Artemis.Interface.IComponentPool`1.ReturnObject(`0)">
+            <summary>Returns the specified component.</summary>
+            <param name="component">The component.</param>
         </member>
         <member name="T:Artemis.Interface.IEntityTemplate">
             <summary>Interface IEntityTemplate.</summary>
@@ -938,7 +938,7 @@
             <para>and creates a corresponding Artemis <see cref="T:Artemis.ComponentType"/> for each type found.</para>
             </summary>
             <param name="types">Types to scan</param>
-            <param name="ignoreInvalidTypes">If set to <see langword="true"/>, will not throw Exception</param>
+            <param name="ignoreInvalidTypes">If set to <see langword="true" />, will not throw Exception</param>
         </member>
         <member name="M:Artemis.Manager.ComponentTypeManager.GetTypesFromBits(System.Numerics.BigInteger)">
             <summary>Creates an enumerable from a <c>BigIntger</c> which holds type bits.</summary>
@@ -959,6 +959,9 @@
         <member name="F:Artemis.Manager.EntityManager.removedAndAvailable">
             <summary>The removed and available.</summary>
         </member>
+        <member name="F:Artemis.Manager.EntityManager.componentsToBeRemoved">
+            <summary>Components to be removed in the next update</summary>
+        </member>
         <member name="F:Artemis.Manager.EntityManager.uniqueIdToEntities">
             <summary>Map unique id to entities</summary>
         </member>
@@ -969,8 +972,29 @@
             <summary>The next available id.</summary>
         </member>
         <member name="M:Artemis.Manager.EntityManager.#ctor(Artemis.EntityWorld)">
-            <summary>Initializes a new instance of the <see cref="T:Artemis.Manager.EntityManager"/> class.</summary>
+            <summary>Initializes a new instance of the <see cref="T:Artemis.Manager.EntityManager" /> class.</summary>
             <param name="entityWorld">The entity world.</param>
+        </member>
+        <member name="E:Artemis.Manager.EntityManager.AddedComponentEvent">
+            <summary>Occurs when [added component event].</summary>
+        </member>
+        <member name="E:Artemis.Manager.EntityManager.AddedEntityEvent">
+            <summary>Occurs when [added entity event].</summary>
+        </member>
+        <member name="E:Artemis.Manager.EntityManager.RemovedComponentEvent">
+            <summary>Occurs when [removed component event].</summary>
+        </member>
+        <member name="E:Artemis.Manager.EntityManager.RemovedEntityEvent">
+            <summary>Occurs when [removed entity event].</summary>
+        </member>
+        <member name="P:Artemis.Manager.EntityManager.ActiveEntities">
+            <summary>Gets all active Entities.</summary>
+            <value>The active entities.</value>
+            <returns>Bag of active entities.</returns>
+        </member>
+        <member name="P:Artemis.Manager.EntityManager.RemovedEntitiesRetention">
+            <summary>Gets or sets the removed entities retention.</summary>
+            <value>The removed entities retention.</value>
         </member>
         <member name="M:Artemis.Manager.EntityManager.Create(System.Nullable{System.Int64})">
             <summary>Create a new, "blank" entity.</summary>
@@ -1047,6 +1071,9 @@
             <param name="entity">The entity for which you want to remove the component.</param>
             <param name="componentType">The component type you want to remove.</param>
         </member>
+        <member name="M:Artemis.Manager.EntityManager.RemoveMarkedComponents">
+            <summary>Removes components marked for removal</summary>
+        </member>
         <member name="M:Artemis.Manager.EntityManager.RemoveComponentsOfEntity(Artemis.Entity)">
             <summary>Strips all components from the given entity.</summary>
             <param name="entity">Entity for which you want to remove all components</param>
@@ -1055,27 +1082,6 @@
             <summary>Entities the manager removed component event.</summary>
             <param name="entity">The entity.</param>
             <param name="component">The component.</param>
-        </member>
-        <member name="E:Artemis.Manager.EntityManager.AddedComponentEvent">
-            <summary>Occurs when [added component event].</summary>
-        </member>
-        <member name="E:Artemis.Manager.EntityManager.AddedEntityEvent">
-            <summary>Occurs when [added entity event].</summary>
-        </member>
-        <member name="E:Artemis.Manager.EntityManager.RemovedComponentEvent">
-            <summary>Occurs when [removed component event].</summary>
-        </member>
-        <member name="E:Artemis.Manager.EntityManager.RemovedEntityEvent">
-            <summary>Occurs when [removed entity event].</summary>
-        </member>
-        <member name="P:Artemis.Manager.EntityManager.ActiveEntities">
-            <summary>Gets all active Entities.</summary>
-            <value>The active entities.</value>
-            <returns>Bag of active entities.</returns>
-        </member>
-        <member name="P:Artemis.Manager.EntityManager.RemovedEntitiesRetention">
-            <summary>Gets or sets the removed entities retention.</summary>
-            <value>The removed entities retention.</value>
         </member>
         <member name="T:Artemis.Manager.ExecutionType">
             <summary>Enumeration ExecutionType.</summary>
@@ -1143,12 +1149,6 @@
         <member name="M:Artemis.Manager.QueueManager.#ctor">
             <summary>Initializes a new instance of the <see cref="T:Artemis.Manager.QueueManager"/> class.</summary>
         </member>
-        <member name="M:Artemis.Manager.QueueManager.AcquireLock">
-            <summary>Acquires the lock.</summary>
-        </member>
-        <member name="M:Artemis.Manager.QueueManager.ReleaseLock">
-            <summary>Releases the lock.</summary>
-        </member>
         <member name="P:Artemis.Manager.QueueManager.EntitiesToProcessEachFrame">
             <summary>Gets or sets the entities to process each frame.</summary>
             <value>The entities to process each frame.</value>
@@ -1161,6 +1161,12 @@
             <summary>Gets or sets the ref count.</summary>
             <value>The ref count.</value>
         </member>
+        <member name="M:Artemis.Manager.QueueManager.AcquireLock">
+            <summary>Acquires the lock.</summary>
+        </member>
+        <member name="M:Artemis.Manager.QueueManager.ReleaseLock">
+            <summary>Releases the lock.</summary>
+        </member>
         <member name="T:Artemis.Manager.QueueManager`1">
             <summary>Class QueueManager that is independent of the entity concept.</summary>
             <typeparam name="T">The Type T.</typeparam>
@@ -1170,12 +1176,6 @@
         </member>
         <member name="M:Artemis.Manager.QueueManager`1.#ctor">
             <summary>Initializes a new instance of the <see cref="T:Artemis.Manager.QueueManager`1"/> class.</summary>
-        </member>
-        <member name="M:Artemis.Manager.QueueManager`1.AcquireLock">
-            <summary>Acquires the lock.</summary>
-        </member>
-        <member name="M:Artemis.Manager.QueueManager`1.ReleaseLock">
-            <summary>Releases the lock.</summary>
         </member>
         <member name="P:Artemis.Manager.QueueManager`1.EntitiesToProcessEachFrame">
             <summary>Gets or sets the entities to process each frame.</summary>
@@ -1188,6 +1188,12 @@
         <member name="P:Artemis.Manager.QueueManager`1.RefCount">
             <summary>Gets or sets the ref count.</summary>
             <value>The ref count.</value>
+        </member>
+        <member name="M:Artemis.Manager.QueueManager`1.AcquireLock">
+            <summary>Acquires the lock.</summary>
+        </member>
+        <member name="M:Artemis.Manager.QueueManager`1.ReleaseLock">
+            <summary>Releases the lock.</summary>
         </member>
         <member name="T:Artemis.Manager.RemovedComponentHandler">
             <summary>Delegate RemovedComponentHandler.</summary>
@@ -1234,8 +1240,12 @@
             <summary>The draw layers.</summary>
         </member>
         <member name="M:Artemis.Manager.SystemManager.#ctor(Artemis.EntityWorld)">
-            <summary>Initializes a new instance of the <see cref="T:Artemis.Manager.SystemManager"/> class.</summary>
+            <summary>Initializes a new instance of the <see cref="T:Artemis.Manager.SystemManager" /> class.</summary>
             <param name="entityWorld">The entity world.</param>
+        </member>
+        <member name="P:Artemis.Manager.SystemManager.Systems">
+            <summary>Gets the systems.</summary>
+            <value>The systems.</value>
         </member>
         <member name="M:Artemis.Manager.SystemManager.SetSystem``1(``0,Artemis.Manager.GameLoopType,System.Int32,Artemis.Manager.ExecutionType)">
             <summary>Sets the system.</summary>
@@ -1263,7 +1273,7 @@
         </member>
         <member name="M:Artemis.Manager.SystemManager.InitializeAll(System.Boolean,System.Collections.Generic.IEnumerable{System.Reflection.Assembly})">
             <summary>Initializes all.</summary>
-            <param name="processAttributes">if set to <see langword="true"/> [process attributes].</param>
+            <param name="processAttributes">if set to <see langword="true" /> [process attributes].</param>
             <param name="assembliesToScan">The assemblies to scan.</param>
             <exception cref="T:System.Exception">propertyComponentPool is null.</exception>
         </member>
@@ -1315,10 +1325,6 @@
             <param name="executionType">Type of the execution.</param>
             <returns>The EntitySystem.</returns>
         </member>
-        <member name="P:Artemis.Manager.SystemManager.Systems">
-            <summary>Gets the systems.</summary>
-            <value>The systems.</value>
-        </member>
         <member name="T:Artemis.Manager.SystemManager.SystemLayer">
             <summary>The system layer class.</summary>
         </member>
@@ -1344,7 +1350,7 @@
             <summary>The entity by tag.</summary>
         </member>
         <member name="M:Artemis.Manager.TagManager.#ctor">
-            <summary>Initializes a new instance of the <see cref="T:Artemis.Manager.TagManager"/> class.</summary>
+            <summary>Initializes a new instance of the <see cref="T:Artemis.Manager.TagManager" /> class.</summary>
         </member>
         <member name="M:Artemis.Manager.TagManager.GetEntity(System.String)">
             <summary>Gets the entity.</summary>
@@ -1377,132 +1383,22 @@
         <member name="T:Artemis.System.DelayedEntityProcessingSystem">
             <summary>Class DelayedEntityProcessingSystem.</summary>
         </member>
-        <member name="T:Artemis.System.DelayedEntitySystem">
-            <summary>Class DelayedEntitySystem.</summary>
-        </member>
-        <member name="T:Artemis.System.EntitySystem">
-            <summary><para>Base of all Entity Systems.</para>
-            <para>Provide basic functionalities.</para></summary>
-        </member>
-        <member name="F:Artemis.System.EntitySystem.entityWorld">
-            <summary>The entity world.</summary>
-        </member>
-        <member name="F:Artemis.System.EntitySystem.actives">
-            <summary>The actives.</summary>
-        </member>
-        <member name="M:Artemis.System.EntitySystem.#cctor">
-            <summary>Initializes static members of the <see cref="T:Artemis.System.EntitySystem"/> class.</summary>
-        </member>
-        <member name="M:Artemis.System.EntitySystem.#ctor">
-            <summary>Initializes a new instance of the <see cref="T:Artemis.System.EntitySystem"/> class.</summary>
-        </member>
-        <member name="M:Artemis.System.EntitySystem.#ctor(System.Type[])">
-            <summary>Initializes a new instance of the <see cref="T:Artemis.System.EntitySystem"/> class.</summary>
-            <param name="types">The types.</param>
-        </member>
-        <member name="M:Artemis.System.EntitySystem.#ctor(Artemis.Aspect)">
-            <summary>Initializes a new instance of the <see cref="T:Artemis.System.EntitySystem"/> class.</summary>
+        <member name="M:Artemis.System.DelayedEntityProcessingSystem.#ctor(Artemis.Aspect)">
+            <summary>Initializes a new instance of the <see cref="T:Artemis.System.DelayedEntityProcessingSystem" /> class.</summary>
             <param name="aspect">The aspect.</param>
         </member>
-        <member name="M:Artemis.System.EntitySystem.GetMergedTypes(System.Type,System.Type[])">
-            <summary>Gets the merged types.</summary>
-            <param name="requiredType">Type of the required.</param>
-            <param name="otherTypes">The other types.</param>
-            <returns>All specified types in an array.</returns>
-        </member>
-        <member name="M:Artemis.System.EntitySystem.LoadContent">
-            <summary>Override to implement code that gets executed when systems are initialized.</summary>
-        </member>
-        <member name="M:Artemis.System.EntitySystem.UnloadContent">
-            <summary>Override to implement code that gets executed when systems are terminated.</summary>
-        </member>
-        <member name="M:Artemis.System.EntitySystem.OnAdded(Artemis.Entity)">
-            <summary>Called when [added].</summary>
+        <member name="M:Artemis.System.DelayedEntityProcessingSystem.Process(Artemis.Entity,System.Int64)">
+            <summary>Process an entity this system is interested in.</summary>
             <param name="entity">The entity.</param>
+            <param name="accumulatedDelta">The entity to process.</param>
         </member>
-        <member name="M:Artemis.System.EntitySystem.OnChange(Artemis.Entity)">
-            <summary>Called when [change].</summary>
-            <param name="entity">The entity.</param>
+        <member name="M:Artemis.System.DelayedEntityProcessingSystem.ProcessEntities(System.Collections.Generic.IDictionary{System.Int32,Artemis.Entity},System.Int64)">
+            <summary>Process all entities with the delayed Entity processing system</summary>
+            <param name="entities">Entities to process</param>
+            <param name="accumulatedDelta">Total Delay</param>
         </member>
-        <member name="M:Artemis.System.EntitySystem.OnDisabled(Artemis.Entity)">
-            <summary>Called when [disabled].</summary>
-            <param name="entity">The entity.</param>
-        </member>
-        <member name="M:Artemis.System.EntitySystem.OnEnabled(Artemis.Entity)">
-            <summary>Called when [enabled].</summary>
-            <param name="entity">The entity.</param>
-        </member>
-        <member name="M:Artemis.System.EntitySystem.OnRemoved(Artemis.Entity)">
-            <summary>Called when [removed].</summary>
-            <param name="entity">The entity.</param>
-        </member>
-        <member name="M:Artemis.System.EntitySystem.Process">
-            <summary>Processes this instance.</summary>
-        </member>
-        <member name="M:Artemis.System.EntitySystem.Toggle">
-            <summary>Toggles this instance.</summary>
-        </member>
-        <member name="M:Artemis.System.EntitySystem.Add(Artemis.Entity)">
-            <summary>Adds the specified entity.</summary>
-            <param name="entity">The entity.</param>
-        </member>
-        <member name="M:Artemis.System.EntitySystem.Begin">
-            <summary>Begins this instance processing.</summary>
-        </member>
-        <member name="M:Artemis.System.EntitySystem.CheckProcessing">
-            <summary>Checks the processing.</summary>
-            <returns><see langword="true" /> if this instance is enabled, <see langword="false" /> otherwise</returns>
-        </member>
-        <member name="M:Artemis.System.EntitySystem.End">
-            <summary>Ends this instance processing.</summary>
-        </member>
-        <member name="M:Artemis.System.EntitySystem.Interests(Artemis.Entity)">
-            <summary>Interests in the specified entity.</summary>
-            <param name="entity">The entity.</param>
-            <returns><see langword="true" /> if any interests in entity, <see langword="false" /> otherwise</returns>
-        </member>
-        <member name="M:Artemis.System.EntitySystem.ProcessEntities(System.Collections.Generic.IDictionary{System.Int32,Artemis.Entity})">
-            <summary>Processes the entities.</summary>
-            <param name="entities">The entities.</param>
-        </member>
-        <member name="M:Artemis.System.EntitySystem.Remove(Artemis.Entity)">
-            <summary>Removes the specified entity.</summary>
-            <param name="entity">The entity.</param>
-        </member>
-        <member name="M:Artemis.System.EntitySystem.Disable(Artemis.Entity)">
-            <summary>Disables the specified entity.</summary>
-            <param name="entity">The entity.</param>
-        </member>
-        <member name="M:Artemis.System.EntitySystem.Enable(Artemis.Entity)">
-            <summary>Enables the specified entity.</summary>
-            <param name="entity">The entity.</param>
-        </member>
-        <member name="P:Artemis.System.EntitySystem.BlackBoard">
-            <summary>Gets or sets the black board.</summary>
-            <value>The black board.</value>
-        </member>
-        <member name="P:Artemis.System.EntitySystem.ActiveEntities">
-            <summary>Gets all active Entities for this system.</summary>
-        </member>
-        <member name="P:Artemis.System.EntitySystem.EntityWorld">
-            <summary>Gets or sets the entity world.</summary>
-            <value>The entity world.</value>
-        </member>
-        <member name="P:Artemis.System.EntitySystem.IsEnabled">
-            <summary>Gets or sets a value indicating whether this instance is enabled.</summary>
-            <value><see langword="true" /> if this instance is enabled; otherwise, <see langword="false" />.</value>
-        </member>
-        <member name="P:Artemis.System.EntitySystem.SystemBit">
-            <summary>Gets or sets the system bit. (Setter only).</summary>
-            <value>The system bit.</value>
-        </member>
-        <member name="P:Artemis.System.EntitySystem.Aspect">
-            <summary>Gets or sets the aspect.</summary>
-            <value>The aspect.</value>
-        </member>
-        <member name="P:Artemis.System.EntitySystem.Types">
-            <summary>Gets the types.</summary>
-            <value>The types.</value>
+        <member name="T:Artemis.System.DelayedEntitySystem">
+            <summary>Class DelayedEntitySystem.</summary>
         </member>
         <member name="F:Artemis.System.DelayedEntitySystem.timer">
             <summary>The timer.</summary>
@@ -1510,13 +1406,13 @@
         <member name="F:Artemis.System.DelayedEntitySystem.isRunning">
             <summary>The is running.</summary>
         </member>
-        <member name="M:Artemis.System.DelayedEntitySystem.#ctor(System.Type[])">
-            <summary>Initializes a new instance of the <see cref="T:Artemis.System.DelayedEntitySystem"/> class.</summary>
-            <param name="types">The types.</param>
-        </member>
         <member name="M:Artemis.System.DelayedEntitySystem.#ctor(Artemis.Aspect)">
-            <summary>Initializes a new instance of the <see cref="T:Artemis.System.DelayedEntitySystem"/> class.</summary>
+            <summary>Initializes a new instance of the <see cref="T:Artemis.System.DelayedEntitySystem" /> class.</summary>
             <param name="aspect">The aspect.</param>
+        </member>
+        <member name="P:Artemis.System.DelayedEntitySystem.InitialTimeDelay">
+            <summary>Gets the initial time delay.</summary>
+            <value>The initial time delay.</value>
         </member>
         <member name="M:Artemis.System.DelayedEntitySystem.GetRemainingTimeUntilProcessing">
             <summary>Gets the remaining time until processing.</summary>
@@ -1549,29 +1445,6 @@
         <member name="M:Artemis.System.DelayedEntitySystem.ProcessEntities(System.Collections.Generic.IDictionary{System.Int32,Artemis.Entity})">
             <summary>Processes the entities.</summary>
             <param name="entities">The entities.</param>
-        </member>
-        <member name="P:Artemis.System.DelayedEntitySystem.InitialTimeDelay">
-            <summary>Gets the initial time delay.</summary>
-            <value>The initial time delay.</value>
-        </member>
-        <member name="M:Artemis.System.DelayedEntityProcessingSystem.#ctor(System.Type,System.Type[])">
-            <summary>Initializes a new instance of the <see cref="T:Artemis.System.DelayedEntityProcessingSystem"/> class.</summary>
-            <param name="requiredType">The required component type.</param>
-            <param name="otherTypes">Other component types.</param>
-        </member>
-        <member name="M:Artemis.System.DelayedEntityProcessingSystem.#ctor(Artemis.Aspect)">
-            <summary>Initializes a new instance of the <see cref="T:Artemis.System.DelayedEntityProcessingSystem"/> class.</summary>
-            <param name="aspect">The aspect.</param>
-        </member>
-        <member name="M:Artemis.System.DelayedEntityProcessingSystem.Process(Artemis.Entity,System.Int64)">
-            <summary>Process an entity this system is interested in.</summary>
-            <param name="entity">The entity.</param>
-            <param name="accumulatedDelta">The entity to process.</param>
-        </member>
-        <member name="M:Artemis.System.DelayedEntityProcessingSystem.ProcessEntities(System.Collections.Generic.IDictionary{System.Int32,Artemis.Entity},System.Int64)">
-            <summary>Process all entities with the delayed Entity processing system</summary>
-            <param name="entities">Entities to process</param>
-            <param name="accumulatedDelta">Total Delay</param>
         </member>
         <member name="T:Artemis.System.EntityComponentProcessingSystem`1">
             <summary>System which processes entities calling Process(Entity entity, T component) every update.
@@ -1716,13 +1589,8 @@
             <summary>The entity processing system - a template for processing many entities, tied to components.</summary>
         </member>
         <member name="M:Artemis.System.EntityProcessingSystem.#ctor(Artemis.Aspect)">
-            <summary>Initializes a new instance of the <see cref="T:Artemis.System.EntityProcessingSystem"/> class.</summary>
+            <summary>Initializes a new instance of the <see cref="T:Artemis.System.EntityProcessingSystem" /> class.</summary>
             <param name="aspect">The aspect.</param>
-        </member>
-        <member name="M:Artemis.System.EntityProcessingSystem.#ctor(System.Type,System.Type[])">
-            <summary>Initializes a new instance of the <see cref="T:Artemis.System.EntityProcessingSystem"/> class.</summary>
-            <param name="requiredType">The required Type.</param>
-            <param name="otherTypes">The optional other types.</param>
         </member>
         <member name="M:Artemis.System.EntityProcessingSystem.Process(Artemis.Entity)">
             <summary><para>Processes the specified entity.</para>
@@ -1734,67 +1602,123 @@
             <summary>Processes the entities.</summary>
             <param name="entities">The entities.</param>
         </member>
-        <member name="T:Artemis.System.HybridQueueSystemProcessing">
-            <summary>Class HybridQueueSystemProcessing.</summary>
+        <member name="T:Artemis.System.EntitySystem">
+            <summary><para>Base of all Entity Systems.</para>
+            <para>Provide basic functionalities.</para></summary>
         </member>
-        <member name="F:Artemis.System.HybridQueueSystemProcessing.EntitiesToProcessEachFrame">
-            <summary>The entities to process each frame.</summary>
+        <member name="F:Artemis.System.EntitySystem.entityWorld">
+            <summary>The entity world.</summary>
         </member>
-        <member name="F:Artemis.System.HybridQueueSystemProcessing.compTypes">
-            <summary>The comp types.</summary>
+        <member name="F:Artemis.System.EntitySystem.actives">
+            <summary>The actives.</summary>
         </member>
-        <member name="F:Artemis.System.HybridQueueSystemProcessing.queue">
-            <summary>The queue.</summary>
+        <member name="F:Artemis.System.EntitySystem.aspect">
+            <summary>Aspect this EntitySystem is interested in.</summary>
         </member>
-        <member name="M:Artemis.System.HybridQueueSystemProcessing.#ctor(System.Type,System.Type[])">
-            <summary>Initializes a new instance of the <see cref="T:Artemis.System.HybridQueueSystemProcessing"/> class.</summary>
-            <param name="requiredType">Type of the required.</param>
-            <param name="otherTypes">The other types.</param>
+        <member name="M:Artemis.System.EntitySystem.#cctor">
+            <summary>Initializes static members of the <see cref="T:Artemis.System.EntitySystem"/> class.</summary>
         </member>
-        <member name="M:Artemis.System.HybridQueueSystemProcessing.AddToQueue(Artemis.Entity)">
-            <summary>Adds to queue.</summary>
+        <member name="M:Artemis.System.EntitySystem.#ctor">
+            <summary>Initializes a new instance of the <see cref="T:Artemis.System.EntitySystem" /> class.</summary>
+        </member>
+        <member name="M:Artemis.System.EntitySystem.#ctor(Artemis.Aspect)">
+            <summary>Initializes a new instance of the <see cref="T:Artemis.System.EntitySystem"/> class.</summary>
+            <param name="aspect">The aspect.</param>
+        </member>
+        <member name="P:Artemis.System.EntitySystem.BlackBoard">
+            <summary>Gets or sets the black board.</summary>
+            <value>The black board.</value>
+        </member>
+        <member name="P:Artemis.System.EntitySystem.ActiveEntities">
+            <summary>Gets all active Entities for this system.</summary>
+        </member>
+        <member name="P:Artemis.System.EntitySystem.EntityWorld">
+            <summary>Gets or sets the entity world.</summary>
+            <value>The entity world.</value>
+        </member>
+        <member name="P:Artemis.System.EntitySystem.IsEnabled">
+            <summary>Gets or sets a value indicating whether this instance is enabled.</summary>
+            <value><see langword="true" /> if this instance is enabled; otherwise, <see langword="false" />.</value>
+        </member>
+        <member name="P:Artemis.System.EntitySystem.Bit">
+            <summary>Gets or sets the system bit. (Setter only).</summary>
+            <value>The system bit.</value>
+        </member>
+        <member name="P:Artemis.System.EntitySystem.Aspect">
+            <summary>Gets the aspect.</summary>
+        </member>
+        <member name="M:Artemis.System.EntitySystem.LoadContent">
+            <summary>Override to implement code that gets executed when systems are initialized.</summary>
+        </member>
+        <member name="M:Artemis.System.EntitySystem.UnloadContent">
+            <summary>Override to implement code that gets executed when systems are terminated.</summary>
+        </member>
+        <member name="M:Artemis.System.EntitySystem.OnAdded(Artemis.Entity)">
+            <summary>Called when [added].</summary>
             <param name="entity">The entity.</param>
-            <exception cref="T:System.Exception">This EntitySystem does not process this kind of entity</exception>
         </member>
-        <member name="M:Artemis.System.HybridQueueSystemProcessing.ProcessEntities(System.Collections.Generic.IDictionary{System.Int32,Artemis.Entity})">
+        <member name="M:Artemis.System.EntitySystem.OnChange(Artemis.Entity)">
+            <summary>Called when [change].</summary>
+            <param name="entity">The entity.</param>
+        </member>
+        <member name="M:Artemis.System.EntitySystem.OnDisabled(Artemis.Entity)">
+            <summary>Called when [disabled].</summary>
+            <param name="entity">The entity.</param>
+        </member>
+        <member name="M:Artemis.System.EntitySystem.OnEnabled(Artemis.Entity)">
+            <summary>Called when [enabled].</summary>
+            <param name="entity">The entity.</param>
+        </member>
+        <member name="M:Artemis.System.EntitySystem.OnRemoved(Artemis.Entity)">
+            <summary>Called when [removed].</summary>
+            <param name="entity">The entity.</param>
+        </member>
+        <member name="M:Artemis.System.EntitySystem.Process">
+            <summary>Processes this instance.</summary>
+        </member>
+        <member name="M:Artemis.System.EntitySystem.Toggle">
+            <summary>Toggles this instance.</summary>
+        </member>
+        <member name="M:Artemis.System.EntitySystem.Add(Artemis.Entity)">
+            <summary>Adds the specified entity.</summary>
+            <param name="entity">The entity.</param>
+        </member>
+        <member name="M:Artemis.System.EntitySystem.Begin">
+            <summary>Begins this instance processing.</summary>
+        </member>
+        <member name="M:Artemis.System.EntitySystem.CheckProcessing">
+            <summary>Checks the processing.</summary>
+            <returns><see langword="true" /> if this instance is enabled, <see langword="false" /> otherwise</returns>
+        </member>
+        <member name="M:Artemis.System.EntitySystem.End">
+            <summary>Ends this instance processing.</summary>
+        </member>
+        <member name="M:Artemis.System.EntitySystem.Interests(Artemis.Entity)">
+            <summary>Interests in the specified entity.</summary>
+            <param name="entity">The entity.</param>
+            <returns><see langword="true" /> if any interests in entity, <see langword="false" /> otherwise</returns>
+        </member>
+        <member name="M:Artemis.System.EntitySystem.ProcessEntities(System.Collections.Generic.IDictionary{System.Int32,Artemis.Entity})">
             <summary>Processes the entities.</summary>
             <param name="entities">The entities.</param>
         </member>
-        <member name="P:Artemis.System.HybridQueueSystemProcessing.QueueCount">
-            <summary>Gets the queue count.</summary>
-            <value>The queue count.</value>
+        <member name="M:Artemis.System.EntitySystem.Remove(Artemis.Entity)">
+            <summary>Removes the specified entity.</summary>
+            <param name="entity">The entity.</param>
+        </member>
+        <member name="M:Artemis.System.EntitySystem.Disable(Artemis.Entity)">
+            <summary>Disables the specified entity.</summary>
+            <param name="entity">The entity.</param>
+        </member>
+        <member name="M:Artemis.System.EntitySystem.Enable(Artemis.Entity)">
+            <summary>Enables the specified entity.</summary>
+            <param name="entity">The entity.</param>
         </member>
         <member name="T:Artemis.System.IntervalEntityProcessingSystem">
             <summary>Class IntervalEntityProcessingSystem.</summary>
         </member>
-        <member name="T:Artemis.System.IntervalEntitySystem">
-            <summary>Class IntervalEntitySystem.</summary>
-        </member>
-        <member name="F:Artemis.System.IntervalEntitySystem.timer">
-            <summary>The timer.</summary>
-        </member>
-        <member name="M:Artemis.System.IntervalEntitySystem.#ctor(System.TimeSpan,System.Type[])">
-            <summary>Initializes a new instance of the <see cref="T:Artemis.System.IntervalEntitySystem"/> class.</summary>
-            <param name="timeSpan">The time span.</param>
-            <param name="types">The types.</param>
-        </member>
-        <member name="M:Artemis.System.IntervalEntitySystem.#ctor(System.TimeSpan,Artemis.Aspect)">
-            <summary>Initializes a new instance of the <see cref="T:Artemis.System.IntervalEntitySystem"/> class.</summary>
-            <param name="timeSpan">The time span.</param>
-            <param name="aspect">The aspect.</param>
-        </member>
-        <member name="M:Artemis.System.IntervalEntitySystem.CheckProcessing">
-            <summary>Checks the processing.</summary>
-            <returns><see langword="true" /> if this instance is enabled, <see langword="false" /> otherwise</returns>
-        </member>
-        <member name="M:Artemis.System.IntervalEntityProcessingSystem.#ctor(System.TimeSpan,System.Type,System.Type[])">
-            <summary>Initializes a new instance of the <see cref="T:Artemis.System.IntervalEntityProcessingSystem"/> class.</summary>
-            <param name="timeSpan">The time span.</param>
-            <param name="requiredType">Type of the required.</param>
-            <param name="otherTypes">The other types.</param>
-        </member>
         <member name="M:Artemis.System.IntervalEntityProcessingSystem.#ctor(System.TimeSpan,Artemis.Aspect)">
-            <summary>Initializes a new instance of the <see cref="T:Artemis.System.IntervalEntityProcessingSystem"/> class.</summary>
+            <summary>Initializes a new instance of the <see cref="T:Artemis.System.IntervalEntityProcessingSystem" /> class.</summary>
             <param name="timeSpan">The time span.</param>
             <param name="aspect">The aspect.</param>
         </member>
@@ -1806,31 +1730,23 @@
             <summary>Processes the entities.</summary>
             <param name="entities">The entities.</param>
         </member>
+        <member name="T:Artemis.System.IntervalEntitySystem">
+            <summary>Class IntervalEntitySystem.</summary>
+        </member>
+        <member name="F:Artemis.System.IntervalEntitySystem.timer">
+            <summary>The timer.</summary>
+        </member>
+        <member name="M:Artemis.System.IntervalEntitySystem.#ctor(System.TimeSpan,Artemis.Aspect)">
+            <summary>Initializes a new instance of the <see cref="T:Artemis.System.IntervalEntitySystem"/> class.</summary>
+            <param name="timeSpan">The time span.</param>
+            <param name="aspect">The aspect.</param>
+        </member>
+        <member name="M:Artemis.System.IntervalEntitySystem.CheckProcessing">
+            <summary>Checks the processing.</summary>
+            <returns><see langword="true" /> if this instance is enabled, <see langword="false" /> otherwise</returns>
+        </member>
         <member name="T:Artemis.System.IntervalTagSystem">
             <summary>Class IntervalTagSystem.</summary>
-        </member>
-        <member name="T:Artemis.System.TagSystem">
-            <summary>Tag System does not fire ANY Events of the EntitySystem.</summary>
-        </member>
-        <member name="M:Artemis.System.TagSystem.#ctor(System.String)">
-            <summary>Initializes a new instance of the <see cref="T:Artemis.System.TagSystem"/> class.</summary>
-            <param name="tag">The tag.</param>
-        </member>
-        <member name="M:Artemis.System.TagSystem.OnChange(Artemis.Entity)">
-            <summary>Called when [change].</summary>
-            <param name="entity">The entity.</param>
-        </member>
-        <member name="M:Artemis.System.TagSystem.Process(Artemis.Entity)">
-            <summary>Processes the specified entity.</summary>
-            <param name="entity">The entity.</param>
-        </member>
-        <member name="M:Artemis.System.TagSystem.ProcessEntities(System.Collections.Generic.IDictionary{System.Int32,Artemis.Entity})">
-            <summary>Processes the entities.</summary>
-            <param name="entities">The entities.</param>
-        </member>
-        <member name="P:Artemis.System.TagSystem.Tag">
-            <summary>Gets or sets the tag.</summary>
-            <value>The tag.</value>
         </member>
         <member name="F:Artemis.System.IntervalTagSystem.timer">
             <summary>The timer.</summary>
@@ -1850,13 +1766,8 @@
         <member name="F:Artemis.System.ParallelEntityProcessingSystem.factory">
             <summary>The factory.</summary>
         </member>
-        <member name="M:Artemis.System.ParallelEntityProcessingSystem.#ctor(System.Type,System.Type[])">
-            <summary>Initializes a new instance of the <see cref="T:Artemis.System.ParallelEntityProcessingSystem"/> class.</summary>
-            <param name="requiredType">Type of the required.</param>
-            <param name="otherTypes">The other types.</param>
-        </member>
         <member name="M:Artemis.System.ParallelEntityProcessingSystem.#ctor(Artemis.Aspect)">
-            <summary>Initializes a new instance of the <see cref="T:Artemis.System.ParallelEntityProcessingSystem"/> class.</summary>
+            <summary>Initializes a new instance of the <see cref="T:Artemis.System.ParallelEntityProcessingSystem" /> class.</summary>
             <param name="aspect">The aspect.</param>
         </member>
         <member name="M:Artemis.System.ParallelEntityProcessingSystem.Process(Artemis.Entity)">
@@ -1872,24 +1783,8 @@
             <para>Special type of System that has NO entity associated (called once each frame).</para>
             <para>Extend it and override the ProcessSystem function.</para></summary>
         </member>
-        <member name="M:Artemis.System.ProcessingSystem.OnAdded(Artemis.Entity)">
-            <summary>Called when [added].</summary>
-            <param name="entity">The entity.</param>
-        </member>
         <member name="M:Artemis.System.ProcessingSystem.OnChange(Artemis.Entity)">
             <summary>Called when [change].</summary>
-            <param name="entity">The entity.</param>
-        </member>
-        <member name="M:Artemis.System.ProcessingSystem.OnDisabled(Artemis.Entity)">
-            <summary>Called when [disabled].</summary>
-            <param name="entity">The entity.</param>
-        </member>
-        <member name="M:Artemis.System.ProcessingSystem.OnEnabled(Artemis.Entity)">
-            <summary>Called when [enabled].</summary>
-            <param name="entity">The entity.</param>
-        </member>
-        <member name="M:Artemis.System.ProcessingSystem.OnRemoved(Artemis.Entity)">
-            <summary>Called when [removed].</summary>
             <param name="entity">The entity.</param>
         </member>
         <member name="M:Artemis.System.ProcessingSystem.Process">
@@ -1898,59 +1793,40 @@
         <member name="M:Artemis.System.ProcessingSystem.ProcessSystem">
             <summary>Processes the System. Users must extend this method. Called once per frame.</summary>
         </member>
-        <member name="M:Artemis.System.ProcessingSystem.Process(Artemis.Entity)">
-            <summary>Processes the specified entity.</summary>
-            <param name="entity">The entity.</param>
-        </member>
-        <member name="T:Artemis.System.QueueSystemProcessing">
+        <member name="T:Artemis.System.QueueProcessingSystem">
             <summary>
-            <para>System Not based On Components.</para>
-            <para>It Process ONCE everything you explicitly add to it</para>
+            <para>System not based on Components.</para>
+            <para>It processes ONCE everything you explicitly add to it</para>
             <para>using the method AddToQueue.</para>
+            <para>Use <see cref="P:Artemis.System.QueueProcessingSystem.EntitiesToProcessEachFrame" /> property to set processing batch size.</para>
             </summary>
         </member>
-        <member name="F:Artemis.System.QueueSystemProcessing.queue">
+        <member name="F:Artemis.System.QueueProcessingSystem.queue">
             <summary>The queue.</summary>
         </member>
-        <member name="M:Artemis.System.QueueSystemProcessing.#ctor">
-            <summary>Initializes a new instance of the <see cref="T:Artemis.System.QueueSystemProcessing"/> class.</summary>
+        <member name="M:Artemis.System.QueueProcessingSystem.#ctor">
+            <summary>Initializes a new instance of the <see cref="T:Artemis.System.QueueProcessingSystem"/> class.</summary>
         </member>
-        <member name="M:Artemis.System.QueueSystemProcessing.AddToQueue(Artemis.Entity)">
-            <summary>Adds to queue.</summary>
-            <param name="entity">The entity.</param>
-        </member>
-        <member name="M:Artemis.System.QueueSystemProcessing.LoadContent">
-            <summary>Override to implement code that gets executed when systems are initialized.</summary>
-        </member>
-        <member name="M:Artemis.System.QueueSystemProcessing.UnloadContent">
-            <summary>Override to implement code that gets executed when systems are terminated.</summary>
-        </member>
-        <member name="M:Artemis.System.QueueSystemProcessing.OnAdded(Artemis.Entity)">
-            <summary>Called when the system has received a entity it is interested in, e.g. created or a component was added to it.</summary>
-            <param name="entity">The entity that was added to this system.</param>
-        </member>
-        <member name="M:Artemis.System.QueueSystemProcessing.OnChange(Artemis.Entity)">
-            <summary>Called when an entity was removed from this system, e.g. deleted or had one of it's components removed.</summary>
-            <param name="entity">The entity that was removed from this system.</param>
-        </member>
-        <member name="M:Artemis.System.QueueSystemProcessing.OnRemoved(Artemis.Entity)">
-            <summary>Called when [removed].</summary>
-            <param name="entity">The entity.</param>
-        </member>
-        <member name="M:Artemis.System.QueueSystemProcessing.Process(Artemis.Entity)">
-            <summary>Processes the specified entity.</summary>
-            <param name="entity">The entity.</param>
-        </member>
-        <member name="M:Artemis.System.QueueSystemProcessing.Process">
-            <summary>Processes this instance.</summary>
-        </member>
-        <member name="P:Artemis.System.QueueSystemProcessing.EntitiesToProcessEachFrame">
+        <member name="P:Artemis.System.QueueProcessingSystem.EntitiesToProcessEachFrame">
             <summary>Gets or sets the entities to process each frame.</summary>
             <value>The entities to process each frame.</value>
         </member>
-        <member name="P:Artemis.System.QueueSystemProcessing.QueueCount">
+        <member name="P:Artemis.System.QueueProcessingSystem.QueueCount">
             <summary>Gets the queue count.</summary>
             <value>The queue count.</value>
+        </member>
+        <member name="M:Artemis.System.QueueProcessingSystem.AddToQueue(Artemis.Entity)">
+            <summary>Adds to queue.</summary>
+            <param name="entity">The entity.</param>
+        </member>
+        <member name="M:Artemis.System.QueueProcessingSystem.ProcessSystem">
+            <summary>
+            Processes the system.
+            </summary>
+        </member>
+        <member name="M:Artemis.System.QueueProcessingSystem.Process(Artemis.Entity)">
+            <summary>Processes the specified entity.</summary>
+            <param name="entity">The entity.</param>
         </member>
         <member name="T:Artemis.System.QueueSystemProcessingThreadSafe">
             <summary>
@@ -2084,6 +1960,29 @@
             <summary>Processes the specified entity.</summary>
             <param name="entity">The entity.</param>
         </member>
+        <member name="T:Artemis.System.TagSystem">
+            <summary>Tag System does not fire ANY Events of the EntitySystem.</summary>
+        </member>
+        <member name="M:Artemis.System.TagSystem.#ctor(System.String)">
+            <summary>Initializes a new instance of the <see cref="T:Artemis.System.TagSystem"/> class.</summary>
+            <param name="tag">The tag.</param>
+        </member>
+        <member name="P:Artemis.System.TagSystem.Tag">
+            <summary>Gets the tag.</summary>
+        </member>
+        <member name="M:Artemis.System.TagSystem.OnChange(Artemis.Entity)">
+            <summary>Called when [change].</summary>
+            <param name="entity">The entity.</param>
+        </member>
+        <member name="M:Artemis.System.TagSystem.ProcessSystem">
+            <summary>
+            Processes the system.
+            </summary>
+        </member>
+        <member name="M:Artemis.System.TagSystem.Process(Artemis.Entity)">
+            <summary>Processes the specified entity.</summary>
+            <param name="entity">The entity.</param>
+        </member>
         <member name="T:Artemis.Utils.Bag`1">
             <summary>Class Bag.</summary>
             <typeparam name="T">The <see langword="Type"/> T.</typeparam>
@@ -2094,6 +1993,23 @@
         <member name="M:Artemis.Utils.Bag`1.#ctor(System.Int32)">
             <summary>Initializes a new instance of the <see cref="T:Artemis.Utils.Bag`1"/> class.</summary>
             <param name="capacity">The capacity.</param>
+        </member>
+        <member name="P:Artemis.Utils.Bag`1.Capacity">
+            <summary>Gets the capacity.</summary>
+            <value>The capacity.</value>
+        </member>
+        <member name="P:Artemis.Utils.Bag`1.IsEmpty">
+            <summary>Gets a value indicating whether this instance is empty.</summary>
+            <value><see langword="true" /> if this instance is empty; otherwise, <see langword="false" />.</value>
+        </member>
+        <member name="P:Artemis.Utils.Bag`1.Count">
+            <summary>Gets the size.</summary>
+            <value>The size.</value>
+        </member>
+        <member name="P:Artemis.Utils.Bag`1.Item(System.Int32)">
+            <summary>Returns the element at the specified position in Bag.</summary>
+            <param name="index">The index.</param>
+            <returns>The element from the specified position in Bag.</returns>
         </member>
         <member name="M:Artemis.Utils.Bag`1.Add(`0)">
             <summary>
@@ -2165,23 +2081,6 @@
             <summary>Grows the specified new capacity.</summary>
             <param name="newCapacity">The new capacity.</param>
         </member>
-        <member name="P:Artemis.Utils.Bag`1.Capacity">
-            <summary>Gets the capacity.</summary>
-            <value>The capacity.</value>
-        </member>
-        <member name="P:Artemis.Utils.Bag`1.IsEmpty">
-            <summary>Gets a value indicating whether this instance is empty.</summary>
-            <value><see langword="true" /> if this instance is empty; otherwise, <see langword="false" />.</value>
-        </member>
-        <member name="P:Artemis.Utils.Bag`1.Count">
-            <summary>Gets the size.</summary>
-            <value>The size.</value>
-        </member>
-        <member name="P:Artemis.Utils.Bag`1.Item(System.Int32)">
-            <summary>Returns the element at the specified position in Bag.</summary>
-            <param name="index">The index.</param>
-            <returns>The element from the specified position in Bag.</returns>
-        </member>
         <member name="T:Artemis.Utils.BagEnumerator`1">
             <summary>Class BagEnumerator.</summary>
             <typeparam name="T">The <see langword="Type"/> T.</typeparam>
@@ -2196,16 +2095,6 @@
             <summary>Initializes a new instance of the <see cref="T:Artemis.Utils.BagEnumerator`1"/> class.</summary>
             <param name="bag">The bag.</param>
         </member>
-        <member name="M:Artemis.Utils.BagEnumerator`1.Dispose">
-            <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
-        </member>
-        <member name="M:Artemis.Utils.BagEnumerator`1.MoveNext">
-            <summary>Advances the enumerator to the next element of the collection.</summary>
-            <returns>true if the enumerator was successfully advanced to the next element; false if the enumerator has passed the end of the collection.</returns>
-        </member>
-        <member name="M:Artemis.Utils.BagEnumerator`1.Reset">
-            <summary>Sets the enumerator to its initial position, which is before the first element in the collection.</summary>
-        </member>
         <member name="P:Artemis.Utils.BagEnumerator`1.System#Collections#Generic#IEnumerator{T}#Current">
             <summary>Gets the current element in the collection.</summary>
             <value>The current element.</value>
@@ -2215,6 +2104,16 @@
             <summary>Gets the current element in the collection.</summary>
             <value>The current.</value>
             <returns>The current element in the collection.</returns>
+        </member>
+        <member name="M:Artemis.Utils.BagEnumerator`1.Dispose">
+            <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
+        </member>
+        <member name="M:Artemis.Utils.BagEnumerator`1.MoveNext">
+            <summary>Advances the enumerator to the next element of the collection.</summary>
+            <returns>true if the enumerator was successfully advanced to the next element; false if the enumerator has passed the end of the collection.</returns>
+        </member>
+        <member name="M:Artemis.Utils.BagEnumerator`1.Reset">
+            <summary>Sets the enumerator to its initial position, which is before the first element in the collection.</summary>
         </member>
         <member name="T:Artemis.Utils.FastDateTime">
             <summary>
@@ -2227,6 +2126,9 @@
         <member name="F:Artemis.Utils.FastDateTime.LocalUtcOffset">
             <summary>The local UTC offset.</summary>
         </member>
+        <member name="P:Artemis.Utils.FastDateTime.Now">
+            <summary>Gets the now.</summary>
+        </member>
         <member name="M:Artemis.Utils.FastDateTime.GetMicroSeconds(System.Int64)">
             <summary>Gets the micro seconds from ticks.</summary>
             <param name="ticks">The ticks.</param>
@@ -2238,16 +2140,13 @@
             <returns>The <c>ns</c> as System.Double.</returns>
         </member>
         <member name="M:Artemis.Utils.FastDateTime.ToString(System.TimeSpan)">
-            <summary>Returns a <see cref="T:System.String"/> that formats a time span.</summary>
+            <summary>Returns a <see cref="T:System.String" /> that formats a time span.</summary>
             <param name="timeSpan">The time span.</param>
-            <returns>A <see cref="T:System.String"/> that formats a time span.</returns>
+            <returns>A <see cref="T:System.String" /> that formats a time span.</returns>
         </member>
         <member name="M:Artemis.Utils.FastDateTime.ToString">
-            <summary>Returns a <see cref="T:System.String"/> that represents this instance.</summary>
-            <returns>A <see cref="T:System.String"/> that represents this instance.</returns>
-        </member>
-        <member name="P:Artemis.Utils.FastDateTime.Now">
-            <summary>Gets the now.</summary>
+            <summary>Returns a <see cref="T:System.String" /> that represents this instance.</summary>
+            <returns>A <see cref="T:System.String" /> that represents this instance.</returns>
         </member>
         <member name="T:Artemis.Utils.Timer">
             <summary>The class Timer.</summary>
@@ -2256,8 +2155,12 @@
             <summary>The delay ticks.</summary>
         </member>
         <member name="M:Artemis.Utils.Timer.#ctor(System.TimeSpan)">
-            <summary>Initializes a new instance of the <see cref="T:Artemis.Utils.Timer"/> class.</summary>
+            <summary>Initializes a new instance of the <see cref="T:Artemis.Utils.Timer" /> class.</summary>
             <param name="delay">The delay.</param>
+        </member>
+        <member name="P:Artemis.Utils.Timer.AccumulatedTicks">
+            <summary>Gets the accumulated ticks.</summary>
+            <value>The accumulated ticks.</value>
         </member>
         <member name="M:Artemis.Utils.Timer.IsReached(System.Int64)">
             <summary>Determines whether the specified delta is reached.</summary>
@@ -2266,10 +2169,6 @@
         </member>
         <member name="M:Artemis.Utils.Timer.Reset">
             <summary>Resets this instance.</summary>
-        </member>
-        <member name="P:Artemis.Utils.Timer.AccumulatedTicks">
-            <summary>Gets the accumulated ticks.</summary>
-            <value>The accumulated ticks.</value>
         </member>
     </members>
 </doc>

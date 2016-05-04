@@ -11,12 +11,14 @@ namespace FellSky.Components
 {
     public class CoroutineComponent: IComponent
     {
-        public CoroutineComponent(IEnumerable coroutine)
+
+        public CoroutineComponent(IEnumerable coroutine, Action onDone=null)
         {
             CoroutineFunction = coroutine;
         }
 
         public Coroutine Coroutine;
         public readonly IEnumerable CoroutineFunction;
+        public readonly Action OnDone;
     }
 }

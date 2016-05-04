@@ -9,6 +9,7 @@ namespace FellSky.Components
         public CameraComponent(GraphicsDevice device)
         {
             Device = device;
+            ScreenSize = new Vector2(device.Viewport.Width, device.Viewport.Height);
         }
 
         public Transform Transform { get; set; }
@@ -29,12 +30,14 @@ namespace FellSky.Components
 
         public Matrix GetViewMatrix(float parallax)
         {
+            float scaleFactor = 1 / (1 + parallax + Zoom) * 2;
+
             // To add parallax, simply multiply it by the position
             return Matrix.CreateTranslation(new Vector3(-(Transform.Position * parallax), 0.0f)) *
                 // The next line has a catch. See note below.
                 Matrix.CreateTranslation(new Vector3(-Transform.Origin, 0.0f)) *
                 Matrix.CreateRotationZ(Transform.Rotation) *
-                Matrix.CreateScale(Zoom, Zoom, 1) *
+                Matrix.CreateScale(scaleFactor, scaleFactor, 1) *
                 Matrix.CreateTranslation(new Vector3(Transform.Origin, 0.0f)) *
                 Matrix.CreateTranslation(new Vector3(ScreenSize / 2, 0f));
         }

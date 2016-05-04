@@ -8,44 +8,9 @@ using FellSky.Components;
 
 namespace FellSky.Game.Campaign.Storyline
 {
-    public enum StoryEvent
-    {
-        Start,
-        NextScene,
-        MissionSuccess,
-        MissionFailDead,
-        MissionFailObjective,
-        Other
-    }
-
-    public enum MainStoryProgress
-    {
-        ActOne,
-        ActTwo,
-        ActThree,
-        ActFour,
-        Epilogue
-    }
-
-    public enum ActOneProgress
-    {
-        Intro,
-        Tutorial,
-        Invasion,
-        HumanDefense,
-        PlayerAttack,
-        PlayerAttackFail,
-        AiContact,
-        PlayerEscape,
-        HumanDefeatSequence,
-        MothershipActivation,
-        MothershipEscape
-    }
-
     public interface IStoryAct
     {
         void ConfigureStates(StateMachine<StoryUpdateFunction, string> state);
-
         IEnumerable Master(Story story, EntityWorld world);
     }
 
@@ -63,7 +28,6 @@ namespace FellSky.Game.Campaign.Storyline
 
         public List<IStoryAct> Acts { get; private set; }
         public EntityWorld World { get; private set; }
-        public Entity StoryEntity { get; private set; }
 
         public Story(EntityWorld world)
         {
@@ -80,19 +44,33 @@ namespace FellSky.Game.Campaign.Storyline
                     .Permit(Triggers.NextAct, i < Acts.Count - 1 ? (StoryUpdateFunction)Acts[i + 1].Master : EndOfStory);
             }
             World = world;
-            StoryEntity = World.CreateEntity();
             State.Fire(ActOne.Triggers.Start);
         }
 
         private void OnTransition(StateMachine<StoryUpdateFunction, string>.Transition transition)
         {
-            StoryEntity.RemoveComponent<CoroutineComponent>();
-            StoryEntity.AddComponent(new CoroutineComponent(transition.Destination(this, World)));
+            const string tag = "StoryState";
+            var entity = World.TagManager.GetEntity(tag);
+            if (entity != null)
+            {
+                entity.Tag = null;
+                entity.Delete();
+            }
+            var component = new CoroutineComponent(transition.Destination(this, World), () => entity.Delete());
+            entity = World.CreateEntity();
+            entity.AddComponent(component);
+            entity.Refresh();
+            entity.Tag = tag;
         }
 
         private IEnumerable EndOfStory(Story story, EntityWorld world)
         {
             yield break;
         }
+
+        #region Story Variables
+        
+
+        #endregion
     }
 }

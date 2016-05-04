@@ -57,7 +57,8 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Artemis">
+    <Reference Include="Artemis, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\Artemis.dll</HintPath>
     </Reference>
     <Reference Include="FarseerPhysics">
@@ -109,6 +110,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Components\BackgroundComponent.cs" />
     <Compile Include="Components\BoundingBoxComponent.cs" />
     <Compile Include="Components\BulletComponent.cs" />
     <Compile Include="Components\ClientPredictedTransformComponent.cs" />
@@ -117,7 +119,6 @@
     <Compile Include="Components\DamageComponent.cs" />
     <Compile Include="Components\DamageReductionComponent.cs" />
     <Compile Include="Components\FactionComponent.cs" />
-    <Compile Include="Components\FadeInComponent.cs" />
     <Compile Include="Components\GuiComponent.cs" />
     <Compile Include="Components\HealthComponent.cs" />
     <Compile Include="Components\HealthModOverTimeComponent.cs" />
@@ -138,6 +139,11 @@
     <Compile Include="Game\Campaign\Storyline\Story.cs" />
     <Compile Include="Game\Campaign\Storyline\StoryUtilities.cs" />
     <Compile Include="Game\Space\Outpost.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Services\ServiceLocator.cs" />
     <Compile Include="Framework\ShapeDefinitions\ChainShape.cs" />
     <Compile Include="Framework\ShapeDefinitions\CircleShape.cs" />
@@ -180,6 +186,7 @@
     <Compile Include="Services\GamePersistenceService.cs" />
     <Compile Include="Services\ICoroutineService.cs" />
     <Compile Include="Services\EventService.cs" />
+    <Compile Include="Systems\BackgroundRendererSystem.cs" />
     <Compile Include="Systems\ClientPredictedTransformSystem.cs" />
     <Compile Include="Systems\CommandBufferSystem.cs" />
     <Compile Include="Systems\CoroutineSystem.cs" />
@@ -350,6 +357,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Notes.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

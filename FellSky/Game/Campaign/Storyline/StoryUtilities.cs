@@ -10,13 +10,13 @@ namespace FellSky.Game.Campaign.Storyline
 {
     public static class StoryUtilities
     {
-        public static Entity CreateStoryOverlay(this EntityWorld world, string text)
+        public static Entity CreateStoryOverlay(this EntityWorld world, string text, string className = "storyoverlay")
         {
             var entity = world.CreateEntity();
             var element = new LibRocketNet.Element("div");
-            element.SetClass("storyoverlay");
+            element.SetClass(className);
             element.InnerRml = text;
-            entity.AddComponent(new GuiComponent { Element = element });
+            entity.AddComponent(new GuiComponent(element));
             return entity;
         }
     }
