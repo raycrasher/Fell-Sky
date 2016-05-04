@@ -47,6 +47,9 @@ namespace FellSky.States
             World.SystemManager.SetSystem(new MouseControlledTransformSystem(_services.GetService<IMouseService>(), CameraTag), Artemis.Manager.GameLoopType.Update, 2);
             World.SystemManager.SetSystem(new ShipUpdateSystem(), Artemis.Manager.GameLoopType.Update, 3);
             World.SystemManager.SetSystem(new BoundingBoxSelectionSystem(_services.GetService<IMouseService>(), CameraTag), Artemis.Manager.GameLoopType.Update, 4);
+            World.SystemManager.SetSystem(new GuiSystem(_services.GetService<IGuiService>()), Artemis.Manager.GameLoopType.Update, 5);
+            World.SystemManager.SetSystem(new CoroutineSystem(_services.GetService<ITimerService>()), Artemis.Manager.GameLoopType.Update, 6);
+            World.SystemManager.SetSystem(new StorySystem(), Artemis.Manager.GameLoopType.Update, 7);
 
             CameraFactory = new EntityFactories.CameraEntityFactory(World);
             Camera = CameraFactory.CreateCamera(CameraTag, _services.GetService<GraphicsDevice>());
@@ -58,7 +61,6 @@ namespace FellSky.States
         {
             _guiService.Context.Update();
             World.Update();
-            
         }
         public override void Draw(GameTime gameTime)
         {

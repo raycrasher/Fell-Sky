@@ -89,6 +89,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\SharpDX.dll</HintPath>
     </Reference>
+    <Reference Include="Stateless">
+      <HintPath>..\Dependencies\Stateless.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -110,10 +113,12 @@
     <Compile Include="Components\BulletComponent.cs" />
     <Compile Include="Components\ClientPredictedTransformComponent.cs" />
     <Compile Include="Components\CollisionComponent.cs" />
+    <Compile Include="Components\CoroutineComponent.cs" />
     <Compile Include="Components\DamageComponent.cs" />
     <Compile Include="Components\DamageReductionComponent.cs" />
     <Compile Include="Components\FactionComponent.cs" />
     <Compile Include="Components\FadeInComponent.cs" />
+    <Compile Include="Components\GuiComponent.cs" />
     <Compile Include="Components\HealthComponent.cs" />
     <Compile Include="Components\HealthModOverTimeComponent.cs" />
     <Compile Include="Components\HullComponent.cs" />
@@ -122,12 +127,16 @@
     <Compile Include="Components\ShipPartComponent.cs" />
     <Compile Include="Components\RigidBodyFixtureComponent.cs" />
     <Compile Include="Components\ShipComponent.cs" />
+    <Compile Include="Components\StoryComponent.cs" />
     <Compile Include="Components\ThrusterComponent.cs" />
     <Compile Include="Components\TurretComponent.cs" />
     <Compile Include="EntityFactories\ShipEntityFactory.cs" />
     <Compile Include="Framework\FloatColor.cs" />
+    <Compile Include="Framework\GuiElementUtilities.cs" />
     <Compile Include="Framework\PrimitiveBatch.cs" />
-    <Compile Include="Game\Campaign\Story.cs" />
+    <Compile Include="Game\Campaign\Storyline\ActOne.cs" />
+    <Compile Include="Game\Campaign\Storyline\Story.cs" />
+    <Compile Include="Game\Campaign\Storyline\StoryUtilities.cs" />
     <Compile Include="Game\Space\Outpost.cs" />
     <Compile Include="Services\ServiceLocator.cs" />
     <Compile Include="Framework\ShapeDefinitions\ChainShape.cs" />
@@ -173,6 +182,8 @@
     <Compile Include="Services\EventService.cs" />
     <Compile Include="Systems\ClientPredictedTransformSystem.cs" />
     <Compile Include="Systems\CommandBufferSystem.cs" />
+    <Compile Include="Systems\CoroutineSystem.cs" />
+    <Compile Include="Systems\GuiSystem.cs" />
     <Compile Include="Systems\MouseControlledTransformSystemStates\ScaleState.cs" />
     <Compile Include="Systems\ParticleSystem.cs" />
     <Compile Include="Systems\PhysicsDebugView\DebugView.cs" />
@@ -324,6 +335,7 @@
     <Compile Include="Systems\ShipRendererSystem.cs" />
     <Compile Include="Framework\SteeringBehaviors\SteeringBehaviorSystem.cs" />
     <Compile Include="Systems\MouseControlledTransformSystem.cs" />
+    <Compile Include="Systems\StorySystem.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -145,5 +145,17 @@ namespace FellSky.Properties {
                 this["LoadedShapeLists"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Gui/Gui.xml")]
+        public string GuiDocument {
+            get {
+                return ((string)(this["GuiDocument"]));
+            }
+            set {
+                this["GuiDocument"] = value;
+            }
+        }
     }
 }

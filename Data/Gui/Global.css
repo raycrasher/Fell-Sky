@@ -2,6 +2,8 @@ body {
 	font-family: Lacuna;
 	color:#ffffffff;
 	font-size: 14px;
+	width:100%;
+	height: 100%;
 }
 
 div {

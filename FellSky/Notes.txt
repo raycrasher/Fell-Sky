@@ -94,7 +94,7 @@ Battle Flow:
 			- Boss battle: Player fights Guardian of the Core (hyper-massive ship)
 			- END SEQUENCE: Player then meets the Core Gods, and learns the truth - that low-order life, when given power, greatly accelerates Entropy and the heat-death of the Universe.
 			- Boss battle: Core Gods Alpha and Omega, and a reanimated Guardian of the Core.
-			- Boss battle: Ultimate intelligence: The One
+			- Boss battle: Ultimate intelligence: The One (Core Gods + Guardian)
 			- As the Player defeats the Ultimate Intelligence, it charges the entirety of life in the galaxy to fight against the encroaching Heat-death.
 			  This comes at the cost of the Ark being destroyed.
 		Epilogue
