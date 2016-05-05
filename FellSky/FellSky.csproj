@@ -192,6 +192,7 @@
     <Compile Include="Systems\ClientPredictedTransformSystem.cs" />
     <Compile Include="Systems\CommandBufferSystem.cs" />
     <Compile Include="Systems\CoroutineSystem.cs" />
+    <Compile Include="Systems\DustRendererSystem.cs" />
     <Compile Include="Systems\GuiSystem.cs" />
     <Compile Include="Systems\MouseControlledTransformSystemStates\ScaleState.cs" />
     <Compile Include="Systems\ParticleSystem.cs" />

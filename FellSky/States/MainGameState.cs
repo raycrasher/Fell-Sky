@@ -65,18 +65,16 @@ namespace FellSky.States
 
             _rng = new Random();
 
-            var NebulaColors = new[] {
-                new Color(_rng.NextFloat(0,1),_rng.NextFloat(0,1),_rng.NextFloat(0,1)),
-                new Color(_rng.NextFloat(0,1),_rng.NextFloat(0,1),_rng.NextFloat(0,1)),
-                new Color(_rng.NextFloat(0,1),_rng.NextFloat(0,1),_rng.NextFloat(0,1)),
-                new Color(_rng.NextFloat(0,1),_rng.NextFloat(0,1),_rng.NextFloat(0,1))
-            };
+            var NebulaColors = Enumerable.Range(0, _rng.Next(1,3))
+                .Select(r => new Color(_rng.NextFloat(0, 1), _rng.NextFloat(0, 1), _rng.NextFloat(0, 1)))
+                .OrderBy(r => new ColorHSL(r).Luminosity)
+                .ToArray();
 
             var spaceGenerator = new Services.SpaceBackgroundGeneratorService(
                 GameEngine.Instance.GraphicsDevice, NebulaColors, 
-                GameEngine.Instance.GraphicsDevice.Viewport.Width / 4,
-                (float)_rng.NextDouble() * 0.18f + 1f,
-                (float)_rng.NextDouble() * 3 + 3,
+                GameEngine.Instance.GraphicsDevice.Viewport.Width,
+                _rng.NextDouble() * 0.18 + 1,
+                _rng.NextDouble() * 3 + 2,
                 _rng.Next());
 
 
@@ -84,6 +82,14 @@ namespace FellSky.States
             entity.AddComponent(new SpriteComponent { Texture = bgTex, TextureRect = new Rectangle(0, 0, bgTex.Width, bgTex.Height) });
             entity.AddComponent(new BackgroundComponent { Parallax=0, FillViewPort=false });
             entity.Refresh();
+
+            var nebulatex = GameEngine.Instance.Content.Load<Texture2D>($"Textures/nebulae/{_rng.Next(1, 27)}");
+            entity = World.CreateEntity();
+            entity.AddComponent(new SpriteComponent { Texture = nebulatex, TextureRect = new Rectangle(0, 0, nebulatex.Width, nebulatex.Height) });
+            entity.AddComponent(new Transform(Vector2.Zero, 0, new Vector2(0.5f,0.5f)));
+            entity.AddComponent(new BackgroundComponent { Parallax = 0, FillViewPort = true, IsAdditive = true });
+            entity.Refresh();
+
             World.InitializeAll();
         }
 

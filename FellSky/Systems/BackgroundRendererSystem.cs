@@ -27,15 +27,26 @@ namespace FellSky.Systems
         {
             var camera = EntityWorld.GetCamera(CameraTag);
 
-            _batch.Begin(sortMode: SpriteSortMode.BackToFront);
-
+            _batch.Begin(sortMode: SpriteSortMode.BackToFront, blendState:BlendState.AlphaBlend);
+            bool? additiveState = null;
             foreach(var entity in entities.Values)
             {                
                 var bg = entity.GetComponent<BackgroundComponent>();
+
                 var xform = entity.GetComponent<Transform>();
                 var sprite = entity.GetComponent<SpriteComponent>();
                 //var cameraMatrix = camera.GetViewMatrix(bg.Parallax);
 
+                if (additiveState == null) additiveState = bg.IsAdditive;
+                else if (additiveState != bg.IsAdditive)
+                {
+                    additiveState = bg.IsAdditive;
+                    _batch.End();
+                    if(additiveState==true)
+                        _batch.Begin(sortMode: SpriteSortMode.BackToFront, blendState: BlendState.Additive);
+                    else
+                        _batch.Begin(sortMode: SpriteSortMode.BackToFront, blendState: BlendState.AlphaBlend);
+                }
                 Matrix adjust = Matrix.Identity;
                 if(bg.FillViewPort)
                 {
@@ -47,7 +58,7 @@ namespace FellSky.Systems
                     adjust = Matrix.CreateScale(scale);
                 }
 
-                sprite.Draw(_batch, xform.Matrix * adjust, bg.Color, bg.SpriteEffect, bg.Depth);
+                sprite.Draw(_batch, xform.Matrix, bg.Color, bg.SpriteEffect, bg.Depth);
             }
             _batch.End();
         }

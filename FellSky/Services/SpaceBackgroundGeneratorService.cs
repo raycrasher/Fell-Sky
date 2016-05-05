@@ -8,10 +8,15 @@ using System.Threading.Tasks;
 
 namespace FellSky.Services
 {
+    public interface INoise
+    {
+        double Noise(double x, double y, double z);
+    }
+
     public class SpaceBackgroundGeneratorService
     {
         public Color[] Colors { get; set; }
-        Perlin perlin;
+        INoise noiseGenerator;
 
         Random Rng;
         private GraphicsDevice _device;
@@ -27,7 +32,8 @@ namespace FellSky.Services
             Falloff = falloff;
             Seed = seed;
             Rng = new MersenneTwisterRng(Seed);
-            perlin = new Perlin(Rng);
+            noiseGenerator = new Perlin(Rng);
+            //noiseGenerator = new SimplexNoiseGenerator();
         }
 
         Color Field(double r, double g, double b, double x, double y, double intensity, double falloff)
@@ -45,9 +51,9 @@ namespace FellSky.Services
         private double RecursiveField(double x, double y, double depth, double divisor)
         {
             if (depth <= 0)
-                return perlin.Noise(x / divisor, y / divisor, 0);
+                return noiseGenerator.Noise(x / divisor, y / divisor, 0);
             var displace = RecursiveField(x, y, depth - 1, divisor / 2);
-            return perlin.Noise(x / divisor + displace, y / divisor + displace, 0);
+            return noiseGenerator.Noise(x / divisor + displace, y / divisor + displace, 0);
         }
 
         public Texture2D GenerateNebula(int Width, int Height)
@@ -87,7 +93,7 @@ namespace FellSky.Services
                 x--; y++;
                 bitmap[y * Width + x] = ApplyAlphaColor(bitmap[y * Width + x], new Color(Rng.Next(100, 255), Rng.Next(100, 255), Rng.Next(100, 255), Rng.Next(100, 255)));
                 x++;
-                bitmap[y * Width + x] = ApplyAlphaColor(bitmap[y * Width + x], new Color(Rng.Next(100, 255), Rng.Next(100, 255), Rng.Next(100, 255), Rng.Next(100, 255)));
+                bitmap[y * Width + x] = ApplyAlphaColor(bitmap[y * Width + x], new Color(Rng.Next(0, 255), Rng.Next(0, 255), Rng.Next(0, 255), Rng.Next(0, 255)));
             }
 
             for (int i = 0; i < numStars / 10; i++)
@@ -101,7 +107,7 @@ namespace FellSky.Services
                 x--; y++;
                 bitmap[y * Width + x] = ApplyAlphaColor(bitmap[y * Width + x], new Color(Rng.Next(100, 255), Rng.Next(100, 255), Rng.Next(100, 255), Rng.Next(100, 255)));
                 x++;
-                bitmap[y * Width + x] = ApplyAlphaColor(bitmap[y * Width + x], new Color(Rng.Next(100, 255), Rng.Next(100, 255), Rng.Next(100, 255), Rng.Next(100, 255)));
+                bitmap[y * Width + x] = ApplyAlphaColor(bitmap[y * Width + x], new Color(Rng.Next(100, 255), Rng.Next(100, 255), Rng.Next(100, 255), Rng.Next(0, 255)));
             }
 
             for (int i = 0; i < numStars; i++)
@@ -114,12 +120,14 @@ namespace FellSky.Services
                         Rng.Next(200, 255),
                         Rng.Next(200, 255),
                         Rng.Next(200, 255),
-                        Rng.Next(200, 255)
+                        Rng.Next(0, 255)
                         ));
             }
         }
 
-        class Perlin
+        
+
+        class Perlin: INoise
         {
             double[] p = new double[256];
             double[] perm = new double[513];
