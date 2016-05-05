@@ -139,6 +139,13 @@
     <Compile Include="Game\Campaign\Storyline\ActOne.cs" />
     <Compile Include="Game\Campaign\Storyline\Story.cs" />
     <Compile Include="Game\Campaign\Storyline\StoryUtilities.cs" />
+    <Compile Include="Game\Combat\Weapons\FlakCannon.cs" />
+    <Compile Include="Game\Combat\Weapons\Howitzer.cs" />
+    <Compile Include="Game\Combat\Weapons\LaserBeamCannon.cs" />
+    <Compile Include="Game\Combat\Weapons\MachineGun.cs" />
+    <Compile Include="Game\Combat\Weapons\MissileLauncher.cs" />
+    <Compile Include="Game\Combat\Weapons\PulseLaser.cs" />
+    <Compile Include="Game\Combat\Weapons\Railgun.cs" />
     <Compile Include="Game\Space\Outpost.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
