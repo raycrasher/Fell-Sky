@@ -134,6 +134,7 @@
     <Compile Include="EntityFactories\ShipEntityFactory.cs" />
     <Compile Include="Framework\FloatColor.cs" />
     <Compile Include="Framework\GuiElementUtilities.cs" />
+    <Compile Include="Framework\MersenneTwister.cs" />
     <Compile Include="Framework\PrimitiveBatch.cs" />
     <Compile Include="Game\Campaign\Storyline\ActOne.cs" />
     <Compile Include="Game\Campaign\Storyline\Story.cs" />
@@ -144,6 +145,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Services\SpaceBackgroundGeneratorService.cs" />
     <Compile Include="Services\ServiceLocator.cs" />
     <Compile Include="Framework\ShapeDefinitions\ChainShape.cs" />
     <Compile Include="Framework\ShapeDefinitions\CircleShape.cs" />

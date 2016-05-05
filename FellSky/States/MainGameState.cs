@@ -18,6 +18,7 @@ namespace FellSky.States
         const string CameraTag = "Camera";
         private GameServiceContainer _services;
         private IGuiService _guiService;
+        private Random _rng;
 
         public EntityWorld World { get; private set; }
         public CameraEntityFactory CameraFactory { get; private set; }
@@ -61,9 +62,27 @@ namespace FellSky.States
 
             var entity = World.CreateEntity();
             entity.AddComponent(new Transform());
-            var bgTex = GameEngine.Instance.Content.Load<Texture2D>("Textures/backdrops/1");
+
+            _rng = new Random();
+
+            var NebulaColors = new[] {
+                new Color(_rng.NextFloat(0,1),_rng.NextFloat(0,1),_rng.NextFloat(0,1)),
+                new Color(_rng.NextFloat(0,1),_rng.NextFloat(0,1),_rng.NextFloat(0,1)),
+                new Color(_rng.NextFloat(0,1),_rng.NextFloat(0,1),_rng.NextFloat(0,1)),
+                new Color(_rng.NextFloat(0,1),_rng.NextFloat(0,1),_rng.NextFloat(0,1))
+            };
+
+            var spaceGenerator = new Services.SpaceBackgroundGeneratorService(
+                GameEngine.Instance.GraphicsDevice, NebulaColors, 
+                GameEngine.Instance.GraphicsDevice.Viewport.Width / 4,
+                (float)_rng.NextDouble() * 0.18f + 1f,
+                (float)_rng.NextDouble() * 3 + 3,
+                _rng.Next());
+
+
+            var bgTex = spaceGenerator.GenerateNebula(GameEngine.Instance.GraphicsDevice.Viewport.Width, GameEngine.Instance.GraphicsDevice.Viewport.Height);
             entity.AddComponent(new SpriteComponent { Texture = bgTex, TextureRect = new Rectangle(0, 0, bgTex.Width, bgTex.Height) });
-            entity.AddComponent(new BackgroundComponent { Parallax=0, FillViewPort=true });
+            entity.AddComponent(new BackgroundComponent { Parallax=0, FillViewPort=false });
             entity.Refresh();
             World.InitializeAll();
         }
