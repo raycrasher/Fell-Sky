@@ -331,21 +331,14 @@ namespace FellSky.Editor
 
             Func<ShipPart, Entity> CreatePartEntity = (ShipPart part) =>
             {
-                Entity e;
-                if (part is Hull)
-                {
-                    var hull = (Hull)part;
-                    e = AddHullInternal(hull.SpriteId, hull.Transform.Position, hull.Transform.Rotation, hull.Transform.Scale, hull.Transform.Origin, hull.Color, hull.ColorType);
-                    var newHull = e.GetComponent<HullComponent>().Part;
-                }
-                else throw new InvalidOperationException();
-                return e;
+                var entity = _shipFactory.AddAndCreatePartEntity(ShipEntity, part.Clone(), false, Ship.Parts.IndexOf(part) + 1);
+                AddEditorComponentsToPartEntity(entity);
+                return entity;
             };
 
             var toClone = SelectedPartEntities.ToArray();
             ClearSelection();
-
-            
+                        
             SelectedPartEntities.AddRange(from entity in toClone
                                     let part = entity.Components.OfType<IShipPartComponent>().First().Part
                                     select CreatePartEntity(part));
@@ -409,7 +402,6 @@ namespace FellSky.Editor
             {
                 Vector2 position = part.Transform.Position * new Vector2(1, -1);
                 Vector2 scale = part.Transform.Scale * new Vector2(1,-1);
-                Vector2 origin = part.Transform.Origin;
                 float rotation = (part.Transform.Rotation.ToVector() * new Vector2(-1, 1)).ToAngleRadians();
 
                 if (Ship.Parts.Any(part2 => Vector2.DistanceSquared(part2.Transform.Position, position) < 1
@@ -417,23 +409,19 @@ namespace FellSky.Editor
                                         && part2.SpriteId == part2.SpriteId
                                         )) return;
 
-                if (part is Hull)
-                {
-                    var oldHull = part as Hull;
-                    
-                    var hullEntity = AddHullInternal(oldHull.SpriteId, position, rotation, scale, origin, oldHull.Color, oldHull.ColorType, Ship.Parts.IndexOf(oldHull)+1);
-                    var newHull = hullEntity.GetComponent<HullComponent>().Part;
-                    //newHull.SpriteEffect = oldHull.SpriteEffect ^ Microsoft.Xna.Framework.Graphics.SpriteEffects.FlipVertically;
-                    newHull.ColorType = oldHull.ColorType;
-                }
-            }
-            
+                var entity = _shipFactory.AddAndCreatePartEntity(ShipEntity, part.Clone(), false, Ship.Parts.IndexOf(part) + 1);
+                AddEditorComponentsToPartEntity(entity);
+                var xform = entity.GetComponent<Transform>();
+                xform.Position = position;
+                xform.Scale = scale;
+                xform.Rotation = rotation;
+            }            
         }
         
         private Entity AddHullInternal(string id, Vector2 position, float rotation, Vector2 scale, Vector2 origin, Color color, HullColorType colorType = HullColorType.Hull, int index=-1)
         {
             var hull = new Hull(id, position, rotation, scale, origin, color);
-            var hullEntity = _shipFactory.CreatePartEntity(ShipEntity, hull, false, index);
+            var hullEntity = _shipFactory.AddAndCreatePartEntity(ShipEntity, hull, false, index);
             var hullComponent = hullEntity.GetComponent<HullComponent>();
             hull.ColorType = colorType;
             AddEditorComponentsToPartEntity(hullEntity);
@@ -443,7 +431,7 @@ namespace FellSky.Editor
         private Entity AddThrusterInternal(string id, Vector2 position, float rotation, Vector2 scale, Vector2 origin, Color color, int index=-1)
         {
             var thruster = new Thruster(id, position, rotation, scale, origin, color);
-            var thrusterEntity = _shipFactory.CreatePartEntity(ShipEntity, thruster, false, index);
+            var thrusterEntity = _shipFactory.AddAndCreatePartEntity(ShipEntity, thruster, false, index);
             var thrusterComponent = thrusterEntity.GetComponent<ThrusterComponent>();
             thrusterComponent.ThrustPercentage = 1;
             AddEditorComponentsToPartEntity(thrusterEntity);
@@ -460,7 +448,12 @@ namespace FellSky.Editor
             var drawbounds = new DrawBoundingBoxComponent();
             drawbounds.IsEnabled = false;
             entity.AddComponent(drawbounds);
-            select.SelectedChanged += (s, e) => drawbounds.IsEnabled = select.IsSelected;
+            select.SelectedChanged += (s, e) =>
+            {
+                drawbounds.IsEnabled = select.IsSelected;
+                if (!select.IsSelected)
+                    entity.RemoveComponent<MouseControlledTransformComponent>();
+            };
 
             entity.Refresh();
         }

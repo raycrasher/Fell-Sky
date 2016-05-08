@@ -17,6 +17,7 @@ using FellSky.Services;
 using FellSky.EntityFactories;
 using System.Windows.Media;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 
 namespace FellSky.Editor
 {
@@ -42,7 +43,7 @@ namespace FellSky.Editor
     }
 
     [PropertyChanged.ImplementPropertyChanged]
-    public class ShipEditorViewModel
+    public class ShipEditorViewModel: INotifyPropertyChanged
     {
         private D3D11Host _host;
         public const string CameraTag = "EditorCamera";
@@ -107,6 +108,10 @@ namespace FellSky.Editor
         private KeyboardService _keyboard;
         private System.Windows.Media.Color _selectedColor;
 
+        public string ShipFileFilter = "Ship JSON files(*.json)|*.json|All files(*.*)|*.*";
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
         private List<Action> ActionsNextFrame { get; } = new List<Action>();
 
         internal void Initialize(D3D11Host host)
@@ -117,9 +122,9 @@ namespace FellSky.Editor
 
             Artemis.System.EntitySystem.BlackBoard.SetEntry("GraphicsDevice", _host.GraphicsDevice);
             Artemis.System.EntitySystem.BlackBoard.SetEntry("ServiceProvider", Services);
-           
+
             Environment.CurrentDirectory = Path.GetFullPath(Properties.Settings.Default.DataFolder);
-            
+
             Services.AddService<IGraphicsDeviceService>(host);
             Services.AddService(host.GraphicsDevice);
 
@@ -142,8 +147,8 @@ namespace FellSky.Editor
 
             Artemis.System.EntitySystem.BlackBoard.SetEntry("ContentManager", Content);
 
-            World = new EntityWorld(false,false, false);
-                
+            World = new EntityWorld(false, false, false);
+
             World.SystemManager.SetSystem(new GridRendererSystem(host.GraphicsDevice, CameraTag), Artemis.Manager.GameLoopType.Draw, 1);
             World.SystemManager.SetSystem(new ShipRendererSystem(SpriteBatch, CameraTag), Artemis.Manager.GameLoopType.Draw, 2);
             World.SystemManager.SetSystem(new BoundingBoxRendererSystem(SpriteBatch, CameraTag), Artemis.Manager.GameLoopType.Draw, 3);
@@ -153,7 +158,7 @@ namespace FellSky.Editor
             _transformSystem = new MouseControlledTransformSystem(_mouse, CameraTag);
             World.SystemManager.SetSystem(_transformSystem, Artemis.Manager.GameLoopType.Update, 2);
             World.SystemManager.SetSystem(new ShipUpdateSystem(), Artemis.Manager.GameLoopType.Update, 3);
-            World.SystemManager.SetSystem(new BoundingBoxSelectionSystem(_mouse, CameraTag), Artemis.Manager.GameLoopType.Update, 4);
+            World.SystemManager.SetSystem(new BoundingBoxSelectionSystem(_mouse, _keyboard, CameraTag), Artemis.Manager.GameLoopType.Update, 4);
 
             World.InitializeAll();
 
@@ -161,20 +166,28 @@ namespace FellSky.Editor
             Services.AddService(new ShipEntityFactory(World, SpriteManager));
             Services.AddService(new CameraEntityFactory(World));
             Services.AddService(new GridEntityFactory(World));
-            
+
 
             CameraEntity = Services.GetService<CameraEntityFactory>().CreateCamera(CameraTag, _host.GraphicsDevice);
             CameraEntity.Tag = CameraTag;
             Camera = CameraEntity.GetComponent<CameraComponent>();
 
-            GridEntity = Services.GetService<GridEntityFactory>().CreateGrid(new Vector2(50,50), GridColor);
+            GridEntity = Services.GetService<GridEntityFactory>().CreateGrid(new Vector2(50, 50), GridColor);
 
             Services.GetService<GenericDrawableFactory>().CreateCircle(Vector2.Zero, 10, 8, XnaColor.Red);
-            
+
             host.PreviewKeyDown += HandleKeyboardInput;
 
             EditorService = new ShipEditorService(_mouse, Services.GetService<ShipEntityFactory>(), World, CameraTag);
             CreateNewShipCommand.Execute(null);
+            EditorService.SelectedPartEntities.CollectionChanged += (o, e) =>
+            {
+                if (e.NewItems != null && e.NewItems.Count > 0) {
+                    var color = e.NewItems.Cast<Entity>().First().Components.OfType<IShipPartComponent>().First().Part.Color;
+                    _selectedColor = System.Windows.Media.Color.FromArgb(color.A, color.R, color.G, color.B);
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedColor)));
+                }
+            };
 
             _mouse.WheelChanged += OnWheelChanged;
         }
@@ -254,7 +267,7 @@ namespace FellSky.Editor
         
         private void OnMouseButtonDown(Microsoft.Xna.Framework.Point pos, int button)
         {
-            ActionsNextFrame.Add(EditorService.ClearSelection);
+            //ActionsNextFrame.Add(EditorService.ClearSelection);
             if (button == 2) _transformSystem.CancelTransform();
             else if (button == 0) _transformSystem.ApplyTransform();
         }
@@ -344,11 +357,15 @@ namespace FellSky.Editor
         public ICommand SaveShipCommand => new DelegateCommand(o => {
             ActionsNextFrame.Add(() =>
             {
+                var startDir = Path.Combine(Content.RootDirectory, "Ships");
+                if (!Directory.Exists(startDir)) startDir = Content.RootDirectory;
+
                 var dialog = new Microsoft.Win32.SaveFileDialog
                 {
-                    InitialDirectory = Content.RootDirectory,
+                    InitialDirectory = startDir,
                     AddExtension = true,
-                    DefaultExt = ".ship.json"
+                    Filter = ShipFileFilter,
+                    DefaultExt = ".json"
                 };
                 if (dialog.ShowDialog() == true)
                     EditorService.SaveShip(dialog.FileName);
@@ -357,10 +374,14 @@ namespace FellSky.Editor
         public ICommand LoadShipCommand => new DelegateCommand(o => {
             ActionsNextFrame.Add(() =>
             {
+                var startDir = Path.Combine(Content.RootDirectory, "Ships");
+                if (!Directory.Exists(startDir)) startDir = Content.RootDirectory;
+
                 var dialog = new Microsoft.Win32.OpenFileDialog
                 {
-                    InitialDirectory = Content.RootDirectory,
+                    InitialDirectory = startDir,
                     AddExtension = true,
+                    Filter = ShipFileFilter,
                     DefaultExt = ".ship.json"
                 };
                 if (dialog.ShowDialog() == true)

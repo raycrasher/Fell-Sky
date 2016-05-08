@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 using FellSky.Services;
 using FellSky.Components;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace FellSky.Systems
 {
@@ -18,6 +19,9 @@ namespace FellSky.Systems
         private GenericDrawableComponent _marqueeBoxDrawable;
         private bool _isMouseDown;
         private Vector2 _marqueeBoxStart;
+        private Vector2? _lastClickPosition;
+        private int _clickCycleIndex;
+        private IKeyboardService _keyboard;
 
         public ObservableCollection<Entity> SelectedEntities { get; } = new ObservableCollection<Entity>();
 
@@ -26,11 +30,13 @@ namespace FellSky.Systems
         public Color MarqueeBoxColor { get; set; } = Color.LightGray;
         public float MarqueeBoxThickness { get; set; } = 1;
         public string CameraTag { get; set; }
+        public Microsoft.Xna.Framework.Input.Keys MultiSelectKey { get; set; } = Microsoft.Xna.Framework.Input.Keys.LeftShift;
 
-        public BoundingBoxSelectionSystem(IMouseService mouse, string cameraTag)
+        public BoundingBoxSelectionSystem(IMouseService mouse, IKeyboardService keyboard, string cameraTag)
             : base(Aspect.All(typeof(Transform), typeof(BoundingBoxSelectorComponent)))
         {
             _mouse = mouse;
+            _keyboard = keyboard;
             CameraTag = cameraTag;
         }
 
@@ -104,41 +110,66 @@ namespace FellSky.Systems
                     );
                 _marqueeBoxEntity.Delete();
                 _isMarqueeActive = false;
-                
 
-                foreach (var entity in entities.Values)
+                var manifold = new FarseerPhysics.Collision.Manifold();
+
+                var newSelectedEntities = entities.Values.Where(e =>
                 {
-                    var select = entity.GetComponent<BoundingBoxSelectorComponent>();
-                    var box = entity.GetComponent<BoundingBoxComponent>();
-                    var xform = entity.GetComponent<Transform>();
-                    var matrix = Matrix.Invert(camera.GetViewMatrix(select.Parallax)) * Matrix.Invert(entity.GetWorldMatrix());
+                    var select = e.GetComponent<BoundingBoxSelectorComponent>();
+                    var box = e.GetComponent<BoundingBoxComponent>();
+                    var xform = e.GetComponent<Transform>();
+                    var matrix = Matrix.Invert(camera.GetViewMatrix(select.Parallax)) * Matrix.Invert(e.GetWorldMatrix());
 
                     // perform polygon test with oriented bounding boxes
                     var itemShape = new FarseerPhysics.Collision.Shapes.PolygonShape(FarseerPhysics.Common.PolygonTools.CreateRectangle(
-                        (box.Box.Width/2) * xform.Scale.X,
-                        (box.Box.Height/2) * xform.Scale.Y
+                        (box.Box.Width / 2) * xform.Scale.X,
+                        (box.Box.Height / 2) * xform.Scale.Y
                         ), 1);
-
-                    var manifold = new FarseerPhysics.Collision.Manifold();
                     var itemCenter = xform.Position;
                     var itemRot = new FarseerPhysics.Common.Rot(xform.Rotation);
                     var itemXForm = new FarseerPhysics.Common.Transform(ref itemCenter, ref itemRot);
 
                     FarseerPhysics.Collision.Collision.CollidePolygons(ref manifold, marqueeShape, ref marqueeXForm, itemShape, ref itemXForm);
-                    if (manifold.PointCount > 0)
+                    return manifold.PointCount > 0;
+                }).ToArray();
+
+                if (newSelectedEntities.Any()) {
+
+                    foreach(var e in SelectedEntities)
+                        e.GetComponent<BoundingBoxSelectorComponent>().IsSelected = false; ;
+
+                    if (clickMode)
                     {
-                        select.IsSelected = true;
-                        SelectedEntities.Add(entity);
-                        if (clickMode)
+                        if (_lastClickPosition != null && Vector2.Distance(_lastClickPosition.Value, mousePos) < 1)
                         {
-                            return;
+                            _clickCycleIndex++;
+                            if (_clickCycleIndex >= newSelectedEntities.Length)
+                                _clickCycleIndex = 0;
                         }
+                        else
+                            _clickCycleIndex = 0;
+
+                        if (!_keyboard.IsKeyDown(MultiSelectKey))
+                            SelectedEntities.Clear();
+                        
+                        SelectedEntities.Add(newSelectedEntities[_clickCycleIndex]);
+                        _lastClickPosition = mousePos;
                     }
                     else
                     {
-                        select.IsSelected = false;
-                        SelectedEntities.Remove(entity);
+                        if (!_keyboard.IsKeyDown(MultiSelectKey)) {
+                            SelectedEntities.Clear();
+                        }
+                        SelectedEntities.AddRange(newSelectedEntities);
                     }
+
+                    foreach (var e in SelectedEntities)
+                        e.GetComponent<BoundingBoxSelectorComponent>().IsSelected = true;
+                } else
+                {
+                    foreach (var e in SelectedEntities)
+                        e.GetComponent<BoundingBoxSelectorComponent>().IsSelected = false;
+                    SelectedEntities.Clear();
                 }
             }
         }

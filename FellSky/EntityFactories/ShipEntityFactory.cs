@@ -47,17 +47,23 @@ namespace FellSky.EntityFactories
             }
         }
 
+        public Entity AddAndCreatePartEntity(Entity ship, ShipPart part, bool addPhysics, int index = -1)
+        {
+            var e = CreatePartEntity(ship, part, addPhysics, index);
+            var shipComponent = ship.GetComponent<ShipComponent>();
+            if (index < 0)
+                shipComponent.Ship.Parts.Add(part);
+            else
+                shipComponent.Ship.Parts.Insert(index, part);
+            return e;
+        }
+
         public Entity CreatePartEntity(Entity ship, ShipPart part, bool addPhysics = false, int index = -1)
         {
             Entity e;
             if (part is Hull) e = CreateHullEntity(ship, (Hull)part, addPhysics, index);
             else if (part is Thruster) e = CreatePartEntity(ship, new ThrusterComponent((Thruster)part, ship), index);
             else throw new NotImplementedException();
-            var shipComponent = ship.GetComponent<ShipComponent>();
-            if (index < 0)
-                shipComponent.Ship.Parts.Add(part);
-            else
-                shipComponent.Ship.Parts.Insert(index, part);
             return e;
         }
         
