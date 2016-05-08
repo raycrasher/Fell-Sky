@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace FellSky.Systems
 {
-    public class CameraUiDraggingSystem: Artemis.System.TagSystem
+    public class CameraControlSystem: Artemis.System.TagSystem
     {
         private IMouseService _mouse;
         private IKeyboardService _keyboard;
@@ -23,9 +23,12 @@ namespace FellSky.Systems
         private float _currentZoom = 1;
         private float _zoomLerpTime=1;
 
+        public float MinZoom { get; set; } = 0;
+        public float MaxZoom { get; set; } = 3;
+
         //private ITimerService _timer;
 
-        public CameraUiDraggingSystem(string cameraTag, IMouseService mouse, IKeyboardService keyboard)
+        public CameraControlSystem(string cameraTag, IMouseService mouse, IKeyboardService keyboard)
             : base(cameraTag)
         {
             _mouse = mouse;
@@ -54,7 +57,7 @@ namespace FellSky.Systems
             if (delta < 0) _targetZoom -= 0.1f;
             else if (delta > 0) _targetZoom += 1.1f;
             _zoomLerpTime = 0;
-            _targetZoom = MathHelper.Clamp(_targetZoom, 0.8f, 3f);
+            _targetZoom = MathHelper.Clamp(_targetZoom, MinZoom, MaxZoom);
         }
 
         private void OnButtonUp(Point pos, int button)

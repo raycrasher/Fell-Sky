@@ -257,9 +257,9 @@
                             Foreground="{Binding ElementName=hullColorBtn, Path=Background, Converter={StaticResource contrastingColorConverter}}" 
                             CommandParameter="{x:Static fe:ColorPaletteSelection.Trim}">TRIM</Button>
                         <UniformGrid Columns="3">
-                            <Button FontSize="10" Padding="0">+</Button>
-                            <Button FontSize="6">Exp</Button>
-                            <Button FontSize="6">Imp</Button>
+                            <Button FontSize="10" Padding="0" Focusable="False">+</Button>
+                            <Button FontSize="6" Focusable="False">Exp</Button>
+                            <Button FontSize="6" Focusable="False">Imp</Button>
                         </UniformGrid>
                         <ListView Height="158" ItemsSource="{Binding ColorPalette}" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectedItem="{Binding SelectedColor, Converter={StaticResource XnaColorToWindowsColorConverter}}" diag:PresentationTraceSources.TraceLevel="High">
                             <ListView.Resources>

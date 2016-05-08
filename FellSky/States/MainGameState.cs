@@ -49,7 +49,7 @@ namespace FellSky.States
             World.SystemManager.SetSystem(new GenericDrawableRendererSystem(_services.GetService<SpriteBatch>(), _services.GetService<GraphicsDevice>(), CameraTag), Artemis.Manager.GameLoopType.Draw, depth++);
 
             int priority = 1;
-            World.SystemManager.SetSystem(new CameraUiDraggingSystem(CameraTag, _services.GetService<IMouseService>(), _services.GetService<IKeyboardService>()), Artemis.Manager.GameLoopType.Update, priority++);
+            World.SystemManager.SetSystem(new CameraControlSystem(CameraTag, _services.GetService<IMouseService>(), _services.GetService<IKeyboardService>()), Artemis.Manager.GameLoopType.Update, priority++);
             World.SystemManager.SetSystem(new MouseControlledTransformSystem(_services.GetService<IMouseService>(), CameraTag), Artemis.Manager.GameLoopType.Update, priority++);
             World.SystemManager.SetSystem(new ShipUpdateSystem(), Artemis.Manager.GameLoopType.Update, priority++);
             World.SystemManager.SetSystem(new BoundingBoxSelectionSystem(_services.GetService<IMouseService>(), CameraTag), Artemis.Manager.GameLoopType.Update, priority++);

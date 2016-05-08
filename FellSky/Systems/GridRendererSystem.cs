@@ -61,7 +61,7 @@ namespace FellSky.Systems
             
             for (float y = (float)Math.Round(rect.Top / grid.GridSize.Y, MidpointRounding.AwayFromZero) * grid.GridSize.Y; y < rect.Bottom; y += grid.GridSize.Y)
             {
-                if (index > _vertices.Length)
+                if (index > _vertices.Length - 1)
                     Array.Resize(ref _vertices, (int)(_vertices.Length * 1.5));
                 _vertices[index++] = new Vertex { Position = new Vector2(rect.Left, y), Color = grid.GridColor };
                 _vertices[index++] = new Vertex { Position = new Vector2(rect.Right, y), Color = grid.GridColor };

@@ -61,8 +61,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\Artemis.dll</HintPath>
     </Reference>
-    <Reference Include="FarseerPhysics">
-      <HintPath>..\Dependencies\FarseerPhysics.dll</HintPath>
+    <Reference Include="FarseerPhysics MonoGame">
+      <HintPath>..\Dependencies\FarseerPhysics MonoGame.dll</HintPath>
     </Reference>
     <Reference Include="LibRocketNet, Version=1.0.5778.34369, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
@@ -271,7 +271,7 @@
     <Compile Include="Systems\BoundingBoxRendererSystem.cs" />
     <Compile Include="Systems\BoundingBoxSelectionSystem.cs" />
     <Compile Include="Systems\BulletSystem.cs" />
-    <Compile Include="Systems\CameraUiDraggingSystem.cs" />
+    <Compile Include="Systems\CameraControlSystem.cs" />
     <Compile Include="Systems\DiplomacySystem.cs" />
     <Compile Include="Systems\MouseControlledTransformSystemStates\IMouseControlledTransformSystemState.cs" />
     <Compile Include="Systems\MouseControlledTransformSystemStates\RotateCentroidState.cs" />
