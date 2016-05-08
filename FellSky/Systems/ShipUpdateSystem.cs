@@ -26,9 +26,9 @@ namespace FellSky.Systems
             var shipComponent = entity.GetComponent<ShipComponent>();
             if (shipComponent != null)
             {
-                foreach (var child in shipComponent.ChildEntities)
+                foreach (var child in shipComponent.PartEntities)
                 {
-                    child.Delete();
+                    child.Entity.Delete();
                 }
             }
 

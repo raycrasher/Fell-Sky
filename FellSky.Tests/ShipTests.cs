@@ -16,7 +16,7 @@ namespace FellSky.Tests
             group.Thrusters.AddRange(new[] { new Thruster(), new Thruster(), new Thruster() });
             return group;
         }
-
+        /*
         [TestMethod]
         public void ShipInstallsPartGroupCorrectly()
         {
@@ -41,5 +41,6 @@ namespace FellSky.Tests
             Assert.IsTrue(ship.Hulls.Intersect(group.Hulls).Count() == 0);
             Assert.IsFalse(ship.Groups.Contains(group));
         }
+        */
     }
 }

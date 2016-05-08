@@ -146,6 +146,7 @@
     <Compile Include="Game\Combat\Weapons\MissileLauncher.cs" />
     <Compile Include="Game\Combat\Weapons\PulseLaser.cs" />
     <Compile Include="Game\Combat\Weapons\Railgun.cs" />
+    <Compile Include="Game\Ships\PartEntityPair.cs" />
     <Compile Include="Game\Space\Outpost.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>

@@ -7,6 +7,8 @@ using Microsoft.Xna.Framework;
 using FellSky.Systems;
 using System;
 using Artemis.Interface;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace FellSky.EntityFactories
 {
@@ -21,6 +23,40 @@ namespace FellSky.EntityFactories
             _spriteManager = spriteManager;
             World = world;
         }
+        /*
+        public Entity CreateShipEntity(string name, Vector2 position, float rotation = 0, bool addPhysics = true)
+        {
+
+        }
+        */
+
+        public void UpdateShipComponentPartList(Entity ship, bool addPhysics=false)
+        {
+            var component = ship.GetComponent<ShipComponent>();
+            var entityLookup = component.PartEntities.ToDictionary(k => k.Part);
+            component.PartEntities.Clear();
+
+            foreach (var part in component.Ship.Parts)
+            {
+                PartEntityPair pe;
+                if (entityLookup.TryGetValue(part, out pe))
+                    if(pe.Entity.IsActive && pe.Entity.IsEnabled)
+                        component.PartEntities.Add(pe);
+                else
+                    CreatePartEntity(ship, part, addPhysics);
+            }
+        }
+
+        public Entity CreatePartEntity(Entity ship, ShipPart part, bool addPhysics = false, int index = -1)
+        {
+            Entity e;
+            if (part is Hull) e = CreateHullEntity(ship, (Hull)part, addPhysics);
+            else if (part is Thruster) e = CreatePartEntity(ship, new ThrusterComponent((Thruster)part, ship));
+            else throw new NotImplementedException();
+            var shipComponent = ship.GetComponent<ShipComponent>();
+            shipComponent.Ship.Parts.Add(part);
+            return e;
+        }
         
         public Entity CreateShipEntity(Ship ship, Vector2 position, float rotation=0, bool addPhysics=false)
         {
@@ -34,26 +70,10 @@ namespace FellSky.EntityFactories
                 shipEntity.AddComponent(physics.CreateRigidBody(position, rotation));
             }
 
-            foreach(var hull in ship.Hulls)
-            {
-                CreateHullEntityInternal(shipEntity, hull, addPhysics);
-            }
+            foreach(var part in ship.Parts)
+                CreatePartEntity(shipEntity, part, addPhysics);            
 
             return shipEntity;
-        }
-
-        public Entity CreateHullEntity(Entity ship, Hull hull, bool addPhysics = false)
-        {
-            var entity = CreateHullEntityInternal(ship, hull, addPhysics);
-            ship?.GetComponent<ShipComponent>().Ship.Hulls.Add(hull);
-            return entity;
-        }
-
-        public Entity CreateThrusterEntity(Entity ship, Thruster thruster)
-        {
-            var entity = CreatePartEntity(ship, new ThrusterComponent(thruster, ship));
-            ship?.GetComponent<ShipComponent>().ThrusterEntities.Add(entity);
-            return entity;
         }
 
         private Entity CreatePartEntity<TComponent>(Entity ship, TComponent component)
@@ -64,16 +84,19 @@ namespace FellSky.EntityFactories
             entity.AddComponent(component);
             entity.AddComponent(new LocalTransformComponent(ship));
             entity.AddComponent(part.Transform);
-            var spriteComponent = _spriteManager.CreateSpriteComponent(part.SpriteId);
-            entity.AddComponent(spriteComponent);
-            entity.AddComponent(new BoundingBoxComponent(new FloatRect(0, 0, spriteComponent.TextureRect.Width, spriteComponent.TextureRect.Height)));
+            if (!string.IsNullOrEmpty(part.SpriteId))
+            {
+                var spriteComponent = _spriteManager.CreateSpriteComponent(part.SpriteId);
+                entity.AddComponent(spriteComponent);
+                entity.AddComponent(new BoundingBoxComponent(new FloatRect(0, 0, spriteComponent.TextureRect.Width, spriteComponent.TextureRect.Height)));
+            }
             return entity;
         }
 
-        private Entity CreateHullEntityInternal(Entity ship, Hull hull, bool addPhysics)
+        private Entity CreateHullEntity(Entity ship, Hull hull, bool addPhysics)
         {
             var entity = CreatePartEntity(ship, new HullComponent(hull, ship));
-            ship?.GetComponent<ShipComponent>().HullEntities.Add(entity);
+            ship?.GetComponent<ShipComponent>().PartEntities.Add(new PartEntityPair(hull,entity));
             if (addPhysics)
             {
                 var physics = World.SystemManager.GetSystem<PhysicsSystem>();

@@ -30,7 +30,7 @@ namespace FellSky.Components
 
         public Matrix GetViewMatrix(float parallax)
         {
-            float scaleFactor = 1 / (1 + parallax + Zoom) * 2;
+            float scaleFactor = 1 / (parallax + Zoom) * 2;
 
             // To add parallax, simply multiply it by the position
             return Matrix.CreateTranslation(new Vector3(-(Transform.Position * parallax), 0.0f)) *

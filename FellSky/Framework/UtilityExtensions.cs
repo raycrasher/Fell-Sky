@@ -97,5 +97,13 @@ namespace FellSky
         {
             return min + ((float)rng.NextDouble() * (max - min));
         }
+
+        public static void Move<T>(this IList<T> list, int oldIndex, int newIndex)
+        {
+            var item = list[oldIndex];
+            list.RemoveAt(oldIndex);
+            list.Insert(newIndex, item);
+
+        }
     }
 }

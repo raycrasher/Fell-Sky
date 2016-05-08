@@ -6,31 +6,20 @@ using System.Collections.Generic;
 using System;
 using System.Linq;
 using Microsoft.Xna.Framework;
+using FellSky.Services;
 
 namespace FellSky.Components
 {
+
+
     public class ShipComponent: IComponent
     {
-
         /// <summary>
         /// The Ship data model.
         /// </summary>
         public Ship Ship { get; set; }
 
-        /// <summary>
-        /// Hull entities.
-        /// </summary>
-        public List<Entity> HullEntities { get; set; } = new List<Entity>();
-
-        /// <summary>
-        /// Thruster entities.
-        /// </summary>
-        public List<Entity> ThrusterEntities { get; set; } = new List<Entity>();
-
-        /// <summary>
-        /// Child entities (parts, thrusters, etc.) This is a readonly IEnumerable.
-        /// </summary>
-        public IEnumerable<Entity> ChildEntities => HullEntities.Concat(ThrusterEntities);
+        public List<PartEntityPair> PartEntities { get; set; } = new List<PartEntityPair>();
 
         /// <summary>
         /// The angular thrust vector. Negative for CCW, positive for CW. Zero for no torque. 
@@ -61,32 +50,6 @@ namespace FellSky.Components
             Ship = ship;
         }
 
-        public void RemovePart(Entity e)
-        {
-            var part = e.Components.OfType<IShipPartComponent>().First().Part;
-            IList<Entity> list =
-                part is Hull ? HullEntities :
-                part is Thruster ? ThrusterEntities :
-                null;
-            Ship.RemovePart(part);
-            list.Remove(e);
-            e.Delete();
-        }
-
-        public void RemovePart<T>(T part)
-            where T: ShipPart
-        {
-            IList<Entity> list =
-                part is Hull ? HullEntities :
-                part is Thruster ? ThrusterEntities :
-                null;
-
-            if (list == null) throw new InvalidOperationException("Part type is invalid");
-
-            var entity = list.First(s => s.Components.OfType<ShipPartComponent<T>>().First().Part == part);
-            Ship.RemovePart(part);
-            list.Remove(entity);
-            entity.Delete();
-        }
+        
     }
 }
