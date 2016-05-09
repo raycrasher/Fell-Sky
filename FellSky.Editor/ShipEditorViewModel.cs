@@ -164,8 +164,6 @@ namespace FellSky.Editor
 
             World.InitializeAll();
 
-            Services.AddService(new GenericDrawableFactory(World));
-            Services.AddService(new ShipEntityFactory(World, SpriteManager));
             Services.AddService(new CameraEntityFactory(World));
             Services.AddService(new GridEntityFactory(World));
 
@@ -176,11 +174,11 @@ namespace FellSky.Editor
 
             GridEntity = Services.GetService<GridEntityFactory>().CreateGrid(new Vector2(50, 50), GridColor);
 
-            Services.GetService<GenericDrawableFactory>().CreateCircle(Vector2.Zero, 10, 8, XnaColor.Red);
+            GenericDrawableFactory.CreateCircle(World, Vector2.Zero, 10, 8, XnaColor.Red);
 
             host.PreviewKeyDown += HandleKeyboardInput;
 
-            EditorService = new ShipEditorService(_mouse, Services.GetService<ShipEntityFactory>(), World, CameraTag);
+            EditorService = new ShipEditorService(_mouse, World, CameraTag);
             CreateNewShipCommand.Execute(null);
             EditorService.SelectedPartEntities.CollectionChanged += (o, e) =>
             {

@@ -6,25 +6,18 @@ using FellSky.Framework;
 
 namespace FellSky.EntityFactories
 {
-    public class GenericDrawableFactory
+    public static class GenericDrawableFactory
     {
-        public GenericDrawableFactory(EntityWorld world)
+        public static Entity CreateCircle(this EntityWorld world, Vector2 center, float radius, int sides, Color color)
         {
-            World = world;
-        }
-
-        public EntityWorld World { get; private set; }
-
-        public Entity CreateCircle(Vector2 center, float radius, int sides, Color color)
-        {
-            var entity = World.CreateEntity();
+            var entity = world.CreateEntity();
             entity.AddComponent(new GenericDrawableComponent((a, b, e) => b.DrawCircle(center, radius, sides, color)));
             return entity;
         }
 
-        public Entity CreateLine(Vector2 point, float length, int angle, Color color)
+        public static Entity CreateLine(this EntityWorld world, Vector2 point, float length, int angle, Color color)
         {
-            var entity = World.CreateEntity();
+            var entity = world.CreateEntity();
             entity.AddComponent(new GenericDrawableComponent((a, b, e) => b.DrawLine(point, length, angle, color)));
             return entity;
         }

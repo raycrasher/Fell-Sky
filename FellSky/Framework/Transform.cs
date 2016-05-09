@@ -113,12 +113,17 @@ namespace FellSky
             Origin = xform.Origin;
         }
 
-        public Transform(Vector2 position, int rotation, Vector2 scale)
+        public Transform(Vector2 position, float rotation, Vector2 scale)
         {
             Position = position;
             Rotation = rotation;
             Scale = scale;
             Origin = Vector2.Zero;
+        }
+
+        public Transform(Vector2 position, float rotation, Vector2 scale, Vector2 origin) : this(position, rotation, scale)
+        {
+            Origin = origin;
         }
 
         public Transform Clone()

@@ -24,7 +24,7 @@ namespace FellSky.Components
         /// <summary>
         /// The angular thrust vector. Negative for CCW, positive for CW. Zero for no torque. 
         /// </summary>
-        public float AngularThrustVector { get; set; }
+        public float AngularTorque { get; set; }
 
         /// <summary>
         /// The linear thrust vector, in world space. Thrust percentage is given by length (-1 ~ 0 ~ 1)

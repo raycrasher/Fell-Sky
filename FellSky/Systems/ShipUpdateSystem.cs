@@ -38,6 +38,12 @@ namespace FellSky.Systems
         public override void Process(Entity entity)
         {
             var shipComponent = entity.GetComponent<ShipComponent>();
+            if (entity.HasComponent<RigidBodyComponent>())
+            {
+                var rigidBody = entity.GetComponent<RigidBodyComponent>();
+                rigidBody.Body.ApplyForce(shipComponent.LinearThrustVector);
+                rigidBody.Body.ApplyTorque(shipComponent.AngularTorque);
+            }
         }
 
         private void UpdateThrusters(Entity ship, IList<Entity> thrusterEntities)
@@ -46,7 +52,7 @@ namespace FellSky.Systems
             var thrusters = thrusterEntities.Select(t => t.GetComponent<ThrusterComponent>());
             var xform = ship.GetComponent<Transform>();
 
-            bool isShipTurning = Math.Abs(shipComponent.AngularThrustVector) <= float.Epsilon;
+            bool isShipTurning = Math.Abs(shipComponent.AngularTorque) <= float.Epsilon;
 
 
             foreach(var thruster in thrusters)

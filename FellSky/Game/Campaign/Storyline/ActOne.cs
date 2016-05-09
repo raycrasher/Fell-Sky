@@ -5,11 +5,17 @@ using FellSky.Services;
 using Stateless;
 using FellSky.Framework;
 using System.Collections;
+using FellSky.Game.Ships;
+using Microsoft.Xna.Framework;
+using FellSky.EntityFactories;
 
 namespace FellSky.Game.Campaign.Storyline
 {
     public class ActOne : IStoryAct
     {
+        private Ship _playerShip;
+        private Entity _playerEntity;
+
         public static class Triggers
         {
             public const string Start = "Start";
@@ -51,6 +57,13 @@ namespace FellSky.Game.Campaign.Storyline
             entity.FadeGuiElement(TimeSpan.FromSeconds(1.5), 0)
                 .OnDone = () => entity.Delete();
             yield return Coroutine.WaitFor(TimeSpan.FromSeconds(2));
+
+            _playerShip = Game.Ships.Ship.LoadFromJsonFile("Ships/Jaeger.json");
+            _playerEntity = ShipEntityFactory.CreateShipEntity(world, _playerShip, Vector2.Zero, MathHelper.Pi * 1.5f, true);
+            _playerEntity.AddComponent(new Components.PlayerControlsComponent());
+            _playerEntity.Tag = "PlayerShip";
+            _playerEntity.Refresh();
+
             story.State.Fire(Story.Triggers.NextScene);
 
         }

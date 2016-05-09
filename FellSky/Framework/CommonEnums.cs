@@ -8,7 +8,7 @@ namespace FellSky
 {
     public enum AngularDirection
     {
-        None = 0, CW = -1, CCW = 1,
+        None = 0, CW = 1, CCW = -1,
     }
 
     public enum Axis

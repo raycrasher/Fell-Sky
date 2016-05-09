@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Graphics;
 using FellSky.Services;
 using FellSky.EntityFactories;
 using FellSky.Components;
+using FellSky.Game.Ships;
 
 namespace FellSky.States
 {
@@ -50,12 +51,15 @@ namespace FellSky.States
 
             int priority = 1;
             World.SystemManager.SetSystem(new CameraControlSystem(CameraTag, _services.GetService<IMouseService>(), _services.GetService<IKeyboardService>()), Artemis.Manager.GameLoopType.Update, priority++);
+            World.SystemManager.SetSystem(new RigidBodyToTransformSystem(), Artemis.Manager.GameLoopType.Update, priority++);
             World.SystemManager.SetSystem(new MouseControlledTransformSystem(_services.GetService<IMouseService>(), CameraTag), Artemis.Manager.GameLoopType.Update, priority++);
-            World.SystemManager.SetSystem(new ShipUpdateSystem(), Artemis.Manager.GameLoopType.Update, priority++);
             World.SystemManager.SetSystem(new BoundingBoxSelectionSystem(_services.GetService<IMouseService>(), _services.GetService<IKeyboardService>(), CameraTag), Artemis.Manager.GameLoopType.Update, priority++);
             World.SystemManager.SetSystem(new GuiSystem(_services.GetService<IGuiService>()), Artemis.Manager.GameLoopType.Update, priority++);
             World.SystemManager.SetSystem(new CoroutineSystem(_services.GetService<ITimerService>()), Artemis.Manager.GameLoopType.Update, priority++);
+            World.SystemManager.SetSystem(new PlayerShipControlSystem(CameraTag, _services.GetService<IKeyboardService>(), _services.GetService<IMouseService>()), Artemis.Manager.GameLoopType.Update, priority++);
+            World.SystemManager.SetSystem(new ShipUpdateSystem(), Artemis.Manager.GameLoopType.Update, priority++);
             World.SystemManager.SetSystem(new StorySystem(), Artemis.Manager.GameLoopType.Update, priority++);
+            World.SystemManager.SetSystem(new PhysicsSystem(_services.GetService<ITimerService>(), _services.GetService<IShapeManagerService>()), Artemis.Manager.GameLoopType.Update, priority++);
 
             CameraFactory = new EntityFactories.CameraEntityFactory(World);
             Camera = CameraFactory.CreateCamera(CameraTag, _services.GetService<GraphicsDevice>());
@@ -91,6 +95,7 @@ namespace FellSky.States
             entity.Refresh();
 
             World.InitializeAll();
+
         }
 
         public override void Update(GameTime gameTime)

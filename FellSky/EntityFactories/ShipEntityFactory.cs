@@ -12,25 +12,12 @@ using System.Collections.Generic;
 
 namespace FellSky.EntityFactories
 {
-    public class ShipEntityFactory
+    public static class ShipEntityFactory
     {
-        private ISpriteManagerService _spriteManager;
+        private static ISpriteManagerService SpriteManager => ServiceLocator.Instance.GetService<ISpriteManagerService>();
 
-        public EntityWorld World { get; set; }
 
-        public ShipEntityFactory(EntityWorld world, ISpriteManagerService spriteManager)
-        {
-            _spriteManager = spriteManager;
-            World = world;
-        }
-        /*
-        public Entity CreateShipEntity(string name, Vector2 position, float rotation = 0, bool addPhysics = true)
-        {
-
-        }
-        */
-
-        public void UpdateShipComponentPartList(Entity ship, bool addPhysics=false)
+        public static void UpdateShipComponentPartList(EntityWorld world, Entity ship, bool addPhysics=false)
         {
             var component = ship.GetComponent<ShipComponent>();
             var entityLookup = component.PartEntities.ToDictionary(k => k.Part);
@@ -43,13 +30,13 @@ namespace FellSky.EntityFactories
                     if(pe.Entity.IsActive && pe.Entity.IsEnabled)
                         component.PartEntities.Add(pe);
                 else
-                    CreatePartEntity(ship, part, addPhysics);
+                    CreatePartEntity(world, ship, part, addPhysics);
             }
         }
 
-        public Entity AddAndCreatePartEntity(Entity ship, ShipPart part, bool addPhysics, int index = -1)
+        public static Entity AddAndCreatePartEntity(EntityWorld world, Entity ship, ShipPart part, bool addPhysics, int index = -1)
         {
-            var e = CreatePartEntity(ship, part, addPhysics, index);
+            var e = CreatePartEntity(world, ship, part, addPhysics, index);
             var shipComponent = ship.GetComponent<ShipComponent>();
             if (index < 0)
                 shipComponent.Ship.Parts.Add(part);
@@ -58,38 +45,42 @@ namespace FellSky.EntityFactories
             return e;
         }
 
-        public Entity CreatePartEntity(Entity ship, ShipPart part, bool addPhysics = false, int index = -1)
+        public static Entity CreatePartEntity(EntityWorld world, Entity ship, ShipPart part, bool addPhysics = false, int index = -1)
         {
             Entity e;
-            if (part is Hull) e = CreateHullEntity(ship, (Hull)part, addPhysics, index);
-            else if (part is Thruster) e = CreatePartEntity(ship, new ThrusterComponent((Thruster)part, ship), index);
+            if (part is Hull) e = CreateHullEntity(world, ship, (Hull)part, addPhysics, index);
+            else if (part is Thruster) e = CreatePartEntity(world, ship, new ThrusterComponent((Thruster)part, ship), index);
             else throw new NotImplementedException();
             return e;
         }
         
-        public Entity CreateShipEntity(Ship ship, Vector2 position, float rotation=0, bool addPhysics=false)
+        public static Entity CreateShipEntity(EntityWorld world, Ship ship, Vector2 position, float rotation=0, bool addPhysics=false)
         {
-            var shipEntity = World.CreateEntity();
+            var shipEntity = world.CreateEntity();
             shipEntity.AddComponent(new ShipComponent(ship));
             shipEntity.AddComponent(new Transform());
 
             if (addPhysics)
             {
-                var physics = World.SystemManager.GetSystem<PhysicsSystem>();
+                var physics = world.SystemManager.GetSystem<PhysicsSystem>();
                 shipEntity.AddComponent(physics.CreateRigidBody(position, rotation));
+                var rigidBody = shipEntity.GetComponent<RigidBodyComponent>();
+                rigidBody.Body.IsStatic = false;
+                rigidBody.Body.Friction = 1;
+                rigidBody.Body.AngularDamping = 1;
             }
 
             foreach(var part in ship.Parts)
-                CreatePartEntity(shipEntity, part, addPhysics);            
+                CreatePartEntity(world, shipEntity, part, addPhysics);            
 
             return shipEntity;
         }
 
-        private Entity CreatePartEntity<TComponent>(Entity ship, TComponent component, int index = -1)
+        private static Entity CreatePartEntity<TComponent>(EntityWorld world, Entity ship, TComponent component, int index = -1)
             where TComponent: IShipPartComponent, IComponent
         {
             var part = component.Part;
-            var entity = World.CreateEntity();
+            var entity = world.CreateEntity();
             entity.AddComponent(component);
             entity.AddComponent(new LocalTransformComponent(ship));
             entity.AddComponent(part.Transform);
@@ -101,25 +92,25 @@ namespace FellSky.EntityFactories
 
             if (!string.IsNullOrEmpty(part.SpriteId))
             {
-                var spriteComponent = _spriteManager.CreateSpriteComponent(part.SpriteId);
+                var spriteComponent = SpriteManager.CreateSpriteComponent(part.SpriteId);
                 entity.AddComponent(spriteComponent);
                 entity.AddComponent(new BoundingBoxComponent(new FloatRect(0, 0, spriteComponent.TextureRect.Width, spriteComponent.TextureRect.Height)));
             }
             return entity;
         }
 
-        private Entity CreateHullEntity(Entity ship, Hull hull, bool addPhysics, int index)
+        private static Entity CreateHullEntity(EntityWorld world, Entity ship, Hull hull, bool addPhysics, int index)
         {
-            var entity = CreatePartEntity(ship, new HullComponent(hull, ship), index);
+            var entity = CreatePartEntity(world, ship, new HullComponent(hull, ship), index);
             if (addPhysics)
             {
-                var physics = World.SystemManager.GetSystem<PhysicsSystem>();
+                var physics = world.SystemManager.GetSystem<PhysicsSystem>();
                 RigidBodyComponent body;
                 if (hull.PhysicsBodyIndex == 0)
                     body = ship?.GetComponent<RigidBodyComponent>();
                 else
                     body = ship?.GetComponent<ShipComponent>()?.AdditionalRigidBodyEntities[hull.PhysicsBodyIndex].GetComponent<RigidBodyComponent>();
-                entity.AddComponent(physics.CreateAndAttachFixture(ship.GetComponent<RigidBodyComponent>(), hull.ShapeId, hull.Transform));
+                entity.AddComponent(physics.CreateAndAttachFixture(ship.GetComponent<RigidBodyComponent>(), hull.ShapeId ?? hull.SpriteId, hull.Transform));
             }
             return entity;
         }

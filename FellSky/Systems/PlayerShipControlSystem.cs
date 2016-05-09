@@ -58,7 +58,7 @@ namespace FellSky.Systems
                 if (_keyboard.IsKeyDown(control.LeftKey)) torqueDirection = AngularDirection.CCW;
                 else if (_keyboard.IsKeyDown(control.RightKey)) torqueDirection = AngularDirection.CW;
 
-                shipComponent.AngularThrustVector = (int)torqueDirection * shipComponent.Ship.Handling.AngularTorque;
+                shipComponent.AngularTorque = (int)torqueDirection * shipComponent.Ship.Handling.AngularTorque;
             }
 
             if (control.MouseHeadingControl)

@@ -22,7 +22,7 @@ namespace FellSky.Systems
         private IShapeManagerService _shapeManager;
 
         public World PhysicsWorld { get; set; }
-        public float UnitScale { get; set; }
+        public const float UnitScale = 0.01f;
 
         public PhysicsSystem(ITimerService timer, IShapeManagerService shapeManager)
         {
@@ -34,7 +34,7 @@ namespace FellSky.Systems
 
         public RigidBodyFixtureComponent CreateAndAttachFixture(RigidBodyComponent bodyComponent, string shapeId, Transform transform)
         {
-            var fixtures = _shapeManager.GetShape(shapeId).Attach(transform, bodyComponent.Body);
+            var fixtures = _shapeManager.GetShape(shapeId).Attach(new Transform(transform.Position*UnitScale,transform.Rotation,transform.Scale*UnitScale,transform.Origin*UnitScale), bodyComponent.Body, UnitScale);
             var fixtureComponent = new RigidBodyFixtureComponent
             {
                 Fixtures = fixtures
@@ -46,14 +46,14 @@ namespace FellSky.Systems
         {
             return new RigidBodyComponent
             {
-                Body = FarseerPhysics.Factories.BodyFactory.CreateBody(PhysicsWorld)
+                Body = FarseerPhysics.Factories.BodyFactory.CreateBody(PhysicsWorld, position * UnitScale, rotation)
             };
         }
 
         public override void ProcessSystem()
         {
             PhysicsWorld.Step((float)_timer.DeltaTime.TotalSeconds);
-        }
+        } 
     }
 
 

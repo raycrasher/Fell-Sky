@@ -35,7 +35,7 @@ namespace FellSky.Systems
         {
             if (_camera == null) return;
             _matrix = _camera.GetViewMatrix(1.0f);
-            _spriteBatch.Begin(SpriteSortMode.Deferred, blendState: BlendState.AlphaBlend, transformMatrix: _matrix, samplerState: SamplerState.PointClamp);
+            _spriteBatch.Begin(SpriteSortMode.Deferred, blendState: BlendState.AlphaBlend, transformMatrix: _matrix, samplerState: SamplerState.AnisotropicClamp);
 
             foreach (var entity in entities.Values)
             {
