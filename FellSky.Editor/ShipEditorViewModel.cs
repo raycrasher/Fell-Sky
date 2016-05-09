@@ -18,6 +18,7 @@ using FellSky.EntityFactories;
 using System.Windows.Media;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using FellSky.Editor.Systems;
 
 namespace FellSky.Editor
 {
@@ -159,6 +160,7 @@ namespace FellSky.Editor
             World.SystemManager.SetSystem(_transformSystem, Artemis.Manager.GameLoopType.Update, 2);
             World.SystemManager.SetSystem(new ShipUpdateSystem(), Artemis.Manager.GameLoopType.Update, 3);
             World.SystemManager.SetSystem(new BoundingBoxSelectionSystem(_mouse, _keyboard, CameraTag), Artemis.Manager.GameLoopType.Update, 4);
+            World.SystemManager.SetSystem(new ShowThrusterTrailsOverrideSystem(), Artemis.Manager.GameLoopType.Update, 5);
 
             World.InitializeAll();
 

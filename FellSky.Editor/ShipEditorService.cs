@@ -343,9 +343,9 @@ namespace FellSky.Editor
                                     let part = entity.Components.OfType<IShipPartComponent>().First().Part
                                     select CreatePartEntity(part));
 
-            foreach(var item in SelectedPartEntities.Select(e => e.GetComponent<BoundingBoxSelectorComponent>()))
+            foreach(var entity in SelectedPartEntities)
             {
-                item.IsSelected = true;
+                entity.GetComponent<BoundingBoxSelectorComponent>().IsSelected = true;
             }
             _shipFactory.UpdateShipComponentPartList(ShipEntity, false);
             TranslateParts();
@@ -411,6 +411,7 @@ namespace FellSky.Editor
 
                 var entity = _shipFactory.AddAndCreatePartEntity(ShipEntity, part.Clone(), false, Ship.Parts.IndexOf(part) + 1);
                 AddEditorComponentsToPartEntity(entity);
+
                 var xform = entity.GetComponent<Transform>();
                 xform.Position = position;
                 xform.Scale = scale;

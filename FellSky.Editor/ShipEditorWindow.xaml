@@ -167,6 +167,8 @@
                     <Setter Property="Width" Value="30" />
                 </Style>
             </StackPanel.Resources>
+            <Label>Ship name:</Label>
+            <TextBox Width="100" Text="{Binding EditorService.Ship.HullClass}"/>
             <Button ToolTip="Move (Key: T)">
                 <Path Stroke="Black" 
                       Data="M 8,8 L 0,8 L 3,5 M 0,8 L 3,11 M 8,8 L 16,8 L 13,5 M 16,8 L 13,11 M 8,8 L 8,0 L 5,3 M 8 0 L 11,3 M 8,8 L 8,16 L 5,13 M 8 16 L 11,13"

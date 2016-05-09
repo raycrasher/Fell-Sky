@@ -218,7 +218,7 @@
     <Compile Include="Components\GridComponent.cs" />
     <Compile Include="Components\MouseControlledTransformComponent.cs" />
     <Compile Include="Components\RigidBodyComponent.cs" />
-    <Compile Include="Components\PlayerShipController.cs" />
+    <Compile Include="Components\PlayerControlsComponent.cs" />
     <Compile Include="Framework\SteeringBehaviors\SteeringComponent.cs" />
     <Compile Include="EntityFactories\CameraEntityTemplate.cs" />
     <Compile Include="EntityFactories\GenericDrawableFactory.cs" />

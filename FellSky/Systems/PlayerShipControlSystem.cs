@@ -35,7 +35,7 @@ namespace FellSky.Systems
         {
             var shipComponent = entity.GetComponent<ShipComponent>();
             var xform = entity.GetComponent<Transform>();
-            var control = entity.GetComponent<PlayerShipComponent>();
+            var control = entity.GetComponent<PlayerControlsComponent>();
             Vector2 linearThrustVector = Vector2.Zero;
             float heading = xform.Rotation;
             AngularDirection torqueDirection = AngularDirection.None;

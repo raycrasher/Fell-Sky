@@ -68,8 +68,23 @@ namespace FellSky.Systems
             {
                 var sprite = thrusterEntity.GetComponent<SpriteComponent>();
                 var thruster = thrusterComponent.Part;
+
+                _tmpXform.CopyValuesFrom(thruster.Transform);
+                SpriteEffects fx = SpriteEffects.None;
+                if (_tmpXform.Scale.X < 0)
+                {
+                    fx |= SpriteEffects.FlipHorizontally;
+                    _tmpXform.Scale *= new Vector2(-1, 1);
+
+                }
+                if (_tmpXform.Scale.Y < 0)
+                {
+                    fx |= SpriteEffects.FlipVertically;
+                    _tmpXform.Scale *= new Vector2(1, -1);
+                }
+
                 var color = Color.Lerp(new Color(thruster.Color, 0), thruster.Color, MathHelper.Clamp(thrusterComponent.ThrustPercentage, 0, 1));
-                sprite.Draw(batch: spriteBatch, matrix: thruster.Transform.Matrix * shipMatrix, color: thruster.Color);
+                sprite.Draw(batch: spriteBatch, matrix: _tmpXform.Matrix * shipMatrix, color: thruster.Color, effects: fx);
             }
         }
 

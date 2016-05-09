@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 
 namespace FellSky.Game.Ships
 {
@@ -17,6 +18,7 @@ namespace FellSky.Game.Ships
         public string ShipType { get; set; }
 
         public List<ShipPart> Parts { get; set; } = new List<ShipPart>();
+        [ExpandableObject]
         public ShipHandlingParameters Handling { get; set; } = new ShipHandlingParameters();
 
         public Color BaseDecalColor { get; set; } = Color.White;
