@@ -8,8 +8,9 @@ using System.Threading.Tasks;
 namespace FellSky.Services
 {
     public class ServiceLocator: IServiceProvider
-    {
+    {       
         private GameServiceContainer _services;
+        private Dictionary<Type, Func<object>> _serviceGetters = new Dictionary<Type, Func<object>>();
 
         public static ServiceLocator Instance { get; private set; }
 
@@ -30,15 +31,24 @@ namespace FellSky.Services
 
         public T GetService<T>() where T : class => _services.GetService<T>();
 
-        public void AddService<T>(T service) where T : class => _services.AddService(service);
+        public void RegisterService<T>() 
+            where T : class, new()
+        {
+            _serviceGetters[typeof(T)] = () => new T();
+        }
 
-        public void AddService<TInterface, TInstance>()
-            where TInstance : class, TInterface, new() 
-            => _services.AddService<TInterface>(new TInstance());
+        public void RegisterService<T>(Func<T> getter)
+            where T : class
+        {
+            _serviceGetters[typeof(T)] = getter;
+        }
 
-        public void AddService<TInterface, TInstance>(TInstance instance)
-            where TInstance : class, TInterface 
-            => _services.AddService<TInterface>(instance);
+        public void RegisterService<TInterface, TObject>()
+            where TInterface : class
+            where TObject: class, TInterface, new()
+        {
+            _serviceGetters[typeof(TInterface)] = () => new TObject();
+        }
 
         public void RemoveService<T>() => _services.RemoveService(typeof(T));
         public void RemoveService(Type type) => _services.RemoveService(type);

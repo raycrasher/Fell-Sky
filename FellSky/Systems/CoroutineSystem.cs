@@ -15,10 +15,10 @@ namespace FellSky.Systems
         private ITimerService _timer;
         private Dictionary<Entity, Coroutine> _coroutines = new Dictionary<Entity, Coroutine>();
 
-        public CoroutineSystem(ITimerService timer)
+        public CoroutineSystem()
             : base(Aspect.All(typeof(CoroutineComponent)))
         {
-            _timer = timer;
+            _timer = ServiceLocator.Instance.GetService<ITimerService>();
         }
 
         public override void OnAdded(Entity entity)

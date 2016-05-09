@@ -349,3 +349,9 @@
 /processorParam:TextureFormat=DxtCompressed
 /build:Textures/nebulae/27.png
 
+#begin Fonts/Default.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:TextureFormat=Compressed
+/build:Fonts/Default.spritefont
+

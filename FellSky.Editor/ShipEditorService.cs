@@ -53,7 +53,6 @@ namespace FellSky.Editor
         public Color HullColor { get; set; } = Color.White;
         public Color TrimColor { get; set; } = Color.CornflowerBlue;
         public Color BaseColor { get; set; } = Color.Gold;
-        public string CameraTag { get; set; }
 
         public object PropertyObject { get; set; }
 
@@ -84,9 +83,8 @@ namespace FellSky.Editor
         /// <param name="shipFactory"></param>
         /// <param name="world"></param>
         /// <param name="cameraTag">The tag of the camera entity</param>
-        public ShipEditorService(IMouseService mouse, Artemis.EntityWorld world, string cameraTag)
+        public ShipEditorService(IMouseService mouse, Artemis.EntityWorld world)
         {
-            CameraTag = cameraTag;
             _mouse = mouse;
             _world = world;
             _transformSystem = world.SystemManager.GetSystem<MouseControlledTransformSystem>();
@@ -174,9 +172,9 @@ namespace FellSky.Editor
         {
             ClearSelection();
             //_mouse.ScreenPosition = new Vector2(_mouse.ScreenPosition);
-
+            var camera = _world.TagManager.GetEntity(Constants.ActiveCameraTag).GetComponent<Camera>();
             var entity = AddHullInternal(sprite.Id, 
-                _world.GetCamera(CameraTag).ScreenToCameraSpace(_mouse.ScreenPosition), 
+                camera.ScreenToCameraSpace(_mouse.ScreenPosition), 
                 //Vector2.Zero,
                 0, 
                 Vector2.One, 
@@ -195,9 +193,9 @@ namespace FellSky.Editor
         public void AddThruster(Sprite sprite)
         {
             ClearSelection();
-
+            var camera = _world.TagManager.GetEntity(Constants.ActiveCameraTag).GetComponent<Camera>();
             var entity = AddThrusterInternal(sprite.Id,
-                _world.GetCamera(CameraTag).ScreenToCameraSpace(_mouse.ScreenPosition),
+                camera.ScreenToCameraSpace(_mouse.ScreenPosition),
                 //Vector2.Zero, 
                 0, 
                 Vector2.One,

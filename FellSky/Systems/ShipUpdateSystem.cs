@@ -41,7 +41,7 @@ namespace FellSky.Systems
             if (entity.HasComponent<RigidBodyComponent>())
             {
                 var rigidBody = entity.GetComponent<RigidBodyComponent>();
-                rigidBody.Body.ApplyForce(shipComponent.LinearThrustVector);
+                rigidBody.Body.ApplyForce(rigidBody.Body.GetWorldVector(shipComponent.LinearThrustVector), rigidBody.Body.WorldCenter);
                 rigidBody.Body.ApplyTorque(shipComponent.AngularTorque);
             }
         }

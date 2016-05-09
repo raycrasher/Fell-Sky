@@ -47,7 +47,6 @@ namespace FellSky.Editor
     public class ShipEditorViewModel: INotifyPropertyChanged
     {
         private D3D11Host _host;
-        public const string CameraTag = "EditorCamera";
 
         [PropertyChanged.ImplementPropertyChanged]
         public class SpriteSheet
@@ -56,7 +55,7 @@ namespace FellSky.Editor
             public BitmapImage Image { get; set; }
         }
 
-        public CameraComponent Camera { get; set; }
+        public Camera Camera { get; set; }
 
         public Dictionary<string, Sprite> Sprites { get; set; }
         public SpriteSheet CurrentSpriteSheet { get; set; }
@@ -150,16 +149,16 @@ namespace FellSky.Editor
 
             World = new EntityWorld(false, false, false);
 
-            World.SystemManager.SetSystem(new GridRendererSystem(host.GraphicsDevice, CameraTag), Artemis.Manager.GameLoopType.Draw, 1);
-            World.SystemManager.SetSystem(new ShipRendererSystem(SpriteBatch, CameraTag), Artemis.Manager.GameLoopType.Draw, 2);
-            World.SystemManager.SetSystem(new BoundingBoxRendererSystem(SpriteBatch, CameraTag), Artemis.Manager.GameLoopType.Draw, 3);
-            World.SystemManager.SetSystem(new GenericDrawableRendererSystem(SpriteBatch, host.GraphicsDevice, CameraTag), Artemis.Manager.GameLoopType.Draw, 4);
+            World.SystemManager.SetSystem(new GridRendererSystem(), Artemis.Manager.GameLoopType.Draw, 1);
+            World.SystemManager.SetSystem(new ShipRendererSystem(), Artemis.Manager.GameLoopType.Draw, 2);
+            World.SystemManager.SetSystem(new BoundingBoxRendererSystem(), Artemis.Manager.GameLoopType.Draw, 3);
+            World.SystemManager.SetSystem(new GenericDrawableRendererSystem(), Artemis.Manager.GameLoopType.Draw, 4);
 
-            World.SystemManager.SetSystem(new CameraControlSystem(CameraTag, _mouse, _keyboard), Artemis.Manager.GameLoopType.Update, 1);
-            _transformSystem = new MouseControlledTransformSystem(_mouse, CameraTag);
+            World.SystemManager.SetSystem(new CameraControlSystem(), Artemis.Manager.GameLoopType.Update, 1);
+            _transformSystem = new MouseControlledTransformSystem();
             World.SystemManager.SetSystem(_transformSystem, Artemis.Manager.GameLoopType.Update, 2);
             World.SystemManager.SetSystem(new ShipUpdateSystem(), Artemis.Manager.GameLoopType.Update, 3);
-            World.SystemManager.SetSystem(new BoundingBoxSelectionSystem(_mouse, _keyboard, CameraTag), Artemis.Manager.GameLoopType.Update, 4);
+            World.SystemManager.SetSystem(new BoundingBoxSelectionSystem(), Artemis.Manager.GameLoopType.Update, 4);
             World.SystemManager.SetSystem(new ShowThrusterTrailsOverrideSystem(), Artemis.Manager.GameLoopType.Update, 5);
 
             World.InitializeAll();
@@ -168,9 +167,9 @@ namespace FellSky.Editor
             Services.AddService(new GridEntityFactory(World));
 
 
-            CameraEntity = Services.GetService<CameraEntityFactory>().CreateCamera(CameraTag, _host.GraphicsDevice);
-            CameraEntity.Tag = CameraTag;
-            Camera = CameraEntity.GetComponent<CameraComponent>();
+            CameraEntity = Services.GetService<CameraEntityFactory>().CreateCamera(Constants.ActiveCameraTag, _host.GraphicsDevice);
+            CameraEntity.Tag = Constants.ActiveCameraTag;
+            Camera = CameraEntity.GetComponent<Camera>();
 
             GridEntity = Services.GetService<GridEntityFactory>().CreateGrid(new Vector2(50, 50), GridColor);
 
@@ -178,7 +177,7 @@ namespace FellSky.Editor
 
             host.PreviewKeyDown += HandleKeyboardInput;
 
-            EditorService = new ShipEditorService(_mouse, World, CameraTag);
+            EditorService = new ShipEditorService(_mouse, World);
             CreateNewShipCommand.Execute(null);
             EditorService.SelectedPartEntities.CollectionChanged += (o, e) =>
             {

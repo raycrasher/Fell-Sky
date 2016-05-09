@@ -71,7 +71,13 @@ namespace FellSky.EntityFactories
             }
 
             foreach(var part in ship.Parts)
-                CreatePartEntity(world, shipEntity, part, addPhysics);            
+                CreatePartEntity(world, shipEntity, part, addPhysics);
+
+            if (addPhysics)
+            {
+                var rigidBody = shipEntity.GetComponent<RigidBodyComponent>();
+                rigidBody.Body.ResetMassData();
+            }
 
             return shipEntity;
         }

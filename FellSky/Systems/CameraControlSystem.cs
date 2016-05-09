@@ -28,11 +28,11 @@ namespace FellSky.Systems
 
         //private ITimerService _timer;
 
-        public CameraControlSystem(string cameraTag, IMouseService mouse, IKeyboardService keyboard)
-            : base(cameraTag)
+        public CameraControlSystem()
+            : base(Constants.ActiveCameraTag)
         {
-            _mouse = mouse;
-            _keyboard = keyboard;
+            _mouse = ServiceLocator.Instance.GetService<IMouseService>();
+            _keyboard = ServiceLocator.Instance.GetService<IKeyboardService>();
             //_timer = timer;
         }
 
@@ -74,7 +74,7 @@ namespace FellSky.Systems
         {
             if (_mouseDown && !_isDragging)
             {
-                var camera = entity.GetComponent<CameraComponent>();
+                var camera = entity.GetComponent<Camera>();
                 _offset = _mouse.ScreenPosition;
                 _isDragging = true;
                 var xform = entity.GetComponent<Transform>();
@@ -88,7 +88,7 @@ namespace FellSky.Systems
             if (_isDragging)
             {
                 var xform = entity.GetComponent<Transform>();
-                var camera = entity.GetComponent<CameraComponent>();
+                var camera = entity.GetComponent<Camera>();
                 xform.Position = _origin + (_offset - _mouse.ScreenPosition);
             }
 
@@ -97,7 +97,7 @@ namespace FellSky.Systems
             {
                 _currentZoom = MathHelper.Lerp(_currentZoom, _targetZoom, _zoomLerpTime);
                 _zoomLerpTime += 0.1f;
-                var camera = entity.GetComponent<CameraComponent>();
+                var camera = entity.GetComponent<Camera>();
                 camera.Zoom = _currentZoom;
             }
         }

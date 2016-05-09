@@ -18,7 +18,7 @@ namespace FellSky.EntityFactories
         public Entity CreateCamera(string tag, GraphicsDevice device)
         {
             var entity = World.CreateEntity();
-            var camera = new CameraComponent(device);
+            var camera = new Camera(device);
             entity.AddComponent(camera);
             entity.AddComponent(camera.Transform);
             entity.Tag = tag;

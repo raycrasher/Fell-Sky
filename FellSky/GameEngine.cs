@@ -74,6 +74,8 @@ namespace FellSky
             ShapeManager = new ShapeManagerService();
             Services.AddService<IShapeManagerService>(ShapeManager);
 
+            Services.AddService(Content);
+
             State = new MainGameState(Services);
             State.LoadContent();
             base.LoadContent();

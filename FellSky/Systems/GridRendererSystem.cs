@@ -10,37 +10,30 @@ using Microsoft.Xna.Framework.Graphics;
 using FellSky.Components;
 using FellSky.Framework;
 using Microsoft.Xna.Framework;
+using FellSky.Services;
 
 namespace FellSky.Systems
 {
     public class GridRendererSystem : Artemis.System.EntityComponentProcessingSystem<GridComponent>
     {
-        private CameraComponent _camera;
         private BasicEffect _effect;
         private GraphicsDevice _device;
         private Vertex[] _vertices = new Vertex[200];
 
-        public string CameraTag { get; set; }
-
-        public GridRendererSystem(GraphicsDevice device, string _cameraTag)
+        public GridRendererSystem()
         {
-            CameraTag = _cameraTag;
-            _effect = new BasicEffect(device);
-            _device = device;
+            _device = ServiceLocator.Instance.GetService<GraphicsDevice>();
+            _effect = new BasicEffect(_device);
         }
 
-        protected override void Begin()
-        {
-            base.Begin();
-            _camera = EntityWorld.GetCamera(CameraTag);
-        }
 
         public override void Process(Entity entity, GridComponent grid)
         {
-            var matrix = _camera.GetViewMatrix(grid.Parallax);
-            var rect = _camera.GetViewRect(grid.Parallax);
+            var camera = EntityWorld.TagManager.GetEntity(Constants.ActiveCameraTag).GetComponent<Camera>();
+            var matrix = camera.GetViewMatrix(grid.Parallax);
+            var rect = camera.GetViewRect(grid.Parallax);
 
-            Matrix projection = _camera.ProjectionMatrix;
+            Matrix projection = camera.ProjectionMatrix;
             Matrix.Multiply(ref matrix, ref projection, out projection);
 
             _effect.VertexColorEnabled = true;

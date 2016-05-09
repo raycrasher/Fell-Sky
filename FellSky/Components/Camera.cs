@@ -4,9 +4,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace FellSky.Components
 {
-    public class CameraComponent : IComponent
+    public class Camera : IComponent
     {
-        public CameraComponent(GraphicsDevice device)
+        public Camera(GraphicsDevice device)
         {
             Device = device;
             ScreenSize = new Vector2(device.Viewport.Width, device.Viewport.Height);
@@ -22,7 +22,7 @@ namespace FellSky.Components
             get {
                 var vp = Device.Viewport;
                 Matrix projection;
-                Matrix.CreateOrthographicOffCenter(0, vp.Width, vp.Height, 0, -1, 0, out projection);
+                Matrix.CreateOrthographicOffCenter(0, vp.Width, vp.Height, 0, -1, 1, out projection);
                 return projection;
             }
         }

@@ -9,28 +9,34 @@ using FellSky.Framework;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using FarseerPhysics.Dynamics;
+using Microsoft.Xna.Framework.Content;
+using FellSky.Components;
 
 namespace FellSky.Systems
 {
     public class PhysicsDebugDrawSystem : Artemis.System.ProcessingSystem
     {
-        private string _cameraTag;
         FarseerPhysics.DebugView.DebugViewXNA _debugView;
-        public PhysicsDebugDrawSystem(string cameraTag)
-        {
-            _cameraTag = cameraTag;
-        }
 
         public override void LoadContent()
         {
             var world = EntityWorld.SystemManager.GetSystem<PhysicsSystem>().PhysicsWorld;
             _debugView = new FarseerPhysics.DebugView.DebugViewXNA(world);
+            _debugView.LoadContent(ServiceLocator.Instance.GetService<GraphicsDevice>(), ServiceLocator.Instance.GetService<ContentManager>());
+
+            var keyboard = ServiceLocator.Instance.GetService<IKeyboardService>();
+            keyboard.KeyDown += key =>
+            {
+                if (key == Microsoft.Xna.Framework.Input.Keys.F12)
+                    _debugView.Flags ^= (FarseerPhysics.DebugViewFlags.CenterOfMass | FarseerPhysics.DebugViewFlags.Shape | FarseerPhysics.DebugViewFlags.PerformanceGraph);
+            };
+
             base.LoadContent();
         }
 
         public override void ProcessSystem()
         {
-            var camera = EntityWorld.GetCamera(_cameraTag);
+            var camera = EntityWorld.TagManager.GetEntity(Constants.ActiveCameraTag).GetComponent<Camera>();
             _debugView.RenderDebugData(camera.ProjectionMatrix, camera.GetViewMatrix(1.0f));
             
         }

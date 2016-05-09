@@ -132,6 +132,7 @@
     <Compile Include="Components\ThrusterComponent.cs" />
     <Compile Include="Components\TurretComponent.cs" />
     <Compile Include="EntityFactories\ShipEntityFactory.cs" />
+    <Compile Include="Framework\Constants.cs" />
     <Compile Include="Framework\FloatColor.cs" />
     <Compile Include="Framework\GuiElementUtilities.cs" />
     <Compile Include="Framework\MersenneTwister.cs" />
@@ -280,7 +281,7 @@
     <Compile Include="Systems\PhysicsCollisionSystem.cs" />
     <Compile Include="Systems\GenericDrawableRendererSystem.cs" />
     <Compile Include="Systems\GridRendererSystem.cs" />
-    <Compile Include="Components\CameraComponent.cs" />
+    <Compile Include="Components\Camera.cs" />
     <Compile Include="Services\Coroutine.cs" />
     <Compile Include="Services\CoroutineService.cs" />
     <Compile Include="States\GameState.cs" />
@@ -303,9 +304,6 @@
     <Compile Include="Framework\SteeringBehaviors\WanderBehavior.cs" />
     <Compile Include="Components\SpriteComponent.cs" />
     <Compile Include="Services\SpriteManagerService.cs" />
-    <Compile Include="Game\Ground\GroundOpsManager.cs" />
-    <Compile Include="Game\Ground\GridMapSystem.cs" />
-    <Compile Include="Game\Ground\GroundMiniMapSystem.cs" />
     <Compile Include="Services\GuiService.cs" />
     <Compile Include="Services\Gui\LibRocketRenderInterface.cs" />
     <Compile Include="Services\Gui\LibRocketSystemInterface.cs" />
@@ -316,10 +314,6 @@
     <Compile Include="Game\Combat\Armor.cs" />
     <Compile Include="Game\Combat\Damage.cs" />
     <Compile Include="Game\Combat\IWeapon.cs" />
-    <Compile Include="Game\Ground\GridMap.cs" />
-    <Compile Include="Game\Ground\GridMapObject.cs" />
-    <Compile Include="Game\Ground\GridMapTile.cs" />
-    <Compile Include="Game\Ground\GridMapWall.cs" />
     <Compile Include="Game\Codex\CodexEntry.cs" />
     <Compile Include="Game\Campaign\Player.cs" />
     <Compile Include="Game\Campaign\Diplomacy\Reputation.cs" />

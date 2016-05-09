@@ -4,27 +4,24 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using FellSky.Components;
 using FellSky.Framework;
+using FellSky.Services;
 
 namespace FellSky.Systems
 {
     public class BoundingBoxRendererSystem : Artemis.System.EntityComponentProcessingSystem<Transform, DrawBoundingBoxComponent, BoundingBoxComponent>
     {
         private SpriteBatch _spriteBatch;
-        private CameraComponent _camera;
 
-        public string CameraTag { get; set; }
-
-        public BoundingBoxRendererSystem(SpriteBatch spriteBatch, string cameraTag)
+        public BoundingBoxRendererSystem()
         {
-            CameraTag = cameraTag;
-            _spriteBatch = spriteBatch;
+            _spriteBatch = ServiceLocator.Instance.GetService<SpriteBatch>();
         }
 
         protected override void ProcessEntities(IDictionary<int, Entity> entities)
         {
-            _camera = EntityWorld.GetCamera(CameraTag);
-            if (_camera == null) return;
-            _spriteBatch.Begin(transformMatrix: _camera?.GetViewMatrix(1.0f));            
+            var camera = EntityWorld.TagManager.GetEntity(Constants.ActiveCameraTag).GetComponent<Camera>();
+            if (camera == null) return;
+            _spriteBatch.Begin(transformMatrix: camera?.GetViewMatrix(1.0f));            
             base.ProcessEntities(entities);
             _spriteBatch.End();
         }

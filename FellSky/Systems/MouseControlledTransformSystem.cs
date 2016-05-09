@@ -8,7 +8,6 @@ namespace FellSky.Systems
 {
     public class MouseControlledTransformSystem : Artemis.System.EntitySystem
     {
-        public string CameraTag { get; set; }
         public IMouseControlledTransformSystemState State { get; private set; }
 
         private IMouseService _mouse;
@@ -30,16 +29,15 @@ namespace FellSky.Systems
             }
         }
 
-        public MouseControlledTransformSystem(IMouseService mouseService, string cameraTag) 
+        public MouseControlledTransformSystem() 
             : base(Aspect.All(typeof(MouseControlledTransformComponent), typeof(Transform)))
         {
-            _mouse = mouseService;
-            CameraTag = cameraTag;
+            _mouse = ServiceLocator.Instance.GetService<IMouseService>();
         }
        
         protected override void ProcessEntities(IDictionary<int, Entity> entities)
         {
-            var camera = EntityWorld.TagManager.GetEntity(CameraTag)?.GetComponent<CameraComponent>();
+            var camera = EntityWorld.TagManager.GetEntity(Constants.ActiveCameraTag).GetComponent<Camera>();
             var worldMousePos = camera.ScreenToCameraSpace(_mouse.ScreenPosition);
             if (_startState)
             {

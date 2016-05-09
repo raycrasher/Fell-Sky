@@ -29,15 +29,13 @@ namespace FellSky.Systems
         public bool MarqueeBoxSelectionEnabled { get; set; } = true;
         public Color MarqueeBoxColor { get; set; } = Color.LightGray;
         public float MarqueeBoxThickness { get; set; } = 1;
-        public string CameraTag { get; set; }
         public Microsoft.Xna.Framework.Input.Keys MultiSelectKey { get; set; } = Microsoft.Xna.Framework.Input.Keys.LeftShift;
 
-        public BoundingBoxSelectionSystem(IMouseService mouse, IKeyboardService keyboard, string cameraTag)
+        public BoundingBoxSelectionSystem()
             : base(Aspect.All(typeof(Transform), typeof(BoundingBoxSelectorComponent)))
         {
-            _mouse = mouse;
-            _keyboard = keyboard;
-            CameraTag = cameraTag;
+            _mouse = ServiceLocator.Instance.GetService<IMouseService>();
+            _keyboard = ServiceLocator.Instance.GetService<IKeyboardService>();
         }
 
         public override void LoadContent()
@@ -74,7 +72,7 @@ namespace FellSky.Systems
 
         private void DoMarqueeSelection(IDictionary<int, Entity> entities)
         {
-            var camera = EntityWorld.GetCamera(CameraTag);
+            var camera = EntityWorld.TagManager.GetEntity(Constants.ActiveCameraTag).GetComponent<Camera>();
             var mousePos = camera.ScreenToCameraSpace(_mouse.ScreenPosition);
 
             if (!_isMarqueeActive && _isMouseDown)
@@ -176,7 +174,7 @@ namespace FellSky.Systems
 
         private void DrawMarquee(GraphicsDevice device, SpriteBatch batch, Entity entity)
         {
-            var camera = EntityWorld.GetCamera(CameraTag);
+            var camera = EntityWorld.TagManager.GetEntity(Constants.ActiveCameraTag).GetComponent<Camera>();
 
             var mousePos = camera.ScreenToCameraSpace(_mouse.ScreenPosition);
             var start = _marqueeBoxStart;

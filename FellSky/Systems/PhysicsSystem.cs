@@ -24,11 +24,11 @@ namespace FellSky.Systems
         public World PhysicsWorld { get; set; }
         public const float UnitScale = 0.01f;
 
-        public PhysicsSystem(ITimerService timer, IShapeManagerService shapeManager)
+        public PhysicsSystem()
         {
-            _shapeManager = shapeManager;
+            _shapeManager = ServiceLocator.Instance.GetService<IShapeManagerService>();
             PhysicsWorld = new World(Vector2.Zero);
-            _timer = timer;
+            _timer = ServiceLocator.Instance.GetService<ITimerService>();
         }
 
 

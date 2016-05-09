@@ -88,11 +88,6 @@ namespace FellSky
             return collection;
         }
 
-        public static CameraComponent GetCamera(this Artemis.EntityWorld world, string cameraTag)
-        {
-            return world.TagManager.GetEntity(cameraTag)?.GetComponent<CameraComponent>();
-        }
-
         public static float NextFloat(this System.Random rng, float min, float max)
         {
             return min + ((float)rng.NextDouble() * (max - min));
@@ -103,7 +98,6 @@ namespace FellSky
             var item = list[oldIndex];
             list.RemoveAt(oldIndex);
             list.Insert(newIndex, item);
-
         }
     }
 }

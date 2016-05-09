@@ -1,5 +1,6 @@
 ﻿using Artemis;
 using FellSky.Components;
+using FellSky.Services;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -14,18 +15,15 @@ namespace FellSky.Systems
     {
         private SpriteBatch _batch;
 
-        public BackgroundRendererSystem(SpriteBatch batch, string cameraTag)
+        public BackgroundRendererSystem()
             : base(Aspect.All(typeof(BackgroundComponent), typeof(SpriteComponent), typeof(Transform)))
         {
-            _batch = batch;
-            CameraTag = cameraTag;
+            _batch = ServiceLocator.Instance.GetService<SpriteBatch>();
         }
-
-        public string CameraTag { get; set; }
 
         protected override void ProcessEntities(IDictionary<int, Entity> entities)
         {
-            var camera = EntityWorld.GetCamera(CameraTag);
+            var camera = EntityWorld.TagManager.GetEntity(Constants.ActiveCameraTag).GetComponent<Camera>();
 
             _batch.Begin(sortMode: SpriteSortMode.BackToFront, blendState:BlendState.AlphaBlend);
             bool? additiveState = null;

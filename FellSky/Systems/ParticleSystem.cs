@@ -35,19 +35,16 @@ namespace FellSky.Systems
 
         public int MaxParticles { get; set; } = 10000;
 
-        public ParticleSystem(SpriteBatch spritebatch, ITimerService time, string cameraTag)
+        public ParticleSystem()
             : base(Aspect.All(typeof(ParticleEmitterComponent), typeof(SpriteComponent), typeof(Transform)))
         {
-            _time = time;
-            CameraTag = cameraTag;
-            _spriteBatch = spritebatch;
+            _time = ServiceLocator.Instance.GetService<ITimerService>();
+            _spriteBatch = ServiceLocator.Instance.GetService<SpriteBatch>();
         }
-
-        public string CameraTag { get; set; }
 
         protected override void ProcessEntities(IDictionary<int, Entity> entities)
         {
-            var camera = EntityWorld.GetCamera(CameraTag);
+            var camera = EntityWorld.TagManager.GetEntity(Constants.ActiveCameraTag).GetComponent<Camera>();
             _spriteBatch.Begin();
             
             foreach(var entity in entities.Values)
@@ -89,7 +86,6 @@ namespace FellSky.Systems
             var dTime = _time.DeltaTime.TotalSeconds;
 
             //cout << "PtclDRaw:"<< &spriteBatch.getTexture() << endl;
-
             if (!emitter.IsContinuous)
             {
                 emitter.TimeToFire += _time.DeltaTime;
@@ -98,7 +94,6 @@ namespace FellSky.Systems
             }
 
             // generate new particles
-
             if (emitter.IsFiring && (emitter.TimeToFire > TimeSpan.Zero || emitter.IsContinuous))
             {
                 var fParticlesNeeded = emitter.EmissionRate * dTime + emitter.ParticlesLeft;

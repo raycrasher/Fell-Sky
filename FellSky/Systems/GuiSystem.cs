@@ -18,9 +18,9 @@ namespace FellSky.Systems
         private ElementDocument _document;
         private Dictionary<Entity, Element> _elements = new Dictionary<Entity, Element>();
 
-        public GuiSystem(IGuiService service): base(Aspect.All(typeof(GuiComponent)))
+        public GuiSystem(): base(Aspect.All(typeof(GuiComponent)))
         {
-            _service = service;
+            _service = ServiceLocator.Instance.GetService<IGuiService>();
         }
 
         public override void LoadContent()

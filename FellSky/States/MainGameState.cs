@@ -16,7 +16,6 @@ namespace FellSky.States
 {
     class MainGameState: GameState
     {
-        const string CameraTag = "Camera";
         private GameServiceContainer _services;
         private IGuiService _guiService;
         private Random _rng;
@@ -42,27 +41,28 @@ namespace FellSky.States
         {
             World = new EntityWorld(false, false, false);
             int depth = 1;
-            World.SystemManager.SetSystem(new GridRendererSystem(_services.GetService<GraphicsDevice>(), CameraTag), Artemis.Manager.GameLoopType.Draw, depth++);
-            World.SystemManager.SetSystem(new BackgroundRendererSystem(_services.GetService<SpriteBatch>(), CameraTag), Artemis.Manager.GameLoopType.Draw, depth++);
-            World.SystemManager.SetSystem(new ShipRendererSystem(_services.GetService<SpriteBatch>(), CameraTag), Artemis.Manager.GameLoopType.Draw, depth++);
-            World.SystemManager.SetSystem(new ParticleSystem(_services.GetService<SpriteBatch>(), _services.GetService<ITimerService>(), CameraTag), Artemis.Manager.GameLoopType.Draw, depth++);
-            World.SystemManager.SetSystem(new BoundingBoxRendererSystem(_services.GetService<SpriteBatch>(), CameraTag), Artemis.Manager.GameLoopType.Draw, depth++);
-            World.SystemManager.SetSystem(new GenericDrawableRendererSystem(_services.GetService<SpriteBatch>(), _services.GetService<GraphicsDevice>(), CameraTag), Artemis.Manager.GameLoopType.Draw, depth++);
+            World.SystemManager.SetSystem(new GridRendererSystem(), Artemis.Manager.GameLoopType.Draw, depth++);
+            World.SystemManager.SetSystem(new BackgroundRendererSystem(), Artemis.Manager.GameLoopType.Draw, depth++);
+            World.SystemManager.SetSystem(new ShipRendererSystem(), Artemis.Manager.GameLoopType.Draw, depth++);
+            World.SystemManager.SetSystem(new ParticleSystem(), Artemis.Manager.GameLoopType.Draw, depth++);
+            World.SystemManager.SetSystem(new BoundingBoxRendererSystem(), Artemis.Manager.GameLoopType.Draw, depth++);
+            World.SystemManager.SetSystem(new GenericDrawableRendererSystem(), Artemis.Manager.GameLoopType.Draw, depth++);
+            World.SystemManager.SetSystem(new PhysicsDebugDrawSystem(), Artemis.Manager.GameLoopType.Draw, depth++);            
 
             int priority = 1;
-            World.SystemManager.SetSystem(new CameraControlSystem(CameraTag, _services.GetService<IMouseService>(), _services.GetService<IKeyboardService>()), Artemis.Manager.GameLoopType.Update, priority++);
+            World.SystemManager.SetSystem(new CameraControlSystem(), Artemis.Manager.GameLoopType.Update, priority++);
             World.SystemManager.SetSystem(new RigidBodyToTransformSystem(), Artemis.Manager.GameLoopType.Update, priority++);
-            World.SystemManager.SetSystem(new MouseControlledTransformSystem(_services.GetService<IMouseService>(), CameraTag), Artemis.Manager.GameLoopType.Update, priority++);
-            World.SystemManager.SetSystem(new BoundingBoxSelectionSystem(_services.GetService<IMouseService>(), _services.GetService<IKeyboardService>(), CameraTag), Artemis.Manager.GameLoopType.Update, priority++);
-            World.SystemManager.SetSystem(new GuiSystem(_services.GetService<IGuiService>()), Artemis.Manager.GameLoopType.Update, priority++);
-            World.SystemManager.SetSystem(new CoroutineSystem(_services.GetService<ITimerService>()), Artemis.Manager.GameLoopType.Update, priority++);
-            World.SystemManager.SetSystem(new PlayerShipControlSystem(CameraTag, _services.GetService<IKeyboardService>(), _services.GetService<IMouseService>()), Artemis.Manager.GameLoopType.Update, priority++);
+            World.SystemManager.SetSystem(new MouseControlledTransformSystem(), Artemis.Manager.GameLoopType.Update, priority++);
+            World.SystemManager.SetSystem(new BoundingBoxSelectionSystem(), Artemis.Manager.GameLoopType.Update, priority++);
+            World.SystemManager.SetSystem(new GuiSystem(), Artemis.Manager.GameLoopType.Update, priority++);
+            World.SystemManager.SetSystem(new CoroutineSystem(), Artemis.Manager.GameLoopType.Update, priority++);
+            World.SystemManager.SetSystem(new PlayerShipControlSystem(), Artemis.Manager.GameLoopType.Update, priority++);
             World.SystemManager.SetSystem(new ShipUpdateSystem(), Artemis.Manager.GameLoopType.Update, priority++);
             World.SystemManager.SetSystem(new StorySystem(), Artemis.Manager.GameLoopType.Update, priority++);
-            World.SystemManager.SetSystem(new PhysicsSystem(_services.GetService<ITimerService>(), _services.GetService<IShapeManagerService>()), Artemis.Manager.GameLoopType.Update, priority++);
+            World.SystemManager.SetSystem(new PhysicsSystem(), Artemis.Manager.GameLoopType.Update, priority++);
 
-            CameraFactory = new EntityFactories.CameraEntityFactory(World);
-            Camera = CameraFactory.CreateCamera(CameraTag, _services.GetService<GraphicsDevice>());
+            CameraFactory = new CameraEntityFactory(World);
+            Camera = CameraFactory.CreateCamera(Constants.ActiveCameraTag, _services.GetService<GraphicsDevice>());
 
             var entity = World.CreateEntity();
             entity.AddComponent(new Transform());
@@ -74,7 +74,7 @@ namespace FellSky.States
                 .OrderBy(r => new ColorHSL(r).Luminosity)
                 .ToArray();
 
-            var spaceGenerator = new Services.SpaceBackgroundGeneratorService(
+            var spaceGenerator = new SpaceBackgroundGeneratorService(
                 GameEngine.Instance.GraphicsDevice, NebulaColors, 
                 GameEngine.Instance.GraphicsDevice.Viewport.Width,
                 _rng.NextDouble() * 0.18 + 1,

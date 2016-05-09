@@ -21,15 +21,12 @@ namespace FellSky.Systems
         private IKeyboardService _keyboard;
         private IMouseService _mouse;
 
-        public PlayerShipControlSystem(string cameraTag, IKeyboardService keyboard, IMouseService mouse)
+        public PlayerShipControlSystem()
             : base(PlayerShipTag)
         {
-            CameraTag = cameraTag;
-            _mouse = mouse;
-            _keyboard = keyboard;
+            _mouse = ServiceLocator.Instance.GetService<IMouseService>();
+            _keyboard = ServiceLocator.Instance.GetService<IKeyboardService>();
         }
-
-        public string CameraTag { get; private set; }
 
         public override void Process(Entity entity)
         {
@@ -63,7 +60,7 @@ namespace FellSky.Systems
 
             if (control.MouseHeadingControl)
             {
-                var camera = EntityWorld.GetCamera(CameraTag);
+                var camera = EntityWorld.TagManager.GetEntity(Constants.ActiveCameraTag).GetComponent<Camera>();
                 Vector2 worldMousePosition = Vector2.Transform(_mouse.ScreenPosition, camera.GetViewMatrix(1.0f));
                 var angle = (xform.Position - worldMousePosition).ToAngleRadians();
 

@@ -7,34 +7,27 @@ using System.Linq;
 using System;
 using FellSky.Game.Ships.Parts;
 using FellSky.Components;
+using FellSky.Services;
 
 namespace FellSky.Systems
 {
     public class ShipRendererSystem : Artemis.System.EntitySystem
     {
         SpriteBatch _spriteBatch;
-        CameraComponent _camera;
         private Matrix _matrix;
 
-        public string CameraTag { get; set; }
-
-        public ShipRendererSystem(SpriteBatch spriteBatch, string cameraTag)
+        public ShipRendererSystem()
             : base(Aspect.All(typeof(ShipComponent)))
         {
-            CameraTag = cameraTag;
-            _spriteBatch = spriteBatch;
+            _spriteBatch = ServiceLocator.Instance.GetService<SpriteBatch>();
         }
 
-        protected override void Begin()
-        {
-            base.Begin();
-            _camera = EntityWorld.TagManager.GetEntity(CameraTag)?.GetComponent<CameraComponent>();
-        }
 
         protected override void ProcessEntities(IDictionary<int, Entity> entities)
         {
-            if (_camera == null) return;
-            _matrix = _camera.GetViewMatrix(1.0f);
+            var camera = EntityWorld.TagManager.GetEntity(Constants.ActiveCameraTag).GetComponent<Camera>();
+            if (camera == null) return;
+            _matrix = camera.GetViewMatrix(1.0f);
             _spriteBatch.Begin(SpriteSortMode.Deferred, blendState: BlendState.AlphaBlend, transformMatrix: _matrix, samplerState: SamplerState.AnisotropicClamp);
 
             foreach (var entity in entities.Values)

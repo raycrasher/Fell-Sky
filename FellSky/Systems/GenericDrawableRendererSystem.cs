@@ -1,6 +1,7 @@
 ﻿using Artemis;
 using Microsoft.Xna.Framework.Graphics;
 using FellSky.Components;
+using FellSky.Services;
 
 namespace FellSky.Systems
 {
@@ -8,25 +9,17 @@ namespace FellSky.Systems
     {
         private SpriteBatch _spritebatch;
         private GraphicsDevice _device;
-        private CameraComponent _camera;
 
-        public string CameraTag { get; set; }
-
-        public GenericDrawableRendererSystem(SpriteBatch spriteBatch, GraphicsDevice device, string cameraTag)
+        public GenericDrawableRendererSystem()
         {
-            _spritebatch = spriteBatch;
-            _device = device;
-            CameraTag = cameraTag;
+            _spritebatch = ServiceLocator.Instance.GetService<SpriteBatch>();
+            _device = ServiceLocator.Instance.GetService<GraphicsDevice>();
         }
 
-        protected override void Begin()
-        {
-            base.Begin();
-            _camera = EntityWorld.GetCamera(CameraTag);
-        }
         public override void Process(Entity entity, GenericDrawableComponent drawable)
         {
-            if (_camera != null) _spritebatch.Begin(transformMatrix: _camera.GetViewMatrix(1.0f));
+            var camera = EntityWorld.TagManager.GetEntity(Constants.ActiveCameraTag).GetComponent<Camera>();
+            if (camera != null) _spritebatch.Begin(transformMatrix: camera.GetViewMatrix(1.0f));
             else _spritebatch.Begin();
             drawable.DrawFunction(_device, _spritebatch, entity);
             _spritebatch.End();
