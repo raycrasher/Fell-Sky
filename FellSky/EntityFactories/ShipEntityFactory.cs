@@ -79,7 +79,15 @@ namespace FellSky.EntityFactories
                 rigidBody.Body.ResetMassData();
             }
 
+            UpdateShipComponentPartTypeLists(shipEntity);
+
             return shipEntity;
+        }
+
+        public static void UpdateShipComponentPartTypeLists(Entity shipEntity)
+        {
+            var component = shipEntity.GetComponent<ShipComponent>();
+            component.Thrusters = component.PartEntities.Where(p => p.Entity.HasComponent<ThrusterComponent>()).ToList();
         }
 
         private static Entity CreatePartEntity<TComponent>(EntityWorld world, Entity ship, TComponent component, int index = -1)

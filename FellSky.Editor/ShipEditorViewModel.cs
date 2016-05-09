@@ -118,6 +118,7 @@ namespace FellSky.Editor
         {
             Services = new GameServiceContainer();
 
+            ServiceLocator.Initialize(Services);
             _host = host;
 
             Artemis.System.EntitySystem.BlackBoard.SetEntry("GraphicsDevice", _host.GraphicsDevice);
@@ -132,10 +133,10 @@ namespace FellSky.Editor
             Services.AddService<IMouseService>(_mouse);
             _mouse.ButtonDown += OnMouseButtonDown;
             _keyboard = new KeyboardService(host);
+            Services.AddService<IKeyboardService>(_keyboard);
 
             SpriteBatch = new SpriteBatch(host.GraphicsDevice);
             Services.AddService(SpriteBatch);
-
 
             Content = new ContentManager(Services);
             Content.RootDirectory = Environment.CurrentDirectory;

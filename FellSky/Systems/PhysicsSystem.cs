@@ -22,13 +22,14 @@ namespace FellSky.Systems
         private IShapeManagerService _shapeManager;
 
         public World PhysicsWorld { get; set; }
-        public const float UnitScale = 0.01f;
+        const float UnitScale = Constants.PhysicsUnitScale;
 
         public PhysicsSystem()
         {
             _shapeManager = ServiceLocator.Instance.GetService<IShapeManagerService>();
             PhysicsWorld = new World(Vector2.Zero);
             _timer = ServiceLocator.Instance.GetService<ITimerService>();
+            FarseerPhysics.ConvertUnits.SetDisplayUnitToSimUnitRatio(1f / UnitScale);
         }
 
 

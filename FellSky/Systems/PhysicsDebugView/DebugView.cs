@@ -48,7 +48,7 @@ namespace FarseerPhysics.DebugView
         private ContactPoint[] _points = new ContactPoint[MaxContactPoints];
 
         //Debug panel
-        public Vector2 DebugPanelPosition = new Vector2(55, 100);
+        public Vector2 DebugPanelPosition = new Vector2(50, 50);
         private float _max;
         private float _avg;
         private float _min;

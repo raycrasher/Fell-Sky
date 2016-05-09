@@ -35,32 +35,35 @@ namespace FellSky.Systems
             base.OnRemoved(entity);
         }
 
-        public override void Process(Entity entity)
+        public override void Process(Entity ship)
         {
-            var shipComponent = entity.GetComponent<ShipComponent>();
-            if (entity.HasComponent<RigidBodyComponent>())
+            var shipComponent = ship.GetComponent<ShipComponent>();
+            if (ship.HasComponent<RigidBodyComponent>())
             {
-                var rigidBody = entity.GetComponent<RigidBodyComponent>();
+                var rigidBody = ship.GetComponent<RigidBodyComponent>();
                 rigidBody.Body.ApplyForce(rigidBody.Body.GetWorldVector(shipComponent.LinearThrustVector), rigidBody.Body.WorldCenter);
                 rigidBody.Body.ApplyTorque(shipComponent.AngularTorque);
             }
+
+            UpdateThrusters(ship);
         }
 
-        private void UpdateThrusters(Entity ship, IList<Entity> thrusterEntities)
+        private void UpdateThrusters(Entity ship)
         {
             var shipComponent = ship.GetComponent<ShipComponent>();
-            var thrusters = thrusterEntities.Select(t => t.GetComponent<ThrusterComponent>());
+            var thrusters = shipComponent.Thrusters.Select(pe=>pe.Entity.GetComponent<ThrusterComponent>());
             var xform = ship.GetComponent<Transform>();
 
             bool isShipTurning = Math.Abs(shipComponent.AngularTorque) <= float.Epsilon;
 
+            
 
             foreach(var thruster in thrusters)
             {
                 bool isThrusting = false;
 
                 var offset = Math.Abs(MathHelper.WrapAngle(shipComponent.LinearThrustVector.ToAngleRadians() - xform.Rotation - thruster.Part.Transform.Rotation) / Math.PI);
-                if (offset < thruster.AngleCutoff) isThrusting = true;
+                if (offset < 0.1) isThrusting = true;
 
                 if( thruster.Part.ThrusterType == Game.Ships.Parts.ThrusterType.Maneuver)
                 {
@@ -68,6 +71,10 @@ namespace FellSky.Systems
                 }
 
                 thruster.IsThrusting = isThrusting;
+                if (isThrusting)
+                    thruster.ThrustPercentage = MathHelper.Clamp(thruster.ThrustPercentage + 0.001f, 0, 1);
+                else
+                    thruster.ThrustPercentage = MathHelper.Clamp(thruster.ThrustPercentage - 0.001f, 0, 1);
             }
         }
     }

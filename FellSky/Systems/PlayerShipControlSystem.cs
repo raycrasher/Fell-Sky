@@ -39,18 +39,18 @@ namespace FellSky.Systems
 
             if (control.OrthogonalMovement)
             {
-                if (_keyboard.IsKeyDown(control.UpKey)) linearThrustVector.Y = -1;
-                else if (_keyboard.IsKeyDown(control.DownKey)) linearThrustVector.Y = 1;
-                if (_keyboard.IsKeyDown(control.LeftKey)) linearThrustVector.Y = -1;
+                if (_keyboard.IsKeyDown(control.UpKey)) linearThrustVector.Y = 1;
+                else if (_keyboard.IsKeyDown(control.DownKey)) linearThrustVector.Y = -1;
+                if (_keyboard.IsKeyDown(control.LeftKey)) linearThrustVector.X = -1;
                 else if (_keyboard.IsKeyDown(control.RightKey)) linearThrustVector.X = 1;
             }
             else
             {
-                if (_keyboard.IsKeyDown(control.UpKey)) linearThrustVector += heading.ToVector();
-                else if (_keyboard.IsKeyDown(control.DownKey)) linearThrustVector += -heading.ToVector();
+                if (_keyboard.IsKeyDown(control.UpKey)) linearThrustVector.X = 1;
+                else if (_keyboard.IsKeyDown(control.DownKey)) linearThrustVector.X = -1;
 
-                if (_keyboard.IsKeyDown(control.AltLeftKey)) linearThrustVector += ((float)(heading + Math.PI / 2)).ToVector();
-                else if (_keyboard.IsKeyDown(control.AltRightKey)) linearThrustVector += ((float)(heading - Math.PI / 2)).ToVector();
+                if (_keyboard.IsKeyDown(control.AltLeftKey)) linearThrustVector.Y = -1;
+                else if (_keyboard.IsKeyDown(control.AltRightKey)) linearThrustVector.Y = 1;
 
                 if (_keyboard.IsKeyDown(control.LeftKey)) torqueDirection = AngularDirection.CCW;
                 else if (_keyboard.IsKeyDown(control.RightKey)) torqueDirection = AngularDirection.CW;

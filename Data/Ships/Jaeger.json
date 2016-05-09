@@ -1095,12 +1095,12 @@
     }
   ],
   "Handling": {
-    "AngularTorque": 1.0,
+    "AngularTorque": 0.1,
     "MaxAngularVelocity": 1.0,
-    "ForwardForce": 5.0,
-    "ManeuverForce": 1.0,
+    "ForwardForce": 10.0,
+    "ManeuverForce": 2.0,
     "LinearDamping": 0.5,
-    "AngularDamping": 0.5
+    "AngularDamping": 1.0
   },
   "BaseDecalColor": {
     "B": 255,

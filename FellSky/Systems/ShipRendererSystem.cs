@@ -76,7 +76,7 @@ namespace FellSky.Systems
                     _tmpXform.Scale *= new Vector2(1, -1);
                 }
 
-                var color = Color.Lerp(new Color(thruster.Color, 0), thruster.Color, MathHelper.Clamp(thrusterComponent.ThrustPercentage, 0, 1));
+                var color = Color.Lerp(new Color(0,0,0,0), new Color(thruster.Color, 0), MathHelper.Clamp(thrusterComponent.ThrustPercentage, 0, 1));
                 sprite.Draw(batch: spriteBatch, matrix: _tmpXform.Matrix * shipMatrix, color: thruster.Color, effects: fx);
             }
         }

@@ -23,12 +23,11 @@ namespace FellSky.Systems
             var world = EntityWorld.SystemManager.GetSystem<PhysicsSystem>().PhysicsWorld;
             _debugView = new FarseerPhysics.DebugView.DebugViewXNA(world);
             _debugView.LoadContent(ServiceLocator.Instance.GetService<GraphicsDevice>(), ServiceLocator.Instance.GetService<ContentManager>());
-
+            
             var keyboard = ServiceLocator.Instance.GetService<IKeyboardService>();
             keyboard.KeyDown += key =>
             {
-                if (key == Microsoft.Xna.Framework.Input.Keys.F12)
-                    _debugView.Flags ^= (FarseerPhysics.DebugViewFlags.CenterOfMass | FarseerPhysics.DebugViewFlags.Shape | FarseerPhysics.DebugViewFlags.PerformanceGraph);
+                
             };
 
             base.LoadContent();
