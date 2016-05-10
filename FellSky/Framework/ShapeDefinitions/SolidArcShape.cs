@@ -17,7 +17,13 @@ namespace FellSky.Framework.ShapeDefinitions
         public Vector2 Position { get; set; }
         public float Angle { get; set; }
 
-        public override List<Fixture> Attach(Transform transform, Body body, object userdata = null)
-            => FarseerPhysics.Factories.FixtureFactory.AttachSolidArc(Density, Radians, Sides, Radius, Vector2.Transform(Position, transform.Matrix), Angle + transform.Rotation, body);
+        public override List<Fixture> Attach(ref Matrix xform, Body body, object userdata = null)
+        {
+            Vector2 pos, scale;
+            float rot;
+            Utilities.DecomposeMatrix2D(ref xform, out pos, out rot, out scale);
+
+            return FarseerPhysics.Factories.FixtureFactory.AttachSolidArc(Density, Radians, Sides, Radius, Vector2.Transform(Position, xform), Angle + rot, body);
+        }
     }
 }

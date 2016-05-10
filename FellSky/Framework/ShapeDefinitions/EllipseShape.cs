@@ -14,7 +14,11 @@ namespace FellSky.Framework.ShapeDefinitions
         public int NumEdges { get; set; }
         public Vector2 Radius { get; set; }
 
-        public override List<Fixture> Attach(Transform xform, Body body, object userdata = null)
-         => new List<Fixture> { FarseerPhysics.Factories.FixtureFactory.AttachEllipse(Radius.X, Radius.Y, NumEdges, Density, body, userdata) };
+        public override List<Fixture> Attach(ref Matrix xform, Body body, object userdata = null)
+        {
+            return new List<Fixture> { FarseerPhysics.Factories.FixtureFactory.AttachEllipse(Radius.X, Radius.Y, NumEdges, Density, body, userdata) };
+        }
+
+        
     }
 }

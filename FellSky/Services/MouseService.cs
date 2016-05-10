@@ -45,17 +45,17 @@ namespace FellSky.Services
                 if (state.RightButton != _lastState.RightButton)
                 {
                     if (state.RightButton == ButtonState.Pressed && ButtonDown != null)
-                        ButtonDown(state.Position, 1);
+                        ButtonDown(state.Position, 2);
                     else if (state.RightButton == ButtonState.Released && ButtonDown != null)
-                        ButtonUp(state.Position, 1);
+                        ButtonUp(state.Position, 2);
                 }
 
                 if (state.MiddleButton != _lastState.MiddleButton)
                 {
                     if (state.MiddleButton == ButtonState.Pressed && ButtonDown != null)
-                        ButtonDown(state.Position, 2);
+                        ButtonDown(state.Position, 1);
                     else if (state.MiddleButton == ButtonState.Released && ButtonDown != null)
-                        ButtonUp(state.Position, 2);
+                        ButtonUp(state.Position, 1);
                 }
 
                 if (state.ScrollWheelValue != _lastState.ScrollWheelValue && WheelChanged != null)
@@ -65,6 +65,7 @@ namespace FellSky.Services
                     Move(state.Position);
 
                 _lastState = state;
+                _position = state.Position;
                 yield return null;
             }
         }

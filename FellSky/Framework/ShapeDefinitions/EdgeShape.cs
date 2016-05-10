@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using FarseerPhysics.Dynamics;
 using Microsoft.Xna.Framework;
 
@@ -9,8 +10,10 @@ namespace FellSky.Framework.ShapeDefinitions
         public Vector2 Start { get; set; }
         public Vector2 End { get; set; }
 
-        public override List<Fixture> Attach(Transform transform, Body body, object userdata = null)
-            => new List<Fixture> { FarseerPhysics.Factories.FixtureFactory.AttachEdge(
-                Vector2.Transform(Start, transform.Matrix), Vector2.Transform(End,transform.Matrix), body, userdata) };
+        public override List<Fixture> Attach(ref Matrix xform, Body body, object userdata = null)
+        {
+            return new List<Fixture> { FarseerPhysics.Factories.FixtureFactory.AttachEdge(
+                Vector2.Transform(Start, xform), Vector2.Transform(End, xform), body, userdata) };
+        }
     }
 }

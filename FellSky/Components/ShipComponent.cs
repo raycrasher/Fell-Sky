@@ -20,7 +20,7 @@ namespace FellSky.Components
         public Ship Ship { get; set; }
 
         public List<PartEntityPair> PartEntities { get; set; } = new List<PartEntityPair>();
-        public IReadOnlyList<PartEntityPair> Thrusters { get; set; }
+        public IReadOnlyList<PartEntityPair> Thrusters { get; set; } = new List<PartEntityPair>();
 
         /// <summary>
         /// The angular thrust vector. Negative for CCW, positive for CW. Zero for no torque. 

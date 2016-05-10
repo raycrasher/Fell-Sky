@@ -44,7 +44,8 @@ namespace FellSky.Systems
                 rigidBody.Body.ApplyForce(rigidBody.Body.GetWorldVector(shipComponent.LinearThrustVector), rigidBody.Body.WorldCenter);
                 rigidBody.Body.ApplyTorque(shipComponent.AngularTorque);
             }
-
+            shipComponent.AngularTorque = 0;
+            shipComponent.LinearThrustVector = Vector2.Zero;
             UpdateThrusters(ship);
         }
 
@@ -72,9 +73,9 @@ namespace FellSky.Systems
 
                 thruster.IsThrusting = isThrusting;
                 if (isThrusting)
-                    thruster.ThrustPercentage = MathHelper.Clamp(thruster.ThrustPercentage + 0.001f, 0, 1);
+                    thruster.ThrustPercentage = MathHelper.Clamp(thruster.ThrustPercentage + 0.05f, 0, 1);
                 else
-                    thruster.ThrustPercentage = MathHelper.Clamp(thruster.ThrustPercentage - 0.001f, 0, 1);
+                    thruster.ThrustPercentage = MathHelper.Clamp(thruster.ThrustPercentage - 0.05f, 0, 1);
             }
         }
     }

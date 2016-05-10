@@ -3,15 +3,20 @@ using FarseerPhysics.Dynamics;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace FellSky.Framework.ShapeDefinitions
 {
     public class ChainShape : ShapeDefinition
     {
         public Vector2[] Vertices { get; set; }
-        public override List<Fixture> Attach(Transform transform, Body body, object userdata = null) => 
-            new List<Fixture> {
-                FarseerPhysics.Factories.FixtureFactory.AttachChainShape(
-                    TransformVertices(Vertices, transform), body, userdata) };
+
+        public override List<Fixture> Attach(ref Matrix xform, Body body, object userdata = null)
+        {
+            return new List<Fixture>
+            {
+                FarseerPhysics.Factories.FixtureFactory.AttachChainShape(TransformVertices(Vertices, ref xform), body, userdata)
+            };
+        }
     }
 }

@@ -33,9 +33,9 @@ namespace FellSky.Systems
         }
 
 
-        public RigidBodyFixtureComponent CreateAndAttachFixture(RigidBodyComponent bodyComponent, string shapeId, Transform transform)
+        public RigidBodyFixtureComponent CreateAndAttachFixture(RigidBodyComponent bodyComponent, string shapeId, Matrix matrix)
         {
-            var fixtures = _shapeManager.GetShape(shapeId).Attach(new Transform(transform.Position*UnitScale,transform.Rotation,transform.Scale*UnitScale,transform.Origin*UnitScale), bodyComponent.Body, UnitScale);
+            var fixtures = _shapeManager.GetShape(shapeId).Attach(ref matrix, bodyComponent.Body);
             var fixtureComponent = new RigidBodyFixtureComponent
             {
                 Fixtures = fixtures

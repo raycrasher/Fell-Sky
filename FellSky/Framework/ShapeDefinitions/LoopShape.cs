@@ -12,7 +12,13 @@ namespace FellSky.Framework.ShapeDefinitions
     class LoopShape : ShapeDefinition
     {
         public Vector2[] Vertices { get; set; }
-        public override List<Fixture> Attach(Transform xform, Body body, object userdata = null) =>
-            new List<Fixture> { FarseerPhysics.Factories.FixtureFactory.AttachLoopShape(TransformVertices(Vertices, xform), body, userdata) };
+
+        public override List<Fixture> Attach(ref Matrix xform, Body body, object userdata = null)
+        {
+            return new List<Fixture> { FarseerPhysics.Factories.FixtureFactory.AttachLoopShape(TransformVertices(Vertices, ref xform), body, userdata) };
+        }
+
+        
+            
     }
 }

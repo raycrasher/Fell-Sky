@@ -19,7 +19,7 @@ namespace FellSky.Systems
         {
             var transform = entity.GetComponent<Transform>();
             var rigidbody = entity.GetComponent<RigidBodyComponent>();
-            transform.Position = rigidbody.Body.Position;
+            transform.Position = rigidbody.Body.Position / Constants.PhysicsUnitScale;
             transform.Rotation = rigidbody.Body.Rotation;
         }
     }

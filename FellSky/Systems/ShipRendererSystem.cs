@@ -48,7 +48,7 @@ namespace FellSky.Systems
             {
                 if (item.Entity.HasComponent<HullComponent>())
                     DrawHull(spriteBatch, ship, item.Entity, ref shipMatrix);
-                if (item.Entity.HasComponent<ThrusterComponent>())
+                else if (item.Entity.HasComponent<ThrusterComponent>())
                     DrawThruster(spriteBatch, ship, item.Entity, ref shipMatrix);
             }
         }
@@ -76,8 +76,7 @@ namespace FellSky.Systems
                     _tmpXform.Scale *= new Vector2(1, -1);
                 }
 
-                var color = Color.Lerp(new Color(0,0,0,0), new Color(thruster.Color, 0), MathHelper.Clamp(thrusterComponent.ThrustPercentage, 0, 1));
-                sprite.Draw(batch: spriteBatch, matrix: _tmpXform.Matrix * shipMatrix, color: thruster.Color, effects: fx);
+                sprite.Draw(batch: spriteBatch, matrix: _tmpXform.Matrix * shipMatrix, color: thruster.Color * thrusterComponent.ThrustPercentage, effects: fx);
             }
         }
 

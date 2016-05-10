@@ -36,8 +36,6 @@ namespace FellSky.Systems
             //_timer = timer;
         }
 
-        public string CameraTag { get; private set; }
-
         public override void LoadContent()
         {
             _mouse.ButtonDown += OnButtonDown;

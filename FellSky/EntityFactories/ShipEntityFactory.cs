@@ -66,8 +66,8 @@ namespace FellSky.EntityFactories
                 shipEntity.AddComponent(physics.CreateRigidBody(position, rotation));
                 var rigidBody = shipEntity.GetComponent<RigidBodyComponent>();
                 rigidBody.Body.IsStatic = false;
-                rigidBody.Body.Friction = 1;
-                rigidBody.Body.AngularDamping = 1;
+                rigidBody.Body.LinearDamping = ship.Handling.LinearDamping;
+                rigidBody.Body.AngularDamping = ship.Handling.AngularDamping;
             }
 
             foreach(var part in ship.Parts)
@@ -124,7 +124,18 @@ namespace FellSky.EntityFactories
                     body = ship?.GetComponent<RigidBodyComponent>();
                 else
                     body = ship?.GetComponent<ShipComponent>()?.AdditionalRigidBodyEntities[hull.PhysicsBodyIndex].GetComponent<RigidBodyComponent>();
-                entity.AddComponent(physics.CreateAndAttachFixture(ship.GetComponent<RigidBodyComponent>(), hull.ShapeId ?? hull.SpriteId, hull.Transform));
+
+                var sprite = SpriteManager.Sprites[hull.SpriteId];
+                var size = new Vector3(sprite.W, sprite.H, 1);
+                var matrix = Matrix.CreateScale(size) * 
+                             Matrix.CreateTranslation(new Vector3(-hull.Transform.Origin/2, 0)) *
+                             Matrix.CreateScale(new Vector3(hull.Transform.Scale, 1)) *
+                             Matrix.CreateRotationZ(hull.Transform.Rotation) *
+                             Matrix.CreateTranslation(new Vector3(hull.Transform.Position, 0)) *
+                             Matrix.CreateScale(Constants.PhysicsUnitScale);
+                             
+
+                entity.AddComponent(physics.CreateAndAttachFixture(ship.GetComponent<RigidBodyComponent>(), hull.ShapeId ?? hull.SpriteId, matrix));
             }
             return entity;
         }

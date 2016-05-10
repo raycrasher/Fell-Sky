@@ -23,11 +23,12 @@ namespace FellSky.Systems
             var world = EntityWorld.SystemManager.GetSystem<PhysicsSystem>().PhysicsWorld;
             _debugView = new FarseerPhysics.DebugView.DebugViewXNA(world);
             _debugView.LoadContent(ServiceLocator.Instance.GetService<GraphicsDevice>(), ServiceLocator.Instance.GetService<ContentManager>());
-            
+            _debugView.Flags = FarseerPhysics.DebugViewFlags.Shape | FarseerPhysics.DebugViewFlags.CenterOfMass;
+
             var keyboard = ServiceLocator.Instance.GetService<IKeyboardService>();
             keyboard.KeyDown += key =>
             {
-                
+                if (key == Microsoft.Xna.Framework.Input.Keys.F11) IsEnabled = !IsEnabled;
             };
 
             base.LoadContent();
@@ -36,8 +37,7 @@ namespace FellSky.Systems
         public override void ProcessSystem()
         {
             var camera = EntityWorld.TagManager.GetEntity(Constants.ActiveCameraTag).GetComponent<Camera>();
-            _debugView.RenderDebugData(camera.ProjectionMatrix, camera.GetViewMatrix(1.0f));
-            
+            _debugView.RenderDebugData(camera.ProjectionMatrix, Matrix.CreateScale(1f / Constants.PhysicsUnitScale) * camera.GetViewMatrix(1.0f));
         }
 
        

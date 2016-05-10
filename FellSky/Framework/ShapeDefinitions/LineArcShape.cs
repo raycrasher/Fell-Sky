@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using FarseerPhysics.Dynamics;
 using Microsoft.Xna.Framework;
 
@@ -13,8 +14,10 @@ namespace FellSky.Framework.ShapeDefinitions
         public float Radius { get; set; }
         public int Sides { get; set; }
 
-        public override List<Fixture> Attach(Transform xform, Body body, object userdata = null)
-        => new List<Fixture> { FarseerPhysics.Factories.FixtureFactory.AttachLineArc(
-            Radians, Sides, Radius, Vector2.Transform(Position, xform.Matrix), Angle, IsClosed, body) };
+        public override List<Fixture> Attach(ref Matrix xform, Body body, object userdata = null)
+        {
+            return new List<Fixture> { FarseerPhysics.Factories.FixtureFactory.AttachLineArc(
+            Radians, Sides, Radius, Vector2.Transform(Position, xform), Angle, IsClosed, body) };
+        }
     }
 }
