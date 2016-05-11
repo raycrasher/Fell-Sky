@@ -59,7 +59,7 @@ namespace FellSky.Game.Campaign.Storyline
             yield return Coroutine.WaitFor(TimeSpan.FromSeconds(2));
 
             _playerShip = Game.Ships.Ship.LoadFromJsonFile("Ships/Jaeger.json");
-            _playerEntity = ShipEntityFactory.CreateShipEntity(world, _playerShip, new Vector2(500,0), MathHelper.Pi * 1.5f, true);
+            _playerEntity = ShipEntityFactory.CreateShipEntity(world, _playerShip, new Vector2(500,0),0, true);
             _playerEntity.AddComponent(new Components.PlayerControlsComponent());
             _playerEntity.Tag = "PlayerShip";
             _playerEntity.Refresh();

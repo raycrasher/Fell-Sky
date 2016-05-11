@@ -29,7 +29,7 @@ namespace FellSky.Systems
             _shapeManager = ServiceLocator.Instance.GetService<IShapeManagerService>();
             PhysicsWorld = new World(Vector2.Zero);
             _timer = ServiceLocator.Instance.GetService<ITimerService>();
-            FarseerPhysics.ConvertUnits.SetDisplayUnitToSimUnitRatio(1f / UnitScale);
+            //FarseerPhysics.ConvertUnits.SetDisplayUnitToSimUnitRatio(1f / UnitScale);
         }
 
 

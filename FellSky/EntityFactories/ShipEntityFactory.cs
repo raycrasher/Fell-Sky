@@ -126,12 +126,13 @@ namespace FellSky.EntityFactories
                     body = ship?.GetComponent<ShipComponent>()?.AdditionalRigidBodyEntities[hull.PhysicsBodyIndex].GetComponent<RigidBodyComponent>();
 
                 var sprite = SpriteManager.Sprites[hull.SpriteId];
-                var size = new Vector3(sprite.W, sprite.H, 1);
-                var matrix = Matrix.CreateScale(size) * 
-                             Matrix.CreateTranslation(new Vector3(-hull.Transform.Origin/2, 0)) *
+                var size = new Vector3(sprite.W * 3f, sprite.H * 3f, 1);
+                var matrix = //Matrix.CreateTranslation(new Vector3(-0.5f,-0.5f,0)) *
+                             Matrix.CreateScale(size) * 
+                             Matrix.CreateTranslation(new Vector3(-hull.Transform.Origin, 0)) *
                              Matrix.CreateScale(new Vector3(hull.Transform.Scale, 1)) *
                              Matrix.CreateRotationZ(hull.Transform.Rotation) *
-                             Matrix.CreateTranslation(new Vector3(hull.Transform.Position, 0)) *
+                             Matrix.CreateTranslation(new Vector3(hull.Transform.Position,0)) *
                              Matrix.CreateScale(Constants.PhysicsUnitScale);
                              
 
