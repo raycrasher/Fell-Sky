@@ -6,18 +6,11 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace FellSky.EntityFactories
 {
-    public class CameraEntityFactory
+    public static class CameraEntityFactory
     {
-        public CameraEntityFactory(EntityWorld world)
+        public static Entity CreateCamera(this EntityWorld world, string tag, GraphicsDevice device)
         {
-            World = world;
-        }
-
-        public EntityWorld World { get; private set; }
-
-        public Entity CreateCamera(string tag, GraphicsDevice device)
-        {
-            var entity = World.CreateEntity();
+            var entity = world.CreateEntity();
             var camera = new Camera(device);
             entity.AddComponent(camera);
             entity.AddComponent(camera.Transform);

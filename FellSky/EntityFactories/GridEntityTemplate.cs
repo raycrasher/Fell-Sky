@@ -5,18 +5,11 @@ using FellSky.Components;
 
 namespace FellSky.EntityFactories
 {
-    public class GridEntityFactory
+    public static class GridEntityFactory
     {
-        public GridEntityFactory(EntityWorld world)
+        public static Entity CreateGrid(this EntityWorld world, Vector2 gridSize, Color color)
         {
-            World = world;
-        }
-
-        public EntityWorld World { get; private set; }
-
-        public Entity CreateGrid(Vector2 gridSize, Color color)
-        {
-            var entity = World.CreateEntity();
+            var entity = world.CreateEntity();
             var grid = new GridComponent
             {
                 GridSize = gridSize,

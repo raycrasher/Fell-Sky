@@ -164,17 +164,13 @@ namespace FellSky.Editor
 
             World.InitializeAll();
 
-            Services.AddService(new CameraEntityFactory(World));
-            Services.AddService(new GridEntityFactory(World));
-
-
-            CameraEntity = Services.GetService<CameraEntityFactory>().CreateCamera(Constants.ActiveCameraTag, _host.GraphicsDevice);
+            CameraEntity = World.CreateCamera(Constants.ActiveCameraTag, _host.GraphicsDevice);
             CameraEntity.Tag = Constants.ActiveCameraTag;
             Camera = CameraEntity.GetComponent<Camera>();
 
-            GridEntity = Services.GetService<GridEntityFactory>().CreateGrid(new Vector2(50, 50), GridColor);
+            GridEntity = World.CreateGrid(new Vector2(50, 50), GridColor);
 
-            GenericDrawableFactory.CreateCircle(World, Vector2.Zero, 10, 8, XnaColor.Red);
+            World.CreateCircle(Vector2.Zero, 10, 8, XnaColor.Red);
 
             host.PreviewKeyDown += HandleKeyboardInput;
 

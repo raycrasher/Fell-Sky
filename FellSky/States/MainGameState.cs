@@ -21,7 +21,6 @@ namespace FellSky.States
         private Random _rng;
 
         public EntityWorld World { get; private set; }
-        public CameraEntityFactory CameraFactory { get; private set; }
         public Entity Camera { get; private set; }
 
         public MainGameState(GameServiceContainer services)
@@ -61,8 +60,7 @@ namespace FellSky.States
             World.SystemManager.SetSystem(new StorySystem(), Artemis.Manager.GameLoopType.Update, priority++);
             World.SystemManager.SetSystem(new PhysicsSystem(), Artemis.Manager.GameLoopType.Update, priority++);
 
-            CameraFactory = new CameraEntityFactory(World);
-            Camera = CameraFactory.CreateCamera(Constants.ActiveCameraTag, _services.GetService<GraphicsDevice>());
+            Camera = CameraEntityFactory.CreateCamera(World, Constants.ActiveCameraTag, _services.GetService<GraphicsDevice>());
 
             var entity = World.CreateEntity();
             entity.AddComponent(new Transform());
