@@ -15,11 +15,13 @@ namespace FellSky.Systems
     {
         SpriteBatch _spriteBatch;
         private Matrix _matrix;
+        static ITimerService _timer;
 
         public ShipRendererSystem()
             : base(Aspect.All(typeof(ShipComponent)))
         {
             _spriteBatch = ServiceLocator.Instance.GetService<SpriteBatch>();
+            _timer = ServiceLocator.Instance.GetService<ITimerService>();
         }
 
 
@@ -74,6 +76,14 @@ namespace FellSky.Systems
                 {
                     fx |= SpriteEffects.FlipVertically;
                     _tmpXform.Scale *= new Vector2(1, -1);
+                }
+
+                if (!thrusterEntity.HasComponent<EditorComponent>())
+                {
+                    // do thruster graphic wobble
+                    var time = thrusterComponent.GetHashCode() % 1000 + _timer.LastFrameUpdateTime.TotalGameTime.Milliseconds;
+                    var amount = (float)Math.Sin((time % MathHelper.Pi * 2) * 1f);
+                    _tmpXform.Scale *= 1 + amount * 0.1f;
                 }
 
                 sprite.Draw(batch: spriteBatch, matrix: _tmpXform.Matrix * shipMatrix, color: thruster.Color * thrusterComponent.ThrustPercentage, effects: fx);

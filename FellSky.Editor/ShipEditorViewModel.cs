@@ -83,6 +83,8 @@ namespace FellSky.Editor
         public GameServiceContainer Services { get; set; }
         public EntityWorld World { get; set; }
 
+        private System.Diagnostics.Stopwatch _stopwatch = new System.Diagnostics.Stopwatch();
+
         //public List<Entity> SelectedPartEntities { get; set; }
         
         public SpriteBatch SpriteBatch { get; private set; }
@@ -109,6 +111,7 @@ namespace FellSky.Editor
         private System.Windows.Media.Color _selectedColor;
 
         public string ShipFileFilter = "Ship JSON files(*.json)|*.json|All files(*.*)|*.*";
+        private TimerService _timer;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -134,6 +137,7 @@ namespace FellSky.Editor
             _mouse.ButtonDown += OnMouseButtonDown;
             _keyboard = new KeyboardService(host);
             Services.AddService<IKeyboardService>(_keyboard);
+            _timer = new TimerService();
 
             SpriteBatch = new SpriteBatch(host.GraphicsDevice);
             Services.AddService(SpriteBatch);
@@ -270,6 +274,7 @@ namespace FellSky.Editor
 
         internal void Render(TimeSpan timespan)
         {
+            
             _mouse.Update();
 
             foreach (var a in ActionsNextFrame) a();
@@ -278,8 +283,13 @@ namespace FellSky.Editor
             Camera.ScreenSize = new Vector2((float)_host.ActualWidth, (float)_host.ActualHeight);
             _host.GraphicsDevice.RasterizerState = RasterizerState.CullNone;
             _host.GraphicsDevice.Clear(BackgroundColor);
+
+
+            
+            _stopwatch.Start();
             World.Update();
             World.Draw();
+            _stopwatch.Reset();
         }
               
         private void LoadHullSprites(string sheetfile)

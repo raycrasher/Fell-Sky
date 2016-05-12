@@ -2,6 +2,7 @@
 using Artemis.Interface;
 using FellSky.Framework;
 using FellSky.Game.Ships.Parts;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,11 +15,49 @@ namespace FellSky.Components
     {
         public ThrusterComponent(Thruster part, Entity ship)
             : base(part,ship)
-        {            
+        {
+            PrecalculateValues();          
         }
 
-        public bool IsThrusting { get; internal set; }
-        public float AngleCutoff { get; set; } = 0.25f;
-        public float ThrustPercentage { get; set; }
+        public float GetAngularThrustMult(AngularDirection dir, Vector2 centerMass)
+        {
+            var offset = Part.Transform.Position - centerMass;
+            if (float.IsNaN(offset.X)) return 0;
+            var r = ((float)dir * Math.Sign(offset.X)) * Part.Transform.Rotation;
+
+            var a = Math.Abs(Utilities.GetLesserAngleDifference(MathHelper.Pi / 2, r));
+
+            const float AngleCutoff = 0.1f;
+
+            if (a < AngleCutoff)
+            {
+                return AngleCutoff / (1 - a / AngleCutoff);
+            }
+            return 0;
+        }
+
+        public void PrecalculateValues()
+        {
+            const float Divisor = MathHelper.Pi / 4;
+            var pos = Part.Transform.Position;
+            var rot = Part.Transform.Rotation;
+
+            var posAngle = pos.ToAngleRadians();
+            var diff = Math.Abs(Utilities.GetLesserAngleDifference(posAngle, rot));
+            var normal = Vector2.Dot(pos, rot.ToVector());
+            if (diff > Divisor && normal < 0)
+            {
+                RotateDir = AngularDirection.CCW;
+            }
+            else if(diff > Divisor && normal > 0)
+            {
+                RotateDir = AngularDirection.CW;
+            }
+
+        }
+
+        public AngularDirection RotateDir;
+        public bool IsThrusting;
+        public float ThrustPercentage;
     }
 }

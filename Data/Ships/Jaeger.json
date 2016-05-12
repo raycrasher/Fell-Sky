@@ -4,6 +4,306 @@
   "ShipType": null,
   "Parts": [
     {
+      "$type": "FellSky.Game.Ships.Parts.Thruster, FellSky",
+      "Length": 0.0,
+      "Width": 0.0,
+      "ParticleTrailId": null,
+      "ThrusterType": 0,
+      "MaxThrust": 0.0,
+      "RampUpTime": "00:00:00",
+      "RampDownTime": "00:00:00",
+      "Name": "Thruster",
+      "Group": null,
+      "Transform": {
+        "Position": "-91.71309, -42.1436157",
+        "Rotation": 1.60404348,
+        "Scale": "0.15, 0.208333328",
+        "Origin": "128, 16"
+      },
+      "SpriteId": "thruster2",
+      "Color": {
+        "B": 255,
+        "G": 255,
+        "R": 255,
+        "A": 255
+      }
+    },
+    {
+      "$type": "FellSky.Game.Ships.Parts.Thruster, FellSky",
+      "Length": 0.0,
+      "Width": 0.0,
+      "ParticleTrailId": null,
+      "ThrusterType": 0,
+      "MaxThrust": 0.0,
+      "RampUpTime": "00:00:00",
+      "RampDownTime": "00:00:00",
+      "Name": "Thruster",
+      "Group": null,
+      "Transform": {
+        "Position": "-91.71309, 42.1436157",
+        "Rotation": -1.60404348,
+        "Scale": "0.15, -0.208333328",
+        "Origin": "128, 16"
+      },
+      "SpriteId": "thruster2",
+      "Color": {
+        "B": 255,
+        "G": 255,
+        "R": 255,
+        "A": 255
+      }
+    },
+    {
+      "$type": "FellSky.Game.Ships.Parts.Thruster, FellSky",
+      "Length": 0.0,
+      "Width": 0.0,
+      "ParticleTrailId": null,
+      "ThrusterType": 0,
+      "MaxThrust": 0.0,
+      "RampUpTime": "00:00:00",
+      "RampDownTime": "00:00:00",
+      "Name": "Thruster",
+      "Group": null,
+      "Transform": {
+        "Position": "-84.7123947, -42.1436157",
+        "Rotation": 1.60404348,
+        "Scale": "0.15, 0.208333328",
+        "Origin": "128, 16"
+      },
+      "SpriteId": "thruster2",
+      "Color": {
+        "B": 255,
+        "G": 255,
+        "R": 255,
+        "A": 255
+      }
+    },
+    {
+      "$type": "FellSky.Game.Ships.Parts.Thruster, FellSky",
+      "Length": 0.0,
+      "Width": 0.0,
+      "ParticleTrailId": null,
+      "ThrusterType": 0,
+      "MaxThrust": 0.0,
+      "RampUpTime": "00:00:00",
+      "RampDownTime": "00:00:00",
+      "Name": "Thruster",
+      "Group": null,
+      "Transform": {
+        "Position": "-84.7123947, 42.1436157",
+        "Rotation": -1.60404348,
+        "Scale": "0.15, -0.208333328",
+        "Origin": "128, 16"
+      },
+      "SpriteId": "thruster2",
+      "Color": {
+        "B": 255,
+        "G": 255,
+        "R": 255,
+        "A": 255
+      }
+    },
+    {
+      "$type": "FellSky.Game.Ships.Parts.Thruster, FellSky",
+      "Length": 0.0,
+      "Width": 0.0,
+      "ParticleTrailId": null,
+      "ThrusterType": 0,
+      "MaxThrust": 0.0,
+      "RampUpTime": "00:00:00",
+      "RampDownTime": "00:00:00",
+      "Name": "Thruster",
+      "Group": null,
+      "Transform": {
+        "Position": "73.8033142, -50.644455",
+        "Rotation": 1.60404348,
+        "Scale": "0.15, 0.208333328",
+        "Origin": "128, 16"
+      },
+      "SpriteId": "thruster2",
+      "Color": {
+        "B": 255,
+        "G": 255,
+        "R": 255,
+        "A": 255
+      }
+    },
+    {
+      "$type": "FellSky.Game.Ships.Parts.Thruster, FellSky",
+      "Length": 0.0,
+      "Width": 0.0,
+      "ParticleTrailId": null,
+      "ThrusterType": 0,
+      "MaxThrust": 0.0,
+      "RampUpTime": "00:00:00",
+      "RampDownTime": "00:00:00",
+      "Name": "Thruster",
+      "Group": null,
+      "Transform": {
+        "Position": "73.8033142, 50.644455",
+        "Rotation": -1.60404348,
+        "Scale": "0.15, -0.208333328",
+        "Origin": "128, 16"
+      },
+      "SpriteId": "thruster2",
+      "Color": {
+        "B": 255,
+        "G": 255,
+        "R": 255,
+        "A": 255
+      }
+    },
+    {
+      "$type": "FellSky.Game.Ships.Parts.Thruster, FellSky",
+      "Length": 0.0,
+      "Width": 0.0,
+      "ParticleTrailId": null,
+      "ThrusterType": 0,
+      "MaxThrust": 0.0,
+      "RampUpTime": "00:00:00",
+      "RampDownTime": "00:00:00",
+      "Name": "Thruster",
+      "Group": null,
+      "Transform": {
+        "Position": "82.30415, -48.1442032",
+        "Rotation": 1.60404348,
+        "Scale": "0.15, 0.208333328",
+        "Origin": "128, 16"
+      },
+      "SpriteId": "thruster2",
+      "Color": {
+        "B": 255,
+        "G": 255,
+        "R": 255,
+        "A": 255
+      }
+    },
+    {
+      "$type": "FellSky.Game.Ships.Parts.Thruster, FellSky",
+      "Length": 0.0,
+      "Width": 0.0,
+      "ParticleTrailId": null,
+      "ThrusterType": 0,
+      "MaxThrust": 0.0,
+      "RampUpTime": "00:00:00",
+      "RampDownTime": "00:00:00",
+      "Name": "Thruster",
+      "Group": null,
+      "Transform": {
+        "Position": "82.30415, 48.1442032",
+        "Rotation": -1.60404348,
+        "Scale": "0.15, -0.208333328",
+        "Origin": "128, 16"
+      },
+      "SpriteId": "thruster2",
+      "Color": {
+        "B": 255,
+        "G": 255,
+        "R": 255,
+        "A": 255
+      }
+    },
+    {
+      "$type": "FellSky.Game.Ships.Parts.Thruster, FellSky",
+      "Length": 0.0,
+      "Width": 0.0,
+      "ParticleTrailId": null,
+      "ThrusterType": 0,
+      "MaxThrust": 0.0,
+      "RampUpTime": "00:00:00",
+      "RampDownTime": "00:00:00",
+      "Name": "Thruster",
+      "Group": null,
+      "Transform": {
+        "Position": "61.802124, 62.6456375",
+        "Rotation": -3.05239677,
+        "Scale": "0.15, -0.208333328",
+        "Origin": "128, 16"
+      },
+      "SpriteId": "thruster2",
+      "Color": {
+        "B": 255,
+        "G": 255,
+        "R": 255,
+        "A": 255
+      }
+    },
+    {
+      "$type": "FellSky.Game.Ships.Parts.Thruster, FellSky",
+      "Length": 0.0,
+      "Width": 0.0,
+      "ParticleTrailId": null,
+      "ThrusterType": 0,
+      "MaxThrust": 0.0,
+      "RampUpTime": "00:00:00",
+      "RampDownTime": "00:00:00",
+      "Name": "Thruster",
+      "Group": null,
+      "Transform": {
+        "Position": "61.802124, -62.6456375",
+        "Rotation": 3.05239677,
+        "Scale": "0.15, 0.208333328",
+        "Origin": "128, 16"
+      },
+      "SpriteId": "thruster2",
+      "Color": {
+        "B": 255,
+        "G": 255,
+        "R": 255,
+        "A": 255
+      }
+    },
+    {
+      "$type": "FellSky.Game.Ships.Parts.Thruster, FellSky",
+      "Length": 0.0,
+      "Width": 0.0,
+      "ParticleTrailId": null,
+      "ThrusterType": 0,
+      "MaxThrust": 0.0,
+      "RampUpTime": "00:00:00",
+      "RampDownTime": "00:00:00",
+      "Name": "Thruster",
+      "Group": null,
+      "Transform": {
+        "Position": "56.8016319, -70.14638",
+        "Rotation": 3.05239677,
+        "Scale": "0.15, 0.208333328",
+        "Origin": "128, 16"
+      },
+      "SpriteId": "thruster2",
+      "Color": {
+        "B": 255,
+        "G": 255,
+        "R": 255,
+        "A": 255
+      }
+    },
+    {
+      "$type": "FellSky.Game.Ships.Parts.Thruster, FellSky",
+      "Length": 0.0,
+      "Width": 0.0,
+      "ParticleTrailId": null,
+      "ThrusterType": 0,
+      "MaxThrust": 0.0,
+      "RampUpTime": "00:00:00",
+      "RampDownTime": "00:00:00",
+      "Name": "Thruster",
+      "Group": null,
+      "Transform": {
+        "Position": "56.8016319, 70.14638",
+        "Rotation": -3.05239677,
+        "Scale": "0.15, -0.208333328",
+        "Origin": "128, 16"
+      },
+      "SpriteId": "thruster2",
+      "Color": {
+        "B": 255,
+        "G": 255,
+        "R": 255,
+        "A": 255
+      }
+    },
+    {
       "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
       "ColorType": 0,
       "ShapeId": null,
@@ -1099,8 +1399,8 @@
     "MaxAngularVelocity": 1.0,
     "ForwardForce": 20.0,
     "ManeuverForce": 2.0,
-    "LinearDamping": 1,
-    "AngularDamping": 1
+    "LinearDamping": 1.0,
+    "AngularDamping": 1.0
   },
   "BaseDecalColor": {
     "B": 255,

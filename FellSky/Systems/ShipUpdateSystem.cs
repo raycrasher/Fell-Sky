@@ -43,32 +43,35 @@ namespace FellSky.Systems
                 var rigidBody = ship.GetComponent<RigidBodyComponent>();
                 rigidBody.Body.ApplyForce(rigidBody.Body.GetWorldVector(shipComponent.LinearThrustVector), rigidBody.Body.WorldCenter);
                 rigidBody.Body.ApplyTorque(shipComponent.AngularTorque);
-            }
+            }          
+            UpdateThrusters(ship);
+
             shipComponent.AngularTorque = 0;
             shipComponent.LinearThrustVector = Vector2.Zero;
-            UpdateThrusters(ship);
         }
 
         private void UpdateThrusters(Entity ship)
         {
             var shipComponent = ship.GetComponent<ShipComponent>();
-            var thrusters = shipComponent.Thrusters.Select(pe=>pe.Entity.GetComponent<ThrusterComponent>());
+            var thrusters = shipComponent.Thrusters.Select(pe => pe.Entity.GetComponent<ThrusterComponent>());
             var xform = ship.GetComponent<Transform>();
 
-            bool isShipTurning = Math.Abs(shipComponent.AngularTorque) <= float.Epsilon;
+            bool isShipTurning = Math.Abs(shipComponent.AngularTorque) > 0;
+            var isShipThrusting = shipComponent.LinearThrustVector.LengthSquared() > 0;
 
-            
-
-            foreach(var thruster in thrusters)
+            foreach (var thruster in thrusters)
             {
                 bool isThrusting = false;
-
-                var offset = Math.Abs(MathHelper.WrapAngle(shipComponent.LinearThrustVector.ToAngleRadians() - xform.Rotation - thruster.Part.Transform.Rotation) / Math.PI);
-                if (offset < 0.1) isThrusting = true;
-
-                if( thruster.Part.ThrusterType == Game.Ships.Parts.ThrusterType.Maneuver)
+                if (isShipThrusting)
                 {
-
+                    var offset = Math.Abs(GetLesserAngleDifference(shipComponent.LinearThrustVector.ToAngleRadians() - MathHelper.Pi / 2f, thruster.Part.Transform.Rotation));
+                    isThrusting = offset < 1;
+                }
+                if (isShipTurning)
+                {
+                    var rotateDir = (AngularDirection)Math.Sign(shipComponent.AngularTorque);
+                    //isThrusting = rotateDir == thruster.RotateDir;
+                    isThrusting |= thruster.GetAngularThrustMult(rotateDir, Vector2.Zero) > 0;
                 }
 
                 thruster.IsThrusting = isThrusting;

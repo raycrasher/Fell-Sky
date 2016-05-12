@@ -118,6 +118,7 @@
     <Compile Include="Components\CoroutineComponent.cs" />
     <Compile Include="Components\DamageComponent.cs" />
     <Compile Include="Components\DamageReductionComponent.cs" />
+    <Compile Include="Components\EditorComponent.cs" />
     <Compile Include="Components\FactionComponent.cs" />
     <Compile Include="Components\GuiComponent.cs" />
     <Compile Include="Components\HealthComponent.cs" />

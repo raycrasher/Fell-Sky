@@ -35,8 +35,6 @@ namespace FellSky.Editor
     [ImplementPropertyChanged]
     public class ShipEditorService: INotifyPropertyChanged
     {
-        class PartEditorComponent : Artemis.Interface.IComponent { }
-
         private IMouseService _mouse;
         private MouseControlledTransformSystem _transformSystem;
         private EntityWorld _world;
@@ -241,7 +239,7 @@ namespace FellSky.Editor
         public void CreateNewShip()
         {
             ClearSelection();
-            foreach (var entity in _world.EntityManager.GetEntities(Aspect.All(typeof(PartEditorComponent))))
+            foreach (var entity in _world.EntityManager.GetEntities(Aspect.All(typeof(EditorComponent))))
             {
                 entity.Delete();
             }
@@ -364,7 +362,7 @@ namespace FellSky.Editor
             try
             {
                 ClearSelection();
-                foreach (var entity in _world.EntityManager.GetEntities(Aspect.All(typeof(PartEditorComponent))))
+                foreach (var entity in _world.EntityManager.GetEntities(Aspect.All(typeof(EditorComponent))))
                 {
                     entity.Delete();
                 }
@@ -437,7 +435,7 @@ namespace FellSky.Editor
 
         private void AddEditorComponentsToPartEntity(Entity entity)
         {
-            entity.AddComponent(new PartEditorComponent());
+            entity.AddComponent(new EditorComponent());
 
             var select = new BoundingBoxSelectorComponent() { IsEnabled = false };
             entity.AddComponent(select);

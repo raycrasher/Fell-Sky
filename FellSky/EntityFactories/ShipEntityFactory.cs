@@ -127,7 +127,7 @@ namespace FellSky.EntityFactories
 
                 var sprite = SpriteManager.Sprites[hull.SpriteId];
                 var origin = new Vector2(sprite.OriginX ?? sprite.W/2, sprite.OriginY ?? sprite.H/2);
-                var factor = new Vector2(1f/Constants.PhysicsUnitScale) + origin;
+                var factor = new Vector2(1f/Constants.PhysicsUnitScale);
                 var matrix = //Matrix.CreateTranslation(new Vector3(-0.5f,-0.5f,0)) *
                              Matrix.CreateScale(new Vector3(factor,1)) * 
                              Matrix.CreateTranslation(new Vector3(-hull.Transform.Origin, 0)) *
