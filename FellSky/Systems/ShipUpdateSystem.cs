@@ -41,8 +41,12 @@ namespace FellSky.Systems
             if (ship.HasComponent<RigidBodyComponent>())
             {
                 var rigidBody = ship.GetComponent<RigidBodyComponent>();
-                rigidBody.Body.ApplyForce(rigidBody.Body.GetWorldVector(shipComponent.LinearThrustVector), rigidBody.Body.WorldCenter);
-                rigidBody.Body.ApplyTorque(shipComponent.AngularTorque);
+                Vector2 linearForce = shipComponent.LinearThrustVector;
+                if (linearForce.X > 0) linearForce.X *= shipComponent.Ship.Handling.ForwardForce;
+                else linearForce.X *= shipComponent.Ship.Handling.ManeuverForce;
+                linearForce.Y *= shipComponent.Ship.Handling.ManeuverForce;
+                rigidBody.Body.ApplyForce(rigidBody.Body.GetWorldVector(linearForce), rigidBody.Body.WorldCenter);
+                rigidBody.Body.ApplyTorque(shipComponent.AngularTorque * shipComponent.Ship.Handling.AngularTorque);
             }          
             UpdateThrusters(ship);
 

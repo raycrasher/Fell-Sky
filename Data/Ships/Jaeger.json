@@ -1411,10 +1411,10 @@
     }
   ],
   "Handling": {
-    "AngularTorque": 0.1,
+    "AngularTorque": 0.2,
     "MaxAngularVelocity": 1.0,
-    "ForwardForce": 20.0,
-    "ManeuverForce": 2.0,
+    "ForwardForce":  2.0,
+    "ManeuverForce": 1.0,
     "LinearDamping": 1.0,
     "AngularDamping": 1.0
   },
