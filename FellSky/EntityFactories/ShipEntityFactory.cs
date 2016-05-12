@@ -54,7 +54,7 @@ namespace FellSky.EntityFactories
             return e;
         }
         
-        public static Entity CreateShipEntity(EntityWorld world, Ship ship, Vector2 position, float rotation=0, bool addPhysics=false)
+        public static Entity CreateShipEntity(this EntityWorld world, Ship ship, Vector2 position, float rotation=0, bool addPhysics=false)
         {
             var shipEntity = world.CreateEntity();
             shipEntity.AddComponent(new ShipComponent(ship));
@@ -126,9 +126,10 @@ namespace FellSky.EntityFactories
                     body = ship?.GetComponent<ShipComponent>()?.AdditionalRigidBodyEntities[hull.PhysicsBodyIndex].GetComponent<RigidBodyComponent>();
 
                 var sprite = SpriteManager.Sprites[hull.SpriteId];
-                var size = new Vector3(sprite.W * 3f, sprite.H * 3f, 1);
+                var origin = new Vector2(sprite.OriginX ?? sprite.W/2, sprite.OriginY ?? sprite.H/2);
+                var factor = new Vector2(1f/Constants.PhysicsUnitScale) + origin;
                 var matrix = //Matrix.CreateTranslation(new Vector3(-0.5f,-0.5f,0)) *
-                             Matrix.CreateScale(size) * 
+                             Matrix.CreateScale(new Vector3(factor,1)) * 
                              Matrix.CreateTranslation(new Vector3(-hull.Transform.Origin, 0)) *
                              Matrix.CreateScale(new Vector3(hull.Transform.Scale, 1)) *
                              Matrix.CreateRotationZ(hull.Transform.Rotation) *
