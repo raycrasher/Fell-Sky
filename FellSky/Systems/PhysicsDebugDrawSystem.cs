@@ -30,7 +30,7 @@ namespace FellSky.Systems
             {
                 if (key == Microsoft.Xna.Framework.Input.Keys.F11) IsEnabled = !IsEnabled;
             };
-
+            IsEnabled = false;
             base.LoadContent();
         }
 

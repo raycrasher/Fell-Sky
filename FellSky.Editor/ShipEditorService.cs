@@ -48,7 +48,7 @@ namespace FellSky.Editor
         public TransformOrigin TransformOrigin { get; set; } = TransformOrigin.Centroid;
 
         public HullColorType SelectedHullColorType { get; set; }
-        public Color HullColor { get; set; } = Color.White;
+        public Color PartColor { get; set; } = Color.White;
         public Color TrimColor { get; set; } = Color.CornflowerBlue;
         public Color BaseColor { get; set; } = Color.Gold;
 
@@ -179,7 +179,7 @@ namespace FellSky.Editor
                 new Vector2(
                     sprite.OriginX ?? sprite.W / 2, 
                     sprite.OriginY ?? sprite.H / 2), 
-                HullColor, 
+                PartColor, 
                 SelectedHullColorType);
 
             SelectedPartEntities.Add(entity);
@@ -200,7 +200,7 @@ namespace FellSky.Editor
                 new Vector2(
                     sprite.OriginX ?? sprite.W,
                     sprite.OriginY ?? sprite.H / 2),
-                HullColor
+                PartColor
                 );
             SelectedPartEntities.Add(entity);
             entity.AddComponent(new MouseControlledTransformComponent());
@@ -455,10 +455,10 @@ namespace FellSky.Editor
 
         private void OnColorChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == nameof(HullColor))
+            if (e.PropertyName == nameof(PartColor))
             {
-                foreach (var hull in SelectedPartEntities.Select(en => en.Components.OfType<HullComponent>().First()))
-                    hull.Part.Color = HullColor;
+                foreach (var part in SelectedPartEntities.Select(en => en.Components.OfType<IShipPartComponent>().First()))
+                    part.Part.Color = PartColor;
             }
             else if (e.PropertyName == nameof(BaseColor))
             {
@@ -479,9 +479,9 @@ namespace FellSky.Editor
         public event PropertyChangedEventHandler PropertyChanged;
 #pragma warning restore CS0067
 
-        public void SetHullColor(Color color)
+        public void SetPartColor(Color color)
         {
-            HullColor = color;
+            PartColor = color;
             foreach (var part in SelectedPartEntities.Select(e => e.Components.OfType<IShipPartComponent>().First().Part))
                 part.Color = color;
         }

@@ -61,6 +61,7 @@ namespace FellSky.Systems
 
             foreach (var thruster in thrusters)
             {
+                if (thruster == null) continue;
                 bool isThrusting = false;
                 if (isShipThrusting)
                 {

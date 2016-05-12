@@ -70,7 +70,7 @@ namespace FellSky.Editor
             set
             {
                 _selectedColor = value;
-                ShipEditorService.Instance.SetHullColor(new XnaColor(value.R, value.G, value.B, value.A));
+                ShipEditorService.Instance.SetPartColor(new XnaColor(value.R, value.G, value.B, value.A));
             }
         }
 

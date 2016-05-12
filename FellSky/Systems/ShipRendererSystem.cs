@@ -59,7 +59,7 @@ namespace FellSky.Systems
         {            
             var shipComponent = ship.GetComponent<ShipComponent>();          
             var thrusterComponent = thrusterEntity.GetComponent<ThrusterComponent>();
-            if (thrusterComponent.ThrustPercentage > 0)
+            if (thrusterComponent.ThrustPercentage > 0 || thrusterComponent.Part.IsIdleModeOnZeroThrust)
             {
                 var sprite = thrusterEntity.GetComponent<SpriteComponent>();
                 var thruster = thrusterComponent.Part;
@@ -78,15 +78,28 @@ namespace FellSky.Systems
                     _tmpXform.Scale *= new Vector2(1, -1);
                 }
 
+                float colorAlpha = 0; 
+                
+                if (thrusterComponent.Part.IsIdleModeOnZeroThrust)
+                {
+                    _tmpXform.Scale *= new Vector2(MathHelper.Clamp(thrusterComponent.ThrustPercentage, 0.3f, 1), 1);
+                    colorAlpha = MathHelper.Clamp(thrusterComponent.ThrustPercentage, 0.6f, 1);
+                } else
+                {
+                    _tmpXform.Scale *= new Vector2(MathHelper.Clamp(thrusterComponent.ThrustPercentage, 0, 1), 1);
+                    colorAlpha = thrusterComponent.ThrustPercentage;
+                }
+
                 if (!thrusterEntity.HasComponent<EditorComponent>())
                 {
                     // do thruster graphic wobble
                     var time = thrusterComponent.GetHashCode() % 1000 + _timer.LastFrameUpdateTime.TotalGameTime.Milliseconds;
-                    var amount = (float)Math.Sin((time % MathHelper.Pi * 2) * 1f);
+                    var amount = (float)Math.Sin((time % MathHelper.Pi * 2) * 0.5f);
                     _tmpXform.Scale *= 1 + amount * 0.1f;
                 }
-
-                sprite.Draw(batch: spriteBatch, matrix: _tmpXform.Matrix * shipMatrix, color: thruster.Color * thrusterComponent.ThrustPercentage, effects: fx);
+                sprite.Draw(batch: spriteBatch, matrix: _tmpXform.Matrix * shipMatrix, color: thruster.Color * colorAlpha, effects: fx);
+                _tmpXform.Scale *= 0.8f;
+                sprite.Draw(batch: spriteBatch, matrix: _tmpXform.Matrix * shipMatrix, color: Color.White * colorAlpha, effects: fx);
             }
         }
 

@@ -16,7 +16,6 @@ namespace FellSky.Components
         public ThrusterComponent(Thruster part, Entity ship)
             : base(part,ship)
         {
-            PrecalculateValues();          
         }
 
         public float GetAngularThrustMult(AngularDirection dir, Vector2 centerMass)
@@ -36,27 +35,6 @@ namespace FellSky.Components
             return 0;
         }
 
-        public void PrecalculateValues()
-        {
-            const float Divisor = MathHelper.Pi / 4;
-            var pos = Part.Transform.Position;
-            var rot = Part.Transform.Rotation;
-
-            var posAngle = pos.ToAngleRadians();
-            var diff = Math.Abs(Utilities.GetLesserAngleDifference(posAngle, rot));
-            var normal = Vector2.Dot(pos, rot.ToVector());
-            if (diff > Divisor && normal < 0)
-            {
-                RotateDir = AngularDirection.CCW;
-            }
-            else if(diff > Divisor && normal > 0)
-            {
-                RotateDir = AngularDirection.CW;
-            }
-
-        }
-
-        public AngularDirection RotateDir;
         public bool IsThrusting;
         public float ThrustPercentage;
     }

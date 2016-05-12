@@ -23,6 +23,7 @@ namespace FellSky.Game.Ships.Parts
         public ThrusterType ThrusterType { get; set; }
 
         public float MaxThrust { get; set; }
+        public bool IsIdleModeOnZeroThrust { get; set; }
         public TimeSpan RampUpTime { get; set; }
         public TimeSpan RampDownTime { get; set; }
 
