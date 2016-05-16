@@ -11,24 +11,29 @@ using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 
 namespace FellSky.Game.Ships
 {
-    public class Ship
+    public class Ship: IShipEditorEditableModel
     {
         public string GivenName { get; set; }
         public string HullClass { get; set; }
         public string ShipType { get; set; }
 
         public List<ShipPart> Parts { get; set; } = new List<ShipPart>();
+        public List<Hardpoint> Hardpoints { get; set; } = new List<Hardpoint>();
+
+        IList<ShipPart> IShipEditorEditableModel.Parts => Parts;
+
         [ExpandableObject]
         public ShipHandlingParameters Handling { get; set; } = new ShipHandlingParameters();
 
         public Color BaseDecalColor { get; set; } = Color.White;
         public Color TrimDecalColor { get; set; } = Color.White;
-
+        
         public void SaveToJsonFile(string filename)
         {
             System.IO.File.WriteAllText( filename, JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented, new JsonSerializerSettings
             {
-                TypeNameHandling = TypeNameHandling.Auto
+                TypeNameHandling = TypeNameHandling.Auto,
+                PreserveReferencesHandling = PreserveReferencesHandling.All
             }));
         }
 
@@ -36,7 +41,8 @@ namespace FellSky.Game.Ships
         {
             return JsonConvert.DeserializeObject<Ship>(System.IO.File.ReadAllText(filename), new JsonSerializerSettings
             {
-                TypeNameHandling = TypeNameHandling.Auto
+                TypeNameHandling = TypeNameHandling.Auto,
+                PreserveReferencesHandling = PreserveReferencesHandling.All
             });
         }
     }

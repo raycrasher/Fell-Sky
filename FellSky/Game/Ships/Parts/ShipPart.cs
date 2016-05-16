@@ -11,7 +11,6 @@ namespace FellSky.Game.Ships.Parts
     public abstract class ShipPart: ICloneable
     {
         public string Name { get; set; }
-        public PartGroup Group { get; set; }
         [Xceed.Wpf.Toolkit.PropertyGrid.Attributes.ExpandableObject]
         public Transform Transform { get; set; } = new Transform();
         public string SpriteId { get; set; }
@@ -29,6 +28,11 @@ namespace FellSky.Game.Ships.Parts
             var part = (ShipPart) MemberwiseClone();
             part.Transform = Transform.Clone();
             return part;
+        }
+
+        public override string ToString()
+        {
+            return Name ?? $"* {base.ToString()}";
         }
     }
 }

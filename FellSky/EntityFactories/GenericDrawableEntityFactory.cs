@@ -6,7 +6,7 @@ using FellSky.Framework;
 
 namespace FellSky.EntityFactories
 {
-    public static class GenericDrawableFactory
+    public static class GenericDrawableEntityFactory
     {
         public static Entity CreateCircle(this EntityWorld world, Vector2 center, float radius, int sides, Color color)
         {

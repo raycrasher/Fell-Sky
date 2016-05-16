@@ -12,14 +12,14 @@ namespace FellSky.Components
 {
 
 
-    public class ShipComponent: IComponent
+    public class ShipComponent: IComponent, IShipEditorEditableComponent
     {
         /// <summary>
         /// The Ship data model.
         /// </summary>
         public Ship Ship { get; set; }
 
-        public List<PartEntityPair> PartEntities { get; set; } = new List<PartEntityPair>();
+        public IList<PartEntityPair> PartEntities { get; set; } = new List<PartEntityPair>();
         public IReadOnlyList<PartEntityPair> Thrusters { get; set; } = new List<PartEntityPair>();
 
         /// <summary>
@@ -43,6 +43,8 @@ namespace FellSky.Components
         public Vector2 CenterOfMass { get; set; }
 
         public List<Entity> AdditionalRigidBodyEntities { get; set; } = new List<Entity>();
+
+        IShipEditorEditableModel IShipEditorEditableComponent.Model => Ship;
 
         // functions
 

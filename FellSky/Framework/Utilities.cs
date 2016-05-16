@@ -25,5 +25,9 @@ namespace FellSky
             return (float)Math.Atan2(Math.Sin(a1 - a2), Math.Cos(a1 - a2));
         }
 
+        public static Vector2 CreateVector2FromAngle(float angle)
+        {
+            return new Vector2((float)Math.Cos(angle), (float)Math.Sin(angle));
+        }
     }
 }

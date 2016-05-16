@@ -26,6 +26,6 @@ namespace FellSky.Game.Ships.Parts
         public WeaponMountType Type { get; set; }
 
         public float CurrentFacing { get; set; }
-        public Weapon MountedWeapon { get; set; }
+        public Turret MountedWeapon { get; set; }
     }
 }

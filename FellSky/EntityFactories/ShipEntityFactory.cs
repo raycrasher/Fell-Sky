@@ -17,13 +17,13 @@ namespace FellSky.EntityFactories
         private static ISpriteManagerService SpriteManager => ServiceLocator.Instance.GetService<ISpriteManagerService>();
 
 
-        public static void UpdateShipComponentPartList(EntityWorld world, Entity ship, bool addPhysics=false)
+        public static void UpdateComponentPartList(EntityWorld world, Entity ship, bool addPhysics=false)
         {
-            var component = ship.GetComponent<ShipComponent>();
+            var component = (IShipEditorEditableComponent)ship.GetComponent<ShipComponent>() ?? ship.GetComponent<ShipPartGroupComponent>();
             var entityLookup = component.PartEntities.ToDictionary(k => k.Part);
             component.PartEntities.Clear();
 
-            foreach (var part in component.Ship.Parts)
+            foreach (var part in component.Model.Parts)
             {
                 PartEntityPair pe;
                 if (entityLookup.TryGetValue(part, out pe))
@@ -34,14 +34,14 @@ namespace FellSky.EntityFactories
             }
         }
 
-        public static Entity AddAndCreatePartEntity(EntityWorld world, Entity ship, ShipPart part, bool addPhysics, int index = -1)
+        public static Entity AddAndCreatePartEntity(EntityWorld world, Entity entity, ShipPart part, bool addPhysics, int index = -1)
         {
-            var e = CreatePartEntity(world, ship, part, addPhysics, index);
-            var shipComponent = ship.GetComponent<ShipComponent>();
+            var e = CreatePartEntity(world, entity, part, addPhysics, index);
+            var component = (IShipEditorEditableComponent)entity.GetComponent<ShipComponent>() ?? entity.GetComponent<ShipPartGroupComponent>(); ;
             if (index < 0)
-                shipComponent.Ship.Parts.Add(part);
+                component.Model.Parts.Add(part);
             else
-                shipComponent.Ship.Parts.Insert(index, part);
+                component.Model.Parts.Insert(index, part);
             return e;
         }
 
@@ -57,7 +57,8 @@ namespace FellSky.EntityFactories
         public static Entity CreateShipEntity(this EntityWorld world, Ship ship, Vector2 position, float rotation=0, bool addPhysics=false)
         {
             var shipEntity = world.CreateEntity();
-            shipEntity.AddComponent(new ShipComponent(ship));
+            var shipComponent = new ShipComponent(ship);
+            shipEntity.AddComponent(shipComponent);
             shipEntity.AddComponent(new Transform());
 
             if (addPhysics)
@@ -72,6 +73,14 @@ namespace FellSky.EntityFactories
 
             foreach(var part in ship.Parts)
                 CreatePartEntity(world, shipEntity, part, addPhysics);
+
+            var partDictionary = shipComponent.PartEntities.ToDictionary(p => p.Part);
+
+            foreach (var hardpoint in ship.Hardpoints)
+            {
+                partDictionary[hardpoint.Hull].Entity.AddComponent(new HardpointComponent(hardpoint));
+            }
+
 
             if (addPhysics)
             {
@@ -98,7 +107,7 @@ namespace FellSky.EntityFactories
             entity.AddComponent(component);
             entity.AddComponent(new LocalTransformComponent(ship));
             entity.AddComponent(part.Transform);
-            var shipComponent = ship.GetComponent<ShipComponent>();
+            var shipComponent = (IShipEditorEditableComponent)ship.GetComponent<ShipComponent>() ?? ship.GetComponent<ShipPartGroupComponent>();
             if (index < 0)
                 shipComponent.PartEntities.Add(new PartEntityPair(component.Part, entity));
             else
@@ -120,11 +129,7 @@ namespace FellSky.EntityFactories
             {
                 var physics = world.SystemManager.GetSystem<PhysicsSystem>();
                 RigidBodyComponent body;
-                if (hull.PhysicsBodyIndex == 0)
-                    body = ship?.GetComponent<RigidBodyComponent>();
-                else
-                    body = ship?.GetComponent<ShipComponent>()?.AdditionalRigidBodyEntities[hull.PhysicsBodyIndex].GetComponent<RigidBodyComponent>();
-
+                body = ship?.GetComponent<RigidBodyComponent>();
                 var sprite = SpriteManager.Sprites[hull.SpriteId];
                 var origin = new Vector2(sprite.OriginX ?? sprite.W/2, sprite.OriginY ?? sprite.H/2);
                 var factor = new Vector2(1f/Constants.PhysicsUnitScale);

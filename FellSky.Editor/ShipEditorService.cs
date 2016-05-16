@@ -19,6 +19,7 @@ using System.Windows;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using Microsoft.Xna.Framework.Graphics;
+using System.Windows.Data;
 
 namespace FellSky.Editor
 {
@@ -42,7 +43,7 @@ namespace FellSky.Editor
         public ObservableCollection<Entity> SelectedPartEntities => _world.SystemManager.GetSystem<BoundingBoxSelectionSystem>().SelectedEntities;
         public Entity ShipEntity { get; private set; }
         public Entity TransformEntity { get; private set; }
-        public Ship Ship { get; private set; }
+        public IShipEditorEditableModel Model { get; private set; }
 
         public CloneTransformAction CloneTransformAction { get; set; } = CloneTransformAction.Move;
         public TransformOrigin TransformOrigin { get; set; } = TransformOrigin.Centroid;
@@ -72,6 +73,26 @@ namespace FellSky.Editor
             set { if(_transformSystem.State!=null) _transformSystem.State.Constraint = value; }
         }
 
+        public float WeaponArcAngle
+        {
+            get {
+                return SelectedPartEntities
+                  .Where(e => e.HasComponent<HardpointComponent>())
+                  .Select(e => e.GetComponent<HardpointComponent>().Hardpoint)
+                  .FirstOrDefault()?.FiringArc ?? 0;
+            }
+            set
+            {
+                foreach(var item in SelectedPartEntities
+                                    .Where(e => e.HasComponent<HardpointComponent>())
+                                    .Select(e => e.GetComponent<HardpointComponent>().Hardpoint)
+                                    )
+                {
+                    item.FiringArc = value;
+                }
+            }
+        }
+
         public static ShipEditorService Instance { get; private set; }
 
         /// <summary>
@@ -86,7 +107,7 @@ namespace FellSky.Editor
             _mouse = mouse;
             _world = world;
             _transformSystem = world.SystemManager.GetSystem<MouseControlledTransformSystem>();
-            PropertyChanged += OnColorChanged;
+            PropertyChanged += HandlePropertyChanged;
             SelectedPartEntities.CollectionChanged += OnSelectionChanged;
             Instance = this;
         }
@@ -96,7 +117,7 @@ namespace FellSky.Editor
             if(SelectedPartEntities.Count > 0)
                 PropertyObject = SelectedPartEntities[0].Components.OfType<IShipPartComponent>().First().Part;
             else
-                PropertyObject = Ship;
+                PropertyObject = Model;
         }
 
         /// <summary>
@@ -140,18 +161,28 @@ namespace FellSky.Editor
         /// </summary>
         public void DeleteParts()
         {
-            var shipComponent = ShipEntity.GetComponent<ShipComponent>();
+            var component = ShipEntity.Components.OfType<IShipEditorEditableComponent>().First();
             var parts = SelectedPartEntities.Select(pe => pe.Components.OfType<IShipPartComponent>().First().Part);
-
+            var ship = component.Model as Ship;
+            var hardpointDictionary = ship?.Hardpoints.ToDictionary(s => (ShipPart)s.Hull);
             foreach (var item in parts)
-                shipComponent.Ship.Parts.Remove(item);
+            {
+                component.Model.Parts.Remove(item);
+                if (ship != null)
+                {
+                    ship.Hardpoints.Remove(hardpointDictionary[item]);
+                }
+            }
 
             foreach (var e in SelectedPartEntities)
             {
                 e.Delete();
             }
-            ShipEntityFactory.UpdateShipComponentPartList(_world, ShipEntity, false);
+            ShipEntityFactory.UpdateComponentPartList(_world, ShipEntity, false);
             SelectedPartEntities.Clear();
+
+            if (ship != null)
+                CollectionViewSource.GetDefaultView(ship.Hardpoints).Refresh();
         }
 
         public void OffsetParts(Vector2 offset)
@@ -214,12 +245,12 @@ namespace FellSky.Editor
             if (SelectedPartEntities.Count > 0)
             {
                 var parts = SelectedPartEntities
-                    .Select(pe => new { Part = pe.Components.OfType<IShipPartComponent>().First().Part, Index = Ship.Parts.IndexOf(pe.Components.OfType<IShipPartComponent>().First().Part) });
+                    .Select(pe => new { Part = pe.Components.OfType<IShipPartComponent>().First().Part, Index = Model.Parts.IndexOf(pe.Components.OfType<IShipPartComponent>().First().Part) });
                 foreach (var item in parts)
                 {
-                    Ship.Parts.Move(item.Index, MathHelper.Clamp(item.Index + delta, 0, Ship.Parts.Count - 1));
+                    Model.Parts.Move(item.Index, MathHelper.Clamp(item.Index + delta, 0, Model.Parts.Count - 1));
                 }
-                ShipEntityFactory.UpdateShipComponentPartList(_world, ShipEntity, false);
+                ShipEntityFactory.UpdateComponentPartList(_world, ShipEntity, false);
             }
         }
 
@@ -247,13 +278,14 @@ namespace FellSky.Editor
             if (ShipEntity != null) ShipEntity.Tag = null;
             ShipEntity?.Delete();
 
-            Ship = new Ship();
+            var ship = new Ship();
             ShipEntity = _world.CreateEntity();
-            ShipEntity.AddComponent(new ShipComponent(Ship));
+            ShipEntity.AddComponent(new ShipComponent(ship));
             ShipEntity.AddComponent(new Transform());
             ShipEntity.Refresh();
             ShipEntity.Tag = "PlayerShip";
-            PropertyObject = Ship;
+            Model = ship;
+            PropertyObject = Model;
         }
 
         public void FlipLocal(SpriteEffects flip)
@@ -304,6 +336,36 @@ namespace FellSky.Editor
             }
         }
 
+        public void ToggleHardpointOnSelected()
+        {
+            if (!(Model is Ship)) return;
+            var ship = Model as Ship;
+            foreach(var item in SelectedPartEntities.Where(s=>s.HasComponent<HullComponent>()))
+            {
+                if (item.HasComponent<HardpointComponent>())
+                {
+                    var component = item.GetComponent<HardpointComponent>();
+                    item.RemoveComponent<HardpointComponent>();
+                    item.RemoveComponent<HardpointArcDrawingComponent>();
+                    ship.Hardpoints.Remove(component.Hardpoint);
+                }
+                else
+                {
+                    var component = new HardpointComponent(new Hardpoint {
+                        Facing = 0,
+                        FiringArc = MathHelper.ToRadians(60),
+                        Hull = item.GetComponent<HullComponent>().Part,
+                        Size = HardpointSize.Small,
+                        Type = HardpointType.Weapon_Universal
+                    });
+                    item.AddComponent(component);
+                    item.AddComponent(new HardpointArcDrawingComponent());
+                    ship.Hardpoints.Add(component.Hardpoint);
+                }
+            }
+            CollectionViewSource.GetDefaultView(ship.Hardpoints).Refresh();
+        }
+
         private void StartTransformOnSelectedParts()
         {
             foreach (var entity in SelectedPartEntities)
@@ -325,7 +387,7 @@ namespace FellSky.Editor
 
             Func<ShipPart, Entity> CreatePartEntity = (ShipPart part) =>
             {
-                var entity = ShipEntityFactory.AddAndCreatePartEntity(_world, ShipEntity, part.Clone(), false, Ship.Parts.IndexOf(part) + 1);
+                var entity = ShipEntityFactory.AddAndCreatePartEntity(_world, ShipEntity, part.Clone(), false, Model.Parts.IndexOf(part) + 1);
                 AddEditorComponentsToPartEntity(entity);
                 return entity;
             };
@@ -341,7 +403,7 @@ namespace FellSky.Editor
             {
                 entity.GetComponent<BoundingBoxSelectorComponent>().IsSelected = true;
             }
-            ShipEntityFactory.UpdateShipComponentPartList(_world, ShipEntity, false);
+            ShipEntityFactory.UpdateComponentPartList(_world, ShipEntity, false);
             TranslateParts();
         }
 
@@ -349,7 +411,7 @@ namespace FellSky.Editor
         {
             try
             {
-                Ship.SaveToJsonFile(filename);
+                Model.SaveToJsonFile(filename);
             }
             catch (Newtonsoft.Json.JsonException)
             {
@@ -368,14 +430,17 @@ namespace FellSky.Editor
                 }
                 if (ShipEntity != null) ShipEntity.Tag = null;
                 ShipEntity?.Delete();
-                Ship = Ship.LoadFromJsonFile(fileName);
-                ShipEntity = ShipEntityFactory.CreateShipEntity(_world, Ship, Vector2.Zero, 0, false);
+                var ship = Ship.LoadFromJsonFile(fileName);
+                ShipEntity = ShipEntityFactory.CreateShipEntity(_world, ship, Vector2.Zero, 0, false);
+                Model = ship;
                 ShipEntity.Tag = "PlayerShip";
                 foreach(var entity in ShipEntity.GetComponent<ShipComponent>().PartEntities)
                 {
                     AddEditorComponentsToPartEntity(entity.Entity);
+                    if (entity.Entity.HasComponent<HardpointComponent>())
+                        entity.Entity.AddComponent(new HardpointArcDrawingComponent());
                 }
-                PropertyObject = Ship;
+                PropertyObject = Model;
             }
             catch (Newtonsoft.Json.JsonException)
             {
@@ -383,11 +448,25 @@ namespace FellSky.Editor
             }
         }
 
-
-
-        public void SaveAsPartGroup(string filename)
+        public void CreateNewPartGroup()
         {
+            ClearSelection();
+            foreach (var entity in _world.EntityManager.GetEntities(Aspect.All(typeof(EditorComponent))))
+            {
+                entity.Delete();
+            }
 
+            if (ShipEntity != null) ShipEntity.Tag = null;
+            ShipEntity?.Delete();
+
+            var group = new ShipPartGroup();
+            ShipEntity = _world.CreateEntity();
+            ShipEntity.AddComponent(new ShipPartGroupComponent(group));
+            ShipEntity.AddComponent(new Transform());
+            ShipEntity.Refresh();
+            ShipEntity.Tag = "PlayerShip";
+            Model = group;
+            PropertyObject = Model;
         }
 
         public void MirrorSelectedLaterally()
@@ -398,12 +477,12 @@ namespace FellSky.Editor
                 Vector2 scale = part.Transform.Scale * new Vector2(1,-1);
                 float rotation = (part.Transform.Rotation.ToVector() * new Vector2(-1, 1)).ToAngleRadians();
 
-                if (Ship.Parts.Any(part2 => Vector2.DistanceSquared(part2.Transform.Position, position) < 1
+                if (Model.Parts.Any(part2 => Vector2.DistanceSquared(part2.Transform.Position, position) < 1
                                         && Math.Abs(part2.Transform.Rotation - rotation) < 1 / Math.PI
                                         && part2.SpriteId == part2.SpriteId
                                         )) return;
 
-                var entity = ShipEntityFactory.AddAndCreatePartEntity(_world, ShipEntity, part.Clone(), false, Ship.Parts.IndexOf(part) + 1);
+                var entity = ShipEntityFactory.AddAndCreatePartEntity(_world, ShipEntity, part.Clone(), false, Model.Parts.IndexOf(part) + 1);
                 AddEditorComponentsToPartEntity(entity);
 
                 var xform = entity.GetComponent<Transform>();
@@ -453,7 +532,7 @@ namespace FellSky.Editor
             entity.Refresh();
         }
 
-        private void OnColorChanged(object sender, PropertyChangedEventArgs e)
+        private void HandlePropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == nameof(PartColor))
             {
@@ -462,11 +541,11 @@ namespace FellSky.Editor
             }
             else if (e.PropertyName == nameof(BaseColor))
             {
-                Ship.BaseDecalColor = BaseColor;
+                Model.BaseDecalColor = BaseColor;
             }
             else if (e.PropertyName == nameof(TrimColor))
             {
-                Ship.TrimDecalColor = TrimColor;
+                Model.TrimDecalColor = TrimColor;
             }
             else if (e.PropertyName == nameof(SelectedHullColorType))
             {

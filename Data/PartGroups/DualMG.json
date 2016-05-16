@@ -1,0 +1,106 @@
+{
+  "GivenName": null,
+  "HullClass": null,
+  "ShipType": null,
+  "Parts": [
+    {
+      "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
+      "ColorType": 0,
+      "ShapeId": "Turret",
+      "Health": 100.0,
+      "Name": "Hull",
+      "Transform": {
+        "Position": "-1.84828949, 0.1750119",
+        "Rotation": 0.0,
+        "Scale": "1, 1",
+        "Origin": "12, 13"
+      },
+      "SpriteId": "Kae_shn365",
+      "Color": {
+        "B": 138,
+        "G": 138,
+        "R": 138,
+        "A": 255
+      }
+    },
+    {
+      "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
+      "ColorType": 0,
+      "ShapeId": "Barrel1",
+      "Health": 100.0,
+      "Name": "Hull",
+      "Transform": {
+        "Position": "14.6514454, -3.82571387",
+        "Rotation": 0.0,
+        "Scale": "1, 1",
+        "Origin": "13, 6"
+      },
+      "SpriteId": "Kae_shn234",
+      "Color": {
+        "B": 194,
+        "G": 194,
+        "R": 194,
+        "A": 255
+      }
+    },
+    {
+      "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
+      "ColorType": 0,
+      "ShapeId": "Barrel2",
+      "Health": 100.0,
+      "Name": "Hull",
+      "Transform": {
+        "Position": "14.6514454, 3.82571387",
+        "Rotation": 0.0,
+        "Scale": "1, -1",
+        "Origin": "13, 6"
+      },
+      "SpriteId": "Kae_shn234",
+      "Color": {
+        "B": 194,
+        "G": 194,
+        "R": 194,
+        "A": 255
+      }
+    },
+    {
+      "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
+      "ColorType": 0,
+      "ShapeId": "TurretMain",
+      "Health": 100.0,
+      "Name": "Hull",
+      "Transform": {
+        "Position": "0.303527832, 0.3500061",
+        "Rotation": 0.0,
+        "Scale": "0.756960034, 0.6656666",
+        "Origin": "12, 13"
+      },
+      "SpriteId": "Kae_shn248",
+      "Color": {
+        "B": 255,
+        "G": 255,
+        "R": 255,
+        "A": 255
+      }
+    }
+  ],
+  "Handling": {
+    "AngularTorque": 0.2,
+    "ForwardForce": 2.0,
+    "ManeuverForce": 1.0,
+    "LinearDamping": 1.0,
+    "AngularDamping": 1.0
+  },
+  "BaseDecalColor": {
+    "B": 255,
+    "G": 255,
+    "R": 255,
+    "A": 255
+  },
+  "TrimDecalColor": {
+    "B": 255,
+    "G": 255,
+    "R": 255,
+    "A": 255
+  }
+}

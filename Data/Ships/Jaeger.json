@@ -1,1430 +1,1618 @@
 {
+  "$id": "1",
   "GivenName": null,
   "HullClass": "Jaeger",
   "ShipType": null,
-  "Parts": [
-    {
-      "$type": "FellSky.Game.Ships.Parts.Thruster, FellSky",
-      "Length": 0.0,
-      "Width": 0.0,
-      "ParticleTrailId": null,
-      "ThrusterType": 0,
-      "MaxThrust": 0.0,
-      "IsIdleModeOnZeroThrust": false,
-      "RampUpTime": "00:00:00",
-      "RampDownTime": "00:00:00",
-      "Name": "Thruster",
-      "Group": null,
-      "Transform": {
-        "Position": "-91.71309, -42.1436157",
-        "Rotation": 1.60404348,
-        "Scale": "0.15, 0.208333328",
-        "Origin": "128, 16"
+  "Parts": {
+    "$id": "2",
+    "$values": [
+      {
+        "$id": "3",
+        "$type": "FellSky.Game.Ships.Parts.Thruster, FellSky",
+        "Length": 0.0,
+        "Width": 0.0,
+        "ParticleTrailId": null,
+        "ThrusterType": 0,
+        "MaxThrust": 0.0,
+        "IsIdleModeOnZeroThrust": false,
+        "RampUpTime": "00:00:00",
+        "RampDownTime": "00:00:00",
+        "Name": "Thruster",
+        "Transform": {
+          "$id": "4",
+          "Position": "-91.71309, -42.1436157",
+          "Rotation": 1.60404348,
+          "Scale": "0.15, 0.208333328",
+          "Origin": "128, 16"
+        },
+        "SpriteId": "thruster2",
+        "Color": {
+          "$id": "5",
+          "B": 255,
+          "G": 255,
+          "R": 255,
+          "A": 255
+        }
       },
-      "SpriteId": "thruster2",
-      "Color": {
-        "B": 255,
-        "G": 255,
-        "R": 255,
-        "A": 255
-      }
-    },
-    {
-      "$type": "FellSky.Game.Ships.Parts.Thruster, FellSky",
-      "Length": 0.0,
-      "Width": 0.0,
-      "ParticleTrailId": null,
-      "ThrusterType": 0,
-      "MaxThrust": 0.0,
-      "IsIdleModeOnZeroThrust": false,
-      "RampUpTime": "00:00:00",
-      "RampDownTime": "00:00:00",
-      "Name": "Thruster",
-      "Group": null,
-      "Transform": {
-        "Position": "-91.71309, 42.1436157",
-        "Rotation": -1.60404348,
-        "Scale": "0.15, -0.208333328",
-        "Origin": "128, 16"
+      {
+        "$id": "6",
+        "$type": "FellSky.Game.Ships.Parts.Thruster, FellSky",
+        "Length": 0.0,
+        "Width": 0.0,
+        "ParticleTrailId": null,
+        "ThrusterType": 0,
+        "MaxThrust": 0.0,
+        "IsIdleModeOnZeroThrust": false,
+        "RampUpTime": "00:00:00",
+        "RampDownTime": "00:00:00",
+        "Name": "Thruster",
+        "Transform": {
+          "$id": "7",
+          "Position": "-91.71309, 42.1436157",
+          "Rotation": -1.60404348,
+          "Scale": "0.15, -0.208333328",
+          "Origin": "128, 16"
+        },
+        "SpriteId": "thruster2",
+        "Color": {
+          "$id": "8",
+          "B": 255,
+          "G": 255,
+          "R": 255,
+          "A": 255
+        }
       },
-      "SpriteId": "thruster2",
-      "Color": {
-        "B": 255,
-        "G": 255,
-        "R": 255,
-        "A": 255
-      }
-    },
-    {
-      "$type": "FellSky.Game.Ships.Parts.Thruster, FellSky",
-      "Length": 0.0,
-      "Width": 0.0,
-      "ParticleTrailId": null,
-      "ThrusterType": 0,
-      "MaxThrust": 0.0,
-      "IsIdleModeOnZeroThrust": false,
-      "RampUpTime": "00:00:00",
-      "RampDownTime": "00:00:00",
-      "Name": "Thruster",
-      "Group": null,
-      "Transform": {
-        "Position": "-84.7123947, -42.1436157",
-        "Rotation": 1.60404348,
-        "Scale": "0.15, 0.208333328",
-        "Origin": "128, 16"
+      {
+        "$id": "9",
+        "$type": "FellSky.Game.Ships.Parts.Thruster, FellSky",
+        "Length": 0.0,
+        "Width": 0.0,
+        "ParticleTrailId": null,
+        "ThrusterType": 0,
+        "MaxThrust": 0.0,
+        "IsIdleModeOnZeroThrust": false,
+        "RampUpTime": "00:00:00",
+        "RampDownTime": "00:00:00",
+        "Name": "Thruster",
+        "Transform": {
+          "$id": "10",
+          "Position": "-84.7123947, -42.1436157",
+          "Rotation": 1.60404348,
+          "Scale": "0.15, 0.208333328",
+          "Origin": "128, 16"
+        },
+        "SpriteId": "thruster2",
+        "Color": {
+          "$id": "11",
+          "B": 255,
+          "G": 255,
+          "R": 255,
+          "A": 255
+        }
       },
-      "SpriteId": "thruster2",
-      "Color": {
-        "B": 255,
-        "G": 255,
-        "R": 255,
-        "A": 255
-      }
-    },
-    {
-      "$type": "FellSky.Game.Ships.Parts.Thruster, FellSky",
-      "Length": 0.0,
-      "Width": 0.0,
-      "ParticleTrailId": null,
-      "ThrusterType": 0,
-      "MaxThrust": 0.0,
-      "IsIdleModeOnZeroThrust": false,
-      "RampUpTime": "00:00:00",
-      "RampDownTime": "00:00:00",
-      "Name": "Thruster",
-      "Group": null,
-      "Transform": {
-        "Position": "-84.7123947, 42.1436157",
-        "Rotation": -1.60404348,
-        "Scale": "0.15, -0.208333328",
-        "Origin": "128, 16"
+      {
+        "$id": "12",
+        "$type": "FellSky.Game.Ships.Parts.Thruster, FellSky",
+        "Length": 0.0,
+        "Width": 0.0,
+        "ParticleTrailId": null,
+        "ThrusterType": 0,
+        "MaxThrust": 0.0,
+        "IsIdleModeOnZeroThrust": false,
+        "RampUpTime": "00:00:00",
+        "RampDownTime": "00:00:00",
+        "Name": "Thruster",
+        "Transform": {
+          "$id": "13",
+          "Position": "-84.7123947, 42.1436157",
+          "Rotation": -1.60404348,
+          "Scale": "0.15, -0.208333328",
+          "Origin": "128, 16"
+        },
+        "SpriteId": "thruster2",
+        "Color": {
+          "$id": "14",
+          "B": 255,
+          "G": 255,
+          "R": 255,
+          "A": 255
+        }
       },
-      "SpriteId": "thruster2",
-      "Color": {
-        "B": 255,
-        "G": 255,
-        "R": 255,
-        "A": 255
-      }
-    },
-    {
-      "$type": "FellSky.Game.Ships.Parts.Thruster, FellSky",
-      "Length": 0.0,
-      "Width": 0.0,
-      "ParticleTrailId": null,
-      "ThrusterType": 0,
-      "MaxThrust": 0.0,
-      "IsIdleModeOnZeroThrust": false,
-      "RampUpTime": "00:00:00",
-      "RampDownTime": "00:00:00",
-      "Name": "Thruster",
-      "Group": null,
-      "Transform": {
-        "Position": "101.803322, -43.644455",
-        "Rotation": 1.60404348,
-        "Scale": "0.15, 0.208333328",
-        "Origin": "128, 16"
+      {
+        "$id": "15",
+        "$type": "FellSky.Game.Ships.Parts.Thruster, FellSky",
+        "Length": 0.0,
+        "Width": 0.0,
+        "ParticleTrailId": null,
+        "ThrusterType": 0,
+        "MaxThrust": 0.0,
+        "IsIdleModeOnZeroThrust": false,
+        "RampUpTime": "00:00:00",
+        "RampDownTime": "00:00:00",
+        "Name": "Thruster",
+        "Transform": {
+          "$id": "16",
+          "Position": "101.803322, -43.644455",
+          "Rotation": 1.60404348,
+          "Scale": "0.15, 0.208333328",
+          "Origin": "128, 16"
+        },
+        "SpriteId": "thruster2",
+        "Color": {
+          "$id": "17",
+          "B": 255,
+          "G": 255,
+          "R": 255,
+          "A": 255
+        }
       },
-      "SpriteId": "thruster2",
-      "Color": {
-        "B": 255,
-        "G": 255,
-        "R": 255,
-        "A": 255
-      }
-    },
-    {
-      "$type": "FellSky.Game.Ships.Parts.Thruster, FellSky",
-      "Length": 0.0,
-      "Width": 0.0,
-      "ParticleTrailId": null,
-      "ThrusterType": 0,
-      "MaxThrust": 0.0,
-      "IsIdleModeOnZeroThrust": false,
-      "RampUpTime": "00:00:00",
-      "RampDownTime": "00:00:00",
-      "Name": "Thruster",
-      "Group": null,
-      "Transform": {
-        "Position": "101.803322, 43.644455",
-        "Rotation": -1.60404348,
-        "Scale": "0.15, -0.208333328",
-        "Origin": "128, 16"
+      {
+        "$id": "18",
+        "$type": "FellSky.Game.Ships.Parts.Thruster, FellSky",
+        "Length": 0.0,
+        "Width": 0.0,
+        "ParticleTrailId": null,
+        "ThrusterType": 0,
+        "MaxThrust": 0.0,
+        "IsIdleModeOnZeroThrust": false,
+        "RampUpTime": "00:00:00",
+        "RampDownTime": "00:00:00",
+        "Name": "Thruster",
+        "Transform": {
+          "$id": "19",
+          "Position": "101.803322, 43.644455",
+          "Rotation": -1.60404348,
+          "Scale": "0.15, -0.208333328",
+          "Origin": "128, 16"
+        },
+        "SpriteId": "thruster2",
+        "Color": {
+          "$id": "20",
+          "B": 255,
+          "G": 255,
+          "R": 255,
+          "A": 255
+        }
       },
-      "SpriteId": "thruster2",
-      "Color": {
-        "B": 255,
-        "G": 255,
-        "R": 255,
-        "A": 255
-      }
-    },
-    {
-      "$type": "FellSky.Game.Ships.Parts.Thruster, FellSky",
-      "Length": 0.0,
-      "Width": 0.0,
-      "ParticleTrailId": null,
-      "ThrusterType": 0,
-      "MaxThrust": 0.0,
-      "IsIdleModeOnZeroThrust": false,
-      "RampUpTime": "00:00:00",
-      "RampDownTime": "00:00:00",
-      "Name": "Thruster",
-      "Group": null,
-      "Transform": {
-        "Position": "110.304161, -41.1442032",
-        "Rotation": 1.60404348,
-        "Scale": "0.15, 0.208333328",
-        "Origin": "128, 16"
+      {
+        "$id": "21",
+        "$type": "FellSky.Game.Ships.Parts.Thruster, FellSky",
+        "Length": 0.0,
+        "Width": 0.0,
+        "ParticleTrailId": null,
+        "ThrusterType": 0,
+        "MaxThrust": 0.0,
+        "IsIdleModeOnZeroThrust": false,
+        "RampUpTime": "00:00:00",
+        "RampDownTime": "00:00:00",
+        "Name": "Thruster",
+        "Transform": {
+          "$id": "22",
+          "Position": "110.304161, -41.1442032",
+          "Rotation": 1.60404348,
+          "Scale": "0.15, 0.208333328",
+          "Origin": "128, 16"
+        },
+        "SpriteId": "thruster2",
+        "Color": {
+          "$id": "23",
+          "B": 255,
+          "G": 255,
+          "R": 255,
+          "A": 255
+        }
       },
-      "SpriteId": "thruster2",
-      "Color": {
-        "B": 255,
-        "G": 255,
-        "R": 255,
-        "A": 255
-      }
-    },
-    {
-      "$type": "FellSky.Game.Ships.Parts.Thruster, FellSky",
-      "Length": 0.0,
-      "Width": 0.0,
-      "ParticleTrailId": null,
-      "ThrusterType": 0,
-      "MaxThrust": 0.0,
-      "IsIdleModeOnZeroThrust": false,
-      "RampUpTime": "00:00:00",
-      "RampDownTime": "00:00:00",
-      "Name": "Thruster",
-      "Group": null,
-      "Transform": {
-        "Position": "110.304161, 41.1442032",
-        "Rotation": -1.60404348,
-        "Scale": "0.15, -0.208333328",
-        "Origin": "128, 16"
+      {
+        "$id": "24",
+        "$type": "FellSky.Game.Ships.Parts.Thruster, FellSky",
+        "Length": 0.0,
+        "Width": 0.0,
+        "ParticleTrailId": null,
+        "ThrusterType": 0,
+        "MaxThrust": 0.0,
+        "IsIdleModeOnZeroThrust": false,
+        "RampUpTime": "00:00:00",
+        "RampDownTime": "00:00:00",
+        "Name": "Thruster",
+        "Transform": {
+          "$id": "25",
+          "Position": "110.304161, 41.1442032",
+          "Rotation": -1.60404348,
+          "Scale": "0.15, -0.208333328",
+          "Origin": "128, 16"
+        },
+        "SpriteId": "thruster2",
+        "Color": {
+          "$id": "26",
+          "B": 255,
+          "G": 255,
+          "R": 255,
+          "A": 255
+        }
       },
-      "SpriteId": "thruster2",
-      "Color": {
-        "B": 255,
-        "G": 255,
-        "R": 255,
-        "A": 255
-      }
-    },
-    {
-      "$type": "FellSky.Game.Ships.Parts.Thruster, FellSky",
-      "Length": 0.0,
-      "Width": 0.0,
-      "ParticleTrailId": null,
-      "ThrusterType": 0,
-      "MaxThrust": 0.0,
-      "IsIdleModeOnZeroThrust": false,
-      "RampUpTime": "00:00:00",
-      "RampDownTime": "00:00:00",
-      "Name": "Thruster",
-      "Group": null,
-      "Transform": {
-        "Position": "61.802124, 62.6456375",
-        "Rotation": -3.05239677,
-        "Scale": "0.15, -0.208333328",
-        "Origin": "128, 16"
+      {
+        "$id": "27",
+        "$type": "FellSky.Game.Ships.Parts.Thruster, FellSky",
+        "Length": 0.0,
+        "Width": 0.0,
+        "ParticleTrailId": null,
+        "ThrusterType": 0,
+        "MaxThrust": 0.0,
+        "IsIdleModeOnZeroThrust": false,
+        "RampUpTime": "00:00:00",
+        "RampDownTime": "00:00:00",
+        "Name": "Thruster",
+        "Transform": {
+          "$id": "28",
+          "Position": "61.802124, 62.6456375",
+          "Rotation": -3.05239677,
+          "Scale": "0.15, -0.208333328",
+          "Origin": "128, 16"
+        },
+        "SpriteId": "thruster2",
+        "Color": {
+          "$id": "29",
+          "B": 255,
+          "G": 255,
+          "R": 255,
+          "A": 255
+        }
       },
-      "SpriteId": "thruster2",
-      "Color": {
-        "B": 255,
-        "G": 255,
-        "R": 255,
-        "A": 255
-      }
-    },
-    {
-      "$type": "FellSky.Game.Ships.Parts.Thruster, FellSky",
-      "Length": 0.0,
-      "Width": 0.0,
-      "ParticleTrailId": null,
-      "ThrusterType": 0,
-      "MaxThrust": 0.0,
-      "IsIdleModeOnZeroThrust": false,
-      "RampUpTime": "00:00:00",
-      "RampDownTime": "00:00:00",
-      "Name": "Thruster",
-      "Group": null,
-      "Transform": {
-        "Position": "61.802124, -62.6456375",
-        "Rotation": 3.05239677,
-        "Scale": "0.15, 0.208333328",
-        "Origin": "128, 16"
+      {
+        "$id": "30",
+        "$type": "FellSky.Game.Ships.Parts.Thruster, FellSky",
+        "Length": 0.0,
+        "Width": 0.0,
+        "ParticleTrailId": null,
+        "ThrusterType": 0,
+        "MaxThrust": 0.0,
+        "IsIdleModeOnZeroThrust": false,
+        "RampUpTime": "00:00:00",
+        "RampDownTime": "00:00:00",
+        "Name": "Thruster",
+        "Transform": {
+          "$id": "31",
+          "Position": "61.802124, -62.6456375",
+          "Rotation": 3.05239677,
+          "Scale": "0.15, 0.208333328",
+          "Origin": "128, 16"
+        },
+        "SpriteId": "thruster2",
+        "Color": {
+          "$id": "32",
+          "B": 255,
+          "G": 255,
+          "R": 255,
+          "A": 255
+        }
       },
-      "SpriteId": "thruster2",
-      "Color": {
-        "B": 255,
-        "G": 255,
-        "R": 255,
-        "A": 255
-      }
-    },
-    {
-      "$type": "FellSky.Game.Ships.Parts.Thruster, FellSky",
-      "Length": 0.0,
-      "Width": 0.0,
-      "ParticleTrailId": null,
-      "ThrusterType": 0,
-      "MaxThrust": 0.0,
-      "IsIdleModeOnZeroThrust": false,
-      "RampUpTime": "00:00:00",
-      "RampDownTime": "00:00:00",
-      "Name": "Thruster",
-      "Group": null,
-      "Transform": {
-        "Position": "56.8016319, -70.14638",
-        "Rotation": 3.05239677,
-        "Scale": "0.15, 0.208333328",
-        "Origin": "128, 16"
+      {
+        "$id": "33",
+        "$type": "FellSky.Game.Ships.Parts.Thruster, FellSky",
+        "Length": 0.0,
+        "Width": 0.0,
+        "ParticleTrailId": null,
+        "ThrusterType": 0,
+        "MaxThrust": 0.0,
+        "IsIdleModeOnZeroThrust": false,
+        "RampUpTime": "00:00:00",
+        "RampDownTime": "00:00:00",
+        "Name": "Thruster",
+        "Transform": {
+          "$id": "34",
+          "Position": "56.8016319, -70.14638",
+          "Rotation": 3.05239677,
+          "Scale": "0.15, 0.208333328",
+          "Origin": "128, 16"
+        },
+        "SpriteId": "thruster2",
+        "Color": {
+          "$id": "35",
+          "B": 255,
+          "G": 255,
+          "R": 255,
+          "A": 255
+        }
       },
-      "SpriteId": "thruster2",
-      "Color": {
-        "B": 255,
-        "G": 255,
-        "R": 255,
-        "A": 255
-      }
-    },
-    {
-      "$type": "FellSky.Game.Ships.Parts.Thruster, FellSky",
-      "Length": 0.0,
-      "Width": 0.0,
-      "ParticleTrailId": null,
-      "ThrusterType": 0,
-      "MaxThrust": 0.0,
-      "IsIdleModeOnZeroThrust": false,
-      "RampUpTime": "00:00:00",
-      "RampDownTime": "00:00:00",
-      "Name": "Thruster",
-      "Group": null,
-      "Transform": {
-        "Position": "56.8016319, 70.14638",
-        "Rotation": -3.05239677,
-        "Scale": "0.15, -0.208333328",
-        "Origin": "128, 16"
+      {
+        "$id": "36",
+        "$type": "FellSky.Game.Ships.Parts.Thruster, FellSky",
+        "Length": 0.0,
+        "Width": 0.0,
+        "ParticleTrailId": null,
+        "ThrusterType": 0,
+        "MaxThrust": 0.0,
+        "IsIdleModeOnZeroThrust": false,
+        "RampUpTime": "00:00:00",
+        "RampDownTime": "00:00:00",
+        "Name": "Thruster",
+        "Transform": {
+          "$id": "37",
+          "Position": "56.8016319, 70.14638",
+          "Rotation": -3.05239677,
+          "Scale": "0.15, -0.208333328",
+          "Origin": "128, 16"
+        },
+        "SpriteId": "thruster2",
+        "Color": {
+          "$id": "38",
+          "B": 255,
+          "G": 255,
+          "R": 255,
+          "A": 255
+        }
       },
-      "SpriteId": "thruster2",
-      "Color": {
-        "B": 255,
-        "G": 255,
-        "R": 255,
-        "A": 255
-      }
-    },
-    {
-      "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
-      "ColorType": 0,
-      "ShapeId": null,
-      "Health": 100.0,
-      "PhysicsBodyIndex": 0,
-      "Name": "Hull",
-      "Group": null,
-      "Transform": {
-        "Position": "2.651783, 28.675005",
-        "Rotation": 0.0,
-        "Scale": "1, 1",
-        "Origin": "20, 16"
+      {
+        "$id": "39",
+        "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
+        "ColorType": 0,
+        "ShapeId": null,
+        "Health": 100.0,
+        "Name": "Hull",
+        "Transform": {
+          "$id": "40",
+          "Position": "2.651783, 28.675005",
+          "Rotation": 0.0,
+          "Scale": "1, 1",
+          "Origin": "20, 16"
+        },
+        "SpriteId": "Kae_shn461",
+        "Color": {
+          "$id": "41",
+          "B": 38,
+          "G": 38,
+          "R": 38,
+          "A": 255
+        }
       },
-      "SpriteId": "Kae_shn461",
-      "Color": {
-        "B": 38,
-        "G": 38,
-        "R": 38,
-        "A": 255
-      }
-    },
-    {
-      "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
-      "ColorType": 0,
-      "ShapeId": null,
-      "Health": 100.0,
-      "PhysicsBodyIndex": 0,
-      "Name": "Hull",
-      "Group": null,
-      "Transform": {
-        "Position": "-69.8482361, -35.8249969",
-        "Rotation": 0.09891963,
-        "Scale": "-1, 1",
-        "Origin": "36, 8"
+      {
+        "$id": "42",
+        "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
+        "ColorType": 0,
+        "ShapeId": null,
+        "Health": 100.0,
+        "Name": "Hull",
+        "Transform": {
+          "$id": "43",
+          "Position": "-69.8482361, -35.8249969",
+          "Rotation": 0.09891963,
+          "Scale": "-1, 1",
+          "Origin": "36, 8"
+        },
+        "SpriteId": "Kae_shn349",
+        "Color": {
+          "$id": "44",
+          "B": 120,
+          "G": 120,
+          "R": 120,
+          "A": 255
+        }
       },
-      "SpriteId": "Kae_shn349",
-      "Color": {
-        "B": 120,
-        "G": 120,
-        "R": 120,
-        "A": 255
-      }
-    },
-    {
-      "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
-      "ColorType": 0,
-      "ShapeId": null,
-      "Health": 100.0,
-      "PhysicsBodyIndex": 0,
-      "Name": "Hull",
-      "Group": null,
-      "Transform": {
-        "Position": "-69.8482361, 35.8249969",
-        "Rotation": -0.09891962,
-        "Scale": "-1, -1",
-        "Origin": "36, 8"
+      {
+        "$id": "45",
+        "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
+        "ColorType": 0,
+        "ShapeId": null,
+        "Health": 100.0,
+        "Name": "Hull",
+        "Transform": {
+          "$id": "46",
+          "Position": "-69.8482361, 35.8249969",
+          "Rotation": -0.09891962,
+          "Scale": "-1, -1",
+          "Origin": "36, 8"
+        },
+        "SpriteId": "Kae_shn349",
+        "Color": {
+          "$id": "47",
+          "B": 120,
+          "G": 120,
+          "R": 120,
+          "A": 255
+        }
       },
-      "SpriteId": "Kae_shn349",
-      "Color": {
-        "B": 120,
-        "G": 120,
-        "R": 120,
-        "A": 255
-      }
-    },
-    {
-      "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
-      "ColorType": 0,
-      "ShapeId": null,
-      "Health": 100.0,
-      "PhysicsBodyIndex": 0,
-      "Name": "Hull",
-      "Group": null,
-      "Transform": {
-        "Position": "2.651783, -28.675005",
-        "Rotation": 0.0,
-        "Scale": "1, -1",
-        "Origin": "20, 16"
+      {
+        "$id": "48",
+        "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
+        "ColorType": 0,
+        "ShapeId": null,
+        "Health": 100.0,
+        "Name": "Hull",
+        "Transform": {
+          "$id": "49",
+          "Position": "2.651783, -28.675005",
+          "Rotation": 0.0,
+          "Scale": "1, -1",
+          "Origin": "20, 16"
+        },
+        "SpriteId": "Kae_shn461",
+        "Color": {
+          "$id": "50",
+          "B": 38,
+          "G": 38,
+          "R": 38,
+          "A": 255
+        }
       },
-      "SpriteId": "Kae_shn461",
-      "Color": {
-        "B": 38,
-        "G": 38,
-        "R": 38,
-        "A": 255
-      }
-    },
-    {
-      "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
-      "ColorType": 0,
-      "ShapeId": null,
-      "Health": 100.0,
-      "PhysicsBodyIndex": 0,
-      "Name": "Hull",
-      "Group": null,
-      "Transform": {
-        "Position": "35.1517868, -36.825",
-        "Rotation": 0.0,
-        "Scale": "1, 1",
-        "Origin": "19, 15"
+      {
+        "$id": "51",
+        "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
+        "ColorType": 0,
+        "ShapeId": null,
+        "Health": 100.0,
+        "Name": "Hull",
+        "Transform": {
+          "$id": "52",
+          "Position": "35.1517868, -36.825",
+          "Rotation": 0.0,
+          "Scale": "1, 1",
+          "Origin": "19, 15"
+        },
+        "SpriteId": "Kae_shn125",
+        "Color": {
+          "$id": "53",
+          "B": 44,
+          "G": 44,
+          "R": 46,
+          "A": 255
+        }
       },
-      "SpriteId": "Kae_shn125",
-      "Color": {
-        "B": 44,
-        "G": 44,
-        "R": 46,
-        "A": 255
-      }
-    },
-    {
-      "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
-      "ColorType": 0,
-      "ShapeId": null,
-      "Health": 100.0,
-      "PhysicsBodyIndex": 0,
-      "Name": "Hull",
-      "Group": null,
-      "Transform": {
-        "Position": "35.1517868, 36.825",
-        "Rotation": 0.0,
-        "Scale": "1, -1",
-        "Origin": "19, 15"
+      {
+        "$id": "54",
+        "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
+        "ColorType": 0,
+        "ShapeId": null,
+        "Health": 100.0,
+        "Name": "Hull",
+        "Transform": {
+          "$id": "55",
+          "Position": "35.1517868, 36.825",
+          "Rotation": 0.0,
+          "Scale": "1, -1",
+          "Origin": "19, 15"
+        },
+        "SpriteId": "Kae_shn125",
+        "Color": {
+          "$id": "56",
+          "B": 44,
+          "G": 44,
+          "R": 46,
+          "A": 255
+        }
       },
-      "SpriteId": "Kae_shn125",
-      "Color": {
-        "B": 44,
-        "G": 44,
-        "R": 46,
-        "A": 255
-      }
-    },
-    {
-      "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
-      "ColorType": 0,
-      "ShapeId": null,
-      "Health": 100.0,
-      "PhysicsBodyIndex": 0,
-      "Name": "Hull",
-      "Group": null,
-      "Transform": {
-        "Position": "25.6517868, -20.325",
-        "Rotation": 0.0,
-        "Scale": "1, 1",
-        "Origin": "25, 16"
+      {
+        "$id": "57",
+        "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
+        "ColorType": 0,
+        "ShapeId": null,
+        "Health": 100.0,
+        "Name": "Hull",
+        "Transform": {
+          "$id": "58",
+          "Position": "25.6517868, -20.325",
+          "Rotation": 0.0,
+          "Scale": "1, 1",
+          "Origin": "25, 16"
+        },
+        "SpriteId": "Kae_shn448",
+        "Color": {
+          "$id": "59",
+          "B": 94,
+          "G": 94,
+          "R": 94,
+          "A": 255
+        }
       },
-      "SpriteId": "Kae_shn448",
-      "Color": {
-        "B": 94,
-        "G": 94,
-        "R": 94,
-        "A": 255
-      }
-    },
-    {
-      "$type": "FellSky.Game.Ships.Parts.Thruster, FellSky",
-      "Length": 0.0,
-      "Width": 0.0,
-      "ParticleTrailId": null,
-      "ThrusterType": 0,
-      "MaxThrust": 0.0,
-      "IsIdleModeOnZeroThrust": true,
-      "RampUpTime": "00:00:00",
-      "RampDownTime": "00:00:00",
-      "Name": "Thruster",
-      "Group": null,
-      "Transform": {
-        "Position": "-55.6964722, -18.6499939",
-        "Rotation": 0.0,
-        "Scale": "1, 1",
-        "Origin": "128, 16"
+      {
+        "$id": "60",
+        "$type": "FellSky.Game.Ships.Parts.Thruster, FellSky",
+        "Length": 0.0,
+        "Width": 0.0,
+        "ParticleTrailId": null,
+        "ThrusterType": 0,
+        "MaxThrust": 0.0,
+        "IsIdleModeOnZeroThrust": true,
+        "RampUpTime": "00:00:00",
+        "RampDownTime": "00:00:00",
+        "Name": "Thruster",
+        "Transform": {
+          "$id": "61",
+          "Position": "-55.6964722, -18.6499939",
+          "Rotation": 0.0,
+          "Scale": "1, 1",
+          "Origin": "128, 16"
+        },
+        "SpriteId": "thruster1",
+        "Color": {
+          "$id": "62",
+          "B": 47,
+          "G": 180,
+          "R": 245,
+          "A": 255
+        }
       },
-      "SpriteId": "thruster1",
-      "Color": {
-        "B": 47,
-        "G": 180,
-        "R": 245,
-        "A": 255
-      }
-    },
-    {
-      "$type": "FellSky.Game.Ships.Parts.Thruster, FellSky",
-      "Length": 0.0,
-      "Width": 0.0,
-      "ParticleTrailId": null,
-      "ThrusterType": 0,
-      "MaxThrust": 0.0,
-      "IsIdleModeOnZeroThrust": true,
-      "RampUpTime": "00:00:00",
-      "RampDownTime": "00:00:00",
-      "Name": "Thruster",
-      "Group": null,
-      "Transform": {
-        "Position": "-55.6964722, 18.6499939",
-        "Rotation": 0.0,
-        "Scale": "1, -1",
-        "Origin": "128, 16"
+      {
+        "$id": "63",
+        "$type": "FellSky.Game.Ships.Parts.Thruster, FellSky",
+        "Length": 0.0,
+        "Width": 0.0,
+        "ParticleTrailId": null,
+        "ThrusterType": 0,
+        "MaxThrust": 0.0,
+        "IsIdleModeOnZeroThrust": true,
+        "RampUpTime": "00:00:00",
+        "RampDownTime": "00:00:00",
+        "Name": "Thruster",
+        "Transform": {
+          "$id": "64",
+          "Position": "-55.6964722, 18.6499939",
+          "Rotation": 0.0,
+          "Scale": "1, -1",
+          "Origin": "128, 16"
+        },
+        "SpriteId": "thruster1",
+        "Color": {
+          "$id": "65",
+          "B": 47,
+          "G": 180,
+          "R": 245,
+          "A": 255
+        }
       },
-      "SpriteId": "thruster1",
-      "Color": {
-        "B": 47,
-        "G": 180,
-        "R": 245,
-        "A": 255
-      }
-    },
-    {
-      "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
-      "ColorType": 0,
-      "ShapeId": null,
-      "Health": 100.0,
-      "PhysicsBodyIndex": 0,
-      "Name": "Hull",
-      "Group": null,
-      "Transform": {
-        "Position": "-8.348217, 17.675005",
-        "Rotation": -0.4970136,
-        "Scale": "1, 1",
-        "Origin": "16, 12"
+      {
+        "$id": "66",
+        "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
+        "ColorType": 0,
+        "ShapeId": null,
+        "Health": 100.0,
+        "Name": "Hull",
+        "Transform": {
+          "$id": "67",
+          "Position": "-8.348217, 17.675005",
+          "Rotation": -0.4970136,
+          "Scale": "1, 1",
+          "Origin": "16, 12"
+        },
+        "SpriteId": "Kae_shn455",
+        "Color": {
+          "$id": "68",
+          "B": 94,
+          "G": 94,
+          "R": 94,
+          "A": 255
+        }
       },
-      "SpriteId": "Kae_shn455",
-      "Color": {
-        "B": 94,
-        "G": 94,
-        "R": 94,
-        "A": 255
-      }
-    },
-    {
-      "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
-      "ColorType": 0,
-      "ShapeId": null,
-      "Health": 100.0,
-      "PhysicsBodyIndex": 0,
-      "Name": "Hull",
-      "Group": null,
-      "Transform": {
-        "Position": "-8.348217, -17.675005",
-        "Rotation": 0.4970136,
-        "Scale": "1, -1",
-        "Origin": "16, 12"
+      {
+        "$id": "69",
+        "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
+        "ColorType": 0,
+        "ShapeId": null,
+        "Health": 100.0,
+        "Name": "Hull",
+        "Transform": {
+          "$id": "70",
+          "Position": "-8.348217, -17.675005",
+          "Rotation": 0.4970136,
+          "Scale": "1, -1",
+          "Origin": "16, 12"
+        },
+        "SpriteId": "Kae_shn455",
+        "Color": {
+          "$id": "71",
+          "B": 94,
+          "G": 94,
+          "R": 94,
+          "A": 255
+        }
       },
-      "SpriteId": "Kae_shn455",
-      "Color": {
-        "B": 94,
-        "G": 94,
-        "R": 94,
-        "A": 255
-      }
-    },
-    {
-      "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
-      "ColorType": 0,
-      "ShapeId": null,
-      "Health": 100.0,
-      "PhysicsBodyIndex": 0,
-      "Name": "Hull",
-      "Group": null,
-      "Transform": {
-        "Position": "25.6517868, 20.325",
-        "Rotation": 0.0,
-        "Scale": "1, -1",
-        "Origin": "25, 16"
+      {
+        "$id": "72",
+        "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
+        "ColorType": 0,
+        "ShapeId": null,
+        "Health": 100.0,
+        "Name": "Hull",
+        "Transform": {
+          "$id": "73",
+          "Position": "25.6517868, 20.325",
+          "Rotation": 0.0,
+          "Scale": "1, -1",
+          "Origin": "25, 16"
+        },
+        "SpriteId": "Kae_shn448",
+        "Color": {
+          "$id": "74",
+          "B": 94,
+          "G": 94,
+          "R": 94,
+          "A": 255
+        }
       },
-      "SpriteId": "Kae_shn448",
-      "Color": {
-        "B": 94,
-        "G": 94,
-        "R": 94,
-        "A": 255
-      }
-    },
-    {
-      "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
-      "ColorType": 0,
-      "ShapeId": null,
-      "Health": 100.0,
-      "PhysicsBodyIndex": 0,
-      "Name": "Hull",
-      "Group": null,
-      "Transform": {
-        "Position": "9.151783, 0.175002083",
-        "Rotation": 0.0,
-        "Scale": "1, 1",
-        "Origin": "19, 18"
+      {
+        "$id": "75",
+        "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
+        "ColorType": 0,
+        "ShapeId": null,
+        "Health": 100.0,
+        "Name": "Hull",
+        "Transform": {
+          "$id": "76",
+          "Position": "9.151783, 0.175002083",
+          "Rotation": 0.0,
+          "Scale": "1, 1",
+          "Origin": "19, 18"
+        },
+        "SpriteId": "Kae_shn167",
+        "Color": {
+          "$id": "77",
+          "B": 255,
+          "G": 255,
+          "R": 255,
+          "A": 255
+        }
       },
-      "SpriteId": "Kae_shn167",
-      "Color": {
-        "B": 255,
-        "G": 255,
-        "R": 255,
-        "A": 255
-      }
-    },
-    {
-      "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
-      "ColorType": 0,
-      "ShapeId": null,
-      "Health": 100.0,
-      "PhysicsBodyIndex": 0,
-      "Name": "Hull",
-      "Group": null,
-      "Transform": {
-        "Position": "45.6517868, -47.8250046",
-        "Rotation": 0.200885057,
-        "Scale": "1, 1",
-        "Origin": "14, 10"
+      {
+        "$id": "78",
+        "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
+        "ColorType": 0,
+        "ShapeId": null,
+        "Health": 100.0,
+        "Name": "Hull",
+        "Transform": {
+          "$id": "79",
+          "Position": "45.6517868, -47.8250046",
+          "Rotation": 0.200885057,
+          "Scale": "1, 1",
+          "Origin": "14, 10"
+        },
+        "SpriteId": "Kae_shn067",
+        "Color": {
+          "$id": "80",
+          "B": 122,
+          "G": 122,
+          "R": 122,
+          "A": 255
+        }
       },
-      "SpriteId": "Kae_shn067",
-      "Color": {
-        "B": 122,
-        "G": 122,
-        "R": 122,
-        "A": 255
-      }
-    },
-    {
-      "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
-      "ColorType": 0,
-      "ShapeId": null,
-      "Health": 100.0,
-      "PhysicsBodyIndex": 0,
-      "Name": "Hull",
-      "Group": null,
-      "Transform": {
-        "Position": "45.6517868, 47.8250046",
-        "Rotation": -0.200885057,
-        "Scale": "1, -1",
-        "Origin": "14, 10"
+      {
+        "$id": "81",
+        "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
+        "ColorType": 0,
+        "ShapeId": null,
+        "Health": 100.0,
+        "Name": "Hull",
+        "Transform": {
+          "$id": "82",
+          "Position": "45.6517868, 47.8250046",
+          "Rotation": -0.200885057,
+          "Scale": "1, -1",
+          "Origin": "14, 10"
+        },
+        "SpriteId": "Kae_shn067",
+        "Color": {
+          "$id": "83",
+          "B": 122,
+          "G": 122,
+          "R": 122,
+          "A": 255
+        }
       },
-      "SpriteId": "Kae_shn067",
-      "Color": {
-        "B": 122,
-        "G": 122,
-        "R": 122,
-        "A": 255
-      }
-    },
-    {
-      "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
-      "ColorType": 0,
-      "ShapeId": null,
-      "Health": 100.0,
-      "PhysicsBodyIndex": 0,
-      "Name": "Hull",
-      "Group": null,
-      "Transform": {
-        "Position": "12.151783, -50.8250046",
-        "Rotation": 0.0,
-        "Scale": "1, 1",
-        "Origin": "23, 13"
+      {
+        "$id": "84",
+        "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
+        "ColorType": 0,
+        "ShapeId": null,
+        "Health": 100.0,
+        "Name": "Hull",
+        "Transform": {
+          "$id": "85",
+          "Position": "12.151783, -50.8250046",
+          "Rotation": 0.0,
+          "Scale": "1, 1",
+          "Origin": "23, 13"
+        },
+        "SpriteId": "Kae_shn320",
+        "Color": {
+          "$id": "86",
+          "B": 74,
+          "G": 74,
+          "R": 74,
+          "A": 255
+        }
       },
-      "SpriteId": "Kae_shn320",
-      "Color": {
-        "B": 74,
-        "G": 74,
-        "R": 74,
-        "A": 255
-      }
-    },
-    {
-      "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
-      "ColorType": 0,
-      "ShapeId": null,
-      "Health": 100.0,
-      "PhysicsBodyIndex": 0,
-      "Name": "Hull",
-      "Group": null,
-      "Transform": {
-        "Position": "12.151783, 50.8250046",
-        "Rotation": 0.0,
-        "Scale": "1, -1",
-        "Origin": "23, 13"
+      {
+        "$id": "87",
+        "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
+        "ColorType": 0,
+        "ShapeId": null,
+        "Health": 100.0,
+        "Name": "Hull",
+        "Transform": {
+          "$id": "88",
+          "Position": "12.151783, 50.8250046",
+          "Rotation": 0.0,
+          "Scale": "1, -1",
+          "Origin": "23, 13"
+        },
+        "SpriteId": "Kae_shn320",
+        "Color": {
+          "$id": "89",
+          "B": 74,
+          "G": 74,
+          "R": 74,
+          "A": 255
+        }
       },
-      "SpriteId": "Kae_shn320",
-      "Color": {
-        "B": 74,
-        "G": 74,
-        "R": 74,
-        "A": 255
-      }
-    },
-    {
-      "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
-      "ColorType": 0,
-      "ShapeId": null,
-      "Health": 100.0,
-      "PhysicsBodyIndex": 0,
-      "Name": "Hull",
-      "Group": null,
-      "Transform": {
-        "Position": "84.1517944, -42.3250046",
-        "Rotation": 0.205666542,
-        "Scale": "1, 1",
-        "Origin": "35, 9"
+      {
+        "$id": "90",
+        "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
+        "ColorType": 0,
+        "ShapeId": null,
+        "Health": 100.0,
+        "Name": "Hull",
+        "Transform": {
+          "$id": "91",
+          "Position": "84.1517944, -42.3250046",
+          "Rotation": 0.205666542,
+          "Scale": "1, 1",
+          "Origin": "35, 9"
+        },
+        "SpriteId": "Kae_shn120",
+        "Color": {
+          "$id": "92",
+          "B": 255,
+          "G": 255,
+          "R": 255,
+          "A": 255
+        }
       },
-      "SpriteId": "Kae_shn120",
-      "Color": {
-        "B": 255,
-        "G": 255,
-        "R": 255,
-        "A": 255
-      }
-    },
-    {
-      "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
-      "ColorType": 0,
-      "ShapeId": null,
-      "Health": 100.0,
-      "PhysicsBodyIndex": 0,
-      "Name": "Hull",
-      "Group": null,
-      "Transform": {
-        "Position": "-42.3482361, -17.8249969",
-        "Rotation": 0.0,
-        "Scale": "1, 1",
-        "Origin": "24, 16"
+      {
+        "$id": "93",
+        "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
+        "ColorType": 0,
+        "ShapeId": null,
+        "Health": 100.0,
+        "Name": "Hull",
+        "Transform": {
+          "$id": "94",
+          "Position": "-42.3482361, -17.8249969",
+          "Rotation": 0.0,
+          "Scale": "1, 1",
+          "Origin": "24, 16"
+        },
+        "SpriteId": "Kae_shn170",
+        "Color": {
+          "$id": "95",
+          "B": 48,
+          "G": 48,
+          "R": 48,
+          "A": 255
+        }
       },
-      "SpriteId": "Kae_shn170",
-      "Color": {
-        "B": 48,
-        "G": 48,
-        "R": 48,
-        "A": 255
-      }
-    },
-    {
-      "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
-      "ColorType": 0,
-      "ShapeId": null,
-      "Health": 100.0,
-      "PhysicsBodyIndex": 0,
-      "Name": "Hull",
-      "Group": null,
-      "Transform": {
-        "Position": "-42.3482361, 17.8249969",
-        "Rotation": 0.0,
-        "Scale": "1, -1",
-        "Origin": "24, 16"
+      {
+        "$id": "96",
+        "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
+        "ColorType": 0,
+        "ShapeId": null,
+        "Health": 100.0,
+        "Name": "Hull",
+        "Transform": {
+          "$id": "97",
+          "Position": "-42.3482361, 17.8249969",
+          "Rotation": 0.0,
+          "Scale": "1, -1",
+          "Origin": "24, 16"
+        },
+        "SpriteId": "Kae_shn170",
+        "Color": {
+          "$id": "98",
+          "B": 48,
+          "G": 48,
+          "R": 48,
+          "A": 255
+        }
       },
-      "SpriteId": "Kae_shn170",
-      "Color": {
-        "B": 48,
-        "G": 48,
-        "R": 48,
-        "A": 255
-      }
-    },
-    {
-      "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
-      "ColorType": 0,
-      "ShapeId": null,
-      "Health": 100.0,
-      "PhysicsBodyIndex": 0,
-      "Name": "Hull",
-      "Group": null,
-      "Transform": {
-        "Position": "-5.348236, 82.175",
-        "Rotation": 2.64723682,
-        "Scale": "1, 1",
-        "Origin": "31, 8"
+      {
+        "$id": "99",
+        "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
+        "ColorType": 0,
+        "ShapeId": null,
+        "Health": 100.0,
+        "Name": "Hull",
+        "Transform": {
+          "$id": "100",
+          "Position": "-5.348236, 82.175",
+          "Rotation": 2.64723682,
+          "Scale": "1, 1",
+          "Origin": "31, 8"
+        },
+        "SpriteId": "Kae_shn350",
+        "Color": {
+          "$id": "101",
+          "B": 107,
+          "G": 107,
+          "R": 107,
+          "A": 255
+        }
       },
-      "SpriteId": "Kae_shn350",
-      "Color": {
-        "B": 107,
-        "G": 107,
-        "R": 107,
-        "A": 255
-      }
-    },
-    {
-      "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
-      "ColorType": 0,
-      "ShapeId": null,
-      "Health": 100.0,
-      "PhysicsBodyIndex": 0,
-      "Name": "Hull",
-      "Group": null,
-      "Transform": {
-        "Position": "-5.348236, -82.175",
-        "Rotation": -2.64723682,
-        "Scale": "1, -1",
-        "Origin": "31, 8"
+      {
+        "$id": "102",
+        "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
+        "ColorType": 0,
+        "ShapeId": null,
+        "Health": 100.0,
+        "Name": "Hull",
+        "Transform": {
+          "$id": "103",
+          "Position": "-5.348236, -82.175",
+          "Rotation": -2.64723682,
+          "Scale": "1, -1",
+          "Origin": "31, 8"
+        },
+        "SpriteId": "Kae_shn350",
+        "Color": {
+          "$id": "104",
+          "B": 107,
+          "G": 107,
+          "R": 107,
+          "A": 255
+        }
       },
-      "SpriteId": "Kae_shn350",
-      "Color": {
-        "B": 107,
-        "G": 107,
-        "R": 107,
-        "A": 255
-      }
-    },
-    {
-      "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
-      "ColorType": 0,
-      "ShapeId": null,
-      "Health": 100.0,
-      "PhysicsBodyIndex": 0,
-      "Name": "Hull",
-      "Group": null,
-      "Transform": {
-        "Position": "84.1517944, 42.3250046",
-        "Rotation": -0.205666542,
-        "Scale": "1, -1",
-        "Origin": "35, 9"
+      {
+        "$id": "105",
+        "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
+        "ColorType": 0,
+        "ShapeId": null,
+        "Health": 100.0,
+        "Name": "Hull",
+        "Transform": {
+          "$id": "106",
+          "Position": "84.1517944, 42.3250046",
+          "Rotation": -0.205666542,
+          "Scale": "1, -1",
+          "Origin": "35, 9"
+        },
+        "SpriteId": "Kae_shn120",
+        "Color": {
+          "$id": "107",
+          "B": 255,
+          "G": 255,
+          "R": 255,
+          "A": 255
+        }
       },
-      "SpriteId": "Kae_shn120",
-      "Color": {
-        "B": 255,
-        "G": 255,
-        "R": 255,
-        "A": 255
-      }
-    },
-    {
-      "$type": "FellSky.Game.Ships.Parts.Thruster, FellSky",
-      "Length": 0.0,
-      "Width": 0.0,
-      "ParticleTrailId": null,
-      "ThrusterType": 0,
-      "MaxThrust": 0.0,
-      "IsIdleModeOnZeroThrust": false,
-      "RampUpTime": "00:00:00",
-      "RampDownTime": "00:00:00",
-      "Name": "Thruster",
-      "Group": null,
-      "Transform": {
-        "Position": "-39.3496628, 56.1770554",
-        "Rotation": -0.178964615,
-        "Scale": "0.540887356, 0.5191366",
-        "Origin": "128, 16"
+      {
+        "$id": "108",
+        "$type": "FellSky.Game.Ships.Parts.Thruster, FellSky",
+        "Length": 0.0,
+        "Width": 0.0,
+        "ParticleTrailId": null,
+        "ThrusterType": 0,
+        "MaxThrust": 0.0,
+        "IsIdleModeOnZeroThrust": false,
+        "RampUpTime": "00:00:00",
+        "RampDownTime": "00:00:00",
+        "Name": "Thruster",
+        "Transform": {
+          "$id": "109",
+          "Position": "-39.3496628, 56.1770554",
+          "Rotation": -0.178964615,
+          "Scale": "0.540887356, 0.5191366",
+          "Origin": "128, 16"
+        },
+        "SpriteId": "thruster2",
+        "Color": {
+          "$id": "110",
+          "B": 119,
+          "G": 195,
+          "R": 237,
+          "A": 255
+        }
       },
-      "SpriteId": "thruster2",
-      "Color": {
-        "B": 119,
-        "G": 195,
-        "R": 237,
-        "A": 255
-      }
-    },
-    {
-      "$type": "FellSky.Game.Ships.Parts.Thruster, FellSky",
-      "Length": 0.0,
-      "Width": 0.0,
-      "ParticleTrailId": null,
-      "ThrusterType": 0,
-      "MaxThrust": 0.0,
-      "IsIdleModeOnZeroThrust": false,
-      "RampUpTime": "00:00:00",
-      "RampDownTime": "00:00:00",
-      "Name": "Thruster",
-      "Group": null,
-      "Transform": {
-        "Position": "-39.3496628, -56.1770554",
-        "Rotation": 0.178964615,
-        "Scale": "0.540887356, -0.5191366",
-        "Origin": "128, 16"
+      {
+        "$id": "111",
+        "$type": "FellSky.Game.Ships.Parts.Thruster, FellSky",
+        "Length": 0.0,
+        "Width": 0.0,
+        "ParticleTrailId": null,
+        "ThrusterType": 0,
+        "MaxThrust": 0.0,
+        "IsIdleModeOnZeroThrust": false,
+        "RampUpTime": "00:00:00",
+        "RampDownTime": "00:00:00",
+        "Name": "Thruster",
+        "Transform": {
+          "$id": "112",
+          "Position": "-39.3496628, -56.1770554",
+          "Rotation": 0.178964615,
+          "Scale": "0.540887356, -0.5191366",
+          "Origin": "128, 16"
+        },
+        "SpriteId": "thruster2",
+        "Color": {
+          "$id": "113",
+          "B": 119,
+          "G": 195,
+          "R": 237,
+          "A": 255
+        }
       },
-      "SpriteId": "thruster2",
-      "Color": {
-        "B": 119,
-        "G": 195,
-        "R": 237,
-        "A": 255
-      }
-    },
-    {
-      "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
-      "ColorType": 0,
-      "ShapeId": null,
-      "Health": 100.0,
-      "PhysicsBodyIndex": 0,
-      "Name": "Hull",
-      "Group": null,
-      "Transform": {
-        "Position": "39.65178, -69.825",
-        "Rotation": 0.2746595,
-        "Scale": "1, 1",
-        "Origin": "27, 12"
+      {
+        "$id": "114",
+        "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
+        "ColorType": 0,
+        "ShapeId": null,
+        "Health": 100.0,
+        "Name": "Hull",
+        "Transform": {
+          "$id": "115",
+          "Position": "39.65178, -69.825",
+          "Rotation": 0.2746595,
+          "Scale": "1, 1",
+          "Origin": "27, 12"
+        },
+        "SpriteId": "Kae_shn335",
+        "Color": {
+          "$id": "116",
+          "B": 176,
+          "G": 176,
+          "R": 176,
+          "A": 255
+        }
       },
-      "SpriteId": "Kae_shn335",
-      "Color": {
-        "B": 176,
-        "G": 176,
-        "R": 176,
-        "A": 255
-      }
-    },
-    {
-      "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
-      "ColorType": 0,
-      "ShapeId": null,
-      "Health": 100.0,
-      "PhysicsBodyIndex": 0,
-      "Name": "Hull",
-      "Group": null,
-      "Transform": {
-        "Position": "39.65178, 69.825",
-        "Rotation": -0.2746595,
-        "Scale": "1, -1",
-        "Origin": "27, 12"
+      {
+        "$id": "117",
+        "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
+        "ColorType": 0,
+        "ShapeId": null,
+        "Health": 100.0,
+        "Name": "Hull",
+        "Transform": {
+          "$id": "118",
+          "Position": "39.65178, 69.825",
+          "Rotation": -0.2746595,
+          "Scale": "1, -1",
+          "Origin": "27, 12"
+        },
+        "SpriteId": "Kae_shn335",
+        "Color": {
+          "$id": "119",
+          "B": 176,
+          "G": 176,
+          "R": 176,
+          "A": 255
+        }
       },
-      "SpriteId": "Kae_shn335",
-      "Color": {
-        "B": 176,
-        "G": 176,
-        "R": 176,
-        "A": 255
-      }
-    },
-    {
-      "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
-      "ColorType": 0,
-      "ShapeId": null,
-      "Health": 100.0,
-      "PhysicsBodyIndex": 0,
-      "Name": "Hull",
-      "Group": null,
-      "Transform": {
-        "Position": "33.6517868, -61.3250046",
-        "Rotation": 0.0,
-        "Scale": "1, 1",
-        "Origin": "21, 14"
+      {
+        "$id": "120",
+        "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
+        "ColorType": 0,
+        "ShapeId": null,
+        "Health": 100.0,
+        "Name": "Hull",
+        "Transform": {
+          "$id": "121",
+          "Position": "33.6517868, -61.3250046",
+          "Rotation": 0.0,
+          "Scale": "1, 1",
+          "Origin": "21, 14"
+        },
+        "SpriteId": "Kae_shn082",
+        "Color": {
+          "$id": "122",
+          "B": 255,
+          "G": 255,
+          "R": 255,
+          "A": 255
+        }
       },
-      "SpriteId": "Kae_shn082",
-      "Color": {
-        "B": 255,
-        "G": 255,
-        "R": 255,
-        "A": 255
-      }
-    },
-    {
-      "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
-      "ColorType": 0,
-      "ShapeId": null,
-      "Health": 100.0,
-      "PhysicsBodyIndex": 0,
-      "Name": "Hull",
-      "Group": null,
-      "Transform": {
-        "Position": "33.6517868, 61.3250046",
-        "Rotation": 0.0,
-        "Scale": "1, -1",
-        "Origin": "21, 14"
+      {
+        "$id": "123",
+        "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
+        "ColorType": 0,
+        "ShapeId": null,
+        "Health": 100.0,
+        "Name": "Hull",
+        "Transform": {
+          "$id": "124",
+          "Position": "33.6517868, 61.3250046",
+          "Rotation": 0.0,
+          "Scale": "1, -1",
+          "Origin": "21, 14"
+        },
+        "SpriteId": "Kae_shn082",
+        "Color": {
+          "$id": "125",
+          "B": 255,
+          "G": 255,
+          "R": 255,
+          "A": 255
+        }
       },
-      "SpriteId": "Kae_shn082",
-      "Color": {
-        "B": 255,
-        "G": 255,
-        "R": 255,
-        "A": 255
-      }
-    },
-    {
-      "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
-      "ColorType": 0,
-      "ShapeId": null,
-      "Health": 100.0,
-      "PhysicsBodyIndex": 0,
-      "Name": "Hull",
-      "Group": null,
-      "Transform": {
-        "Position": "60.1517868, -22.175005",
-        "Rotation": 0.0,
-        "Scale": "1, -1",
-        "Origin": "20, 12"
+      {
+        "$id": "126",
+        "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
+        "ColorType": 0,
+        "ShapeId": null,
+        "Health": 100.0,
+        "Name": "Weapon.Forward.Left",
+        "Transform": {
+          "$id": "127",
+          "Position": "60.1517868, -22.175005",
+          "Rotation": 0.0,
+          "Scale": "1, -1",
+          "Origin": "20, 12"
+        },
+        "SpriteId": "Kae_shn122",
+        "Color": {
+          "$id": "128",
+          "B": 255,
+          "G": 255,
+          "R": 255,
+          "A": 255
+        }
       },
-      "SpriteId": "Kae_shn122",
-      "Color": {
-        "B": 255,
-        "G": 255,
-        "R": 255,
-        "A": 255
-      }
-    },
-    {
-      "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
-      "ColorType": 0,
-      "ShapeId": null,
-      "Health": 100.0,
-      "PhysicsBodyIndex": 0,
-      "Name": "Hull",
-      "Group": null,
-      "Transform": {
-        "Position": "-17.3482361, -64.825",
-        "Rotation": 0.0,
-        "Scale": "-1, 1",
-        "Origin": "13, 13"
+      {
+        "$id": "129",
+        "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
+        "ColorType": 0,
+        "ShapeId": null,
+        "Health": 100.0,
+        "Name": "Hull",
+        "Transform": {
+          "$id": "130",
+          "Position": "-17.3482361, -64.825",
+          "Rotation": 0.0,
+          "Scale": "-1, 1",
+          "Origin": "13, 13"
+        },
+        "SpriteId": "Kae_shn330",
+        "Color": {
+          "$id": "131",
+          "B": 97,
+          "G": 97,
+          "R": 97,
+          "A": 255
+        }
       },
-      "SpriteId": "Kae_shn330",
-      "Color": {
-        "B": 97,
-        "G": 97,
-        "R": 97,
-        "A": 255
-      }
-    },
-    {
-      "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
-      "ColorType": 0,
-      "ShapeId": null,
-      "Health": 100.0,
-      "PhysicsBodyIndex": 0,
-      "Name": "Hull",
-      "Group": null,
-      "Transform": {
-        "Position": "-17.3482361, 64.825",
-        "Rotation": 0.0,
-        "Scale": "-1, -1",
-        "Origin": "13, 13"
+      {
+        "$id": "132",
+        "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
+        "ColorType": 0,
+        "ShapeId": null,
+        "Health": 100.0,
+        "Name": "Hull",
+        "Transform": {
+          "$id": "133",
+          "Position": "-17.3482361, 64.825",
+          "Rotation": 0.0,
+          "Scale": "-1, -1",
+          "Origin": "13, 13"
+        },
+        "SpriteId": "Kae_shn330",
+        "Color": {
+          "$id": "134",
+          "B": 97,
+          "G": 97,
+          "R": 97,
+          "A": 255
+        }
       },
-      "SpriteId": "Kae_shn330",
-      "Color": {
-        "B": 97,
-        "G": 97,
-        "R": 97,
-        "A": 255
-      }
-    },
-    {
-      "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
-      "ColorType": 0,
-      "ShapeId": null,
-      "Health": 100.0,
-      "PhysicsBodyIndex": 0,
-      "Name": "Hull",
-      "Group": null,
-      "Transform": {
-        "Position": "60.1517868, 22.175005",
-        "Rotation": 0.0,
-        "Scale": "1, 1",
-        "Origin": "20, 12"
+      {
+        "$id": "135",
+        "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
+        "ColorType": 0,
+        "ShapeId": null,
+        "Health": 100.0,
+        "Name": "Weapon.Forward.Right",
+        "Transform": {
+          "$id": "136",
+          "Position": "60.1517868, 22.175005",
+          "Rotation": 0.0,
+          "Scale": "1, 1",
+          "Origin": "20, 12"
+        },
+        "SpriteId": "Kae_shn122",
+        "Color": {
+          "$id": "137",
+          "B": 255,
+          "G": 255,
+          "R": 255,
+          "A": 255
+        }
       },
-      "SpriteId": "Kae_shn122",
-      "Color": {
-        "B": 255,
-        "G": 255,
-        "R": 255,
-        "A": 255
-      }
-    },
-    {
-      "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
-      "ColorType": 0,
-      "ShapeId": null,
-      "Health": 100.0,
-      "PhysicsBodyIndex": 0,
-      "Name": "Hull",
-      "Group": null,
-      "Transform": {
-        "Position": "-33.8482361, -57.1750031",
-        "Rotation": 0.0,
-        "Scale": "1, -1",
-        "Origin": "24, 16"
+      {
+        "$id": "138",
+        "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
+        "ColorType": 0,
+        "ShapeId": null,
+        "Health": 100.0,
+        "Name": "Hull",
+        "Transform": {
+          "$id": "139",
+          "Position": "-33.8482361, -57.1750031",
+          "Rotation": 0.0,
+          "Scale": "1, -1",
+          "Origin": "24, 16"
+        },
+        "SpriteId": "Kae_shn138",
+        "Color": {
+          "$id": "140",
+          "B": 107,
+          "G": 107,
+          "R": 107,
+          "A": 255
+        }
       },
-      "SpriteId": "Kae_shn138",
-      "Color": {
-        "B": 107,
-        "G": 107,
-        "R": 107,
-        "A": 255
-      }
-    },
-    {
-      "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
-      "ColorType": 0,
-      "ShapeId": null,
-      "Health": 100.0,
-      "PhysicsBodyIndex": 0,
-      "Name": "Hull",
-      "Group": null,
-      "Transform": {
-        "Position": "-33.8482361, 57.1750031",
-        "Rotation": 0.0,
-        "Scale": "1, 1",
-        "Origin": "24, 16"
+      {
+        "$id": "141",
+        "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
+        "ColorType": 0,
+        "ShapeId": null,
+        "Health": 100.0,
+        "Name": "Hull",
+        "Transform": {
+          "$id": "142",
+          "Position": "-33.8482361, 57.1750031",
+          "Rotation": 0.0,
+          "Scale": "1, 1",
+          "Origin": "24, 16"
+        },
+        "SpriteId": "Kae_shn138",
+        "Color": {
+          "$id": "143",
+          "B": 107,
+          "G": 107,
+          "R": 107,
+          "A": 255
+        }
       },
-      "SpriteId": "Kae_shn138",
-      "Color": {
-        "B": 107,
-        "G": 107,
-        "R": 107,
-        "A": 255
-      }
-    },
-    {
-      "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
-      "ColorType": 0,
-      "ShapeId": null,
-      "Health": 100.0,
-      "PhysicsBodyIndex": 0,
-      "Name": "Hull",
-      "Group": null,
-      "Transform": {
-        "Position": "-16.34822, 0.175003052",
-        "Rotation": 0.0,
-        "Scale": "1, 1",
-        "Origin": "9, 17"
+      {
+        "$id": "144",
+        "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
+        "ColorType": 0,
+        "ShapeId": null,
+        "Health": 100.0,
+        "Name": "Hull",
+        "Transform": {
+          "$id": "145",
+          "Position": "-16.34822, 0.175003052",
+          "Rotation": 0.0,
+          "Scale": "1, 1",
+          "Origin": "9, 17"
+        },
+        "SpriteId": "Kae_shn499",
+        "Color": {
+          "$id": "146",
+          "B": 130,
+          "G": 130,
+          "R": 130,
+          "A": 255
+        }
       },
-      "SpriteId": "Kae_shn499",
-      "Color": {
-        "B": 130,
-        "G": 130,
-        "R": 130,
-        "A": 255
-      }
-    },
-    {
-      "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
-      "ColorType": 0,
-      "ShapeId": null,
-      "Health": 100.0,
-      "PhysicsBodyIndex": 0,
-      "Name": "Hull",
-      "Group": null,
-      "Transform": {
-        "Position": "-21.348217, -28.825",
-        "Rotation": 0.0,
-        "Scale": "-1, 1",
-        "Origin": "20, 20"
+      {
+        "$id": "147",
+        "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
+        "ColorType": 0,
+        "ShapeId": null,
+        "Health": 100.0,
+        "Name": "Hull",
+        "Transform": {
+          "$id": "148",
+          "Position": "-21.348217, -28.825",
+          "Rotation": 0.0,
+          "Scale": "-1, 1",
+          "Origin": "20, 20"
+        },
+        "SpriteId": "Kae_shn434",
+        "Color": {
+          "$id": "149",
+          "B": 255,
+          "G": 255,
+          "R": 255,
+          "A": 255
+        }
       },
-      "SpriteId": "Kae_shn434",
-      "Color": {
-        "B": 255,
-        "G": 255,
-        "R": 255,
-        "A": 255
-      }
-    },
-    {
-      "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
-      "ColorType": 0,
-      "ShapeId": null,
-      "Health": 100.0,
-      "PhysicsBodyIndex": 0,
-      "Name": "Hull",
-      "Group": null,
-      "Transform": {
-        "Position": "-13.8482361, 76.175",
-        "Rotation": 0.35314858,
-        "Scale": "-1, 1",
-        "Origin": "13, 13"
+      {
+        "$id": "150",
+        "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
+        "ColorType": 0,
+        "ShapeId": null,
+        "Health": 100.0,
+        "Name": "Hull",
+        "Transform": {
+          "$id": "151",
+          "Position": "-13.8482361, 76.175",
+          "Rotation": 0.35314858,
+          "Scale": "-1, 1",
+          "Origin": "13, 13"
+        },
+        "SpriteId": "Kae_shn353",
+        "Color": {
+          "$id": "152",
+          "B": 156,
+          "G": 156,
+          "R": 156,
+          "A": 255
+        }
       },
-      "SpriteId": "Kae_shn353",
-      "Color": {
-        "B": 156,
-        "G": 156,
-        "R": 156,
-        "A": 255
-      }
-    },
-    {
-      "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
-      "ColorType": 0,
-      "ShapeId": null,
-      "Health": 100.0,
-      "PhysicsBodyIndex": 0,
-      "Name": "Hull",
-      "Group": null,
-      "Transform": {
-        "Position": "-13.8482361, -76.175",
-        "Rotation": -0.3531486,
-        "Scale": "-1, -1",
-        "Origin": "13, 13"
+      {
+        "$id": "153",
+        "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
+        "ColorType": 0,
+        "ShapeId": null,
+        "Health": 100.0,
+        "Name": "Hull",
+        "Transform": {
+          "$id": "154",
+          "Position": "-13.8482361, -76.175",
+          "Rotation": -0.3531486,
+          "Scale": "-1, -1",
+          "Origin": "13, 13"
+        },
+        "SpriteId": "Kae_shn353",
+        "Color": {
+          "$id": "155",
+          "B": 156,
+          "G": 156,
+          "R": 156,
+          "A": 255
+        }
       },
-      "SpriteId": "Kae_shn353",
-      "Color": {
-        "B": 156,
-        "G": 156,
-        "R": 156,
-        "A": 255
-      }
-    },
-    {
-      "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
-      "ColorType": 0,
-      "ShapeId": null,
-      "Health": 100.0,
-      "PhysicsBodyIndex": 0,
-      "Name": "Hull",
-      "Group": null,
-      "Transform": {
-        "Position": "-21.348217, 28.825",
-        "Rotation": 0.0,
-        "Scale": "-1, -1",
-        "Origin": "20, 20"
+      {
+        "$id": "156",
+        "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
+        "ColorType": 0,
+        "ShapeId": null,
+        "Health": 100.0,
+        "Name": "Hull",
+        "Transform": {
+          "$id": "157",
+          "Position": "-21.348217, 28.825",
+          "Rotation": 0.0,
+          "Scale": "-1, -1",
+          "Origin": "20, 20"
+        },
+        "SpriteId": "Kae_shn434",
+        "Color": {
+          "$id": "158",
+          "B": 255,
+          "G": 255,
+          "R": 255,
+          "A": 255
+        }
       },
-      "SpriteId": "Kae_shn434",
-      "Color": {
-        "B": 255,
-        "G": 255,
-        "R": 255,
-        "A": 255
-      }
-    },
-    {
-      "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
-      "ColorType": 0,
-      "ShapeId": null,
-      "Health": 100.0,
-      "PhysicsBodyIndex": 0,
-      "Name": "Hull",
-      "Group": null,
-      "Transform": {
-        "Position": "-3.848217, -58.8250046",
-        "Rotation": 0.290510774,
-        "Scale": "-1, 1",
-        "Origin": "15, 15"
+      {
+        "$id": "159",
+        "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
+        "ColorType": 0,
+        "ShapeId": null,
+        "Health": 100.0,
+        "Name": "Hull",
+        "Transform": {
+          "$id": "160",
+          "Position": "-3.848217, -58.8250046",
+          "Rotation": 0.290510774,
+          "Scale": "-1, 1",
+          "Origin": "15, 15"
+        },
+        "SpriteId": "Kae_shn437",
+        "Color": {
+          "$id": "161",
+          "B": 196,
+          "G": 196,
+          "R": 196,
+          "A": 255
+        }
       },
-      "SpriteId": "Kae_shn437",
-      "Color": {
-        "B": 196,
-        "G": 196,
-        "R": 196,
-        "A": 255
-      }
-    },
-    {
-      "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
-      "ColorType": 0,
-      "ShapeId": null,
-      "Health": 100.0,
-      "PhysicsBodyIndex": 0,
-      "Name": "Hull",
-      "Group": null,
-      "Transform": {
-        "Position": "-34.8482361, 0.175003052",
-        "Rotation": 0.0,
-        "Scale": "1, 1",
-        "Origin": "18, 14"
+      {
+        "$id": "162",
+        "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
+        "ColorType": 0,
+        "ShapeId": null,
+        "Health": 100.0,
+        "Name": "Hull",
+        "Transform": {
+          "$id": "163",
+          "Position": "-34.8482361, 0.175003052",
+          "Rotation": 0.0,
+          "Scale": "1, 1",
+          "Origin": "18, 14"
+        },
+        "SpriteId": "Kae_shn165",
+        "Color": {
+          "$id": "164",
+          "B": 156,
+          "G": 156,
+          "R": 156,
+          "A": 255
+        }
       },
-      "SpriteId": "Kae_shn165",
-      "Color": {
-        "B": 156,
-        "G": 156,
-        "R": 156,
-        "A": 255
-      }
-    },
-    {
-      "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
-      "ColorType": 0,
-      "ShapeId": null,
-      "Health": 100.0,
-      "PhysicsBodyIndex": 0,
-      "Name": "Hull",
-      "Group": null,
-      "Transform": {
-        "Position": "-3.848217, 58.8250046",
-        "Rotation": -0.290510774,
-        "Scale": "-1, -1",
-        "Origin": "15, 15"
+      {
+        "$id": "165",
+        "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
+        "ColorType": 0,
+        "ShapeId": null,
+        "Health": 100.0,
+        "Name": "Hull",
+        "Transform": {
+          "$id": "166",
+          "Position": "-3.848217, 58.8250046",
+          "Rotation": -0.290510774,
+          "Scale": "-1, -1",
+          "Origin": "15, 15"
+        },
+        "SpriteId": "Kae_shn437",
+        "Color": {
+          "$id": "167",
+          "B": 196,
+          "G": 196,
+          "R": 196,
+          "A": 255
+        }
       },
-      "SpriteId": "Kae_shn437",
-      "Color": {
-        "B": 196,
-        "G": 196,
-        "R": 196,
-        "A": 255
-      }
-    },
-    {
-      "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
-      "ColorType": 0,
-      "ShapeId": null,
-      "Health": 100.0,
-      "PhysicsBodyIndex": 0,
-      "Name": "Hull",
-      "Group": null,
-      "Transform": {
-        "Position": "25.1517868, -28.325",
-        "Rotation": 0.0,
-        "Scale": "1, 1",
-        "Origin": "14, 13"
+      {
+        "$id": "168",
+        "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
+        "ColorType": 0,
+        "ShapeId": null,
+        "Health": 100.0,
+        "Name": "Hull",
+        "Transform": {
+          "$id": "169",
+          "Position": "25.1517868, -28.325",
+          "Rotation": -0.432199955,
+          "Scale": "1, 1",
+          "Origin": "14, 13"
+        },
+        "SpriteId": "Kae_shn351",
+        "Color": {
+          "$id": "170",
+          "B": 255,
+          "G": 255,
+          "R": 255,
+          "A": 255
+        }
       },
-      "SpriteId": "Kae_shn351",
-      "Color": {
-        "B": 255,
-        "G": 255,
-        "R": 255,
-        "A": 255
-      }
-    },
-    {
-      "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
-      "ColorType": 0,
-      "ShapeId": null,
-      "Health": 100.0,
-      "PhysicsBodyIndex": 0,
-      "Name": "Hull",
-      "Group": null,
-      "Transform": {
-        "Position": "25.1517868, 28.325",
-        "Rotation": 0.0,
-        "Scale": "1, -1",
-        "Origin": "14, 13"
+      {
+        "$id": "171",
+        "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
+        "ColorType": 0,
+        "ShapeId": null,
+        "Health": 100.0,
+        "Name": "Hull",
+        "Transform": {
+          "$id": "172",
+          "Position": "25.1517868, 28.325",
+          "Rotation": 0.432199955,
+          "Scale": "1, -1",
+          "Origin": "14, 13"
+        },
+        "SpriteId": "Kae_shn351",
+        "Color": {
+          "$id": "173",
+          "B": 255,
+          "G": 255,
+          "R": 255,
+          "A": 255
+        }
       },
-      "SpriteId": "Kae_shn351",
-      "Color": {
-        "B": 255,
-        "G": 255,
-        "R": 255,
-        "A": 255
-      }
-    },
-    {
-      "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
-      "ColorType": 0,
-      "ShapeId": null,
-      "Health": 100.0,
-      "PhysicsBodyIndex": 0,
-      "Name": "Hull",
-      "Group": null,
-      "Transform": {
-        "Position": "8.151783, -48.8250046",
-        "Rotation": 0.0,
-        "Scale": "1, 1",
-        "Origin": "12, 11"
+      {
+        "$id": "174",
+        "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
+        "ColorType": 0,
+        "ShapeId": null,
+        "Health": 100.0,
+        "Name": "Weapon.Left",
+        "Transform": {
+          "$id": "175",
+          "Position": "8.151783, -48.8250046",
+          "Rotation": -1.65172112,
+          "Scale": "1, 1",
+          "Origin": "12, 11"
+        },
+        "SpriteId": "Kae_shn380",
+        "Color": {
+          "$id": "176",
+          "B": 255,
+          "G": 255,
+          "R": 255,
+          "A": 255
+        }
       },
-      "SpriteId": "Kae_shn380",
-      "Color": {
-        "B": 255,
-        "G": 255,
-        "R": 255,
-        "A": 255
-      }
-    },
-    {
-      "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
-      "ColorType": 0,
-      "ShapeId": null,
-      "Health": 100.0,
-      "PhysicsBodyIndex": 0,
-      "Name": "Hull",
-      "Group": null,
-      "Transform": {
-        "Position": "8.151783, 48.8250046",
-        "Rotation": 0.0,
-        "Scale": "1, -1",
-        "Origin": "12, 11"
+      {
+        "$id": "177",
+        "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
+        "ColorType": 0,
+        "ShapeId": null,
+        "Health": 100.0,
+        "Name": "Weapon.Left",
+        "Transform": {
+          "$id": "178",
+          "Position": "8.151783, 48.8250046",
+          "Rotation": 1.65172112,
+          "Scale": "1, -1",
+          "Origin": "12, 11"
+        },
+        "SpriteId": "Kae_shn380",
+        "Color": {
+          "$id": "179",
+          "B": 255,
+          "G": 255,
+          "R": 255,
+          "A": 255
+        }
       },
-      "SpriteId": "Kae_shn380",
-      "Color": {
-        "B": 255,
-        "G": 255,
-        "R": 255,
-        "A": 255
-      }
-    },
-    {
-      "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
-      "ColorType": 0,
-      "ShapeId": null,
-      "Health": 100.0,
-      "PhysicsBodyIndex": 0,
-      "Name": "Hull",
-      "Group": null,
-      "Transform": {
-        "Position": "-19.84822, 0.175003052",
-        "Rotation": 0.0,
-        "Scale": "1, 1",
-        "Origin": "12, 19"
+      {
+        "$id": "180",
+        "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
+        "ColorType": 0,
+        "ShapeId": null,
+        "Health": 100.0,
+        "Name": "Hull",
+        "Transform": {
+          "$id": "181",
+          "Position": "-19.84822, 0.175003052",
+          "Rotation": 0.0,
+          "Scale": "1, 1",
+          "Origin": "12, 19"
+        },
+        "SpriteId": "Kae_shn375",
+        "Color": {
+          "$id": "182",
+          "B": 255,
+          "G": 255,
+          "R": 255,
+          "A": 255
+        }
       },
-      "SpriteId": "Kae_shn375",
-      "Color": {
-        "B": 255,
-        "G": 255,
-        "R": 255,
-        "A": 255
-      }
-    },
-    {
-      "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
-      "ColorType": 0,
-      "ShapeId": null,
-      "Health": 100.0,
-      "PhysicsBodyIndex": 0,
-      "Name": "Hull",
-      "Group": null,
-      "Transform": {
-        "Position": "-66.3482361, 0.175003052",
-        "Rotation": 0.0,
-        "Scale": "1, 1",
-        "Origin": "21, 14"
+      {
+        "$id": "183",
+        "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
+        "ColorType": 0,
+        "ShapeId": null,
+        "Health": 100.0,
+        "Name": "Hull",
+        "Transform": {
+          "$id": "184",
+          "Position": "-66.3482361, 0.175003052",
+          "Rotation": 0.0,
+          "Scale": "1, 1",
+          "Origin": "21, 14"
+        },
+        "SpriteId": "Kae_shn169",
+        "Color": {
+          "$id": "185",
+          "B": 178,
+          "G": 178,
+          "R": 178,
+          "A": 255
+        }
       },
-      "SpriteId": "Kae_shn169",
-      "Color": {
-        "B": 178,
-        "G": 178,
-        "R": 178,
-        "A": 255
+      {
+        "$id": "186",
+        "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
+        "ColorType": 0,
+        "ShapeId": null,
+        "Health": 100.0,
+        "Name": "Hull",
+        "Transform": {
+          "$id": "187",
+          "Position": "-82.63292, 0.210048333",
+          "Rotation": 3.14109325,
+          "Scale": "1, 1",
+          "Origin": "13, 17"
+        },
+        "SpriteId": "Kae_shn151",
+        "Color": {
+          "$id": "188",
+          "B": 255,
+          "G": 255,
+          "R": 255,
+          "A": 255
+        }
       }
-    }
-  ],
+    ]
+  },
+  "Hardpoints": {
+    "$id": "189",
+    "$values": [
+      {
+        "$id": "190",
+        "Module": null,
+        "Size": 0,
+        "Type": 3,
+        "Hull": {
+          "$ref": "126"
+        },
+        "Facing": 0.0,
+        "FiringArc": 0.262704372
+      },
+      {
+        "$id": "191",
+        "Module": null,
+        "Size": 0,
+        "Type": 3,
+        "Hull": {
+          "$ref": "135"
+        },
+        "Facing": 0.0,
+        "FiringArc": 0.262704372
+      },
+      {
+        "$id": "192",
+        "Module": null,
+        "Size": 0,
+        "Type": 3,
+        "Hull": {
+          "$ref": "174"
+        },
+        "Facing": 0.0,
+        "FiringArc": 3.4974153
+      },
+      {
+        "$id": "197",
+        "Module": null,
+        "Size": 0,
+        "Type": 3,
+        "Hull": {
+          "$ref": "186"
+        },
+        "Facing": 0.0,
+        "FiringArc": 5.02110052
+      },
+      {
+        "$id": "198",
+        "Module": null,
+        "Size": 0,
+        "Type": 3,
+        "Hull": {
+          "$ref": "171"
+        },
+        "Facing": 0.0,
+        "FiringArc": 3.26098132
+      },
+      {
+        "$id": "199",
+        "Module": null,
+        "Size": 0,
+        "Type": 3,
+        "Hull": {
+          "$ref": "168"
+        },
+        "Facing": 0.0,
+        "FiringArc": 3.26098132
+      },
+      {
+        "$id": "200",
+        "Module": null,
+        "Size": 0,
+        "Type": 3,
+        "Hull": {
+          "$ref": "177"
+        },
+        "Facing": 0.0,
+        "FiringArc": 3.44487453
+      }
+    ]
+  },
   "Handling": {
+    "$id": "201",
     "AngularTorque": 0.2,
-    "MaxAngularVelocity": 1.0,
-    "ForwardForce":  2.0,
+    "ForwardForce": 2.0,
     "ManeuverForce": 1.0,
     "LinearDamping": 1.0,
     "AngularDamping": 1.0
   },
   "BaseDecalColor": {
+    "$id": "202",
     "B": 255,
     "G": 255,
     "R": 255,
     "A": 255
   },
   "TrimDecalColor": {
+    "$id": "203",
     "B": 255,
     "G": 255,
     "R": 255,

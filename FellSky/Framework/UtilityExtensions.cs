@@ -1,4 +1,5 @@
-﻿using FellSky.Components;
+﻿using Artemis;
+using FellSky.Components;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -70,6 +71,11 @@ namespace FellSky
             return blackboard.GetEntry<IServiceProvider>("ServiceProvider")?.GetService<T>();
         }
         */
+
+        public static Camera GetActiveCamera(this EntityWorld world)
+        {
+            return world.TagManager.GetEntity(Constants.ActiveCameraTag).GetComponent<Camera>();
+        }
 
         public static Matrix GetWorldMatrix(this Artemis.Entity entity)
         {

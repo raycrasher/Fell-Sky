@@ -103,7 +103,8 @@ namespace FellSky.Editor
         
         public Entity CameraEntity { get; private set; }
         public Entity GridEntity { get; private set; }
-        
+        public int SelectedTabIndex { get; set; }
+
         private MouseService _mouse;
 
         private MouseControlledTransformSystem _transformSystem;
@@ -156,8 +157,11 @@ namespace FellSky.Editor
 
             World.SystemManager.SetSystem(new GridRendererSystem(), Artemis.Manager.GameLoopType.Draw, 1);
             World.SystemManager.SetSystem(new ShipRendererSystem(), Artemis.Manager.GameLoopType.Draw, 2);
+            World.SystemManager.SetSystem(new ShipPartGroupRendererSystem(), Artemis.Manager.GameLoopType.Draw, 2);
             World.SystemManager.SetSystem(new BoundingBoxRendererSystem(), Artemis.Manager.GameLoopType.Draw, 3);
             World.SystemManager.SetSystem(new GenericDrawableRendererSystem(), Artemis.Manager.GameLoopType.Draw, 4);
+            var arcRendererSystem = new HardpointArcRendererSystem();
+            World.SystemManager.SetSystem(arcRendererSystem, Artemis.Manager.GameLoopType.Draw, 5);
 
             World.SystemManager.SetSystem(new CameraControlSystem(), Artemis.Manager.GameLoopType.Update, 1);
             _transformSystem = new MouseControlledTransformSystem();
@@ -188,6 +192,14 @@ namespace FellSky.Editor
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedColor)));
                 }
             };
+
+            PropertyChanged += (o, e) => {
+                if (e.PropertyName == nameof(SelectedTabIndex))
+                {
+                    arcRendererSystem.IsEnabled = SelectedTabIndex == 2;
+                }
+            };
+            arcRendererSystem.IsEnabled = false;
 
             _mouse.WheelChanged += OnWheelChanged;
         }
@@ -258,6 +270,9 @@ namespace FellSky.Editor
                     break;
                 case Key.M:
                     EditorService.MirrorSelectedLaterally();
+                    break;
+                case Key.H:
+                    EditorService.ToggleHardpointOnSelected();
                     break;
                 default:
                     e.Handled = false;
@@ -335,6 +350,12 @@ namespace FellSky.Editor
         {
             EditorService.CreateNewShip();
         });
+
+        public ICommand CreateNewPartGroupCommand => new DelegateCommand(o =>
+        {
+            EditorService.CreateNewPartGroup();
+        });
+
         public ICommand Quit => new DelegateCommand(o => Application.Current.Shutdown());
         public ICommand AddHull => new DelegateCommand(o =>
         {

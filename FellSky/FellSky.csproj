@@ -121,6 +121,8 @@
     <Compile Include="Components\EditorComponent.cs" />
     <Compile Include="Components\FactionComponent.cs" />
     <Compile Include="Components\GuiComponent.cs" />
+    <Compile Include="Components\HardpointArcDrawingComponent.cs" />
+    <Compile Include="Components\HardpointComponent.cs" />
     <Compile Include="Components\HealthComponent.cs" />
     <Compile Include="Components\HealthModOverTimeComponent.cs" />
     <Compile Include="Components\HullComponent.cs" />
@@ -129,10 +131,13 @@
     <Compile Include="Components\ShipPartComponent.cs" />
     <Compile Include="Components\RigidBodyFixtureComponent.cs" />
     <Compile Include="Components\ShipComponent.cs" />
+    <Compile Include="Components\ShipPartGroupComponent.cs" />
     <Compile Include="Components\StoryComponent.cs" />
     <Compile Include="Components\ThrusterComponent.cs" />
     <Compile Include="Components\TurretComponent.cs" />
+    <Compile Include="Components\WeaponComponent.cs" />
     <Compile Include="EntityFactories\ShipEntityFactory.cs" />
+    <Compile Include="EntityFactories\WeaponEntityFactory.cs" />
     <Compile Include="Framework\Constants.cs" />
     <Compile Include="Framework\FloatColor.cs" />
     <Compile Include="Framework\GuiElementUtilities.cs" />
@@ -148,7 +153,10 @@
     <Compile Include="Game\Combat\Weapons\MissileLauncher.cs" />
     <Compile Include="Game\Combat\Weapons\PulseLaser.cs" />
     <Compile Include="Game\Combat\Weapons\Railgun.cs" />
+    <Compile Include="Game\Combat\Weapons\WeaponData.cs" />
+    <Compile Include="Game\Ships\IShipEditorEditable.cs" />
     <Compile Include="Game\Ships\PartEntityPair.cs" />
+    <Compile Include="Game\Ships\ShipPartGroup.cs" />
     <Compile Include="Game\Space\Outpost.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -198,12 +206,14 @@
     <Compile Include="Services\GamePersistenceService.cs" />
     <Compile Include="Services\ICoroutineService.cs" />
     <Compile Include="Services\EventService.cs" />
+    <Compile Include="States\ShipRefitState.cs" />
     <Compile Include="Systems\BackgroundRendererSystem.cs" />
     <Compile Include="Systems\ClientPredictedTransformSystem.cs" />
     <Compile Include="Systems\CommandBufferSystem.cs" />
     <Compile Include="Systems\CoroutineSystem.cs" />
     <Compile Include="Systems\DustRendererSystem.cs" />
     <Compile Include="Systems\GuiSystem.cs" />
+    <Compile Include="Systems\HardpointArcRendererSystem.cs" />
     <Compile Include="Systems\MouseControlledTransformSystemStates\ScaleState.cs" />
     <Compile Include="Systems\ParticleSystem.cs" />
     <Compile Include="Systems\PhysicsDebugView\DebugView.cs" />
@@ -222,9 +232,9 @@
     <Compile Include="Components\RigidBodyComponent.cs" />
     <Compile Include="Components\PlayerControlsComponent.cs" />
     <Compile Include="Framework\SteeringBehaviors\SteeringComponent.cs" />
-    <Compile Include="EntityFactories\CameraEntityTemplate.cs" />
-    <Compile Include="EntityFactories\GenericDrawableFactory.cs" />
-    <Compile Include="EntityFactories\GridEntityTemplate.cs" />
+    <Compile Include="EntityFactories\CameraEntityFactory.cs" />
+    <Compile Include="EntityFactories\GenericDrawableEntityFactory.cs" />
+    <Compile Include="EntityFactories\GridEntityFactory.cs" />
     <Compile Include="Framework\Animation.cs" />
     <Compile Include="Services\IKeyboardService.cs" />
     <Compile Include="Services\IMouseService.cs" />
@@ -237,8 +247,7 @@
     <Compile Include="Game\Ships\Parts\GroupMount.cs" />
     <Compile Include="Game\Ships\Parts\IShipDevice.cs" />
     <Compile Include="Game\Ships\Parts\IModule.cs" />
-    <Compile Include="Game\Ships\Parts\ModuleSlot.cs" />
-    <Compile Include="Game\Ships\Parts\PartGroup.cs" />
+    <Compile Include="Game\Ships\Parts\Hardpoint.cs" />
     <Compile Include="Game\Ships\Parts\ShipPart.cs" />
     <Compile Include="Game\Ships\Parts\ShipLight.cs" />
     <Compile Include="Game\Ships\Parts\IShipSubsystem.cs" />
@@ -327,7 +336,7 @@
     <Compile Include="Game\Ships\Parts\Thruster.cs" />
     <Compile Include="Game\Ships\Parts\WarpDrive.cs" />
     <Compile Include="Game\Ships\Parts\WeaponMount.cs" />
-    <Compile Include="Game\Ships\Parts\Weapon.cs" />
+    <Compile Include="Game\Ships\Parts\Turret.cs" />
     <Compile Include="Game\Space\SpaceObject.cs" />
     <Compile Include="Game\Space\Star.cs" />
     <Compile Include="Game\Space\StarSystem.cs" />

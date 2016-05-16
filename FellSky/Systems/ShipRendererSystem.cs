@@ -8,6 +8,7 @@ using System;
 using FellSky.Game.Ships.Parts;
 using FellSky.Components;
 using FellSky.Services;
+using FellSky.Game.Ships;
 
 namespace FellSky.Systems
 {
@@ -42,7 +43,7 @@ namespace FellSky.Systems
 
         public static void DrawShip(SpriteBatch spriteBatch, Entity ship)
         {
-            var shipComponent = ship.GetComponent<ShipComponent>();
+            var shipComponent = (IShipEditorEditableComponent) ship.GetComponent<ShipComponent>() ?? ship.GetComponent<ShipPartGroupComponent>();
             var xform = ship.GetComponent<Transform>();
             var shipMatrix = xform.Matrix;
 
@@ -57,7 +58,7 @@ namespace FellSky.Systems
 
         private static void DrawThruster(SpriteBatch spriteBatch, Entity ship, Entity thrusterEntity, ref Matrix shipMatrix)
         {            
-            var shipComponent = ship.GetComponent<ShipComponent>();          
+            //var shipComponent = ship.GetComponent<ShipComponent>();          
             var thrusterComponent = thrusterEntity.GetComponent<ThrusterComponent>();
             if (thrusterComponent.ThrustPercentage > 0 || thrusterComponent.Part.IsIdleModeOnZeroThrust)
             {
@@ -108,9 +109,9 @@ namespace FellSky.Systems
         private static void DrawHull(SpriteBatch spriteBatch, Entity ship, Entity hullEntity, ref Matrix shipMatrix)
         {
             var xform = ship.GetComponent<Transform>();
-            var shipComponent = ship.GetComponent<ShipComponent>();
-            var basedecal = shipComponent.Ship.BaseDecalColor.ToVector4();
-            var trimdecal = shipComponent.Ship.TrimDecalColor.ToVector4();
+            var shipComponent = (IShipEditorEditableComponent) ship.GetComponent<ShipComponent>() ?? ship.GetComponent<ShipPartGroupComponent>();
+            var basedecal = shipComponent.Model.BaseDecalColor.ToVector4();
+            var trimdecal = shipComponent.Model.TrimDecalColor.ToVector4();
 
             var hullComponent = hullEntity.GetComponent<HullComponent>();
             var sprite = hullEntity.GetComponent<SpriteComponent>();

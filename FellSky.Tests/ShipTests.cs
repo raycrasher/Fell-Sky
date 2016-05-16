@@ -9,13 +9,6 @@ namespace FellSky.Tests
     [TestClass]
     public class ShipTests
     {
-        PartGroup CreateTestPartGroup()
-        {
-            var group = new PartGroup();
-            group.Hulls.AddRange(new[] { new Hull(), new Hull(), new Hull() });
-            group.Thrusters.AddRange(new[] { new Thruster(), new Thruster(), new Thruster() });
-            return group;
-        }
         /*
         [TestMethod]
         public void ShipInstallsPartGroupCorrectly()

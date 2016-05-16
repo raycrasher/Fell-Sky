@@ -1,0 +1,114 @@
+{
+  "GivenName": null,
+  "HullClass": null,
+  "ShipType": null,
+  "Parts": [
+    {
+      "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
+      "ColorType": 0,
+      "ShapeId": null,
+      "Health": 100.0,
+      "PhysicsBodyIndex": 0,
+      "Name": "Weapon.BaseMain",
+      "Group": null,
+      "Transform": {
+        "Position": "-1.34822083, 0.175003052",
+        "Rotation": 0.0,
+        "Scale": "0.7879076, 0.8451094",
+        "Origin": "12, 12"
+      },
+      "SpriteId": "Dst-sw113",
+      "Color": {
+        "B": 145,
+        "G": 145,
+        "R": 145,
+        "A": 255
+      }
+    },
+    {
+      "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
+      "ColorType": 0,
+      "ShapeId": null,
+      "Health": 100.0,
+      "PhysicsBodyIndex": 0,
+      "Name": "Weapon.Barrel",
+      "Group": null,
+      "Transform": {
+        "Position": "28.65178, 0.175003052",
+        "Rotation": 0.0,
+        "Scale": "1, 1",
+        "Origin": "22, 6"
+      },
+      "SpriteId": "KA_StWr_062",
+      "Color": {
+        "B": 145,
+        "G": 145,
+        "R": 145,
+        "A": 255
+      }
+    },
+    {
+      "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
+      "ColorType": 0,
+      "ShapeId": null,
+      "Health": 100.0,
+      "PhysicsBodyIndex": 0,
+      "Name": "Weapon.TurretBodyMain",
+      "Group": null,
+      "Transform": {
+        "Position": "1.65174866, 0.1749878",
+        "Rotation": 0.0,
+        "Scale": "-1, 1",
+        "Origin": "8, 12"
+      },
+      "SpriteId": "Kae_shn152",
+      "Color": {
+        "B": 255,
+        "G": 255,
+        "R": 255,
+        "A": 255
+      }
+    },
+    {
+      "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
+      "ColorType": 0,
+      "ShapeId": null,
+      "Health": 100.0,
+      "PhysicsBodyIndex": 0,
+      "Name": "Weapon.TurretBody",
+      "Group": null,
+      "Transform": {
+        "Position": "-0.348220825, 0.175003052",
+        "Rotation": 0.0,
+        "Scale": "1, 1",
+        "Origin": "13, 7"
+      },
+      "SpriteId": "Kae_shn227",
+      "Color": {
+        "B": 207,
+        "G": 207,
+        "R": 207,
+        "A": 255
+      }
+    }
+  ],
+  "Handling": {
+    "AngularTorque": 0.2,
+    "ForwardForce": 2.0,
+    "ManeuverForce": 1.0,
+    "LinearDamping": 1.0,
+    "AngularDamping": 1.0
+  },
+  "BaseDecalColor": {
+    "B": 255,
+    "G": 255,
+    "R": 255,
+    "A": 255
+  },
+  "TrimDecalColor": {
+    "B": 255,
+    "G": 255,
+    "R": 255,
+    "A": 255
+  }
+}
