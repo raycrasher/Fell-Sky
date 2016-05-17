@@ -352,7 +352,6 @@ namespace FellSky.Editor
                 else
                 {
                     var component = new HardpointComponent(new Hardpoint {
-                        Facing = 0,
                         FiringArc = MathHelper.ToRadians(60),
                         Hull = item.GetComponent<HullComponent>().Part,
                         Size = HardpointSize.Small,

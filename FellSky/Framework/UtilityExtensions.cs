@@ -105,5 +105,10 @@ namespace FellSky
             list.RemoveAt(oldIndex);
             list.Insert(newIndex, item);
         }
+
+        public static Vector2 GetPerpendicularLeft(this Vector2 v) => new Vector2(v.Y, -v.X);
+        public static Vector2 GetPerpendicularRight(this Vector2 v) => new Vector2(-v.Y, v.X);
+        public static Vector2 ToUnitVector(this Vector2 v) => v / v.Length();
+        
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FellSky.Game.Ships.Modules
 {
-    public class WarpCoreModule: ShipModule<WarpCoreModule.Upgrades>, IShipModule
+    public class WarpCoreModule: Module<WarpCoreModule.Upgrades>, IModule
     {
         public enum Upgrades
         {

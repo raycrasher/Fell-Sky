@@ -1,4 +1,5 @@
 ﻿using Artemis.Interface;
+using FellSky.Game.Ships.Modules;
 using FellSky.Game.Ships.Parts;
 using Microsoft.Xna.Framework;
 using Newtonsoft.Json;
@@ -19,6 +20,7 @@ namespace FellSky.Game.Ships
 
         public List<ShipPart> Parts { get; set; } = new List<ShipPart>();
         public List<Hardpoint> Hardpoints { get; set; } = new List<Hardpoint>();
+        public List<ModuleSlot> ModuleSlots { get; set; } = new List<ModuleSlot>();
 
         IList<ShipPart> IShipEditorEditableModel.Parts => Parts;
 

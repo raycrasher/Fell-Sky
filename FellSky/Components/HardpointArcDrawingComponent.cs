@@ -10,5 +10,6 @@ namespace FellSky.Components
 {
     public class HardpointArcDrawingComponent: IComponent
     {
+        public bool DrawHardpointIcon = true;
     }
 }

@@ -160,7 +160,7 @@ namespace FellSky.Editor
             World.SystemManager.SetSystem(new ShipPartGroupRendererSystem(), Artemis.Manager.GameLoopType.Draw, 2);
             World.SystemManager.SetSystem(new BoundingBoxRendererSystem(), Artemis.Manager.GameLoopType.Draw, 3);
             World.SystemManager.SetSystem(new GenericDrawableRendererSystem(), Artemis.Manager.GameLoopType.Draw, 4);
-            var arcRendererSystem = new HardpointArcRendererSystem();
+            var arcRendererSystem = new HardpointRendererSystem();
             World.SystemManager.SetSystem(arcRendererSystem, Artemis.Manager.GameLoopType.Draw, 5);
 
             World.SystemManager.SetSystem(new CameraControlSystem(), Artemis.Manager.GameLoopType.Update, 1);

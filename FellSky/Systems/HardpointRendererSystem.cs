@@ -14,11 +14,11 @@ using System.Threading.Tasks;
 
 namespace FellSky.Systems
 {
-    public class HardpointArcRendererSystem: Artemis.System.EntitySystem
+    public class HardpointRendererSystem: Artemis.System.EntitySystem
     {
         private PrimitiveBatch _batch;
 
-        public HardpointArcRendererSystem()
+        public HardpointRendererSystem()
             : base(Aspect.All(typeof(HardpointArcDrawingComponent), typeof(HardpointComponent)))
         {
         }
@@ -64,8 +64,13 @@ namespace FellSky.Systems
                 var xform = entity.GetComponent<LocalTransformComponent>().ParentWorldMatrix;
                 Vector2 hullPos, offset;
                 var tmp = hull.Part.Transform.Position;
+
+                Vector2.Transform(ref tmp, ref xform, out hullPos);
+                tmp = new Vector2(1,0);
+                Vector2.Transform(ref tmp, ref xform, out tmp);
                 var rot = hull.Part.Transform.Rotation;
-                
+                rot = hull.Part.Transform.Rotation + tmp.ToAngleRadians();
+
                 float beginAngle = MathHelper.WrapAngle(rot - hardpoint.Hardpoint.FiringArc / 2) + MathHelper.TwoPi;
                 float endAngle = MathHelper.WrapAngle(rot + hardpoint.Hardpoint.FiringArc / 2) + MathHelper.TwoPi;
 
@@ -85,7 +90,7 @@ namespace FellSky.Systems
                 Colors.TryGetValue(hardpoint.Hardpoint.Type, out color);
                 Lengths.TryGetValue(hardpoint.Hardpoint.Size, out length);
 
-                Vector2.Transform(ref tmp, ref xform, out hullPos);
+                
                 offset = Utilities.CreateVector2FromAngle(beginAngle) * length;
 
                 _batch.AddVertex(hullPos, color, PrimitiveType.LineList);
@@ -105,6 +110,11 @@ namespace FellSky.Systems
 
                 _batch.AddVertex(hullPos, color, PrimitiveType.LineList);
                 _batch.AddVertex(hullPos + offset, color, PrimitiveType.LineList);
+
+                if (draw.DrawHardpointIcon)
+                {
+                    // draw square
+                }
             }
 
             _batch.End();

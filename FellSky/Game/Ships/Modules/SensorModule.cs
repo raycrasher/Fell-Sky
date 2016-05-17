@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FellSky.Game.Ships.Modules
 {
-    public class SensorModule: ShipModule<SensorModule.Upgrades>
+    public class SensorModule: Module<SensorModule.Upgrades>
     {
         public enum Upgrades
         {

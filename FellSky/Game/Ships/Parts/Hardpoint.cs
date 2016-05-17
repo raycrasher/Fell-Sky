@@ -50,7 +50,6 @@ namespace FellSky.Game.Ships.Parts
         public HardpointType Type { get; set; }
         public Hull Hull { get; set; }
 
-        public float Facing { get; set; }
         public float FiringArc { get; set; } // in radians
 
         bool IsWeaponHardpoint =>

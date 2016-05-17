@@ -1,10 +1,11 @@
-﻿using System;
+﻿using FellSky.Game.Ships.Parts;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace FellSky.Game.Ships.Modules
 {
-    public interface IShipModule
+    public interface IModule
     {
         IEnumerable<string> AvailableUpgrades { get; }
         IEnumerable<string> InstalledUpgrades { get; }
@@ -14,22 +15,25 @@ namespace FellSky.Game.Ships.Modules
         bool InstallUpgrade(string upgrade);
     }
 
-    public abstract class ShipModule<TUpgrade> : ShipModule<TUpgrade, HashSet<TUpgrade>>
+    public abstract class Module<TUpgrade> : Module<TUpgrade, HashSet<TUpgrade>>
         where TUpgrade : struct
     {
     }
 
-    public abstract class ShipModule<TUpgrade, TUpgradeCollectionType> : IShipModule
+    public abstract class Module<TUpgrade, TUpgradeCollectionType> : IModule
         where TUpgrade : struct
         where TUpgradeCollectionType : ICollection<TUpgrade>, new()
     {
         private TUpgradeCollectionType _upgrades = new TUpgradeCollectionType();
+
+        public Ship Ship { get; set; }
+        public ModuleSlot ModuleSlot { get; set; }
         public virtual IEnumerable<TUpgrade> AvailableUpgrades => GetAvailableUpgrades();
         public virtual TUpgradeCollectionType InstalledUpgrades => _upgrades;
         public string ModuleName { get; set; }
 
-        IEnumerable<string> IShipModule.InstalledUpgrades => InstalledUpgrades.Select(s => s.ToString());
-        IEnumerable<string> IShipModule.AvailableUpgrades => AvailableUpgrades.Select(s => s.ToString());
+        IEnumerable<string> IModule.InstalledUpgrades => InstalledUpgrades.Select(s => s.ToString());
+        IEnumerable<string> IModule.AvailableUpgrades => AvailableUpgrades.Select(s => s.ToString());
 
 
         public static int CalculateUpgradeLevel(ICollection<TUpgrade> upgradeCollection, params TUpgrade[] upgrades)
@@ -57,7 +61,7 @@ namespace FellSky.Game.Ships.Modules
             return true;
         }
 
-        bool IShipModule.InstallUpgrade(string upgrade) => InstallUpgrade(AvailableUpgrades, upgrade, InstallUpgrade);
+        bool IModule.InstallUpgrade(string upgrade) => InstallUpgrade(AvailableUpgrades, upgrade, InstallUpgrade);
 
         protected int CalculateUpgradeLevel(params TUpgrade[] upgrades) => CalculateUpgradeLevel(InstalledUpgrades, upgrades);
 
@@ -76,5 +80,12 @@ namespace FellSky.Game.Ships.Modules
             }
             return false;
         }
+    }
+
+    public class ModuleSlot
+    {
+        public IModule InstalledModule { get; set; }
+        public List<Hull> Hulls { get; set; }
+
     }
 }
