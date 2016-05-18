@@ -21,6 +21,7 @@ namespace FellSky.Game.Ships
         public List<ShipPart> Parts { get; set; } = new List<ShipPart>();
         public List<Hardpoint> Hardpoints { get; set; } = new List<Hardpoint>();
         public List<ModuleSlot> ModuleSlots { get; set; } = new List<ModuleSlot>();
+        public List<Radiator> Radiators { get; set; } = new List<Radiator>();
 
         IList<ShipPart> IShipEditorEditableModel.Parts => Parts;
 

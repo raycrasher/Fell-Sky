@@ -12,5 +12,7 @@ namespace FellSky.Game.Space
     {
         public string Name { get; set; } = "Unknown Fleet";
         public IList<Ship> Ships { get; set; } = new List<Ship>();
+
+        
     }
 }

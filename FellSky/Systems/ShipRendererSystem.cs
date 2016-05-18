@@ -75,7 +75,6 @@ namespace FellSky.Systems
 
         private static void DrawThruster(SpriteBatch spriteBatch, IShipEditorEditableComponent shipComponent, Entity ship, Entity thrusterEntity, ref Matrix shipMatrix)
         {            
-            //var shipComponent = ship.GetComponent<ShipComponent>();          
             var thrusterComponent = thrusterEntity.GetComponent<ThrusterComponent>();
             if (thrusterComponent.ThrustPercentage > 0 || thrusterComponent.Part.IsIdleModeOnZeroThrust)
             {

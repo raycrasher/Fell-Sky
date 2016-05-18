@@ -8,8 +8,7 @@ using System.Threading.Tasks;
 
 namespace FellSky.Components
 {
-    public class TurretComponent: IComponent
+    public class RadiatorComponent: IComponent
     {
-        public Entity CurrentTarget;
     }
 }
