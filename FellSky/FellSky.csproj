@@ -127,6 +127,7 @@
     <Compile Include="Components\HealthModOverTimeComponent.cs" />
     <Compile Include="Components\HullComponent.cs" />
     <Compile Include="Components\IdFriendOrFoeComponent.cs" />
+    <Compile Include="Components\NavLightComponent.cs" />
     <Compile Include="Components\ParticleEmitterComponent.cs" />
     <Compile Include="Components\ShipPartComponent.cs" />
     <Compile Include="Components\RigidBodyFixtureComponent.cs" />
@@ -245,7 +246,7 @@
     <Compile Include="Game\Campaign\Diplomacy\Faction.cs" />
     <Compile Include="Game\Ships\Parts\Hardpoint.cs" />
     <Compile Include="Game\Ships\Parts\ShipPart.cs" />
-    <Compile Include="Game\Ships\Parts\ShipLight.cs" />
+    <Compile Include="Game\Ships\Parts\NavLight.cs" />
     <Compile Include="Game\Ships\Parts\ThermalRadiator.cs" />
     <Compile Include="Game\Space\Planetoid.cs" />
     <Compile Include="Game\Space\Fleet.cs" />

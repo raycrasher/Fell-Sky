@@ -24,11 +24,6 @@ namespace FellSky.Game.Ships.Parts
         Weapon_Spinal,
         Weapon_Beam,
         Weapon_VLS, // vertical launch system,
-
-        Module,
-        Reactor,
-        BeamGenerator,
-        Thruster
     }
 
     public enum HardpointSize
@@ -51,17 +46,5 @@ namespace FellSky.Game.Ships.Parts
         public Hull Hull { get; set; }
 
         public float FiringArc { get; set; } // in radians
-
-        bool IsWeaponHardpoint =>
-            Type == HardpointType.Weapon_Missile ||
-            Type == HardpointType.Weapon_Energy ||
-            Type == HardpointType.Weapon_Ballistic ||
-            Type == HardpointType.Weapon_Universal ||
-            Type == HardpointType.Weapon_Powered ||
-            Type == HardpointType.Weapon_Hybrid ||
-            Type == HardpointType.Weapon_Synergy ||
-            Type == HardpointType.Weapon_Spinal ||
-            Type == HardpointType.Weapon_Beam ||
-            Type == HardpointType.Weapon_VLS;
     }
 }

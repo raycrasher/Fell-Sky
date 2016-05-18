@@ -14,35 +14,22 @@ namespace FellSky.Components
 
     public class ShipComponent: IComponent, IShipEditorEditableComponent
     {
-        /// <summary>
-        /// The Ship data model.
-        /// </summary>
         public Ship Ship { get; set; }
 
         public IList<PartEntityPair> PartEntities { get; set; } = new List<PartEntityPair>();
         public IReadOnlyList<PartEntityPair> Thrusters { get; set; } = new List<PartEntityPair>();
 
-        /// <summary>
-        /// The angular thrust vector. Negative for CCW, positive for CW. Zero for no torque. 
-        /// </summary>
         public float AngularTorque { get; set; }
-
-        /// <summary>
-        /// The linear thrust vector, in world space. Thrust percentage is given by length (-1 ~ 0 ~ 1)
-        /// </summary>
         public Vector2 LinearThrustVector { get; set; }
-
-        /// <summary>
-        /// Attempt to provide boost during maneuver. Has no effect if boost capability is missing.
-        /// </summary>
-        public bool AttemptBoost { get; set; }
-        
-        /// <summary>
-        /// Center of mass. Usually is equal to the COM of the main rigid body.
-        /// </summary>
+        public bool AttemptBoost { get; set; }       
         public Vector2 CenterOfMass { get; set; }
 
         public List<Entity> AdditionalRigidBodyEntities { get; set; } = new List<Entity>();
+
+        public float MaxHeat { get; set; } = 1000;
+        public float CurrentHeat { get; set; } = 0;
+        public float MaxIonization { get; set; } = 1000;
+        public float CurrentIonization { get; set; } = 0;
 
         IShipEditorEditableModel IShipEditorEditableComponent.Model => Ship;
 

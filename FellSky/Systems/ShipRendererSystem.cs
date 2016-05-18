@@ -50,13 +50,30 @@ namespace FellSky.Systems
             foreach(var item in shipComponent.PartEntities)
             {
                 if (item.Entity.HasComponent<HullComponent>())
-                    DrawHull(spriteBatch, ship, item.Entity, ref shipMatrix);
+                    DrawHull(spriteBatch, shipComponent, ship, item.Entity, ref shipMatrix);
                 else if (item.Entity.HasComponent<ThrusterComponent>())
-                    DrawThruster(spriteBatch, ship, item.Entity, ref shipMatrix);
+                    DrawThruster(spriteBatch, shipComponent, ship, item.Entity, ref shipMatrix);
+                else if (item.Entity.HasComponent<NavLightComponent>())
+                    DrawLight(spriteBatch, shipComponent, ship, item.Entity, ref shipMatrix);
             }
         }
 
-        private static void DrawThruster(SpriteBatch spriteBatch, Entity ship, Entity thrusterEntity, ref Matrix shipMatrix)
+        private static void DrawLight(SpriteBatch spriteBatch, IShipEditorEditableComponent shipComponent, Entity ship, Entity lightEntity, ref Matrix shipMatrix)
+        {
+            var lightComponent = lightEntity.GetComponent<NavLightComponent>();
+            var light = lightComponent.Part;
+            var theta = MathHelper.ToRadians(_timer.LastFrameUpdateTime.TotalGameTime.Milliseconds + ship.GetHashCode());
+
+            var sprite = lightEntity.GetComponent<SpriteComponent>();
+            var xform = lightEntity.GetComponent<Transform>();
+            float alpha = MathHelper.Clamp((float)(light.Amplitude * Math.Sin(theta * light.Frequency + light.PhaseShift) + light.VerticalShift), 0f, 1f);
+
+            var fx = UpdateTempXform(xform);
+
+            sprite.Draw(spriteBatch, TempXform.Matrix * shipMatrix, light.Color * alpha, fx);
+        }
+
+        private static void DrawThruster(SpriteBatch spriteBatch, IShipEditorEditableComponent shipComponent, Entity ship, Entity thrusterEntity, ref Matrix shipMatrix)
         {            
             //var shipComponent = ship.GetComponent<ShipComponent>();          
             var thrusterComponent = thrusterEntity.GetComponent<ThrusterComponent>();
@@ -65,51 +82,38 @@ namespace FellSky.Systems
                 var sprite = thrusterEntity.GetComponent<SpriteComponent>();
                 var thruster = thrusterComponent.Part;
 
-                _tmpXform.CopyValuesFrom(thruster.Transform);
-                SpriteEffects fx = SpriteEffects.None;
-                if (_tmpXform.Scale.X < 0)
-                {
-                    fx |= SpriteEffects.FlipHorizontally;
-                    _tmpXform.Scale *= new Vector2(-1, 1);
-
-                }
-                if (_tmpXform.Scale.Y < 0)
-                {
-                    fx |= SpriteEffects.FlipVertically;
-                    _tmpXform.Scale *= new Vector2(1, -1);
-                }
+                var fx = UpdateTempXform(thruster.Transform);
 
                 float colorAlpha = 0; 
                 
                 if (thrusterComponent.Part.IsIdleModeOnZeroThrust)
                 {
-                    _tmpXform.Scale *= new Vector2(MathHelper.Clamp(thrusterComponent.ThrustPercentage, 0.3f, 1), 1);
+                    TempXform.Scale *= new Vector2(MathHelper.Clamp(thrusterComponent.ThrustPercentage, 0.3f, 1), 1);
                     colorAlpha = MathHelper.Clamp(thrusterComponent.ThrustPercentage, 0.6f, 1);
                 } else
                 {
-                    _tmpXform.Scale *= new Vector2(MathHelper.Clamp(thrusterComponent.ThrustPercentage, 0, 1), 1);
+                    TempXform.Scale *= new Vector2(MathHelper.Clamp(thrusterComponent.ThrustPercentage, 0, 1), 1);
                     colorAlpha = thrusterComponent.ThrustPercentage;
                 }
 
                 if (!thrusterEntity.HasComponent<EditorComponent>())
                 {
                     // do thruster graphic wobble
-                    var time = thrusterComponent.GetHashCode() % 1000 + _timer.LastFrameUpdateTime.TotalGameTime.Milliseconds;
+                    var time = MathHelper.ToRadians(thrusterComponent.GetHashCode() + _timer.LastFrameUpdateTime.TotalGameTime.Milliseconds);
                     var amount = (float)Math.Sin((time % MathHelper.Pi * 2) * 1f);
-                    _tmpXform.Scale += new Vector2(amount * 0.03f, amount * 0.1f);
+                    TempXform.Scale += new Vector2(amount * 0.03f, amount * 0.1f);
                 }
-                sprite.Draw(batch: spriteBatch, matrix: _tmpXform.Matrix * shipMatrix, color: thruster.Color * colorAlpha, effects: fx);
-                _tmpXform.Scale *= 0.8f;
-                sprite.Draw(batch: spriteBatch, matrix: _tmpXform.Matrix * shipMatrix, color: Color.White * colorAlpha, effects: fx);
+                sprite.Draw(batch: spriteBatch, matrix: TempXform.Matrix * shipMatrix, color: thruster.Color * colorAlpha, effects: fx);
+                TempXform.Scale *= 0.8f;
+                sprite.Draw(batch: spriteBatch, matrix: TempXform.Matrix * shipMatrix, color: Color.White * colorAlpha, effects: fx);
             }
         }
 
-        static Transform _tmpXform = new Transform();
+        static Transform TempXform = new Transform();
 
-        private static void DrawHull(SpriteBatch spriteBatch, Entity ship, Entity hullEntity, ref Matrix shipMatrix)
+        private static void DrawHull(SpriteBatch spriteBatch, IShipEditorEditableComponent shipComponent, Entity ship, Entity hullEntity, ref Matrix shipMatrix)
         {
             var xform = ship.GetComponent<Transform>();
-            var shipComponent = (IShipEditorEditableComponent) ship.GetComponent<ShipComponent>() ?? ship.GetComponent<ShipPartGroupComponent>();
             var basedecal = shipComponent.Model.BaseDecalColor.ToVector4();
             var trimdecal = shipComponent.Model.TrimDecalColor.ToVector4();
 
@@ -126,23 +130,26 @@ namespace FellSky.Systems
                     color = new Color(trimdecal * color.ToVector4());
                     break;
             }
+            SpriteEffects fx = UpdateTempXform(hull.Transform);
+            sprite.Draw(batch: spriteBatch, matrix: TempXform.Matrix * shipMatrix, color:color, effects: fx);
+        }
 
-            _tmpXform.CopyValuesFrom(hull.Transform);
-
+        private static SpriteEffects UpdateTempXform(Transform xform)
+        {
             SpriteEffects fx = SpriteEffects.None;
-            if (_tmpXform.Scale.X < 0)
+            TempXform.CopyValuesFrom(xform);
+            if (TempXform.Scale.X < 0)
             {
                 fx |= SpriteEffects.FlipHorizontally;
-                _tmpXform.Scale *= new Vector2(-1, 1);
+                TempXform.Scale *= new Vector2(-1, 1);
 
             }
-            if (_tmpXform.Scale.Y < 0)
+            if (TempXform.Scale.Y < 0)
             {
                 fx |= SpriteEffects.FlipVertically;
-                _tmpXform.Scale *= new Vector2(1, -1);
+                TempXform.Scale *= new Vector2(1, -1);
             }
-
-            sprite.Draw(batch: spriteBatch, matrix: _tmpXform.Matrix * shipMatrix, color:color, effects: fx);
+            return fx;
         }
     }
 }
