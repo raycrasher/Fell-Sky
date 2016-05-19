@@ -62,36 +62,6 @@ namespace FellSky.States
 
             Camera = CameraEntityFactory.CreateCamera(World, Constants.ActiveCameraTag, _services.GetService<GraphicsDevice>());
 
-            var entity = World.CreateEntity();
-            entity.AddComponent(new Transform());
-
-            _rng = new Random();
-
-            var NebulaColors = Enumerable.Range(0, _rng.Next(1,3))
-                .Select(r => new Color(_rng.NextFloat(0, 1), _rng.NextFloat(0, 1), _rng.NextFloat(0, 1)))
-                .OrderBy(r => new ColorHSL(r).Luminosity)
-                .ToArray();
-
-            var spaceGenerator = new SpaceBackgroundGeneratorService(
-                GameEngine.Instance.GraphicsDevice, NebulaColors, 
-                GameEngine.Instance.GraphicsDevice.Viewport.Width,
-                _rng.NextDouble() * 0.18 + 1,
-                _rng.NextDouble() * 3 + 2,
-                _rng.Next());
-
-
-            var bgTex = spaceGenerator.GenerateNebula(GameEngine.Instance.GraphicsDevice.Viewport.Width, GameEngine.Instance.GraphicsDevice.Viewport.Height);
-            entity.AddComponent(new SpriteComponent { Texture = bgTex, TextureRect = new Rectangle(0, 0, bgTex.Width, bgTex.Height) });
-            entity.AddComponent(new BackgroundComponent { Parallax=0, FillViewPort=false });
-            entity.Refresh();
-
-            var nebulatex = GameEngine.Instance.Content.Load<Texture2D>($"Textures/nebulae/{_rng.Next(1, 27)}");
-            entity = World.CreateEntity();
-            entity.AddComponent(new SpriteComponent { Texture = nebulatex, TextureRect = new Rectangle(0, 0, nebulatex.Width, nebulatex.Height) });
-            entity.AddComponent(new Transform(Vector2.Zero, 0, new Vector2(0.5f,0.5f)));
-            entity.AddComponent(new BackgroundComponent { Parallax = 0, FillViewPort = true, IsAdditive = true });
-            entity.Refresh();
-
             World.InitializeAll();
 
         }
@@ -103,7 +73,7 @@ namespace FellSky.States
         }
         public override void Draw(GameTime gameTime)
         {
-            GameEngine.Instance.GraphicsDevice.Clear(Color.CornflowerBlue);
+            GameEngine.Instance.GraphicsDevice.Clear(Color.Black);
             World.Draw();
             _guiService.Context.Render();
         }

@@ -23,6 +23,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -166,7 +167,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Services\SpaceBackgroundGeneratorService.cs" />
     <Compile Include="Services\ServiceLocator.cs" />
     <Compile Include="Framework\ShapeDefinitions\ChainShape.cs" />
     <Compile Include="Framework\ShapeDefinitions\CircleShape.cs" />
@@ -195,6 +195,7 @@
     <Compile Include="Framework\UtilityExtensions.cs" />
     <Compile Include="Services\AnimationService.cs" />
     <Compile Include="Services\ShapeManagerService.cs" />
+    <Compile Include="Services\SpaceBackgroundGeneratorService.cs" />
     <Compile Include="States\IntroSequence.cs" />
     <Compile Include="Game\Combat\Beam.cs" />
     <Compile Include="Game\Combat\Explosion.cs" />

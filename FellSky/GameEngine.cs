@@ -46,6 +46,8 @@ namespace FellSky
             Content.RootDirectory = Path.GetFullPath(Settings.DataFolder);
             Environment.CurrentDirectory = Path.GetFullPath(Settings.DataFolder);
 
+            Services.AddService(Content);
+
             Timer = new TimerService();
             Services.AddService<ITimerService>(Timer);
 
@@ -74,7 +76,7 @@ namespace FellSky
             ShapeManager = new ShapeManagerService();
             Services.AddService<IShapeManagerService>(ShapeManager);
 
-            Services.AddService(Content);
+            Services.AddService(new SpaceBackgroundGeneratorService());
 
             State = new MainGameState(Services);
             State.LoadContent();

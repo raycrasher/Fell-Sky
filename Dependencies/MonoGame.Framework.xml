@@ -1310,8 +1310,13 @@
         </member>
         <member name="M:Microsoft.Xna.Framework.Color.LerpPrecise(Microsoft.Xna.Framework.Color,Microsoft.Xna.Framework.Color,System.Single)">
             <summary>
-            <see cref="M:Microsoft.Xna.Framework.Color.Lerp(Microsoft.Xna.Framework.Color,Microsoft.Xna.Framework.Color,System.Single)"/> should be used instead of this function.
+            Performs linear interpolation of <see cref="T:Microsoft.Xna.Framework.Color"/> using <see cref="M:Microsoft.Xna.Framework.MathHelper.LerpPrecise(System.Single,System.Single,System.Single)"/> on MathHelper.
+            Less efficient but more precise compared to <see cref="M:Microsoft.Xna.Framework.Color.Lerp(Microsoft.Xna.Framework.Color,Microsoft.Xna.Framework.Color,System.Single)"/>.
+            See remarks section of <see cref="M:Microsoft.Xna.Framework.MathHelper.LerpPrecise(System.Single,System.Single,System.Single)"/> on MathHelper for more info.
             </summary>
+            <param name="value1">Source <see cref="T:Microsoft.Xna.Framework.Color"/>.</param>
+            <param name="value2">Destination <see cref="T:Microsoft.Xna.Framework.Color"/>.</param>
+            <param name="amount">Interpolation factor.</param>
             <returns>Interpolated <see cref="T:Microsoft.Xna.Framework.Color"/>.</returns>
         </member>
         <member name="M:Microsoft.Xna.Framework.Color.Multiply(Microsoft.Xna.Framework.Color,System.Single)">
@@ -1906,12 +1911,6 @@
             rely on the Game class's functionality, this method and any overrides should be removed.
             </summary>
         </member>
-        <member name="M:Microsoft.Xna.Framework.GamePlatform.OnPresentationChanged">
-            <summary>
-            Used by the GraphicsDeviceManager to update the platform window
-            after the graphics device has changed the presentation.
-            </summary>
-        </member>
         <member name="M:Microsoft.Xna.Framework.GamePlatform.Dispose">
             <summary>
             Performs application-defined tasks associated with freeing,
@@ -1980,28 +1979,6 @@
             <remarks>
             This event is only supported on the Windows DirectX, Windows OpenGL and Linux platforms.
             </remarks>
-        </member>
-        <member name="T:Microsoft.Xna.Framework.IGraphicsDeviceManager">
-            <summary>
-            Used by the platform code to control the graphics device.
-            </summary>
-        </member>
-        <member name="M:Microsoft.Xna.Framework.IGraphicsDeviceManager.BeginDraw">
-            <summary>
-            Called at the start of rendering a frame.
-            </summary>
-            <returns>Returns true if the frame should be rendered.</returns>
-        </member>
-        <member name="M:Microsoft.Xna.Framework.IGraphicsDeviceManager.CreateDevice">
-            <summary>
-            Called to create the graphics device.
-            </summary>
-            <remarks>Does nothing if the graphics device is already created.</remarks>
-        </member>
-        <member name="M:Microsoft.Xna.Framework.IGraphicsDeviceManager.EndDraw">
-            <summary>
-            Called after rendering to present the frame to the screen.
-            </summary>
         </member>
         <member name="T:Microsoft.Xna.Framework.MathHelper">
             <summary>
@@ -5227,12 +5204,12 @@
             </remarks>
         </member>
         <member name="M:Microsoft.Xna.Framework.Audio.SoundEffect.#ctor(System.Byte[],System.Int32,Microsoft.Xna.Framework.Audio.AudioChannels)">
-            <param name="buffer">Buffer containing 16bit PCM wave data.</param>
+            <param name="buffer">Buffer containing PCM wave data.</param>
             <param name="sampleRate">Sample rate, in Hertz (Hz)</param>
             <param name="channels">Number of channels (mono or stereo).</param>
         </member>
         <member name="M:Microsoft.Xna.Framework.Audio.SoundEffect.#ctor(System.Byte[],System.Int32,System.Int32,System.Int32,Microsoft.Xna.Framework.Audio.AudioChannels,System.Int32,System.Int32)">
-            <param name="buffer">Buffer containing 16bit PCM wave data.</param>
+            <param name="buffer">Buffer containing PCM wave data.</param>
             <param name="offset">Offset, in bytes, to the starting position of the audio data.</param>
             <param name="count">Amount, in bytes, of audio data.</param>
             <param name="sampleRate">Sample rate, in Hertz (Hz)</param>
@@ -5264,21 +5241,21 @@
         </member>
         <member name="M:Microsoft.Xna.Framework.Audio.SoundEffect.GetSampleDuration(System.Int32,System.Int32,Microsoft.Xna.Framework.Audio.AudioChannels)">
             <summary>
-            Returns the duration for 16bit PCM audio.
+            Gets the TimeSpan representation of a single sample.
             </summary>
-            <param name="sizeInBytes">The length of the audio data in bytes.</param>
+            <param name="sizeInBytes">Size, in bytes, of audio data.</param>
             <param name="sampleRate">Sample rate, in Hertz (Hz). Must be between 8000 Hz and 48000 Hz</param>
             <param name="channels">Number of channels in the audio data.</param>
-            <returns>The duration of the audio data.</returns>
+            <returns>TimeSpan object that represents the calculated sample duration.</returns>
         </member>
         <member name="M:Microsoft.Xna.Framework.Audio.SoundEffect.GetSampleSizeInBytes(System.TimeSpan,System.Int32,Microsoft.Xna.Framework.Audio.AudioChannels)">
             <summary>
-            Returns the data size in bytes for 16bit PCM audio.
+            Gets the size of a sample from a TimeSpan.
             </summary>
-            <param name="duration">The total duration of the audio data.</param>
+            <param name="duration">TimeSpan object that contains the sample duration.</param>
             <param name="sampleRate">Sample rate, in Hertz (Hz), of audio data. Must be between 8,000 and 48,000 Hz.</param>
             <param name="channels">Number of channels in the audio data.</param>
-            <returns>The size in bytes of a single sample of audio data.</returns>
+            <returns>Size of a single sample of audio data.</returns>
         </member>
         <member name="M:Microsoft.Xna.Framework.Audio.SoundEffect.Play">
             <summary>Gets an internal SoundEffectInstance and plays it.</summary>
@@ -10524,7 +10501,7 @@
         </member>
         <member name="T:Microsoft.Xna.Framework.Graphics.PackedVector.Bgra5551">
             <summary>
-            Packed vector type containing unsigned normalized values ranging from 0 to 1.
+            Packed vector type containing unsigned normalized values ranging from 0 to 1. 
             The x , y and z components use 5 bits, and the w component uses 1 bit.
             </summary>
         </member>
@@ -10898,7 +10875,7 @@
         </member>
         <member name="T:Microsoft.Xna.Framework.Graphics.PackedVector.Rgba1010102">
             <summary>
-            Packed vector type containing unsigned normalized values ranging from 0 to 1.
+            Packed vector type containing unsigned normalized values ranging from 0 to 1. 
             The x, y and z components use 10 bits, and the w component uses 2 bits.
             </summary>
         </member>
@@ -11194,11 +11171,6 @@
         <member name="F:Microsoft.Xna.Framework.Graphics.SetDataOptions.NoOverwrite">
             <summary>
             The SetData operation will not overwrite existing data. This allows the driver to return immediately from a SetData operation and continue rendering.
-            </summary>
-        </member>
-        <member name="P:Microsoft.Xna.Framework.Graphics.Shader.Profile">
-            <summary>
-            Returns the platform specific shader profile identifier.
             </summary>
         </member>
         <member name="P:Microsoft.Xna.Framework.Graphics.Shader.HashKey">
@@ -13340,60 +13312,6 @@
             The settings that define how graphics will be presented to the display.
             </summary>
         </member>
-        <member name="T:Microsoft.Xna.Framework.GraphicsDeviceManager">
-            <summary>
-            Used to initialize and control the presentation of the graphics device.
-            </summary>
-        </member>
-        <member name="F:Microsoft.Xna.Framework.GraphicsDeviceManager.DefaultBackBufferWidth">
-            <summary>
-            The default back buffer width.
-            </summary>
-        </member>
-        <member name="F:Microsoft.Xna.Framework.GraphicsDeviceManager.DefaultBackBufferHeight">
-            <summary>
-            The default back buffer height.
-            </summary>
-        </member>
-        <member name="M:Microsoft.Xna.Framework.GraphicsDeviceManager.#ctor(Microsoft.Xna.Framework.Game)">
-            <summary>
-            Associates this graphics device manager to a game instances.
-            </summary>
-            <param name="game">The game instance to attach.</param>
-        </member>
-        <member name="M:Microsoft.Xna.Framework.GraphicsDeviceManager.ApplyChanges">
-            <summary>
-            Applies any pending property changes to the graphics device.
-            </summary>
-        </member>
-        <member name="M:Microsoft.Xna.Framework.GraphicsDeviceManager.ToggleFullScreen">
-            <summary>
-            Toggles between windowed and fullscreen modes.
-            </summary>
-            <remarks>
-            Note that on platforms that do not support windowed modes this has no affect.
-            </remarks>
-        </member>
-        <member name="P:Microsoft.Xna.Framework.GraphicsDeviceManager.GraphicsProfile">
-            <summary>
-            The profile which determines the graphics feature level.
-            </summary>
-        </member>
-        <member name="P:Microsoft.Xna.Framework.GraphicsDeviceManager.GraphicsDevice">
-            <summary>
-            Returns the graphics device for this manager.
-            </summary>
-        </member>
-        <member name="P:Microsoft.Xna.Framework.GraphicsDeviceManager.IsFullScreen">
-            <summary>
-            Indicates the desire to switch into fullscreen mode.
-            </summary>
-            <remarks>
-            When called at startup this will automatically set fullscreen mode during initialization.  If
-            set after startup you must call ApplyChanges() for the fullscreen mode to be changed.
-            Note that for some platforms that do not support windowed modes this property has no affect.
-            </remarks>
-        </member>
         <member name="P:Microsoft.Xna.Framework.GraphicsDeviceManager.HardwareModeSwitch">
             <summary>
             Gets or sets the boolean which defines how window switches from windowed to fullscreen state.
@@ -13401,71 +13319,20 @@
             The default value is <c>true</c>. Can only be changed before graphics device is created (in game's constructor).
             </summary>
         </member>
-        <member name="P:Microsoft.Xna.Framework.GraphicsDeviceManager.PreferMultiSampling">
-            <summary>
-            Indicates the desire for a multisampled back buffer.
-            </summary>
-            <remarks>
-            When called at startup this will automatically set the MSAA mode during initialization.  If
-            set after startup you must call ApplyChanges() for the MSAA mode to be changed.
-            </remarks>
-        </member>
-        <member name="P:Microsoft.Xna.Framework.GraphicsDeviceManager.PreferredBackBufferFormat">
-            <summary>
-            Indicates the desired back buffer color format.
-            </summary>
-            <remarks>
-            When called at startup this will automatically set the format during initialization.  If
-            set after startup you must call ApplyChanges() for the format to be changed.
-            </remarks>
-        </member>
-        <member name="P:Microsoft.Xna.Framework.GraphicsDeviceManager.PreferredBackBufferHeight">
-            <summary>
-            Indicates the desired back buffer height in pixels.
-            </summary>
-            <remarks>
-            When called at startup this will automatically set the height during initialization.  If
-            set after startup you must call ApplyChanges() for the height to be changed.
-            </remarks>
-        </member>
-        <member name="P:Microsoft.Xna.Framework.GraphicsDeviceManager.PreferredBackBufferWidth">
-            <summary>
-            Indicates the desired back buffer width in pixels.
-            </summary>
-            <remarks>
-            When called at startup this will automatically set the width during initialization.  If
-            set after startup you must call ApplyChanges() for the width to be changed.
-            </remarks>
-        </member>
-        <member name="P:Microsoft.Xna.Framework.GraphicsDeviceManager.PreferredDepthStencilFormat">
-            <summary>
-            Indicates the desired depth-stencil buffer format.
-            </summary>
-            <remarks>
-            The depth-stencil buffer format defines the scene depth precision and stencil bits available for effects during rendering.
-            When called at startup this will automatically set the format during initialization.  If
-            set after startup you must call ApplyChanges() for the format to be changed.
-            </remarks>
-        </member>
-        <member name="P:Microsoft.Xna.Framework.GraphicsDeviceManager.SynchronizeWithVerticalRetrace">
-            <summary>
-            Indicates the desire for vsync when presenting the back buffer.
-            </summary>
-            <remarks>
-            Vsync limits the frame rate of the game to the monitor referesh rate to prevent screen tearing.
-            When called at startup this will automatically set the vsync mode during initialization.  If
-            set after startup you must call ApplyChanges() for the vsync mode to be changed.
-            </remarks>
-        </member>
-        <member name="P:Microsoft.Xna.Framework.GraphicsDeviceManager.SupportedOrientations">
-            <summary>
-            Indicates the desired allowable display orientations when the device is rotated.
-            </summary>
-            <remarks>
-            This property only applies to mobile platforms with automatic display rotation.
-            When called at startup this will automatically apply the supported orientations during initialization.  If
-            set after startup you must call ApplyChanges() for the supported orientations to be changed.
-            </remarks>
+        <member name="M:Microsoft.Xna.Framework.GraphicsDeviceManager.ResetClientBounds">
+             <summary>
+             This method is used by MonoGame Android to adjust the game's drawn to area to fill
+             as much of the screen as possible whilst retaining the aspect ratio inferred from
+             aspectRatio = (PreferredBackBufferWidth / PreferredBackBufferHeight)
+            
+             NOTE: this is a hack that should be removed if proper back buffer to screen scaling
+             is implemented. To disable it's effect, in the game's constructor use:
+            
+                 graphics.IsFullScreen = true;
+                 graphics.PreferredBackBufferHeight = Window.ClientBounds.Height;
+                 graphics.PreferredBackBufferWidth = Window.ClientBounds.Width;
+            
+             </summary>
         </member>
         <member name="P:Microsoft.Xna.Framework.Media.Album.Duration">
             <summary>
@@ -13785,6 +13652,175 @@
         <member name="M:Microsoft.Xna.Framework.Media.VideoPlayer.Dispose">
             <summary>
             Immediately releases the unmanaged resources used by this object.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Xna.Framework.Storage.StorageContainer">
+            <summary>
+            Contains a logical collection of files used for user-data storage.
+            </summary>			
+            <remarks>MSDN documentation contains related conceptual article: http://msdn.microsoft.com/en-us/library/bb200105.aspx#ID4EDB</remarks>
+        </member>
+        <member name="M:Microsoft.Xna.Framework.Storage.StorageContainer.#ctor(Microsoft.Xna.Framework.Storage.StorageDevice,System.String,System.Nullable{Microsoft.Xna.Framework.PlayerIndex})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Xna.Framework.Storage.StorageContainer"/> class.
+            </summary>
+            <param name='device'>The attached storage-device.</param>
+            <param name='name'> name.</param>
+            <param name='playerIndex'>The player index of the player to save the data.</param>
+        </member>
+        <member name="P:Microsoft.Xna.Framework.Storage.StorageContainer.DisplayName">
+            <summary>
+            Returns display name of the title.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Xna.Framework.Storage.StorageContainer.IsDisposed">
+            <summary>
+            Gets a bool value indicating whether the instance has been disposed.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Xna.Framework.Storage.StorageContainer.StorageDevice">
+            <summary>
+            Returns the <see cref="P:Microsoft.Xna.Framework.Storage.StorageContainer.StorageDevice"/> that holds logical files for the container.
+            </summary>
+        </member>
+        <member name="E:Microsoft.Xna.Framework.Storage.StorageContainer.Disposing">
+            <summary>
+            Fired when <see cref="M:Microsoft.Xna.Framework.Storage.StorageContainer.Dispose"/> is called or object if finalized or collected by the garbage collector.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Xna.Framework.Storage.StorageContainer.CreateDirectory(System.String)">
+            <summary>
+            Creates a new directory in the storage-container.
+            </summary>
+            <param name="directory">Relative path of the directory to be created.</param>
+        </member>
+        <member name="M:Microsoft.Xna.Framework.Storage.StorageContainer.CreateFile(System.String)">
+            <summary>
+            Creates a file in the storage-container.
+            </summary>
+            <param name="file">Relative path of the file to be created.</param>
+            <returns>Returns <see cref="T:System.IO.Stream"/> for the created file.</returns>
+        </member>
+        <member name="M:Microsoft.Xna.Framework.Storage.StorageContainer.DeleteDirectory(System.String)">
+            <summary>
+            Deletes specified directory for the storage-container.
+            </summary>
+            <param name="directory">The relative path of the directory to be deleted.</param>
+        </member>
+        <member name="M:Microsoft.Xna.Framework.Storage.StorageContainer.DeleteFile(System.String)">
+            <summary>
+            Deletes a file from the storage-container.
+            </summary>
+            <param name="file">The relative path of the file to be deleted.</param>
+        </member>
+        <member name="M:Microsoft.Xna.Framework.Storage.StorageContainer.DirectoryExists(System.String)">
+            <summary>
+            Returns true if specified path exists in the storage-container, false otherwise.
+            </summary>
+            <param name="directory">The relative path of directory to query for.</param>
+            <returns>True if queried directory exists, false otherwise.</returns>
+        </member>
+        <member name="M:Microsoft.Xna.Framework.Storage.StorageContainer.Dispose">
+            <summary>
+            Disposes un-managed objects referenced by this object.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Xna.Framework.Storage.StorageContainer.FileExists(System.String)">
+            <summary>
+            Returns true if the specified file exists in the storage-container, false otherwise.
+            </summary>
+            <param name="file">The relative path of file to query for.</param>
+            <returns>True if queried file exists, false otherwise.</returns>
+        </member>
+        <member name="M:Microsoft.Xna.Framework.Storage.StorageContainer.GetDirectoryNames">
+            <summary>
+            Returns list of directory names in the storage-container.
+            </summary>
+            <returns>List of directory names.</returns>
+        </member>
+        <member name="M:Microsoft.Xna.Framework.Storage.StorageContainer.GetFileNames">
+            <summary>
+            Returns list of file names in the storage-container.
+            </summary>
+            <returns>List of file names.</returns>
+        </member>
+        <member name="M:Microsoft.Xna.Framework.Storage.StorageContainer.GetFileNames(System.String)">
+            <summary>
+            Returns list of file names with given search pattern.
+            </summary>
+            <param name="searchPattern">A search pattern that supports single-character ("?") and multicharacter ("*") wildcards.</param>
+            <returns>List of matched file names.</returns>
+        </member>
+        <member name="M:Microsoft.Xna.Framework.Storage.StorageContainer.OpenFile(System.String,System.IO.FileMode)">
+            <summary>
+            Opens a file contained in storage-container.
+            </summary>
+            <param name="file">Relative path of the file.</param>
+            <param name="fileMode"><see cref="T:System.IO.FileMode"/> that specifies how the file is opened.</param>
+            <returns><see cref="T:System.IO.Stream"/> object for the opened file.</returns>
+        </member>
+        <member name="M:Microsoft.Xna.Framework.Storage.StorageContainer.OpenFile(System.String,System.IO.FileMode,System.IO.FileAccess)">
+            <summary>
+            Opens a file contained in storage-container.
+            </summary>
+            <param name="file">Relative path of the file.</param>
+            <param name="fileMode"><see cref="T:System.IO.FileMode"/> that specifies how the file is opened.</param>
+            <param name="fileAccess"><see cref="T:System.IO.FileAccess"/> that specifies access mode.</param>
+            <returns><see cref="T:System.IO.Stream"/> object for the opened file.</returns>
+        </member>
+        <member name="M:Microsoft.Xna.Framework.Storage.StorageContainer.OpenFile(System.String,System.IO.FileMode,System.IO.FileAccess,System.IO.FileShare)">
+            <summary>
+            Opens a file contained in storage-container.
+            </summary>
+            <param name="file">Relative path of the file.</param>
+            <param name="fileMode"><see cref="T:System.IO.FileMode"/> that specifies how the file is opened.</param>
+            <param name="fileAccess"><see cref="T:System.IO.FileAccess"/> that specifies access mode.</param>
+            <param name="fileShare">A bitwise combination of <see cref="T:System.IO.FileShare"/> enumeration values that specifies access modes for other stream objects.</param>
+            <returns><see cref="T:System.IO.Stream"/> object for the opened file.</returns>
+        </member>
+        <member name="T:Microsoft.Xna.Framework.Storage.StorageDevice">
+            <summary>
+            Exposes a storage device for storing user data.
+            </summary>
+            <remarks>MSDN documentation contains related conceptual article: http://msdn.microsoft.com/en-us/library/bb200105.aspx</remarks>
+        </member>
+        <member name="M:Microsoft.Xna.Framework.Storage.StorageDevice.#ctor(System.Nullable{Microsoft.Xna.Framework.PlayerIndex},System.Int32,System.Int32)">
+            <summary>
+            Creates a new <see cref="T:Microsoft.Xna.Framework.Storage.StorageDevice"/> instance.
+            </summary>
+            <param name="player">The playerIndex of the player.</param>
+            <param name="sizeInBytes">Size of the storage device.</param>
+            <param name="directoryCount"></param>
+        </member>
+        <member name="P:Microsoft.Xna.Framework.Storage.StorageDevice.FreeSpace">
+            <summary>
+            Returns the amount of free space.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Xna.Framework.Storage.StorageDevice.IsConnected">
+            <summary>
+            Returns true if device is connected, false otherwise.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Xna.Framework.Storage.StorageDevice.TotalSpace">
+            <summary>
+            Returns the total size of device.
+            </summary>
+        </member>
+        <member name="E:Microsoft.Xna.Framework.Storage.StorageDevice.DeviceChanged">
+            <summary>
+            Fired when a device is removed or inserted.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Xna.Framework.Storage.StorageDeviceHelper">
+            <summary>
+            This is a helper class to obtain the native file system information.
+            </summary>
+            <remarks>Look at the Mac implementation.</remarks>
+        </member>
+        <member name="P:Microsoft.Xna.Framework.Storage.StorageDeviceHelper.Path">
+            <summary>
+            Gets or sets path for root of the <see cref="T:Microsoft.Xna.Framework.Storage.StorageDevice"/>.
             </summary>
         </member>
         <member name="M:Microsoft.Xna.Framework.Utilities.FileHelpers.ResolveRelativePath(System.String,System.String)">

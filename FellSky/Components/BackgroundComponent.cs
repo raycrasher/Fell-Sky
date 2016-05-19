@@ -17,6 +17,6 @@ namespace FellSky.Components
         public Color Color = Color.White;
         public SpriteEffects SpriteEffect;
         public bool FillViewPort = false;
-        public bool IsAdditive = false;
+        public BlendState BlendState = BlendState.AlphaBlend;
     }
 }

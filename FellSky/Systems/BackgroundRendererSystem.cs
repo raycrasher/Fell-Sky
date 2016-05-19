@@ -26,7 +26,7 @@ namespace FellSky.Systems
             var camera = EntityWorld.TagManager.GetEntity(Constants.ActiveCameraTag).GetComponent<Camera>();
 
             _batch.Begin(sortMode: SpriteSortMode.BackToFront, blendState:BlendState.AlphaBlend);
-            bool? additiveState = null;
+            BlendState blendState = null;
             foreach(var entity in entities.Values)
             {                
                 var bg = entity.GetComponent<BackgroundComponent>();
@@ -35,15 +35,12 @@ namespace FellSky.Systems
                 var sprite = entity.GetComponent<SpriteComponent>();
                 //var cameraMatrix = camera.GetViewMatrix(bg.Parallax);
 
-                if (additiveState == null) additiveState = bg.IsAdditive;
-                else if (additiveState != bg.IsAdditive)
+                if (blendState == null) blendState = bg.BlendState;
+                else if (blendState != bg.BlendState)
                 {
-                    additiveState = bg.IsAdditive;
+                    blendState = bg.BlendState;
                     _batch.End();
-                    if(additiveState==true)
-                        _batch.Begin(sortMode: SpriteSortMode.BackToFront, blendState: BlendState.Additive);
-                    else
-                        _batch.Begin(sortMode: SpriteSortMode.BackToFront, blendState: BlendState.AlphaBlend);
+                    _batch.Begin(blendState: blendState);
                 }
                 Matrix adjust = Matrix.Identity;
                 if(bg.FillViewPort)
