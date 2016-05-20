@@ -54,7 +54,7 @@ namespace FellSky.Services
             Device.SetRenderTarget(rendertarget);
             Device.Clear(Color.Black);
 
-            var colors = Enumerable.Range(0, Rng.Next(1, 3)).Select(i => Rng.NextRandomColor());
+            var colors = Enumerable.Range(0, Rng.Next(1, 4)).Select(i => Rng.NextRandomColor());
 
             StarEffect.Parameters["uRenderScale"].SetValue((float)Math.Max(size.X, size.Y));
             StarEffect.Parameters["uDensity"].SetValue(Rng.NextFloat(0.001f,0.01f));

@@ -1,0 +1,28 @@
+<rml>
+<head>
+<link type="text/rcss" href="Global.css"/>
+<link type="text/rcss" href="RefitScreen.css"/>
+</head>
+<body>
+<div id="header">
+	<h1>Refit</h1>
+	<ul id="headermenu">
+		<li id="refitWeaponsMenuItem" onclick="ChangeMode_Weapons">Weapons</li>
+		<li id="refitModulesMenuItem" onclick="ChangeMode_Armor">Modules</li>
+		<li id="refitArmorMenuItem" onclick="ChangeMode_Modules">Modules</li>
+		<li id="refitBuildMenuItem" onclick="ChangeMode_Build">Build</li>
+	</ul>
+</div>
+
+<div id="content">
+	<ul id="shipList">
+	</ul>
+
+	<div id="shipView">
+		<div id="shipStats"></div>
+		<ul id="availablePartsList"></ul>
+	</div>
+</div>
+
+</body>
+</rml>

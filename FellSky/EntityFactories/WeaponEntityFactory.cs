@@ -19,7 +19,6 @@ namespace FellSky.EntityFactories
     {
         class MachineGunComponent : IComponent
         {
-            public Transform[][] OriginalBarrelTransforms;
             public Entity[][] BarrelEntities;
         };
 
