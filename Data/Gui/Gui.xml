@@ -3,6 +3,6 @@
 <link type="text/rcss" href="Global.css"/>
 <link type="text/rcss" href="Gui.css"/>
 </head>
-<body>
+<body id="gui">
 </body>
 </rml>

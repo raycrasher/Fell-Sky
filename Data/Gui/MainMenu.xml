@@ -1,0 +1,21 @@
+<rml>
+<head>
+<link type="text/rcss" href="Global.css"/>
+<link type="text/rcss" href="MainMenu.css"/>
+</head>
+<body id="root" onshow="MainMenu_Show">
+
+<ul id="mainmenu">
+	<li onclick="MainMenu_Continue">Continue</li>
+	<li onclick="MainMenu_Load">Load</li>
+	<li onclick="MainMenu_Options">Options</li>
+	<li onclick="MainMenu_Credits">Credits</li>
+	<li onclick="MainMenu_Exit">Exit</li>
+</ul>
+
+<div id="options">
+	<h1>Options</h1>
+</div>
+
+</body>
+</rml>

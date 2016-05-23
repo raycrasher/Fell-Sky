@@ -20,10 +20,6 @@ namespace FellSky.States
         public const string RefitScreenGuiDocument = "Gui/RefitScreen.xml";
 
         private readonly GuiService GuiService;
-        private Element MenuItem_Armor;
-        private Element MenuItem_Modules;
-        private Element MenuItem_Weapons;
-        private Element MenuItem_Build;
 
         public EditorMode Mode { get; private set; }
 
@@ -38,7 +34,7 @@ namespace FellSky.States
 
         public override void LoadContent()
         {
-            World = new EntityWorld();
+            World = new EntityWorld(false,false,false);
             Instance = this;
             if(Document == null)
             {

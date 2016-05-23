@@ -196,7 +196,6 @@
     <Compile Include="Services\AnimationService.cs" />
     <Compile Include="Services\ShapeManagerService.cs" />
     <Compile Include="Services\SpaceBackgroundGeneratorService.cs" />
-    <Compile Include="States\IntroSequence.cs" />
     <Compile Include="Game\Combat\Beam.cs" />
     <Compile Include="Game\Combat\Explosion.cs" />
     <Compile Include="Game\Combat\Projectile.cs" />
@@ -210,6 +209,7 @@
     <Compile Include="Services\GamePersistenceService.cs" />
     <Compile Include="Services\ICoroutineService.cs" />
     <Compile Include="Services\EventService.cs" />
+    <Compile Include="States\MainMenuState.cs" />
     <Compile Include="States\ShipRefitState.cs" />
     <Compile Include="Systems\BackgroundRendererSystem.cs" />
     <Compile Include="Systems\ClientPredictedTransformSystem.cs" />

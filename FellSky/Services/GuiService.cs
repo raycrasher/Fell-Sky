@@ -22,50 +22,65 @@ namespace FellSky.Services
         private RenderInterface _renderInterface;
         private ICoroutineService _coroutines;
 
+        class FontDefinition
+        {
+            public string Filename { get; set; }
+            public string Family { get; set; }
+            public FontStyle Style { get; set; } = FontStyle.Normal;
+            public FontWeight Weight { get; set; } = FontWeight.Normal;
+        }
+
         public Context Context { get; private set; }
 
-        public GuiService(GraphicsDevice graphics, ITimerService timer, IKeyboardService keyboard, IMouseService mouse, ContentManager content, ICoroutineService coroutines)
+        public GuiService()
         {
-            _graphics = graphics;
-            _timer = timer;
-            _keyboard = keyboard;
-            _mouse = mouse;
-            _renderInterface = new Gui.LibRocketRenderInterface(_graphics, content);
-            _coroutines = coroutines;
+            _graphics = ServiceLocator.Instance.GetService<GraphicsDevice>();
+            _timer = ServiceLocator.Instance.GetService<ITimerService>();
+            _keyboard = ServiceLocator.Instance.GetService<IKeyboardService>();
+            _mouse = ServiceLocator.Instance.GetService<IMouseService>();
+            _renderInterface = new Gui.LibRocketRenderInterface(_graphics, ServiceLocator.Instance.GetService<ContentManager>());
+            _coroutines = ServiceLocator.Instance.GetService<ICoroutineService>();
 
             LibRocketNet.Core.SystemInterface = new Gui.LibRocketSystemInterface(_timer);
             LibRocketNet.Core.RenderInterface = _renderInterface;
             LibRocketNet.Core.Initialize();
+            LibRocketNet.Core.ScriptEvent += (o, e) =>
+            {
+                Console.WriteLine("[Gui] Script event:" + e.Script);
+            };
 
             Context = LibRocketNet.Core.CreateContext(
                 ContextName,
-                new Vector2i(graphics.Viewport.Width, graphics.Viewport.Height));
+                new Vector2i(_graphics.Viewport.Width, _graphics.Viewport.Height));
 
             LoadFonts();
             LibRocketNet.Core.InitDebugger(Context);
 
-            keyboard.KeyDown += KeyDownHandler;
-            keyboard.KeyUp += KeyUpHandler;
-            mouse.ButtonDown +=
-                (o, e) => Context.ProcessMouseButtonDown(e, GetKeyModifiers());
-            mouse.ButtonUp +=
+            _keyboard.KeyDown += KeyDownHandler;
+            _keyboard.KeyUp += KeyUpHandler;
+            _mouse.ButtonDown += (o, e) => {
+                Context.ProcessMouseButtonDown(e, GetKeyModifiers());
+            };
+            _mouse.ButtonUp +=
                 (o, e) => Context.ProcessMouseButtonUp(e, GetKeyModifiers());
 
-            mouse.WheelChanged += (w) => Context.ProcessMouseWheel(-w, GetKeyModifiers());
-            mouse.Move += ProcessMouseMove;
+            _mouse.WheelChanged += (w) =>
+            {
+                Context.ProcessMouseWheel(-w, GetKeyModifiers());
+            };
+            _mouse.Move += ProcessMouseMove;
 
-            coroutines.StartCoroutine(UpdateUI());
+            _coroutines.StartCoroutine(UpdateUI());
         }
 
         private void LoadFonts()
         {
-            if (System.IO.Directory.Exists("Fonts"))
+            var fonts = Newtonsoft.Json.JsonConvert.DeserializeObject<FontDefinition[]>(System.IO.File.ReadAllText("Fonts/Fonts.json"));
+            foreach (var font in fonts)
             {
-                foreach (var fontfile in System.IO.Directory.GetFiles("Fonts", "*.ttf"))
-                {
-                    LibRocketNet.Core.LoadFontFace(fontfile);
-                }
+                LibRocketNet.Core.LoadFontFace(System.IO.Path.Combine("Fonts",font.Filename), font.Family, font.Style, font.Weight);
             }
+            
         }
 
         private void ProcessMouseMove(Microsoft.Xna.Framework.Point p)

@@ -7,10 +7,10 @@
 <div id="header">
 	<h1>Refit</h1>
 	<ul id="headermenu">
-		<li id="refitWeaponsMenuItem" onclick="ChangeMode_Weapons">Weapons</li>
-		<li id="refitModulesMenuItem" onclick="ChangeMode_Armor">Modules</li>
-		<li id="refitArmorMenuItem" onclick="ChangeMode_Modules">Modules</li>
-		<li id="refitBuildMenuItem" onclick="ChangeMode_Build">Build</li>
+		<li id="refitWeaponsMenuItem" onclick="Refit_ChangeMode_Weapons">Weapons</li>
+		<li id="refitModulesMenuItem" onclick="Refit_ChangeMode_Armor">Modules</li>
+		<li id="refitArmorMenuItem" onclick="Refit_ChangeMode_Modules">Modules</li>
+		<li id="refitBuildMenuItem" onclick="Refit_ChangeMode_Build">Build</li>
 	</ul>
 </div>
 

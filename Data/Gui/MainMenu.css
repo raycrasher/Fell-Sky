@@ -1,0 +1,22 @@
+#mainmenu {
+	display:block;
+	margin: 40px;
+}
+
+
+#mainmenu li {
+	display:block;
+	width: 200px;
+	border-width: 1px;
+	border-color: #446;
+	padding:10px;
+	font-size: 18px;
+	background: #223344aa;
+	font-family: "Roboto";
+	margin: 4px;
+
+}
+
+#mainmenu li:hover {
+	background: #446688aa;
+}

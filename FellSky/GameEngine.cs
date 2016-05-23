@@ -67,7 +67,7 @@ namespace FellSky
 
             Services.AddService<IAnimationService>(new AnimationService(Coroutines, Timer));
 
-            Gui = new GuiService(Graphics.GraphicsDevice, Timer, Keyboard, Mouse, Content, Coroutines);
+            Gui = new GuiService();
             Services.AddService<IGuiService>(Gui);
 
             SpriteManager = new SpriteManagerService(Content);
@@ -78,7 +78,7 @@ namespace FellSky
 
             Services.AddService(new SpaceBackgroundGeneratorService());
 
-            State = new MainGameState(Services);
+            State = new MainMenuState();
             State.LoadContent();
             base.LoadContent();
         }

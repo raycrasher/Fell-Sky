@@ -1,0 +1,20 @@
+[
+	{ "Filename" : "Roboto-Black.ttf", "Family" : "Roboto Black" },
+	{ "Filename" : "Roboto-BlackItalic.ttf", "Family" : "Roboto Black", "Style" : "Italic" },
+	{ "Filename" : "Roboto-Bold.ttf", "Family" : "Roboto", "Weight" : "Bold" },
+	{ "Filename" : "Roboto-BoldItalic.ttf", "Family" : "Roboto", "Weight" : "Bold", "Style" : "Italic" },
+	{ "Filename" : "Roboto-Italic.ttf", "Family" : "Roboto", "Style" : "Italic" },
+	{ "Filename" : "Roboto-Light.ttf", "Family" : "Roboto Light" },
+	{ "Filename" : "Roboto-LightItalic.ttf", "Family" : "Roboto Light", "Style" : "Italic" },
+	{ "Filename" : "Roboto-Medium.ttf", "Family" : "Roboto Medium" },
+	{ "Filename" : "Roboto-MediumItalic.ttf", "Family" : "Roboto Medium", "Style" : "Italic" },
+	{ "Filename" : "Roboto-Regular.ttf", "Family" : "Roboto" },
+	{ "Filename" : "Roboto-Thin.ttf", "Family" : "Roboto Thin" },
+	{ "Filename" : "Roboto-ThinItalic.ttf", "Family" : "Roboto Thin", "Style" : "Italic" },
+	{ "Filename" : "RobotoCondensed-Bold.ttf", "Family" : "Roboto Condensed", "Weight" : "Bold" },
+	{ "Filename" : "RobotoCondensed-BoldItalic.ttf", "Family" : "Roboto Condensed", "Weight" : "Bold", "Style" : "Italic" },
+	{ "Filename" : "RobotoCondensed-Italic.ttf", "Family" : "Roboto Condensed", "Style" : "Italic" },
+	{ "Filename" : "RobotoCondensed-Light.ttf", "Family" : "Roboto Condensed Light" },
+	{ "Filename" : "RobotoCondensed-LightItalic.ttf", "Family" : "Roboto Condensed Light", "Style" : "Italic" },
+	{ "Filename" : "RobotoCondensed-Regular.ttf", "Family" : "Roboto Condensed" }
+]

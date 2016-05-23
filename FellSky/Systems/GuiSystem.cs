@@ -26,7 +26,7 @@ namespace FellSky.Systems
         public override void LoadContent()
         {
             _document = _service.Context.LoadDocument(Properties.Settings.Default.GuiDocument);
-            _document.Show();
+            _document.Show(ElementDocument.FocusFlags.None);
             base.LoadContent();
         }
 
@@ -56,6 +56,11 @@ namespace FellSky.Systems
             if (element == null) return;
             element.ParentNode?.RemoveChild(element);
             base.OnRemoved(entity);
+        }
+
+        public override void Process()
+        {
+            _service.Context.Render();
         }
 
         public override void OnDisabled(Entity entity)
