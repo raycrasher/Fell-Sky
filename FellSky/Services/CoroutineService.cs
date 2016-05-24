@@ -16,7 +16,7 @@ namespace FellSky.Services
             return r;
         }
 
-        public void RunCoroutines(TimeSpan timestep)
+        public void RunCoroutines(TimeSpan deltaTime)
         {
             LinkedListNode<Coroutine> node = Coroutines.First;
             while (node != null)
@@ -30,7 +30,7 @@ namespace FellSky.Services
                     continue;
                 }
 
-                if (!thisNode.Value.Run(timestep))
+                if (!thisNode.Value.Run(deltaTime))
                 {
                     Coroutines.Remove(thisNode);
                     if (thisNode.Value.OnDone != null)

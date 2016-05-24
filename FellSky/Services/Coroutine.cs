@@ -85,10 +85,29 @@ namespace FellSky.Services
             return new YieldWaitUntil { Condition = condition };
         }
 
+        public static ICoroutineYieldValue WaitForNumFrames(int numFrames)
+        {
+            return new YieldWaitForNumFrames { NumFrames = numFrames };
+        }
+
+        public static ICoroutineYieldValue WaitForAsync(Action action)
+        {
+            return new YieldWaitAsync(action);
+        }
+
+        public static ICoroutineYieldValue WaitForAsync(Task task)
+        {
+            return new YieldWaitAsync(task);
+        }
+
+        
+        /////////////////////////////////////
+        
+
         public interface ICoroutineYieldValue
         {
             bool Step(Coroutine routine, TimeSpan time);
-        }
+        }        
 
         class YieldWaitUntil : ICoroutineYieldValue
         {
@@ -108,6 +127,38 @@ namespace FellSky.Services
                 if (Delay <= TimeSpan.Zero) return true;
                 Delay -= time;
                 return false;
+            }
+        }
+
+        class YieldWaitForNumFrames : ICoroutineYieldValue
+        {
+            public int NumFrames;
+
+            public bool Step(Coroutine routine, TimeSpan time)
+            {
+                if (NumFrames <= 0) return true;
+                NumFrames--;
+                return false;
+            }
+        }
+
+        class YieldWaitAsync : ICoroutineYieldValue
+        {
+            public Task Task;
+
+            public YieldWaitAsync(Task task)
+            {
+                Task = task;
+            }
+
+            public YieldWaitAsync(Action action)
+            {
+                Task = Task.Run(action);
+            }
+
+            public bool Step(Coroutine routine, TimeSpan time)
+            {
+                return !(Task.Status == TaskStatus.Running);
             }
         }
     }
