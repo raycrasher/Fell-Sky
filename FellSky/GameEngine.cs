@@ -78,7 +78,7 @@ namespace FellSky
 
             Services.AddService(new SpaceBackgroundGeneratorService());
 
-            State = new MainMenuState();
+            State = new ShipRefitState(new[] { Game.Ships.Ship.LoadFromJsonFile("Ships/Jaeger.json"), Game.Ships.Ship.LoadFromJsonFile("Ships/Scimitar.json") });
             State.LoadContent();
             base.LoadContent();
         }

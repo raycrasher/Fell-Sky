@@ -5,13 +5,13 @@
 </head>
 <body>
 <div id="header">
-	<h1>Refit</h1>
-	<ul id="headermenu">
-		<li id="refitWeaponsMenuItem" onclick="Refit_ChangeMode_Weapons">Weapons</li>
-		<li id="refitModulesMenuItem" onclick="Refit_ChangeMode_Armor">Modules</li>
-		<li id="refitArmorMenuItem" onclick="Refit_ChangeMode_Modules">Modules</li>
-		<li id="refitBuildMenuItem" onclick="Refit_ChangeMode_Build">Build</li>
-	</ul>
+	<h1 class="title">Shipyard</h1>
+	<nav>
+		<li onclick="Refit_ChangeMode_Weapons">Weapons</li>
+		<li onclick="Refit_ChangeMode_Armor">Armor</li>
+		<li onclick="Refit_ChangeMode_Modules">Modules</li>
+		<li onclick="Refit_ChangeMode_Build">Build</li>
+	</nav>
 </div>
 
 <div id="content">
@@ -21,6 +21,8 @@
 	<div id="shipView">
 		<div id="shipStats"></div>
 		<ul id="availablePartsList"></ul>
+	</div>
+	<div id="WeaponsModeView">
 	</div>
 </div>
 

@@ -103,6 +103,12 @@ namespace FellSky.States
                 case "MainMenu_Options":
                     document.GetElementById("options")?.SetProperty("display", "block");
                     break;
+                case "MainMenu_Editor":
+                    document.GetElementById("options")?.SetProperty("display", "none");
+                    break;
+                case "MainMenu_Exit":
+                    GameEngine.Instance.Exit();
+                    break;
             }
         }
     }

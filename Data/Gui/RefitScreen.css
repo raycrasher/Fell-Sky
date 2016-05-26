@@ -1,0 +1,41 @@
+body {
+	font-family: "Roboto Light";
+}
+
+#header {
+	font-family: "Roboto Condensed";
+	padding: 4px 5px;
+	border-bottom-width: 1px;
+	border-bottom-color: #345;
+	background: #000000AA;
+}
+
+#header .title {
+	font-weight: bold;
+	font-size: 22px;
+}
+
+#header nav {
+	width: 500px;
+	display: block;
+	position:absolute;
+	padding: 6px;
+	font-size: 18px;
+	top: 0;
+	left: 100px;
+}
+
+#header nav li {
+	display: inline-block;
+	width: 100px;
+	text-align:center;
+	padding: 3px;
+	float:left;
+	margin: 5px 6px 5px 0px;
+	border-width: 1px;
+	border-color: #345;
+}
+
+#header nav li:hover {
+	background: #44668855;
+}

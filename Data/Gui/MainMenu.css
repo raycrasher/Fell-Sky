@@ -10,13 +10,13 @@
 	border-width: 1px;
 	border-color: #446;
 	padding:10px;
-	font-size: 18px;
-	background: #223344aa;
+	font-size: 16px;
+	background: #22334455;
 	font-family: "Roboto";
 	margin: 4px;
 
 }
 
 #mainmenu li:hover {
-	background: #446688aa;
+	background: #44668855;
 }

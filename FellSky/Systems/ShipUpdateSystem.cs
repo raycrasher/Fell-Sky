@@ -86,5 +86,10 @@ namespace FellSky.Systems
                     thruster.ThrustPercentage = MathHelper.Clamp(thruster.ThrustPercentage - 0.05f, 0, 1);
             }
         }
+
+        private void UpdateTurrets(Entity ship)
+        {
+
+        }
     }
 }

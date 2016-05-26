@@ -23,6 +23,8 @@ namespace FellSky.Game.Ships
         public List<ModuleSlot> ModuleSlots { get; set; } = new List<ModuleSlot>();
         public List<Radiator> Radiators { get; set; } = new List<Radiator>();
 
+        public List<ShipPartGroup> PartGroups { get; set; } = new List<ShipPartGroup>();
+
         IList<ShipPart> IShipEditorEditableModel.Parts => Parts;
 
         [ExpandableObject]

@@ -25,6 +25,8 @@ namespace FellSky.Systems
 
         public ObservableCollection<Entity> SelectedEntities { get; } = new ObservableCollection<Entity>();
 
+        public Rectangle? BoundingBox { get; set; }
+
         public int SelectionButton { get; set; } = 0;
         public bool MarqueeBoxSelectionEnabled { get; set; } = true;
         public Color MarqueeBoxColor { get; set; } = Color.LightGray;

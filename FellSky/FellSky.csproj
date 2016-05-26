@@ -119,13 +119,13 @@
     <Compile Include="Components\CoroutineComponent.cs" />
     <Compile Include="Components\DamageComponent.cs" />
     <Compile Include="Components\DamageReductionComponent.cs" />
+    <Compile Include="Components\DoodadComponent.cs" />
     <Compile Include="Components\EditorComponent.cs" />
     <Compile Include="Components\FactionComponent.cs" />
     <Compile Include="Components\GuiComponent.cs" />
     <Compile Include="Components\HardpointArcDrawingComponent.cs" />
     <Compile Include="Components\HardpointComponent.cs" />
     <Compile Include="Components\HealthComponent.cs" />
-    <Compile Include="Components\HealthModOverTimeComponent.cs" />
     <Compile Include="Components\HullComponent.cs" />
     <Compile Include="Components\IdFriendOrFoeComponent.cs" />
     <Compile Include="Components\NavLightComponent.cs" />
@@ -135,10 +135,12 @@
     <Compile Include="Components\RigidBodyFixtureComponent.cs" />
     <Compile Include="Components\ShipComponent.cs" />
     <Compile Include="Components\ShipPartGroupComponent.cs" />
+    <Compile Include="Components\SoundEffectComponent.cs" />
     <Compile Include="Components\StoryComponent.cs" />
     <Compile Include="Components\ThrusterComponent.cs" />
     <Compile Include="Components\TurretComponent.cs" />
     <Compile Include="Components\WeaponComponent.cs" />
+    <Compile Include="EntityFactories\ParticleEntityFactory.cs" />
     <Compile Include="EntityFactories\ShipEntityFactory.cs" />
     <Compile Include="EntityFactories\WeaponEntityFactory.cs" />
     <Compile Include="Framework\Constants.cs" />
@@ -159,6 +161,7 @@
     <Compile Include="Game\Combat\Weapons\WeaponData.cs" />
     <Compile Include="Game\Ships\IShipEditorEditable.cs" />
     <Compile Include="Game\Ships\PartEntityPair.cs" />
+    <Compile Include="Game\Ships\Parts\Doodad.cs" />
     <Compile Include="Game\Ships\Parts\Radiator.cs" />
     <Compile Include="Game\Ships\ShipPartGroup.cs" />
     <Compile Include="Game\Space\Outpost.cs" />
@@ -342,7 +345,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="Systems\HealthModOverTimeSystem.cs" />
     <Compile Include="Systems\PhysicsDebugDrawSystem.cs" />
     <Compile Include="Systems\PlayerShipControlSystem.cs" />
     <Compile Include="Systems\RigidBodyToTransformSystem.cs" />

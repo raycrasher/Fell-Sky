@@ -8,6 +8,7 @@
 <ul id="mainmenu">
 	<li onclick="MainMenu_Continue">Continue</li>
 	<li onclick="MainMenu_Load">Load</li>
+	<li onclick="MainMenu_Editor">Ship Editor</li>
 	<li onclick="MainMenu_Options">Options</li>
 	<li onclick="MainMenu_Credits">Credits</li>
 	<li onclick="MainMenu_Exit">Exit</li>
