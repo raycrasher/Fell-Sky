@@ -35,6 +35,8 @@ namespace FellSky.States
 
         public List<Texture2D> LoadedTextures { get; set; }
         public Entity CurrentShip { get; private set; }
+        public Entity GridEntity { get; private set; }
+        public Entity CameraEntity { get; private set; }
 
         public ShipRefitState(IReadOnlyList<Ship> fleet)
         {
@@ -74,8 +76,8 @@ namespace FellSky.States
             Graphics = ServiceLocator.Instance.GetService<GraphicsDevice>();
             World.InitializeAll();
 
-            World.CreateCamera(Constants.ActiveCameraTag, Graphics);
-            World.CreateGrid(new Vector2(40), new Microsoft.Xna.Framework.Color(30, 30, 60));
+            CameraEntity = World.CreateCamera(Constants.ActiveCameraTag, Graphics);
+            GridEntity = World.CreateGrid(new Vector2(40), new Microsoft.Xna.Framework.Color(30, 30, 60));
 
             if (Document == null)
             {

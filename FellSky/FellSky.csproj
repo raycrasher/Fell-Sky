@@ -162,6 +162,7 @@
     <Compile Include="Game\Ships\IShipEditorEditable.cs" />
     <Compile Include="Game\Ships\PartEntityPair.cs" />
     <Compile Include="Game\Ships\Parts\Doodad.cs" />
+    <Compile Include="Game\Ships\Parts\DrawShipToTexture.cs" />
     <Compile Include="Game\Ships\Parts\Radiator.cs" />
     <Compile Include="Game\Ships\ShipPartGroup.cs" />
     <Compile Include="Game\Space\Outpost.cs" />
