@@ -37,5 +37,9 @@ body {
 }
 
 #header nav li:hover {
-	background: #44668855;
+	background: #55779955;
+}
+
+#header nav li.selectedmode {
+	background: #33557755;
 }

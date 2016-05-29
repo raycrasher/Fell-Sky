@@ -128,6 +128,7 @@
     <Compile Include="Components\HealthComponent.cs" />
     <Compile Include="Components\HullComponent.cs" />
     <Compile Include="Components\IdFriendOrFoeComponent.cs" />
+    <Compile Include="Components\MouseHoverComponent.cs" />
     <Compile Include="Components\NavLightComponent.cs" />
     <Compile Include="Components\ParticleEmitterComponent.cs" />
     <Compile Include="Components\RadiatorComponent.cs" />
@@ -223,6 +224,7 @@
     <Compile Include="Systems\GuiSystem.cs" />
     <Compile Include="Systems\HardpointRendererSystem.cs" />
     <Compile Include="Systems\MouseControlledTransformSystemStates\ScaleState.cs" />
+    <Compile Include="Systems\MouseHoverSystem.cs" />
     <Compile Include="Systems\ParticleSystem.cs" />
     <Compile Include="Systems\PhysicsDebugView\DebugView.cs" />
     <Compile Include="Systems\PhysicsSystem.cs" />

@@ -430,6 +430,11 @@ namespace FellSky
             result.Height = Math.Max(value1.Bottom, value2.Bottom) - result.Y;
         }
 
+        public static implicit operator Rectangle(FloatRect rect)
+        {
+            return new Rectangle((int)rect.X, (int)rect.Y, (int)rect.Width, (int)rect.Height);
+        }
+
         #endregion
     }
 }

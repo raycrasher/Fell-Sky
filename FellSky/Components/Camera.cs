@@ -1,4 +1,5 @@
-﻿using Artemis.Interface;
+﻿using System;
+using Artemis.Interface;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 

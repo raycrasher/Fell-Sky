@@ -6,7 +6,8 @@
 <body>
 <div id="header">
 	<h1 class="title">Shipyard</h1>
-	<nav>
+	<nav id="navigation">
+		<li style="display:none;"/>
 		<li onclick="Refit_ChangeMode_Weapons">Weapons</li>
 		<li onclick="Refit_ChangeMode_Armor">Armor</li>
 		<li onclick="Refit_ChangeMode_Modules">Modules</li>

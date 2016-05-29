@@ -17,8 +17,8 @@ namespace FellSky.Game.Ships.Parts
         // combo mounts
         Weapon_Universal,   // all weapons
         Weapon_Powered,     // ballistic & energy
-        Weapon_Hybrid,      // ballistic & missile
-        Weapon_Synergy,     // energy & missile
+        Weapon_Composite,      // ballistic & missile
+        Weapon_Hybrid,     // energy & missile
 
         // specialty mounts
         Weapon_Spinal,

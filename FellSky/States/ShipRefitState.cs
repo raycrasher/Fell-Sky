@@ -11,6 +11,7 @@ using FellSky.Systems;
 using FellSky.EntityFactories;
 using Microsoft.Xna.Framework.Graphics;
 using FellSky.Game.Ships;
+using FellSky.Components;
 
 namespace FellSky.States
 {
@@ -25,6 +26,9 @@ namespace FellSky.States
 
         private readonly IGuiService GuiService;
         private GraphicsDevice Graphics;
+        private HardpointRendererSystem _hardpointSystem;
+        private IMouseService _mouse;
+        private Point _lastClickPos;
 
         public EditorMode Mode { get; private set; }
 
@@ -44,6 +48,7 @@ namespace FellSky.States
             if (fleet.Count < 0) throw new ArgumentException("Fleet is empty.");
             Fleet = fleet;
             GuiService = ServiceLocator.Instance.GetService<IGuiService>();
+            _mouse = ServiceLocator.Instance.GetService<IMouseService>();
         }
 
         public override void LoadContent()
@@ -59,6 +64,7 @@ namespace FellSky.States
             World.SystemManager.SetSystem(new BoundingBoxRendererSystem(), Artemis.Manager.GameLoopType.Draw, depth++);
             World.SystemManager.SetSystem(new GenericDrawableRendererSystem(), Artemis.Manager.GameLoopType.Draw, depth++);
             World.SystemManager.SetSystem(new PhysicsDebugDrawSystem(), Artemis.Manager.GameLoopType.Draw, depth++);
+            _hardpointSystem = World.SystemManager.SetSystem(new HardpointRendererSystem(), Artemis.Manager.GameLoopType.Draw, depth++);
             //World.SystemManager.SetSystem(new GuiSystem(), Artemis.Manager.GameLoopType.Draw, depth++);
 
             int priority = 1;
@@ -66,18 +72,19 @@ namespace FellSky.States
             World.SystemManager.SetSystem(new RigidBodyToTransformSystem(), Artemis.Manager.GameLoopType.Update, priority++);
             World.SystemManager.SetSystem(new MouseControlledTransformSystem(), Artemis.Manager.GameLoopType.Update, priority++);
             World.SystemManager.SetSystem(new BoundingBoxSelectionSystem(), Artemis.Manager.GameLoopType.Update, priority++);
-
+            World.SystemManager.SetSystem(new MouseHoverSystem(), Artemis.Manager.GameLoopType.Update, priority++);
             World.SystemManager.SetSystem(new CoroutineSystem(), Artemis.Manager.GameLoopType.Update, priority++);
             //World.SystemManager.SetSystem(new PlayerShipControlSystem(), Artemis.Manager.GameLoopType.Update, priority++);
             World.SystemManager.SetSystem(new ShipUpdateSystem(), Artemis.Manager.GameLoopType.Update, priority++);
             //World.SystemManager.SetSystem(new StorySystem(), Artemis.Manager.GameLoopType.Update, priority++);
             World.SystemManager.SetSystem(new PhysicsSystem(), Artemis.Manager.GameLoopType.Update, priority++);
+            
 
             Graphics = ServiceLocator.Instance.GetService<GraphicsDevice>();
             World.InitializeAll();
 
             CameraEntity = World.CreateCamera(Constants.ActiveCameraTag, Graphics);
-            GridEntity = World.CreateGrid(new Vector2(40), new Microsoft.Xna.Framework.Color(30, 30, 60));
+            GridEntity = World.CreateGrid(new Vector2(100), new Microsoft.Xna.Framework.Color(30, 30, 60));
 
             if (Document == null)
             {
@@ -85,16 +92,72 @@ namespace FellSky.States
                 Core.ScriptEvent += (o,e) => Instance?.HandleScriptEvent(o, e);
             }
 
-            //CurrentShip = World.CreateShipEntity(Fleet[0], Vector2.Zero, 0, false);
-            Document.Show();
             
+
+            CurrentShip = World.CreateShipEntity(Fleet[0], Vector2.Zero, 0, false);
+            AddHardpointsToShip(CurrentShip);
+
+            SetMode(EditorMode.Weapons);
+
+            Document.Show();
+
+            _mouse.ButtonDown += HandleMouseButtonDown;
+            _mouse.ButtonUp += HandleMouseButtonUp;
             
             base.LoadContent();
+        }
+
+        private void HandleMouseButtonDown(Point pos, int button)
+        {
+            _lastClickPos = pos;
+        }
+
+        private void HandleMouseButtonUp(Point pos, int button)
+        {
+            if(button == 1)
+            {
+                var delta = pos - _lastClickPos;
+                if (new Vector2(delta.X, delta.Y).LengthSquared() < 2)
+                {
+                    var control = World.SystemManager.GetSystem<CameraControlSystem>();
+                    control.MoveTo(Vector2.Zero);
+                    control.ZoomTo(1);
+                }
+                    
+
+            }
+        }
+
+        private void AddHardpointsToShip(Entity ship)
+        {
+            var shipComponent = ship.GetComponent<ShipComponent>();
+            const float BaseAlpha = 0.3f;
+            foreach (var partEntity in shipComponent.PartEntities.Where(s=>shipComponent.Ship.Hardpoints.Any(h=>h.Hull == s.Part))){
+                var hardpoint = new HardpointArcDrawingComponent { DrawHardpointIcon = true, Alpha = BaseAlpha };
+                partEntity.Entity.AddComponent(hardpoint);
+                var entity = World.CreateEntity();
+                var xform = partEntity.Part.Transform;
+                var box = HardpointRendererSystem.GetIconBoundingBox(partEntity.Entity.GetComponent<HardpointComponent>().Hardpoint);
+                entity.AddComponent(new Transform(xform.Position - box.Size, 0, Vector2.One));
+                entity.AddComponent(new BoundingBoxComponent(box));
+
+                //entity.AddComponent(new DrawBoundingBoxComponent { Color = Microsoft.Xna.Framework.Color.Red, IsEnabled = true });
+
+                var hover = new MouseHoverComponent();
+                hover.HoverChanged += (o, e) =>
+                {
+                    hardpoint.Alpha = hover.IsHover ? 1 : BaseAlpha;
+                    hardpoint.Thickness = hover.IsHover ? 2 : 1;
+                };
+                entity.AddComponent(hover);
+            }
         }
 
         public override void UnloadContent()
         {
             Instance = null;
+            _mouse.ButtonUp -= HandleMouseButtonUp;
+            _mouse.ButtonDown -= HandleMouseButtonDown;
         }
 
         public override void Update(GameTime gameTime)
@@ -114,6 +177,7 @@ namespace FellSky.States
             if (mode == Mode) return;
             Mode = mode;
             Document.GetElementById("availablePartsList")?.SetProperty("display", "none");
+            _hardpointSystem.IsEnabled = mode == EditorMode.Weapons;
         }
 
         public void HandleScriptEvent(object sender, ScriptEventArgs args)
@@ -133,7 +197,14 @@ namespace FellSky.States
                     SetMode(EditorMode.Build);
                     break;
             }
-            
+            if (args.Script.StartsWith("Refit_ChangeMode"))
+            {
+                foreach(var element in Document.GetElementById("navigation").Children)
+                {
+                    element.SetClass("selectedmode", false);
+                }
+                args.TargetElement.SetClass("selectedmode", true);
+            }
         }
     }
 }

@@ -1525,8 +1525,7 @@
         "Hull": {
           "$ref": "126"
         },
-        "Facing": 0.0,
-        "FiringArc": 0.262704372
+        "FiringArc": 0.052540876
       },
       {
         "$id": "191",
@@ -1536,8 +1535,7 @@
         "Hull": {
           "$ref": "135"
         },
-        "Facing": 0.0,
-        "FiringArc": 0.262704372
+        "FiringArc": 0.052540876
       },
       {
         "$id": "192",
@@ -1547,8 +1545,47 @@
         "Hull": {
           "$ref": "174"
         },
-        "Facing": 0.0,
-        "FiringArc": 3.4974153
+        "FiringArc": 1.04719758
+      },
+      {
+        "$id": "193",
+        "Module": null,
+        "Size": 0,
+        "Type": 3,
+        "Hull": {
+          "$ref": "177"
+        },
+        "FiringArc": 1.04719758
+      },
+      {
+        "$id": "194",
+        "Module": null,
+        "Size": 0,
+        "Type": 3,
+        "Hull": {
+          "$ref": "171"
+        },
+        "FiringArc": 1.83893061
+      },
+      {
+        "$id": "195",
+        "Module": null,
+        "Size": 0,
+        "Type": 3,
+        "Hull": {
+          "$ref": "168"
+        },
+        "FiringArc": 1.840654
+      },
+      {
+        "$id": "196",
+        "Module": null,
+        "Size": 0,
+        "Type": 3,
+        "Hull": {
+          "$ref": "186"
+        },
+        "FiringArc": 4.5202384
       },
       {
         "$id": "197",
@@ -1556,45 +1593,23 @@
         "Size": 0,
         "Type": 3,
         "Hull": {
-          "$ref": "186"
+          "$ref": "162"
         },
-        "Facing": 0.0,
-        "FiringArc": 5.02110052
-      },
-      {
-        "$id": "198",
-        "Module": null,
-        "Size": 0,
-        "Type": 3,
-        "Hull": {
-          "$ref": "171"
-        },
-        "Facing": 0.0,
-        "FiringArc": 3.26098132
-      },
-      {
-        "$id": "199",
-        "Module": null,
-        "Size": 0,
-        "Type": 3,
-        "Hull": {
-          "$ref": "168"
-        },
-        "Facing": 0.0,
-        "FiringArc": 3.26098132
-      },
-      {
-        "$id": "200",
-        "Module": null,
-        "Size": 0,
-        "Type": 3,
-        "Hull": {
-          "$ref": "177"
-        },
-        "Facing": 0.0,
-        "FiringArc": 3.44487453
+        "FiringArc": 6.28318548
       }
     ]
+  },
+  "ModuleSlots": {
+    "$id": "198",
+    "$values": []
+  },
+  "Radiators": {
+    "$id": "199",
+    "$values": []
+  },
+  "PartGroups": {
+    "$id": "200",
+    "$values": []
   },
   "Handling": {
     "$id": "201",

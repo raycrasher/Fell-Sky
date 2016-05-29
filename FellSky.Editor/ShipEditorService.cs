@@ -168,7 +168,7 @@ namespace FellSky.Editor
             foreach (var item in parts)
             {
                 component.Model.Parts.Remove(item);
-                if (ship != null)
+                if (ship != null && hardpointDictionary.ContainsKey(item))
                 {
                     ship.Hardpoints.Remove(hardpointDictionary[item]);
                 }

@@ -11,5 +11,7 @@ namespace FellSky.Components
     public class HardpointArcDrawingComponent: IComponent
     {
         public bool DrawHardpointIcon = true;
+        public float Alpha = 1;
+        public float Thickness = 1;
     }
 }

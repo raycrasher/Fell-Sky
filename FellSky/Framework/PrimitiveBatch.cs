@@ -28,6 +28,7 @@ namespace FellSky.Framework
         private int _lineVertsCount;
         private VertexPositionColor[] _triangleVertices;
         private int _triangleVertsCount;
+        private RasterizerState _rasterizerState;
 
         public PrimitiveBatch(GraphicsDevice graphicsDevice, int bufferSize = DefaultBufferSize)
         {
@@ -35,6 +36,7 @@ namespace FellSky.Framework
                 throw new ArgumentNullException("graphicsDevice");
 
             _device = graphicsDevice;
+            _rasterizerState = new RasterizerState();
 
             _triangleVertices = new VertexPositionColor[bufferSize - bufferSize % 3];
             _lineVertices = new VertexPositionColor[bufferSize - bufferSize % 2];
@@ -138,9 +140,14 @@ namespace FellSky.Framework
                 throw new InvalidOperationException("Begin must be called before End can be called.");
             }
 
+            var oldState = _device.RasterizerState;
+            _device.RasterizerState = _rasterizerState;
+
             // Draw whatever the user wanted us to draw
             FlushTriangles();
             FlushLines();
+
+            _device.RasterizerState = oldState;
 
             _hasBegun = false;
         }

@@ -22,8 +22,14 @@ namespace FellSky.Systems
         private float _targetZoom = 1;
         private float _currentZoom = 1;
         private float _zoomLerpTime=1;
+        private float _moveLerpTime = 1;
+        private Vector2 _targetPosition, _lastMovePosition;
+        private int _lastDelta;
+        private float _lastZoom;
+        private ITimerService _timer;
+        private Camera _camera;
 
-        public float MinZoom { get; set; } = 0;
+        public float MinZoom { get; set; } = 0.01f;
         public float MaxZoom { get; set; } = 3;
 
         //private ITimerService _timer;
@@ -41,6 +47,7 @@ namespace FellSky.Systems
             _mouse.ButtonDown += OnButtonDown;
             _mouse.ButtonUp += OnButtonUp;
             _mouse.WheelChanged += WheelChanged;
+            _timer = ServiceLocator.Instance.GetService<ITimerService>();
             base.LoadContent();
         }
 
@@ -52,9 +59,18 @@ namespace FellSky.Systems
                 _keyboard.IsKeyDown(Keys.RightShift) ||
                 _keyboard.IsKeyDown(Keys.RightAlt) ||
                 _keyboard.IsKeyDown(Keys.RightControl)) return;
-            if (delta < 0) _targetZoom -= 0.1f;
-            else if (delta > 0) _targetZoom += 1.1f;
+            if (_lastDelta - delta < 0)
+            {
+                _lastZoom = _currentZoom;
+                _targetZoom -= 0.2f;
+            }
+            else if (_lastDelta - delta > 0)
+            {
+                _lastZoom = _currentZoom;
+                _targetZoom += 0.2f;
+            }
             _zoomLerpTime = 0;
+            _lastDelta = delta;
             _targetZoom = MathHelper.Clamp(_targetZoom, MinZoom, MaxZoom);
         }
 
@@ -70,9 +86,11 @@ namespace FellSky.Systems
 
         public override void Process(Entity entity)
         {
+            _camera = entity.GetComponent<Camera>();
+
             if (_mouseDown && !_isDragging)
             {
-                var camera = entity.GetComponent<Camera>();
+                
                 _offset = _mouse.ScreenPosition;
                 _isDragging = true;
                 var xform = entity.GetComponent<Transform>();
@@ -81,23 +99,42 @@ namespace FellSky.Systems
             else if (!_mouseDown && _isDragging)
             {
                 _isDragging = false;
-            }
+            }            
 
             if (_isDragging)
             {
                 var xform = entity.GetComponent<Transform>();
-                var camera = entity.GetComponent<Camera>();
+                
                 xform.Position = _origin + (_offset - _mouse.ScreenPosition);
             }
 
             // if zooming
             if(_zoomLerpTime < 1)
             {
-                _currentZoom = MathHelper.Lerp(_currentZoom, _targetZoom, _zoomLerpTime);
-                _zoomLerpTime += 0.1f;
-                var camera = entity.GetComponent<Camera>();
-                camera.Zoom = _currentZoom;
+                _currentZoom = MathHelper.SmoothStep(_lastZoom, _targetZoom, _zoomLerpTime);
+                _zoomLerpTime += (float)_timer.DeltaTime.TotalSeconds * 2;
+                _camera.Zoom = _currentZoom;
             }
+
+            if(_moveLerpTime < 1)
+            {
+                _moveLerpTime += (float)_timer.DeltaTime.TotalSeconds * 2;
+                _camera.Transform.Position = Vector2.SmoothStep(_lastMovePosition, _targetPosition, _moveLerpTime);
+            }
+        }
+
+        public void MoveTo(Vector2 position)
+        {
+            _moveLerpTime = 0;
+            _lastMovePosition = _camera?.Transform.Position ?? Vector2.Zero;
+            _targetPosition = position;
+        }
+
+        public void ZoomTo(float zoom)
+        {
+            _zoomLerpTime = 0;
+            _lastZoom = _currentZoom;
+            _targetZoom = MathHelper.Clamp(zoom, MinZoom, MaxZoom);
         }
     }
 }

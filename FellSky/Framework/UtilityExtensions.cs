@@ -74,7 +74,10 @@ namespace FellSky
 
         public static Camera GetActiveCamera(this EntityWorld world)
         {
-            return world.TagManager.GetEntity(Constants.ActiveCameraTag).GetComponent<Camera>();
+            var camera = world.TagManager.GetEntity(Constants.ActiveCameraTag)?.GetComponent<Camera>();
+            if (camera == null)
+                throw new InvalidOperationException("There is no active camera.");
+            return camera;
         }
 
         public static Matrix GetWorldMatrix(this Artemis.Entity entity)
@@ -109,6 +112,11 @@ namespace FellSky
         public static Vector2 GetPerpendicularLeft(this Vector2 v) => new Vector2(v.Y, -v.X);
         public static Vector2 GetPerpendicularRight(this Vector2 v) => new Vector2(-v.Y, v.X);
         public static Vector2 ToUnitVector(this Vector2 v) => v / v.Length();
+
+        public static float GetDeterminant(this Vector2 vector, Vector2 point)
+        {
+            return vector.X * point.Y - vector.Y * point.X;
+        }
 
         public static Color NextRandomColor(this Random rng)
             => new Color(rng.NextFloat(0, 1), rng.NextFloat(0, 1), rng.NextFloat(0, 1));

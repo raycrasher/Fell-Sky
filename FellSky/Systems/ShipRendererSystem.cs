@@ -28,7 +28,7 @@ namespace FellSky.Systems
 
         protected override void ProcessEntities(IDictionary<int, Entity> entities)
         {
-            var camera = EntityWorld.TagManager.GetEntity(Constants.ActiveCameraTag).GetComponent<Camera>();
+            var camera = EntityWorld.GetActiveCamera();
             if (camera == null) return;
             _matrix = camera.GetViewMatrix(1.0f);
             _spriteBatch.Begin(SpriteSortMode.Deferred, blendState: BlendState.AlphaBlend, transformMatrix: _matrix, samplerState: SamplerState.AnisotropicClamp);

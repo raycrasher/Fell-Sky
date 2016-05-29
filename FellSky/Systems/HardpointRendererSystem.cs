@@ -16,10 +16,10 @@ namespace FellSky.Systems
 {
     public class HardpointRendererSystem: Artemis.System.EntitySystem
     {
-        private PrimitiveBatch _batch;
+        private PrimitiveBatch _primitiveBatch;
 
         public HardpointRendererSystem()
-            : base(Aspect.All(typeof(HardpointArcDrawingComponent), typeof(HardpointComponent)))
+            : base(Aspect.All(typeof(HardpointArcDrawingComponent), typeof(HardpointComponent), typeof(HullComponent)))
         {
         }
 
@@ -34,91 +34,141 @@ namespace FellSky.Systems
         public static Dictionary<HardpointSize, float> Lengths = new Dictionary<HardpointSize, float>
         {
             { HardpointSize.Small, 100 },
-            { HardpointSize.Medium, 250 },
-            { HardpointSize.Large, 400 },
-            { HardpointSize.Huge, 650 },
+            { HardpointSize.Medium, 200 },
+            { HardpointSize.Large, 300 },
+            { HardpointSize.Huge, 400 },
         };
+        private ISpriteManagerService _sprites;
+        private SpriteBatch _spriteBatch;
 
         public override void LoadContent()
         {
-            _batch = new PrimitiveBatch(ServiceLocator.Instance.GetService<GraphicsDevice>());
+            _primitiveBatch = new PrimitiveBatch(ServiceLocator.Instance.GetService<GraphicsDevice>());
+            _spriteBatch = ServiceLocator.Instance.GetService<SpriteBatch>();
+            _sprites = ServiceLocator.Instance.GetService<ISpriteManagerService>();
         }
         public override void UnloadContent()
         {
-            _batch.Dispose();
-            _batch = null;
+            _primitiveBatch.Dispose();
+            _primitiveBatch = null;
         }
 
         protected override void ProcessEntities(IDictionary<int, Entity> entities)
         {
             var camera = EntityWorld.GetActiveCamera();
             var projection = camera.ProjectionMatrix;
-            var view = camera.GetViewMatrix(1.0f);
-            _batch.Begin(ref projection, ref view);
-
+            var view =  camera.GetViewMatrix(1.0f);
+            
+            _primitiveBatch.Begin(ref projection, ref view);
+            _spriteBatch.Begin(transformMatrix: view);
             foreach(var entity in entities.Values)
             {
                 var hardpoint = entity.GetComponent<HardpointComponent>();
                 var draw = entity.GetComponent<HardpointArcDrawingComponent>();
                 var hull = entity.GetComponent<HullComponent>();
-                var xform = entity.GetComponent<LocalTransformComponent>().ParentWorldMatrix;
-                Vector2 hullPos, offset;
-                var tmp = hull.Part.Transform.Position;
+                var xform = Matrix.CreateTranslation(new Vector3(hull.Part.Transform.Origin, 0)) * hull.Part.Transform.Matrix * entity.GetComponent<LocalTransformComponent>().ParentWorldMatrix;
+                Vector2 lineOffset;
 
-                Vector2.Transform(ref tmp, ref xform, out hullPos);
-                tmp = new Vector2(1,0);
-                Vector2.Transform(ref tmp, ref xform, out tmp);
-                var rot = hull.Part.Transform.Rotation;
-                rot = hull.Part.Transform.Rotation + tmp.ToAngleRadians();
-
-                float beginAngle = MathHelper.WrapAngle(rot - hardpoint.Hardpoint.FiringArc / 2) + MathHelper.TwoPi;
-                float endAngle = MathHelper.WrapAngle(rot + hardpoint.Hardpoint.FiringArc / 2) + MathHelper.TwoPi;
-
-                var step = MathHelper.TwoPi / NumSegments;
-                if (beginAngle > endAngle)
-                {
-                    beginAngle -= MathHelper.TwoPi;
-                }
-
-                if(hardpoint.Hardpoint.FiringArc >= MathHelper.TwoPi)
-                {
-                    beginAngle = 0;
-                    endAngle = MathHelper.TwoPi;
-                }
                 Color color = Color.White * 0.4f;
                 float length = 50;
                 Colors.TryGetValue(hardpoint.Hardpoint.Type, out color);
                 Lengths.TryGetValue(hardpoint.Hardpoint.Size, out length);
 
-                
-                offset = Utilities.CreateVector2FromAngle(beginAngle) * length;
+                color *= draw.Alpha;
 
-                _batch.AddVertex(hullPos, color, PrimitiveType.LineList);
-                _batch.AddVertex(hullPos + offset, color, PrimitiveType.LineList);
+                int sign = ((hull.Part.Transform.Scale.X < 0) ^ (hull.Part.Transform.Scale.Y < 0)) ? -1 : 1;
 
-                
-                float angle;
-                for(angle = beginAngle; angle < endAngle; angle += step)
+                var step = MathHelper.Pi / NumSegments;
+                float endAngle = MathHelper.WrapAngle(hardpoint.Hardpoint.FiringArc / 2);
+                float angle, angle2;
+
+
+
+                for(angle = 0; angle < endAngle; angle += step)
                 {
-                    _batch.AddVertex(hullPos, color * 0f, PrimitiveType.TriangleList);
-                    _batch.AddVertex(hullPos + Utilities.CreateVector2FromAngle(angle) * length, color, PrimitiveType.TriangleList);
-                    var angle2 = angle + step < endAngle ? angle + step : endAngle;
-                    _batch.AddVertex(hullPos + Utilities.CreateVector2FromAngle(angle2) * length, color, PrimitiveType.TriangleList);
+                    angle2 = angle + step < endAngle ? angle + step : endAngle;
+
+                    AddVertex(Vector2.Zero, color * 0f, PrimitiveType.TriangleList, ref xform);
+                    AddVertex(Utilities.CreateVector2FromAngle(angle * sign) * length, color, PrimitiveType.TriangleList, ref xform);
+                    AddVertex(Utilities.CreateVector2FromAngle(angle2 * sign) * length, color, PrimitiveType.TriangleList, ref xform);
+
+                    AddVertex(Vector2.Zero, color * 0f, PrimitiveType.TriangleList, ref xform);
+                    AddVertex(Utilities.CreateVector2FromAngle(-angle2 * sign) * length, color, PrimitiveType.TriangleList, ref xform);
+                    AddVertex(Utilities.CreateVector2FromAngle(-angle * sign) * length, color, PrimitiveType.TriangleList, ref xform);
+                    
+
                 }
 
-                offset = Utilities.CreateVector2FromAngle(endAngle) * length;
+                lineOffset = Utilities.CreateVector2FromAngle(endAngle * sign) * length;
 
-                _batch.AddVertex(hullPos, color, PrimitiveType.LineList);
-                _batch.AddVertex(hullPos + offset, color, PrimitiveType.LineList);
+                AddVertex(Vector2.Zero, color, PrimitiveType.LineList, ref xform);
+                AddVertex(lineOffset, color, PrimitiveType.LineList, ref xform);
+
+                lineOffset = Utilities.CreateVector2FromAngle(-endAngle * sign) * length;
+
+                AddVertex(Vector2.Zero, color, PrimitiveType.LineList, ref xform);
+                AddVertex(lineOffset, color, PrimitiveType.LineList, ref xform);
 
                 if (draw.DrawHardpointIcon)
                 {
-                    // draw square
+                    bool drawCircle = 
+                        hardpoint.Hardpoint.Type == HardpointType.Weapon_Energy ||
+                        hardpoint.Hardpoint.Type == HardpointType.Weapon_Powered ||
+                        hardpoint.Hardpoint.Type == HardpointType.Weapon_Beam ||
+                        hardpoint.Hardpoint.Type == HardpointType.Weapon_Hybrid ||
+                        hardpoint.Hardpoint.Type == HardpointType.Weapon_Universal;
+
+                    bool drawRectangle = 
+                        hardpoint.Hardpoint.Type == HardpointType.Weapon_Ballistic ||
+                        hardpoint.Hardpoint.Type == HardpointType.Weapon_Powered ||
+                        hardpoint.Hardpoint.Type == HardpointType.Weapon_Composite ||
+                        hardpoint.Hardpoint.Type == HardpointType.Weapon_Universal;
+
+                    bool drawDiamond =
+                        hardpoint.Hardpoint.Type == HardpointType.Weapon_Missile ||
+                        hardpoint.Hardpoint.Type == HardpointType.Weapon_Composite ||
+                        hardpoint.Hardpoint.Type == HardpointType.Weapon_Hybrid ||
+                        hardpoint.Hardpoint.Type == HardpointType.Weapon_VLS ||
+                        hardpoint.Hardpoint.Type == HardpointType.Weapon_Universal;
+
+                    float iconSize = length / 10;
+
+                    color = Color.LightCyan;
+                    var hullPos = Vector2.Transform(Vector2.Zero, xform);
+
+                    if (drawCircle) {
+                        _spriteBatch.DrawCircle(hullPos, iconSize, 20, color, draw.Thickness);
+                    }
+
+                    if (drawRectangle)
+                    {
+                        _spriteBatch.DrawRectangle(hullPos + new Vector2(-iconSize, -iconSize) - Vector2.One, new Vector2(iconSize * 2), color, draw.Thickness);
+
+                    }
+                    if (drawDiamond)
+                    {
+                        _spriteBatch.DrawLine(hullPos + new Vector2(-iconSize,0), hullPos + new Vector2(0, -iconSize), color, draw.Thickness);
+                        _spriteBatch.DrawLine(hullPos + new Vector2(0, -iconSize), hullPos + new Vector2(iconSize,0), color, draw.Thickness);
+                        _spriteBatch.DrawLine(hullPos + new Vector2(iconSize,0), hullPos + new Vector2(0, iconSize), color, draw.Thickness);
+                        _spriteBatch.DrawLine(hullPos + new Vector2(0, iconSize), hullPos + new Vector2(-iconSize,0), color, draw.Thickness);
+                    }
                 }
             }
 
-            _batch.End();
+            _primitiveBatch.End();
+            _spriteBatch.End();
         }
-        
+
+        public static FloatRect GetIconBoundingBox(Hardpoint hardpoint)
+        {
+            float size = Lengths[hardpoint.Size] / 10;
+            return new FloatRect(new Vector2(size), new Vector2(size*2));
+        }
+
+        private void AddVertex(Vector2 vertex, Color color, PrimitiveType type, ref Matrix xform)
+        {
+            Vector2.Transform(ref vertex, ref xform, out vertex);
+            _primitiveBatch.AddVertex(vertex, color, type);
+        }
     }
 }

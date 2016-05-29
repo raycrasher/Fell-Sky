@@ -74,7 +74,7 @@ namespace FellSky.Systems
 
         private void DoMarqueeSelection(IDictionary<int, Entity> entities)
         {
-            var camera = EntityWorld.TagManager.GetEntity(Constants.ActiveCameraTag).GetComponent<Camera>();
+            var camera = EntityWorld.GetActiveCamera();
             var mousePos = camera.ScreenToCameraSpace(_mouse.ScreenPosition);
 
             if (!_isMarqueeActive && _isMouseDown)
