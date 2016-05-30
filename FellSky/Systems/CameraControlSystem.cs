@@ -24,7 +24,6 @@ namespace FellSky.Systems
         private float _zoomLerpTime=1;
         private float _moveLerpTime = 1;
         private Vector2 _targetPosition, _lastMovePosition;
-        private int _lastDelta;
         private float _lastZoom;
         private ITimerService _timer;
         private Camera _camera;
@@ -59,18 +58,17 @@ namespace FellSky.Systems
                 _keyboard.IsKeyDown(Keys.RightShift) ||
                 _keyboard.IsKeyDown(Keys.RightAlt) ||
                 _keyboard.IsKeyDown(Keys.RightControl)) return;
-            if (_lastDelta - delta < 0)
+            if (delta > 0)
             {
                 _lastZoom = _currentZoom;
                 _targetZoom -= 0.2f;
             }
-            else if (_lastDelta - delta > 0)
+            else if (delta < 0)
             {
                 _lastZoom = _currentZoom;
                 _targetZoom += 0.2f;
             }
             _zoomLerpTime = 0;
-            _lastDelta = delta;
             _targetZoom = MathHelper.Clamp(_targetZoom, MinZoom, MaxZoom);
         }
 
@@ -112,7 +110,7 @@ namespace FellSky.Systems
             if(_zoomLerpTime < 1)
             {
                 _currentZoom = MathHelper.SmoothStep(_lastZoom, _targetZoom, _zoomLerpTime);
-                _zoomLerpTime += (float)_timer.DeltaTime.TotalSeconds * 2;
+                _zoomLerpTime += (float)_timer?.DeltaTime.TotalSeconds * 2;
                 _camera.Zoom = _currentZoom;
             }
 

@@ -59,7 +59,7 @@ namespace FellSky.Services
                 }
 
                 if (state.ScrollWheelValue != _lastState.ScrollWheelValue && WheelChanged != null)
-                    WheelChanged(state.ScrollWheelValue);
+                    WheelChanged(state.ScrollWheelValue - _lastState.ScrollWheelValue);
 
                 if (state.Position != _lastState.Position && Move != null)
                     Move(state.Position);

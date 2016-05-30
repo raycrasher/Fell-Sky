@@ -139,6 +139,10 @@ namespace FellSky.Editor
             _keyboard = new KeyboardService(host);
             Services.AddService<IKeyboardService>(_keyboard);
             _timer = new TimerService();
+            Services.AddService<ITimerService>(_timer);
+
+            _timer.LastFrameUpdateTime = _gameTime;
+            _timer.LastFrameRenderTime = _gameTime;
 
             SpriteBatch = new SpriteBatch(host.GraphicsDevice);
             Services.AddService(SpriteBatch);
@@ -287,9 +291,12 @@ namespace FellSky.Editor
             else if (button == 0) _transformSystem.ApplyTransform();
         }
 
+        GameTime _gameTime = new GameTime();
+
         internal void Render(TimeSpan timespan)
         {
-            
+            _gameTime.ElapsedGameTime = timespan - _gameTime.TotalGameTime;
+            _gameTime.TotalGameTime = timespan;
             _mouse.Update();
 
             foreach (var a in ActionsNextFrame) a();
