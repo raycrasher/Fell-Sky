@@ -53,7 +53,15 @@ namespace FellSky.EntityFactories
             else throw new NotImplementedException();
             return e;
         }
-        
+
+        public static void SpawnShipPartGroup(this EntityWorld world, Entity partGroupEntity, ShipPartGroup group)
+        {
+            foreach(var part in group.Parts)
+            {
+                CreatePartEntity(world, partGroupEntity, part, false);
+            }
+        }
+
         public static Entity CreateShipEntity(this EntityWorld world, Ship ship, Vector2 position, float rotation=0, bool addPhysics=false)
         {
             var shipEntity = world.CreateEntity();

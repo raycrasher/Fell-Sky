@@ -6,12 +6,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FellSky.Game.Combat.Weapons;
+using FellSky.Game.Combat;
 
 namespace FellSky.Components
 {
-    public class WeaponComponent: IComponent
+    public interface IWeaponComponent: IComponent
     {
-        public Func<Entity> Fire;
-        public WeaponData Data;
+        IWeapon Weapon { get; }
     }
 }

@@ -56,4 +56,16 @@ body {
 	float:right;
 	display:block;
 	background: #111118aa;
+	padding: 3px;
+}
+
+#availablePartsList weapon {
+	margin: 2px;
+	font-size: 16px;
+	display: block;
+	padding: 2px;
+}
+
+#availablePartsList weapon:hover {
+	background: #55779955;
 }

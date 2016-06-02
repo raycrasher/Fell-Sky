@@ -1,6 +1,7 @@
 ﻿using Artemis;
 using Artemis.Interface;
 using FellSky.Components;
+using FellSky.Game.Combat;
 using FellSky.Game.Combat.Weapons;
 using System;
 using System.Collections.Generic;
@@ -12,43 +13,20 @@ namespace FellSky.EntityFactories
 {
     public static class WeaponEntityFactory
     {
+        public static readonly Dictionary<string, IWeapon> Weapons = new Dictionary<string, IWeapon>();
 
-    }
-
-    class MachineGunWeaponFactory
-    {
-        class MachineGunComponent : IComponent
+        public static void LoadWeapons()
         {
-            public Entity[][] BarrelEntities;
-        };
-
-        public Entity CreateWeapon(EntityWorld world, Entity[] parts, WeaponData data)
-        {
-            var weaponEntity = world.CreateEntity();
-            var machineGunComponent = new MachineGunComponent();
-
-            weaponEntity.AddComponent(machineGunComponent);
-            machineGunComponent.BarrelEntities = Enumerable.Range(0,data.NumBarrels)
-                .Select(i=>parts.Where(p => p.Components.OfType<IShipPartComponent>().First().Part.Name == $"Barrel{i}").ToArray())
-                .ToArray();
-
-            weaponEntity.AddComponent(new WeaponComponent
+            Weapons["20mmAutocannon"] = new BasicGun
             {
-                Data = data,
-                Fire = () => FireMachineGunProjectile(world, weaponEntity)
-            });
-
-            return weaponEntity;
-        }
-
-        Entity FireMachineGunProjectile(EntityWorld world, Entity weapon)
-        {
-            var projectileEntity = world.CreateEntity();
-            var weaponComponent = weapon.GetComponent<WeaponComponent>();
-
-
-
-            return projectileEntity;
+                Id = "20mmAutocannon",
+                DamagePerSecond = 100,
+                Description = "A twin-linked 20mm autocannon.",
+                Name = "20mm Autocannon",
+                ProjectileId = "20mmAutocannon",
+                TurretId = "DualMG"
+            };
         }
     }
+    
 }

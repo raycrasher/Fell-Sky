@@ -31,7 +31,21 @@ namespace FellSky.Systems
                 var box = entity.GetComponent<BoundingBoxComponent>().Box;
                 var hover = entity.GetComponent<MouseHoverComponent>();
                 var bigbox = box;
-                var matrix = entity.GetWorldMatrix();
+                Matrix matrix = Matrix.Identity;                
+
+                if (hover.UsePositionOnly)
+                {
+                    var transform = entity.GetComponent<Transform>();
+                    var posMatrix = Matrix.CreateTranslation(new Vector3(transform.Position, 0));
+                    var parentMatrix = entity.GetComponent<LocalTransformComponent>()?.ParentWorldMatrix;
+                    if (parentMatrix == null)
+                        matrix = posMatrix;
+                    else
+                        matrix = posMatrix * parentMatrix.Value;
+                    
+                }
+                else matrix = entity.GetWorldMatrix();
+
 
                 Vector2 pos;
                 var xform = Matrix.Invert(matrix);

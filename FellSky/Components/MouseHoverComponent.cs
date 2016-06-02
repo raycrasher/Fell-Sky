@@ -9,6 +9,7 @@ namespace FellSky.Components
 {
     public class MouseHoverComponent: IComponent
     {
+        public bool UsePositionOnly;
         private bool _isHover;
 
         public bool IsHover {

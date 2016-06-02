@@ -162,7 +162,7 @@ namespace FellSky.Systems
         public static FloatRect GetIconBoundingBox(Hardpoint hardpoint)
         {
             float size = Lengths[hardpoint.Size] / 10;
-            return new FloatRect(new Vector2(size), new Vector2(size*2));
+            return new FloatRect(Vector2.Zero, new Vector2(size*2));
         }
 
         private void AddVertex(Vector2 vertex, Color color, PrimitiveType type, ref Matrix xform)

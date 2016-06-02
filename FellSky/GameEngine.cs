@@ -80,6 +80,8 @@ namespace FellSky
 
             State = new ShipRefitState(new[] { Game.Ships.Ship.LoadFromJsonFile("Ships/Jaeger.json"), Game.Ships.Ship.LoadFromJsonFile("Ships/Scimitar.json") });
             State.LoadContent();
+
+            EntityFactories.WeaponEntityFactory.LoadWeapons();
             base.LoadContent();
         }
 

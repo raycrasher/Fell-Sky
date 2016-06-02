@@ -61,5 +61,9 @@ namespace FellSky.Framework
             });
         }
 
+        public static void RemoveAllChildren(this LibRocketNet.Element element)
+        {
+            element.InnerRml = "";
+        }
     }
 }

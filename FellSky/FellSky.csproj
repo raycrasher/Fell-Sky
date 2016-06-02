@@ -112,10 +112,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Components\BackgroundComponent.cs" />
+    <Compile Include="Components\BasicGunComponent.cs" />
     <Compile Include="Components\BoundingBoxComponent.cs" />
     <Compile Include="Components\BulletComponent.cs" />
     <Compile Include="Components\ClientPredictedTransformComponent.cs" />
     <Compile Include="Components\CollisionComponent.cs" />
+    <Compile Include="Components\ColorComponent.cs" />
     <Compile Include="Components\CoroutineComponent.cs" />
     <Compile Include="Components\DamageComponent.cs" />
     <Compile Include="Components\DamageReductionComponent.cs" />
@@ -140,7 +142,7 @@
     <Compile Include="Components\StoryComponent.cs" />
     <Compile Include="Components\ThrusterComponent.cs" />
     <Compile Include="Components\TurretComponent.cs" />
-    <Compile Include="Components\WeaponComponent.cs" />
+    <Compile Include="Components\IWeaponComponent.cs" />
     <Compile Include="EntityFactories\ParticleEntityFactory.cs" />
     <Compile Include="EntityFactories\ShipEntityFactory.cs" />
     <Compile Include="EntityFactories\WeaponEntityFactory.cs" />
@@ -152,6 +154,7 @@
     <Compile Include="Game\Campaign\Storyline\ActOne.cs" />
     <Compile Include="Game\Campaign\Storyline\Story.cs" />
     <Compile Include="Game\Campaign\Storyline\StoryUtilities.cs" />
+    <Compile Include="Game\Combat\Weapons\BasicGun.cs" />
     <Compile Include="Game\Combat\Weapons\FlakCannon.cs" />
     <Compile Include="Game\Combat\Weapons\Howitzer.cs" />
     <Compile Include="Game\Combat\Weapons\LaserBeamCannon.cs" />

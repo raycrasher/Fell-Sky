@@ -53,7 +53,7 @@ namespace FellSky.Systems
                 {
                     DrawHull(spriteBatch, shipComponent, ship, item.Entity, ref shipMatrix);
                     if (item.Entity.HasComponent<ShipPartGroupComponent>())
-                        DrawShip(spriteBatch, item.Entity, shipMatrix);
+                        DrawShip(spriteBatch, item.Entity, item.Part.Transform.Matrix * shipMatrix);
                 }
                 else if (item.Entity.HasComponent<ThrusterComponent>())
                     DrawThruster(spriteBatch, shipComponent, ship, item.Entity, ref shipMatrix);
@@ -123,7 +123,7 @@ namespace FellSky.Systems
             var hullComponent = hullEntity.GetComponent<HullComponent>();
             var sprite = hullEntity.GetComponent<SpriteComponent>();
             var hull = hullComponent.Part;
-            var color = hull.Color;
+            var color = hullEntity.GetComponent<ColorComponent>()?.Color ?? hull.Color;
             switch (hull.ColorType)
             {
                 case HullColorType.BaseDecal:
