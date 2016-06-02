@@ -43,3 +43,17 @@ body {
 #header nav li.selectedmode {
 	background: #33557755;
 }
+
+#shipView {
+	width: 100%;
+	height: 100%;
+	display:block;
+}
+
+#availablePartsList {
+	width: 400px;
+	height: 100%;
+	float:right;
+	display:block;
+	background: #111118aa;
+}

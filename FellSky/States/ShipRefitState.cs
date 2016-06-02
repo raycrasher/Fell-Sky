@@ -103,13 +103,25 @@ namespace FellSky.States
 
             _mouse.ButtonDown += HandleMouseButtonDown;
             _mouse.ButtonUp += HandleMouseButtonUp;
-            
+
+            Document.GetElementById("availablePartsList").SetProperty("display", "none");
+
             base.LoadContent();
         }
 
         private void HandleMouseButtonDown(Point pos, int button)
         {
             _lastClickPos = pos;
+
+            if (Mode == EditorMode.Weapons && button == 0 && _hoverEntities.Count > 0)
+                ShowPartList(_hoverEntities.First());
+            
+        }
+
+        private void ShowPartList(PartEntityPair partEntityPair)
+        {
+            var hardpoint = partEntityPair.Entity.GetComponent<HardpointComponent>();
+            Document.GetElementById("availablePartsList").SetProperty("display", "block");
         }
 
         private void HandleMouseButtonUp(Point pos, int button)
@@ -127,6 +139,8 @@ namespace FellSky.States
 
             }
         }
+
+        private readonly HashSet<PartEntityPair> _hoverEntities = new HashSet<PartEntityPair>();
 
         private void AddHardpointsToShip(Entity ship)
         {
@@ -148,6 +162,8 @@ namespace FellSky.States
                 {
                     hardpoint.Alpha = hover.IsHover ? 1 : BaseAlpha;
                     hardpoint.Thickness = hover.IsHover ? 2 : 1;
+                    if (hover.IsHover) _hoverEntities.Add(partEntity);
+                    else _hoverEntities.Remove(partEntity);
                 };
                 entity.AddComponent(hover);
             }
@@ -199,7 +215,8 @@ namespace FellSky.States
             }
             if (args.Script.StartsWith("Refit_ChangeMode"))
             {
-                foreach(var element in Document.GetElementById("navigation").Children)
+                Document.GetElementById("availablePartsList").SetProperty("display", "none");
+                foreach (var element in Document.GetElementById("navigation").Children)
                 {
                     element.SetClass("selectedmode", false);
                 }

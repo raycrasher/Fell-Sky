@@ -34,7 +34,7 @@ namespace FellSky.Editor.Systems
 
             foreach (var entity in entities.Values)
             {
-                ShipRendererSystem.DrawShip(_spriteBatch, entity);
+                ShipRendererSystem.DrawShip(_spriteBatch, entity, Matrix.Identity);
             }
 
             _spriteBatch.End();

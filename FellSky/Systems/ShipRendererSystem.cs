@@ -35,22 +35,26 @@ namespace FellSky.Systems
 
             foreach (var entity in entities.Values)
             {
-                DrawShip(_spriteBatch, entity);
+                DrawShip(_spriteBatch, entity, Matrix.Identity);
             }
 
             _spriteBatch.End();
         }
 
-        public static void DrawShip(SpriteBatch spriteBatch, Entity ship)
+        public static void DrawShip(SpriteBatch spriteBatch, Entity ship, Matrix matrix)
         {
             var shipComponent = (IShipEditorEditableComponent) ship.GetComponent<ShipComponent>() ?? ship.GetComponent<ShipPartGroupComponent>();
             var xform = ship.GetComponent<Transform>();
-            var shipMatrix = xform.Matrix;
+            var shipMatrix = xform.Matrix * matrix;
 
             foreach(var item in shipComponent.PartEntities)
             {
                 if (item.Entity.HasComponent<HullComponent>())
+                {
                     DrawHull(spriteBatch, shipComponent, ship, item.Entity, ref shipMatrix);
+                    if (item.Entity.HasComponent<ShipPartGroupComponent>())
+                        DrawShip(spriteBatch, item.Entity, shipMatrix);
+                }
                 else if (item.Entity.HasComponent<ThrusterComponent>())
                     DrawThruster(spriteBatch, shipComponent, ship, item.Entity, ref shipMatrix);
                 else if (item.Entity.HasComponent<NavLightComponent>())
@@ -100,7 +104,7 @@ namespace FellSky.Systems
                     // do thruster graphic wobble
                     var time = MathHelper.ToRadians(thrusterComponent.GetHashCode() + _timer.LastFrameUpdateTime.TotalGameTime.Milliseconds);
                     var amount = (float)Math.Sin((time % MathHelper.Pi * 2) * 1f);
-                    TempXform.Scale += new Vector2(amount * 0.03f, amount * 0.1f);
+                    TempXform.Scale += new Vector2(amount * 0.01f, amount * 0.01f);
                 }
                 sprite.Draw(batch: spriteBatch, matrix: TempXform.Matrix * shipMatrix, color: thruster.Color * colorAlpha, effects: fx);
                 TempXform.Scale *= 0.8f;
