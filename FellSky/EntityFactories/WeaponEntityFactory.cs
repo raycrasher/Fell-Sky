@@ -3,6 +3,7 @@ using Artemis.Interface;
 using FellSky.Components;
 using FellSky.Game.Combat;
 using FellSky.Game.Combat.Weapons;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +26,17 @@ namespace FellSky.EntityFactories
                 Name = "20mm Autocannon",
                 ProjectileId = "20mmAutocannon",
                 TurretId = "DualMG"
+            };
+
+            Weapons["LaserCannon"] = new BasicGun
+            {
+                Id = "LaserCannon",
+                Name = "Laser Cannon",
+                DamagePerSecond = 90,
+                Description = "This weapon incinerates targets using a free electron laser in the near UV range.",
+                TurnRate = MathHelper.Pi / 4,
+                ProjectileId = "LaserCannon",
+                TurretId = "LaserCannon"
             };
         }
     }

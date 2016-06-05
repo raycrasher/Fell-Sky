@@ -120,5 +120,20 @@ namespace FellSky
 
         public static Color NextRandomColor(this Random rng)
             => new Color(rng.NextFloat(0, 1), rng.NextFloat(0, 1), rng.NextFloat(0, 1));
+
+        public static void SetRigidBodyTransform(this Entity entity, Vector2? position = null, float? rotation = null)
+        {
+            var component = entity.GetComponent<RigidBodyComponent>();
+            if (component == null) return;
+            if (position != null)
+            {
+                component.Body.Position = position.Value;
+            }
+
+            if (rotation != null)
+            {
+                component.Body.Rotation = rotation.Value;
+            }
+        }
     }
 }

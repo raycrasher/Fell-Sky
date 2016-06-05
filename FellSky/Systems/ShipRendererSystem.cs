@@ -59,8 +59,12 @@ namespace FellSky.Systems
                 if (item.Entity.HasComponent<HullComponent>())
                 {
                     DrawHull(spriteBatch, shipComponent, ship, item.Entity, ref shipMatrix);
-                    if (item.Entity.HasComponent<ShipPartGroupComponent>())
-                        DrawShip(spriteBatch, item.Entity, shipMatrix);
+
+                    var hardpoint = item.Entity.GetComponent<HardpointComponent>();
+                    if (hardpoint!=null && hardpoint.InstalledEntity!=null && hardpoint.InstalledEntity.HasComponent<ShipPartGroupComponent>())
+                    {
+                        DrawShip(spriteBatch, hardpoint.InstalledEntity, shipMatrix);
+                    }
                 }
                 else if (item.Entity.HasComponent<ThrusterComponent>())
                     DrawThruster(spriteBatch, shipComponent, ship, item.Entity, ref shipMatrix);

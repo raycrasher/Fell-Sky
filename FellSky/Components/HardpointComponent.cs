@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Artemis;
 
 namespace FellSky.Components
 {
@@ -16,5 +17,6 @@ namespace FellSky.Components
         }
 
         public Hardpoint Hardpoint;
+        public Entity InstalledEntity;
     }
 }

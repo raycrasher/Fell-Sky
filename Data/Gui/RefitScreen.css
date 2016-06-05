@@ -16,7 +16,7 @@ body {
 }
 
 #header nav {
-	width: 500px;
+	width: 700px;
 	display: block;
 	position:absolute;
 	padding: 6px;
@@ -64,6 +64,19 @@ body {
 	font-size: 16px;
 	display: block;
 	padding: 2px;
+}
+
+#availablePartsList weapon name {
+	font-family: Roboto;
+	font-size: 16px;
+	display: block;
+	padding: 2px;
+}
+
+#availablePartsList weapon description {
+	font-size: 12px;
+	display: block;
+	margin-left: 15px;
 }
 
 #availablePartsList weapon:hover {

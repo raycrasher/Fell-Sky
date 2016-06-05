@@ -17,7 +17,8 @@ namespace FellSky.Game.Combat
         float DamagePerSecond { get; }
 
         void Fire(EntityWorld world, Entity owner, Entity weapon);
-        void Spawn(EntityWorld world, Entity owner, Entity entity);
+        Entity Install(EntityWorld world, Entity owner, Entity hardpoint);
+        void Uninstall(Entity owner, Entity weapon);
     }
 
 

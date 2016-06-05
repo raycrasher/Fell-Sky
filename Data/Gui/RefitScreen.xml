@@ -12,6 +12,7 @@
 		<li onclick="Refit_ChangeMode_Armor">Armor</li>
 		<li onclick="Refit_ChangeMode_Modules">Modules</li>
 		<li onclick="Refit_ChangeMode_Build">Build</li>
+		<li onclick="Refit_ChangeMode_RunSim">Simulator</li>
 	</nav>
 </div>
 

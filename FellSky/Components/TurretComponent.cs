@@ -17,6 +17,7 @@ namespace FellSky.Components
         public float TurnRate = MathHelper.TwoPi;
         public bool IsEnabled = true;
 
-        public bool IsOmniTurret => FiringArc >= MathHelper.TwoPi;
+        public bool IsOmnidirectional => FiringArc >= MathHelper.TwoPi;
+        public bool IsFixedTurret => FiringArc <= 0;
     }
 }

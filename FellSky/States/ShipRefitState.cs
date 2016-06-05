@@ -21,7 +21,7 @@ namespace FellSky.States
     {
         public enum EditorMode
         {
-            Weapons, Modules, Armor, Build
+            Weapons, Modules, Armor, Build, Simulator
         }
 
         public const string RefitScreenGuiDocument = "Gui/RefitScreen.xml";
@@ -87,20 +87,17 @@ namespace FellSky.States
             World.InitializeAll();
 
             CameraEntity = World.CreateCamera(Constants.ActiveCameraTag, Graphics);
-            GridEntity = World.CreateGrid(new Vector2(100), new Microsoft.Xna.Framework.Color(30, 30, 60));
+            GridEntity = World.CreateGrid(new Vector2(100), new Microsoft.Xna.Framework.Color(5, 5, 10));
 
             if (Document == null)
             {
                 Document = GuiService.Context.LoadDocument(RefitScreenGuiDocument);
                 Core.ScriptEvent += (o,e) => Instance?.HandleScriptEvent(o, e);
             }
-
-            
-
+          
             CurrentShip = World.CreateShipEntity(Fleet[0], Vector2.Zero, 0, true);
             //debug
             CurrentShip.AddComponent(new Components.PlayerControlsComponent());
-            CurrentShip.Tag = "PlayerShip";
             AddHardpointsToShip(CurrentShip);
 
             SetMode(EditorMode.Weapons);
@@ -137,11 +134,18 @@ namespace FellSky.States
             foreach(var weapon in weapons)
             {
                 var wpnElement = new Element("weapon");
-                wpnElement.InnerRml = weapon.Name;
+                var name = new Element("name");
+                name.InnerRml = weapon.Name;
+                wpnElement.AppendChild(name);
+                var desc = new Element("description");
+                desc.InnerRml = weapon.Description;
+                wpnElement.AppendChild(desc);
+                
                 wpnElement.Click += (o, e) =>
                 {
-                    if(!partEntityPair.Entity.HasComponent<IWeaponComponent>())
-                    AddWeapon(weapon.Id);
+                    UninstallWeapon();
+                    InstallWeapon(weapon.Id);
+
                 };
 
                 partsList.AppendChild(wpnElement);
@@ -164,13 +168,12 @@ namespace FellSky.States
                     control.MoveTo(Vector2.Zero);
                     control.ZoomTo(1);
                 }
-                    
-
             }
         }
 
         private readonly HashSet<PartEntityPair> _hoverEntities = new HashSet<PartEntityPair>();
         private PartEntityPair _selectedHardpoint;
+        private Action RunOnce;
 
         private void AddHardpointsToShip(Entity ship)
         {
@@ -208,6 +211,8 @@ namespace FellSky.States
 
         public override void Update(GameTime gameTime)
         {
+            RunOnce?.Invoke();
+            RunOnce = null;
             World.Update();
         }
 
@@ -224,6 +229,26 @@ namespace FellSky.States
             Mode = mode;
             Document.GetElementById("availablePartsList")?.SetProperty("display", "none");
             _hardpointSystem.IsEnabled = mode == EditorMode.Weapons;
+            
+            if(mode == EditorMode.Simulator)
+            {
+                CurrentShip.Tag = "PlayerShip";
+            }
+            else
+            {
+                CurrentShip.Tag = null;
+                CurrentShip.SetRigidBodyTransform(Vector2.Zero, 0);
+                var body = CurrentShip.GetComponent<RigidBodyComponent>().Body;
+                body.AngularVelocity = 0;
+                body.LinearVelocity = Vector2.Zero;
+                foreach (var turret in CurrentShip.GetComponent<ShipComponent>().Turrets.Select(t => t.GetComponent<TurretComponent>()))
+                {
+                    turret.Rotation = 0;
+                    turret.DesiredRotation = 0;
+                }
+
+            }
+            
         }
 
         public void HandleScriptEvent(object sender, ScriptEventArgs args)
@@ -242,6 +267,9 @@ namespace FellSky.States
                 case "Refit_ChangeMode_Build":
                     SetMode(EditorMode.Build);
                     break;
+                case "Refit_ChangeMode_RunSim":
+                    SetMode(EditorMode.Simulator);
+                    break;
             }
             if (args.Script.StartsWith("Refit_ChangeMode"))
             {
@@ -254,9 +282,17 @@ namespace FellSky.States
             }
         }
 
-        private void AddWeapon(string id)
+        private void InstallWeapon(string id)
         {
-            WeaponEntityFactory.Weapons[id].Spawn(World, CurrentShip, _selectedHardpoint.Entity);
+            WeaponEntityFactory.Weapons[id].Install(World, CurrentShip, _selectedHardpoint.Entity);
+            Document.GetElementById("availablePartsList").SetProperty("display", "none");
+        }
+
+        private void UninstallWeapon()
+        {
+            var shipComponent = CurrentShip.GetComponent<ShipComponent>();
+            var turret = _selectedHardpoint.Entity;
+            turret.GetComponent<IWeaponComponent>()?.Weapon.Uninstall(CurrentShip, turret);
         }
     }
 }

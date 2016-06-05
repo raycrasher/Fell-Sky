@@ -25,7 +25,7 @@ namespace FellSky.Systems
                 var speed = (float)_timer.DeltaTime.TotalSeconds * turret.TurnRate;
                 float deltaAngle = 0;
 
-                if (turret.IsOmniTurret)
+                if (turret.IsOmnidirectional)
                 {
                     var a = MathHelper.WrapAngle(turret.DesiredRotation - turret.Rotation);
                     deltaAngle = MathHelper.Clamp(a, -speed, speed);
