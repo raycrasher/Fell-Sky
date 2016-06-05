@@ -69,7 +69,7 @@ namespace FellSky.Systems
                 bool isThrusting = false;
                 if (isShipThrusting)
                 {
-                    var offset = Math.Abs(GetLesserAngleDifference(shipComponent.LinearThrustVector.ToAngleRadians() - MathHelper.Pi / 2f, thruster.Part.Transform.Rotation));
+                    var offset = Math.Abs(GetLesserAngleDifference(shipComponent.LinearThrustVector.GetAngleRadians() - MathHelper.Pi / 2f, thruster.Part.Transform.Rotation));
                     isThrusting = offset < 1;
                 }
                 if (isShipTurning)

@@ -7,6 +7,7 @@ using Artemis;
 using FellSky.Components;
 using FellSky.Game.Ships;
 using FellSky.EntityFactories;
+using Microsoft.Xna.Framework;
 
 namespace FellSky.Game.Combat.Weapons
 {
@@ -18,14 +19,20 @@ namespace FellSky.Game.Combat.Weapons
         public string TurretId { get; set; }
         public string ProjectileId { get; set; }
         public float DamagePerSecond { get; set; }
+        public float TurnRate { get; set; } = MathHelper.TwoPi;
 
         public virtual void Spawn(EntityWorld world, Entity owner, Entity entity)
         {
             var gunComponent = new BasicGunComponent();
             gunComponent.Gun = this;
             gunComponent.Owner = owner;
+
+            owner.GetComponent<ShipComponent>().Turrets.Add(entity);
             
             entity.AddComponent<IWeaponComponent>(gunComponent);
+            entity.AddComponent(new TurretComponent {
+                TurnRate = TurnRate
+            });
             var group = GetPartGroup(TurretId);
             entity.AddComponent(group);
             world.SpawnShipPartGroup(entity, group.PartGroup);

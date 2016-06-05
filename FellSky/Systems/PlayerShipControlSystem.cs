@@ -30,6 +30,35 @@ namespace FellSky.Systems
 
         public override void Process(Entity entity)
         {
+            UpdateMovement(entity);
+            UpdateTurrets(entity);
+        }
+
+        private void UpdateTurrets(Entity shipEntity)
+        {
+            var shipComponent = shipEntity.GetComponent<ShipComponent>();
+            var shipXform = shipEntity.GetComponent<Transform>();
+            var shipMatrix = shipXform.Matrix;
+            var camera = EntityWorld.GetActiveCamera();
+            Vector2 worldMousePos = camera.ScreenToCameraSpace(_mouse.ScreenPosition);
+
+            foreach (var turretEntity in shipComponent.Turrets)
+            {
+                var turret = turretEntity.GetComponent<TurretComponent>();
+                var turretXform = turretEntity.GetComponent<Transform>();                
+                
+                Vector2 transformedMousePos;
+                Vector2 turretPos = turretXform.Position;
+                Vector2.Transform(ref turretPos, ref shipMatrix, out transformedMousePos);
+
+                var offset = transformedMousePos - worldMousePos;
+
+                turret.DesiredRotation = offset.GetAngleRadians() - shipXform.Rotation - turretXform.Rotation + MathHelper.PiOver2;
+            }
+        }
+
+        private void UpdateMovement(Entity entity)
+        {
             var shipComponent = entity.GetComponent<ShipComponent>();
             var xform = entity.GetComponent<Transform>();
             var control = entity.GetComponent<PlayerControlsComponent>();
@@ -60,9 +89,9 @@ namespace FellSky.Systems
 
             if (control.MouseHeadingControl)
             {
-                var camera = EntityWorld.TagManager.GetEntity(Constants.ActiveCameraTag).GetComponent<Camera>();
-                Vector2 worldMousePosition = Vector2.Transform(_mouse.ScreenPosition, camera.GetViewMatrix(1.0f));
-                var angle = (xform.Position - worldMousePosition).ToAngleRadians();
+                var camera = EntityWorld.GetActiveCamera();
+                Vector2 worldMousePosition = camera.ScreenToCameraSpace(_mouse.ScreenPosition);
+                var angle = (xform.Position - worldMousePosition).GetAngleRadians();
 
             }
 

@@ -45,7 +45,7 @@ namespace FellSky
             return new Vector2((float)Math.Sin(angle), -(float)Math.Cos(angle));
         }
 
-        public static float ToAngleRadians(this Vector2 vector)
+        public static float GetAngleRadians(this Vector2 vector)
         {
             return (float)Math.Atan2(vector.X, -vector.Y);
         }

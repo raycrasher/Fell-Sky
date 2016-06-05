@@ -45,7 +45,14 @@ namespace FellSky.Systems
         {
             var shipComponent = (IShipEditorEditableComponent) ship.GetComponent<ShipComponent>() ?? ship.GetComponent<ShipPartGroupComponent>();
             var xform = ship.GetComponent<Transform>();
-            var shipMatrix = xform.Matrix * matrix;
+
+            TempXform.CopyValuesFrom(xform);
+            TempXform.Scale = new Vector2(Math.Abs(xform.Scale.X), Math.Abs(xform.Scale.Y));
+            TempXform.Origin = Vector2.Zero;
+
+            TempXform.Rotation += ship.GetComponent<TurretComponent>()?.Rotation ?? 0;
+
+            var shipMatrix = TempXform.Matrix * matrix;
 
             foreach(var item in shipComponent.PartEntities)
             {
@@ -53,7 +60,7 @@ namespace FellSky.Systems
                 {
                     DrawHull(spriteBatch, shipComponent, ship, item.Entity, ref shipMatrix);
                     if (item.Entity.HasComponent<ShipPartGroupComponent>())
-                        DrawShip(spriteBatch, item.Entity, item.Part.Transform.Matrix * shipMatrix);
+                        DrawShip(spriteBatch, item.Entity, shipMatrix);
                 }
                 else if (item.Entity.HasComponent<ThrusterComponent>())
                     DrawThruster(spriteBatch, shipComponent, ship, item.Entity, ref shipMatrix);

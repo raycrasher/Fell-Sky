@@ -10,14 +10,13 @@ using FellSky.Services;
 
 namespace FellSky.Components
 {
-
-
     public class ShipComponent: IComponent, IShipEditorEditableComponent
     {
         public Ship Ship { get; set; }
 
         public IList<PartEntityPair> PartEntities { get; set; } = new List<PartEntityPair>();
         public IReadOnlyList<PartEntityPair> Thrusters { get; set; } = new List<PartEntityPair>();
+        public List<Entity> Turrets { get; set; } = new List<Entity>();
 
         public float AngularTorque { get; set; }
         public Vector2 LinearThrustVector { get; set; }

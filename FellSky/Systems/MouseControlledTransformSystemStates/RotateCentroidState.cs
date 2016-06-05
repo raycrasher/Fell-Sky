@@ -52,8 +52,8 @@ namespace FellSky.Systems.MouseControlledTransformSystemStates
                 {
                     var transform = entity.GetComponent<Transform>();
                     var control = entity.GetComponent<MouseControlledTransformComponent>();
-                    var initialAngle = (_rotateOffset.Value - _centroid).ToAngleRadians();
-                    var angle = (worldMousePosition - _centroid).ToAngleRadians();
+                    var initialAngle = (_rotateOffset.Value - _centroid).GetAngleRadians();
+                    var angle = (worldMousePosition - _centroid).GetAngleRadians();
 
                     if(IsSnapEnabled)
                     {

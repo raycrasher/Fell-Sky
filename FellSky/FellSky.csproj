@@ -141,8 +141,8 @@
     <Compile Include="Components\SoundEffectComponent.cs" />
     <Compile Include="Components\StoryComponent.cs" />
     <Compile Include="Components\ThrusterComponent.cs" />
-    <Compile Include="Components\TurretComponent.cs" />
     <Compile Include="Components\IWeaponComponent.cs" />
+    <Compile Include="Components\TurretComponent.cs" />
     <Compile Include="EntityFactories\ParticleEntityFactory.cs" />
     <Compile Include="EntityFactories\ShipEntityFactory.cs" />
     <Compile Include="EntityFactories\WeaponEntityFactory.cs" />
@@ -359,6 +359,7 @@
     <Compile Include="Framework\SteeringBehaviors\SteeringBehaviorSystem.cs" />
     <Compile Include="Systems\MouseControlledTransformSystem.cs" />
     <Compile Include="Systems\StorySystem.cs" />
+    <Compile Include="Systems\TurretRotationSystem.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

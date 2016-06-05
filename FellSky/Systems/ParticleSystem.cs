@@ -149,7 +149,7 @@ namespace FellSky.Systems
             const float pi2 = (float)(Math.PI * Math.PI);
 
             var angle = emitter.Direction - pi2 + _rng.NextFloat(0, emitter.Spread) - emitter.Spread / 2.0f;
-            if (emitter.IsRelative) angle += (emitter.PreviousLocation - transform.Position).ToAngleRadians() + pi2;
+            if (emitter.IsRelative) angle += (emitter.PreviousLocation - transform.Position).GetAngleRadians() + pi2;
 
             var sr = emitter.ColorStart.R / 255.0f;
             var sg = emitter.ColorStart.G / 255.0f;

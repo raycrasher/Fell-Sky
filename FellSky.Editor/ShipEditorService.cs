@@ -474,7 +474,7 @@ namespace FellSky.Editor
             {
                 Vector2 position = part.Transform.Position * new Vector2(1, -1);
                 Vector2 scale = part.Transform.Scale * new Vector2(1,-1);
-                float rotation = (part.Transform.Rotation.ToVector() * new Vector2(-1, 1)).ToAngleRadians();
+                float rotation = (part.Transform.Rotation.ToVector() * new Vector2(-1, 1)).GetAngleRadians();
 
                 if (Model.Parts.Any(part2 => Vector2.DistanceSquared(part2.Transform.Position, position) < 1
                                         && Math.Abs(part2.Transform.Rotation - rotation) < 1 / Math.PI

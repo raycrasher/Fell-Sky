@@ -80,7 +80,8 @@ namespace FellSky.States
             World.SystemManager.SetSystem(new ShipUpdateSystem(), Artemis.Manager.GameLoopType.Update, priority++);
             //World.SystemManager.SetSystem(new StorySystem(), Artemis.Manager.GameLoopType.Update, priority++);
             World.SystemManager.SetSystem(new PhysicsSystem(), Artemis.Manager.GameLoopType.Update, priority++);
-            
+            World.SystemManager.SetSystem(new TurretRotationSystem(), Artemis.Manager.GameLoopType.Update, priority++);
+
 
             Graphics = ServiceLocator.Instance.GetService<GraphicsDevice>();
             World.InitializeAll();
@@ -184,7 +185,7 @@ namespace FellSky.States
                 entity.AddComponent(new Transform(xform.Position - box.Size/2, 0, Vector2.One));
                 entity.AddComponent(new BoundingBoxComponent(box));
 
-                entity.AddComponent(new DrawBoundingBoxComponent { Color = Microsoft.Xna.Framework.Color.Red, IsEnabled = true });
+                //entity.AddComponent(new DrawBoundingBoxComponent { Color = Microsoft.Xna.Framework.Color.Red, IsEnabled = true });
 
                 var hover = new MouseHoverComponent { UsePositionOnly = true };
                 hover.HoverChanged += (o, e) =>
