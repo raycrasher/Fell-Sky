@@ -30,6 +30,7 @@ namespace FellSky
 
         private Vector2 _origin;
 
+        [System.ComponentModel.TypeConverter(typeof(Framework.Vector2TypeConverter)), Xceed.Wpf.Toolkit.PropertyGrid.Attributes.ExpandableObject]
         public Vector2 Position
         {
             get
@@ -58,6 +59,7 @@ namespace FellSky
             }
         }
 
+        [Xceed.Wpf.Toolkit.PropertyGrid.Attributes.ExpandableObject]
         public Vector2 Scale
         {
             get
@@ -86,7 +88,7 @@ namespace FellSky
             }
         }
 
-        [JsonIgnore]
+        [JsonIgnore, System.ComponentModel.Browsable(false)]
         public Matrix Matrix
         {
             get
@@ -168,6 +170,11 @@ namespace FellSky
             Scale = Vector2.One;
             Origin = Vector2.Zero;
             _matrixNeedsUpdate = true;
+        }
+
+        public override string ToString()
+        {
+            return $"{Position}, {Rotation}, {Scale}";
         }
     }
 }

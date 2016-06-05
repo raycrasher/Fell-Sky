@@ -8,10 +8,11 @@ using FellSky.Components;
 using FellSky.Game.Ships;
 using FellSky.EntityFactories;
 using Microsoft.Xna.Framework;
+using FellSky.Game.Inventory;
 
 namespace FellSky.Game.Combat.Weapons
 {
-    public class BasicGun : IWeapon
+    public class BasicGun : IWeapon, IInventoryItem
     {
         public string Id { get; set; }
         public string Name { get; set; }
@@ -50,7 +51,7 @@ namespace FellSky.Game.Combat.Weapons
             
         }
 
-        public void Uninstall(Entity owner, Entity weaponEntity)
+        public virtual void Uninstall(Entity owner, Entity weaponEntity)
         {
             var shipPartGroup = weaponEntity.GetComponent<ShipPartGroupComponent>();          
             owner.GetComponent<ShipComponent>().Turrets.Remove(weaponEntity);

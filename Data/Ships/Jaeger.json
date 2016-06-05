@@ -1035,20 +1035,20 @@
         "ColorType": 0,
         "ShapeId": null,
         "Health": 100.0,
-        "Name": "Weapon.Forward.Left",
+        "Name": "Hull",
         "Transform": {
           "$id": "127",
-          "Position": "60.1517868, -22.175005",
+          "Position": "-17.3482361, -64.825",
           "Rotation": 0.0,
-          "Scale": "1, -1",
-          "Origin": "20, 12"
+          "Scale": "-1, 1",
+          "Origin": "13, 13"
         },
-        "SpriteId": "Kae_shn122",
+        "SpriteId": "Kae_shn330",
         "Color": {
           "$id": "128",
-          "B": 255,
-          "G": 255,
-          "R": 255,
+          "B": 97,
+          "G": 97,
+          "R": 97,
           "A": 255
         }
       },
@@ -1061,9 +1061,9 @@
         "Name": "Hull",
         "Transform": {
           "$id": "130",
-          "Position": "-17.3482361, -64.825",
+          "Position": "-17.3482361, 64.825",
           "Rotation": 0.0,
-          "Scale": "-1, 1",
+          "Scale": "-1, -1",
           "Origin": "13, 13"
         },
         "SpriteId": "Kae_shn330",
@@ -1084,17 +1084,17 @@
         "Name": "Hull",
         "Transform": {
           "$id": "133",
-          "Position": "-17.3482361, 64.825",
+          "Position": "-33.8482361, -57.1750031",
           "Rotation": 0.0,
-          "Scale": "-1, -1",
-          "Origin": "13, 13"
+          "Scale": "1, -1",
+          "Origin": "24, 16"
         },
-        "SpriteId": "Kae_shn330",
+        "SpriteId": "Kae_shn138",
         "Color": {
           "$id": "134",
-          "B": 97,
-          "G": 97,
-          "R": 97,
+          "B": 107,
+          "G": 107,
+          "R": 107,
           "A": 255
         }
       },
@@ -1104,20 +1104,20 @@
         "ColorType": 0,
         "ShapeId": null,
         "Health": 100.0,
-        "Name": "Weapon.Forward.Right",
+        "Name": "Hull",
         "Transform": {
           "$id": "136",
-          "Position": "60.1517868, 22.175005",
+          "Position": "-33.8482361, 57.1750031",
           "Rotation": 0.0,
           "Scale": "1, 1",
-          "Origin": "20, 12"
+          "Origin": "24, 16"
         },
-        "SpriteId": "Kae_shn122",
+        "SpriteId": "Kae_shn138",
         "Color": {
           "$id": "137",
-          "B": 255,
-          "G": 255,
-          "R": 255,
+          "B": 107,
+          "G": 107,
+          "R": 107,
           "A": 255
         }
       },
@@ -1130,17 +1130,17 @@
         "Name": "Hull",
         "Transform": {
           "$id": "139",
-          "Position": "-33.8482361, -57.1750031",
+          "Position": "-16.34822, 0.175003052",
           "Rotation": 0.0,
-          "Scale": "1, -1",
-          "Origin": "24, 16"
+          "Scale": "1, 1",
+          "Origin": "9, 17"
         },
-        "SpriteId": "Kae_shn138",
+        "SpriteId": "Kae_shn499",
         "Color": {
           "$id": "140",
-          "B": 107,
-          "G": 107,
-          "R": 107,
+          "B": 130,
+          "G": 130,
+          "R": 130,
           "A": 255
         }
       },
@@ -1153,17 +1153,17 @@
         "Name": "Hull",
         "Transform": {
           "$id": "142",
-          "Position": "-33.8482361, 57.1750031",
+          "Position": "-21.348217, -28.825",
           "Rotation": 0.0,
-          "Scale": "1, 1",
-          "Origin": "24, 16"
+          "Scale": "-1, 1",
+          "Origin": "20, 20"
         },
-        "SpriteId": "Kae_shn138",
+        "SpriteId": "Kae_shn434",
         "Color": {
           "$id": "143",
-          "B": 107,
-          "G": 107,
-          "R": 107,
+          "B": 255,
+          "G": 255,
+          "R": 255,
           "A": 255
         }
       },
@@ -1173,20 +1173,20 @@
         "ColorType": 0,
         "ShapeId": null,
         "Health": 100.0,
-        "Name": "Hull",
+        "Name": "Weapon.Forward.Left",
         "Transform": {
           "$id": "145",
-          "Position": "-16.34822, 0.175003052",
+          "Position": "60.1517868, -22.175005",
           "Rotation": 0.0,
-          "Scale": "1, 1",
-          "Origin": "9, 17"
+          "Scale": "1, -1",
+          "Origin": "20, 12"
         },
-        "SpriteId": "Kae_shn499",
+        "SpriteId": "Kae_shn122",
         "Color": {
           "$id": "146",
-          "B": 130,
-          "G": 130,
-          "R": 130,
+          "B": 255,
+          "G": 255,
+          "R": 255,
           "A": 255
         }
       },
@@ -1199,17 +1199,17 @@
         "Name": "Hull",
         "Transform": {
           "$id": "148",
-          "Position": "-21.348217, -28.825",
-          "Rotation": 0.0,
+          "Position": "-13.8482361, 76.175",
+          "Rotation": 0.35314858,
           "Scale": "-1, 1",
-          "Origin": "20, 20"
+          "Origin": "13, 13"
         },
-        "SpriteId": "Kae_shn434",
+        "SpriteId": "Kae_shn353",
         "Color": {
           "$id": "149",
-          "B": 255,
-          "G": 255,
-          "R": 255,
+          "B": 156,
+          "G": 156,
+          "R": 156,
           "A": 255
         }
       },
@@ -1222,9 +1222,9 @@
         "Name": "Hull",
         "Transform": {
           "$id": "151",
-          "Position": "-13.8482361, 76.175",
-          "Rotation": 0.35314858,
-          "Scale": "-1, 1",
+          "Position": "-13.8482361, -76.175",
+          "Rotation": -0.3531486,
+          "Scale": "-1, -1",
           "Origin": "13, 13"
         },
         "SpriteId": "Kae_shn353",
@@ -1242,20 +1242,20 @@
         "ColorType": 0,
         "ShapeId": null,
         "Health": 100.0,
-        "Name": "Hull",
+        "Name": "Weapon.Forward.Right",
         "Transform": {
           "$id": "154",
-          "Position": "-13.8482361, -76.175",
-          "Rotation": -0.3531486,
-          "Scale": "-1, -1",
-          "Origin": "13, 13"
+          "Position": "60.1517868, 22.175005",
+          "Rotation": 0.0,
+          "Scale": "1, 1",
+          "Origin": "20, 12"
         },
-        "SpriteId": "Kae_shn353",
+        "SpriteId": "Kae_shn122",
         "Color": {
           "$id": "155",
-          "B": 156,
-          "G": 156,
-          "R": 156,
+          "B": 255,
+          "G": 255,
+          "R": 255,
           "A": 255
         }
       },
@@ -1314,17 +1314,17 @@
         "Name": "Hull",
         "Transform": {
           "$id": "163",
-          "Position": "-34.8482361, 0.175003052",
-          "Rotation": 0.0,
-          "Scale": "1, 1",
-          "Origin": "18, 14"
+          "Position": "-3.848217, 58.8250046",
+          "Rotation": -0.290510774,
+          "Scale": "-1, -1",
+          "Origin": "15, 15"
         },
-        "SpriteId": "Kae_shn165",
+        "SpriteId": "Kae_shn437",
         "Color": {
           "$id": "164",
-          "B": 156,
-          "G": 156,
-          "R": 156,
+          "B": 196,
+          "G": 196,
+          "R": 196,
           "A": 255
         }
       },
@@ -1337,17 +1337,17 @@
         "Name": "Hull",
         "Transform": {
           "$id": "166",
-          "Position": "-3.848217, 58.8250046",
-          "Rotation": -0.290510774,
-          "Scale": "-1, -1",
-          "Origin": "15, 15"
+          "Position": "-19.84822, 0.175003052",
+          "Rotation": 0.0,
+          "Scale": "1, 1",
+          "Origin": "12, 19"
         },
-        "SpriteId": "Kae_shn437",
+        "SpriteId": "Kae_shn375",
         "Color": {
           "$id": "167",
-          "B": 196,
-          "G": 196,
-          "R": 196,
+          "B": 255,
+          "G": 255,
+          "R": 255,
           "A": 255
         }
       },
@@ -1360,17 +1360,17 @@
         "Name": "Hull",
         "Transform": {
           "$id": "169",
-          "Position": "25.1517868, -28.325",
-          "Rotation": -0.432199955,
+          "Position": "-66.3482361, 0.175003052",
+          "Rotation": 0.0,
           "Scale": "1, 1",
-          "Origin": "14, 13"
+          "Origin": "21, 14"
         },
-        "SpriteId": "Kae_shn351",
+        "SpriteId": "Kae_shn169",
         "Color": {
           "$id": "170",
-          "B": 255,
-          "G": 255,
-          "R": 255,
+          "B": 178,
+          "G": 178,
+          "R": 178,
           "A": 255
         }
       },
@@ -1383,12 +1383,12 @@
         "Name": "Hull",
         "Transform": {
           "$id": "172",
-          "Position": "25.1517868, 28.325",
-          "Rotation": 0.432199955,
-          "Scale": "1, -1",
-          "Origin": "14, 13"
+          "Position": "-82.63292, 0.210048333",
+          "Rotation": 3.14109325,
+          "Scale": "1, 1",
+          "Origin": "13, 17"
         },
-        "SpriteId": "Kae_shn351",
+        "SpriteId": "Kae_shn151",
         "Color": {
           "$id": "173",
           "B": 255,
@@ -1403,20 +1403,20 @@
         "ColorType": 0,
         "ShapeId": null,
         "Health": 100.0,
-        "Name": "Weapon.Left",
+        "Name": "Hull",
         "Transform": {
           "$id": "175",
-          "Position": "8.151783, -48.8250046",
-          "Rotation": -1.65172112,
+          "Position": "-34.8482361, 0.175003052",
+          "Rotation": 0.0,
           "Scale": "1, 1",
-          "Origin": "12, 11"
+          "Origin": "18, 14"
         },
-        "SpriteId": "Kae_shn380",
+        "SpriteId": "Kae_shn165",
         "Color": {
           "$id": "176",
-          "B": 255,
-          "G": 255,
-          "R": 255,
+          "B": 156,
+          "G": 156,
+          "R": 156,
           "A": 255
         }
       },
@@ -1426,15 +1426,15 @@
         "ColorType": 0,
         "ShapeId": null,
         "Health": 100.0,
-        "Name": "Weapon.Left",
+        "Name": "Hull",
         "Transform": {
           "$id": "178",
-          "Position": "8.151783, 48.8250046",
-          "Rotation": 1.65172112,
-          "Scale": "1, -1",
-          "Origin": "12, 11"
+          "Position": "25.1517868, -28.325",
+          "Rotation": -0.432199955,
+          "Scale": "1, 1",
+          "Origin": "14, 13"
         },
-        "SpriteId": "Kae_shn380",
+        "SpriteId": "Kae_shn351",
         "Color": {
           "$id": "179",
           "B": 255,
@@ -1452,12 +1452,12 @@
         "Name": "Hull",
         "Transform": {
           "$id": "181",
-          "Position": "-19.84822, 0.175003052",
-          "Rotation": 0.0,
-          "Scale": "1, 1",
-          "Origin": "12, 19"
+          "Position": "25.1517868, 28.325",
+          "Rotation": 0.432199955,
+          "Scale": "1, -1",
+          "Origin": "14, 13"
         },
-        "SpriteId": "Kae_shn375",
+        "SpriteId": "Kae_shn351",
         "Color": {
           "$id": "182",
           "B": 255,
@@ -1472,20 +1472,20 @@
         "ColorType": 0,
         "ShapeId": null,
         "Health": 100.0,
-        "Name": "Hull",
+        "Name": "Weapon.Left",
         "Transform": {
           "$id": "184",
-          "Position": "-66.3482361, 0.175003052",
-          "Rotation": 0.0,
+          "Position": "8.151783, -48.8250046",
+          "Rotation": -1.65172112,
           "Scale": "1, 1",
-          "Origin": "21, 14"
+          "Origin": "12, 11"
         },
-        "SpriteId": "Kae_shn169",
+        "SpriteId": "Kae_shn380",
         "Color": {
           "$id": "185",
-          "B": 178,
-          "G": 178,
-          "R": 178,
+          "B": 255,
+          "G": 255,
+          "R": 255,
           "A": 255
         }
       },
@@ -1495,15 +1495,15 @@
         "ColorType": 0,
         "ShapeId": null,
         "Health": 100.0,
-        "Name": "Hull",
+        "Name": "Weapon.Left",
         "Transform": {
           "$id": "187",
-          "Position": "-82.63292, 0.210048333",
-          "Rotation": 3.14109325,
-          "Scale": "1, 1",
-          "Origin": "13, 17"
+          "Position": "8.151783, 48.8250046",
+          "Rotation": 1.65172112,
+          "Scale": "1, -1",
+          "Origin": "12, 11"
         },
-        "SpriteId": "Kae_shn151",
+        "SpriteId": "Kae_shn380",
         "Color": {
           "$id": "188",
           "B": 255,
@@ -1523,7 +1523,7 @@
         "Size": 0,
         "Type": 3,
         "Hull": {
-          "$ref": "126"
+          "$ref": "144"
         },
         "FiringArc": 0.052540876
       },
@@ -1533,7 +1533,7 @@
         "Size": 0,
         "Type": 3,
         "Hull": {
-          "$ref": "135"
+          "$ref": "153"
         },
         "FiringArc": 0.052540876
       },
@@ -1543,7 +1543,7 @@
         "Size": 0,
         "Type": 3,
         "Hull": {
-          "$ref": "174"
+          "$ref": "183"
         },
         "FiringArc": 1.04719758
       },
@@ -1553,7 +1553,7 @@
         "Size": 0,
         "Type": 3,
         "Hull": {
-          "$ref": "177"
+          "$ref": "186"
         },
         "FiringArc": 1.04719758
       },
@@ -1563,7 +1563,7 @@
         "Size": 0,
         "Type": 3,
         "Hull": {
-          "$ref": "171"
+          "$ref": "180"
         },
         "FiringArc": 1.83893061
       },
@@ -1573,7 +1573,7 @@
         "Size": 0,
         "Type": 3,
         "Hull": {
-          "$ref": "168"
+          "$ref": "177"
         },
         "FiringArc": 1.840654
       },
@@ -1583,7 +1583,7 @@
         "Size": 0,
         "Type": 3,
         "Hull": {
-          "$ref": "186"
+          "$ref": "171"
         },
         "FiringArc": 4.5202384
       },
@@ -1593,7 +1593,7 @@
         "Size": 0,
         "Type": 3,
         "Hull": {
-          "$ref": "162"
+          "$ref": "174"
         },
         "FiringArc": 6.28318548
       }

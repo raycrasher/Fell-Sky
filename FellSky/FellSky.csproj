@@ -151,6 +151,7 @@
     <Compile Include="Framework\GuiElementUtilities.cs" />
     <Compile Include="Framework\MersenneTwister.cs" />
     <Compile Include="Framework\PrimitiveBatch.cs" />
+    <Compile Include="Framework\Vector2TypeConverter.cs" />
     <Compile Include="Game\Campaign\Storyline\ActOne.cs" />
     <Compile Include="Game\Campaign\Storyline\Story.cs" />
     <Compile Include="Game\Campaign\Storyline\StoryUtilities.cs" />
@@ -163,6 +164,7 @@
     <Compile Include="Game\Combat\Weapons\PulseLaser.cs" />
     <Compile Include="Game\Combat\Weapons\Railgun.cs" />
     <Compile Include="Game\Combat\Weapons\WeaponData.cs" />
+    <Compile Include="Game\Inventory\IInventoryItem.cs" />
     <Compile Include="Game\Ships\IShipEditorEditable.cs" />
     <Compile Include="Game\Ships\PartEntityPair.cs" />
     <Compile Include="Game\Ships\Parts\Doodad.cs" />
