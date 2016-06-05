@@ -19,7 +19,7 @@ namespace FellSky.Game.Combat.Weapons
         public string TurretId { get; set; }
         public string ProjectileId { get; set; }
         public float DamagePerSecond { get; set; }
-        public float TurnRate { get; set; } = MathHelper.TwoPi;
+        public float TurnRate { get; set; } = MathHelper.Pi;
 
         public virtual void Spawn(EntityWorld world, Entity owner, Entity entity)
         {
@@ -31,7 +31,8 @@ namespace FellSky.Game.Combat.Weapons
             
             entity.AddComponent<IWeaponComponent>(gunComponent);
             entity.AddComponent(new TurretComponent {
-                TurnRate = TurnRate
+                TurnRate = TurnRate,
+                FiringArc = entity.GetComponent<HardpointComponent>().Hardpoint.FiringArc
             });
             var group = GetPartGroup(TurretId);
             entity.AddComponent(group);

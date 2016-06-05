@@ -13,10 +13,10 @@ namespace FellSky.Components
     {
         public float Rotation = 0;
         public float DesiredRotation = 0;
-        public float LimitAngle = MathHelper.ToRadians(120);
+        public float FiringArc = MathHelper.ToRadians(120);
         public float TurnRate = MathHelper.TwoPi;
         public bool IsEnabled = true;
 
-        public bool IsOmniTurret => LimitAngle > MathHelper.TwoPi;
+        public bool IsOmniTurret => FiringArc > MathHelper.TwoPi;
     }
 }
