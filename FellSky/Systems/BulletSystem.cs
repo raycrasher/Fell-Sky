@@ -45,9 +45,9 @@ namespace FellSky.Systems
         private void CollisionEventHandler(object sender, EventArgs e)
         {
             var args = (PhysicsCollisionEventArgs) e;
-            var bullet = args.EntityA?.GetComponent<BulletComponent>();
+            var bullet = args.EntityA?.GetComponent<BasicBulletComponent>();
             if (bullet == null) return;
-
+            /*
             if(!bullet.IsIndiscriminate)
             {
                 var factionA = args.EntityA?.GetComponent<FactionComponent>();
@@ -55,6 +55,7 @@ namespace FellSky.Systems
                 if (!_diplomacy.IsFriendlyFirePossibleBetween(factionA, factionB))
                     args.IgnoreCollision = true;
             }
+            */
             _events.FireEventNextFrame(this, EventId.BulletHit, new BulletHitEventArgs
             {
                 Bullet = args.EntityA,

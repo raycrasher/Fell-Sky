@@ -7,8 +7,7 @@ using System.Threading.Tasks;
 
 namespace FellSky.Components
 {
-    public class BulletComponent : IComponent
+    public interface IProjectileComponent: IComponent
     {
-        public bool IsIndiscriminate { get; internal set; }
     }
 }

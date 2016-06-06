@@ -1,5 +1,6 @@
 ﻿using Artemis;
 using Artemis.Interface;
+using FellSky.Game.Ships.Parts;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -19,5 +20,9 @@ namespace FellSky.Components
 
         public bool IsOmnidirectional => FiringArc >= MathHelper.TwoPi;
         public bool IsFixedTurret => FiringArc <= 0;
+
+        public Entity[] Barrels;
+        public Transform[] Muzzles;
+        
     }
 }

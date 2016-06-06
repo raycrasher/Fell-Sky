@@ -111,7 +111,7 @@ namespace FellSky.Editor
         private KeyboardService _keyboard;
         private System.Windows.Media.Color _selectedColor;
 
-        public string ShipFileFilter = "Ship JSON files(*.json)|*.json|All files(*.*)|*.*";
+        public string ShipFileFilter = "Ship JSON files(*.json)|Ship Part Group JSON files(*.json)|*.json|All files(*.*)|*.*";
         private TimerService _timer;
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -420,7 +420,10 @@ namespace FellSky.Editor
                 };
                 if (dialog.ShowDialog() == true)
                 {
-                    EditorService.LoadShip(dialog.FileName);
+                    if(dialog.FilterIndex == 1)
+                        EditorService.LoadShipPartGroup(dialog.FileName);
+                    else
+                        EditorService.LoadShip(dialog.FileName);
                 }
             });
         });

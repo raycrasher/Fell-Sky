@@ -1,5 +1,6 @@
 ﻿using Artemis;
 using FellSky.Components;
+using FellSky.Game.Crew;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,11 @@ namespace FellSky.Game.Campaign.Storyline
             element.InnerRml = text;
             entity.AddComponent(new GuiComponent(element));
             return entity;
+        }
+
+        public static void Speak(Character character, string text)
+        {
+
         }
     }
 }

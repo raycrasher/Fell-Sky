@@ -418,6 +418,37 @@ namespace FellSky.Editor
             }
         }
 
+        public void LoadShipPartGroup(string fileName)
+        {
+            try
+            {
+                ClearSelection();
+                foreach (var entity in _world.EntityManager.GetEntities(Aspect.All(typeof(EditorComponent))))
+                {
+                    entity.Delete();
+                }
+                if (ShipEntity != null) ShipEntity.Tag = null;
+                ShipEntity?.Delete();
+                var group = Persistence.LoadFromFile<ShipPartGroup>(fileName);
+                ShipEntity = _world.CreateEntity();
+                ShipEntity.AddComponent(new ShipPartGroupComponent(group));
+                ShipEntityFactory.SpawnShipPartGroup(_world, ShipEntity, group);
+                Model = group;
+                ShipEntity.Tag = "PlayerShip";
+                foreach (var entity in ShipEntity.GetComponent<ShipComponent>().PartEntities)
+                {
+                    AddEditorComponentsToPartEntity(entity.Entity);
+                    if (entity.Entity.HasComponent<HardpointComponent>())
+                        entity.Entity.AddComponent(new HardpointArcDrawingComponent());
+                }
+                PropertyObject = Model;
+            }
+            catch (Newtonsoft.Json.JsonException)
+            {
+                MessageBox.Show($"There has been an error saving the ship to the following file: {fileName}", "Error saving ship", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
         public void LoadShip(string fileName)
         {
             try
@@ -433,7 +464,7 @@ namespace FellSky.Editor
                 ShipEntity = ShipEntityFactory.CreateShipEntity(_world, ship, Vector2.Zero, 0, false);
                 Model = ship;
                 ShipEntity.Tag = "PlayerShip";
-                foreach(var entity in ShipEntity.GetComponent<ShipComponent>().PartEntities)
+                foreach (var entity in ShipEntity.GetComponent<ShipComponent>().PartEntities)
                 {
                     AddEditorComponentsToPartEntity(entity.Entity);
                     if (entity.Entity.HasComponent<HardpointComponent>())

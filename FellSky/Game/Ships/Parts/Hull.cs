@@ -32,7 +32,6 @@ namespace FellSky.Game.Ships.Parts
         }
 
         public HullColorType ColorType { get; set; } = HullColorType.Hull;
-
         public string ShapeId { get; set; }
         //public SpriteEffects SpriteEffect { get; set; }
         public float Health { get; set; } = 100;

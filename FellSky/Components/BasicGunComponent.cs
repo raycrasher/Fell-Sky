@@ -14,6 +14,7 @@ namespace FellSky.Components
     {
         public BasicGun Gun;
         public Entity Owner;
+        public IProjectile Projectile;
 
         IWeapon IWeaponComponent.Weapon => Gun;
     }

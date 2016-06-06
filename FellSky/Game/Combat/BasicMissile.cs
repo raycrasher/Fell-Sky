@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FellSky.Game.Combat
 {
-    class Projectile
+    class BasicMissile
     {
     }
 }

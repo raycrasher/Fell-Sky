@@ -9,6 +9,7 @@ using FellSky.Game.Ships;
 using FellSky.EntityFactories;
 using Microsoft.Xna.Framework;
 using FellSky.Game.Inventory;
+using FellSky.Game.Ships.Parts;
 
 namespace FellSky.Game.Combat.Weapons
 {
@@ -21,6 +22,14 @@ namespace FellSky.Game.Combat.Weapons
         public string ProjectileId { get; set; }
         public float DamagePerSecond { get; set; }
         public float TurnRate { get; set; } = MathHelper.Pi;
+        public IProjectile Projectile { get; set; }
+
+        [Newtonsoft.Json.JsonIgnore]
+        public Dictionary<int,ShipPart> Muzzles { get; set; }
+        [Newtonsoft.Json.JsonIgnore]
+        public Dictionary<int, ShipPart> Barrels { get; set; }
+        [Newtonsoft.Json.JsonIgnore]
+        public ShipPart[] FixedParts { get; set; }
 
         public virtual Entity Install(EntityWorld world, Entity owner, Entity hardpoint)
         {
@@ -35,19 +44,37 @@ namespace FellSky.Game.Combat.Weapons
             owner.GetComponent<ShipComponent>().Turrets.Add(entity);
             
             entity.AddComponent<IWeaponComponent>(gunComponent);
-            entity.AddComponent(new TurretComponent {
-                TurnRate = TurnRate,
-                FiringArc = hardpointComponent.Hardpoint.FiringArc
-            });
+
+
             var group = CreatePartGroup(TurretId);
             entity.AddComponent(group);
             world.SpawnShipPartGroup(entity, group.PartGroup);
 
+            if (Muzzles == null)
+                Muzzles = group.PartGroup.GetNumberedFlaggedParts("Muzzle");
+            if (Barrels == null)
+                Muzzles = group.PartGroup.GetNumberedFlaggedParts("Barrel");
+            if (FixedParts == null)
+                FixedParts = group.PartGroup.GetFlaggedParts("Fixed").ToArray();
+
+            var turret = new TurretComponent
+            {
+                TurnRate = TurnRate,
+                FiringArc = hardpointComponent.Hardpoint.FiringArc
+            };
+            entity.AddComponent(turret);
+
+            // todo: set projectile
+
             return entity;
         }
 
+        
+
         public virtual void Fire(EntityWorld world, Entity owner, Entity weapon)
         {
+            var weaponComponent = weapon.GetComponent<IWeaponComponent>();
+            
             
         }
 
@@ -56,11 +83,14 @@ namespace FellSky.Game.Combat.Weapons
             var shipPartGroup = weaponEntity.GetComponent<ShipPartGroupComponent>();          
             owner.GetComponent<ShipComponent>().Turrets.Remove(weaponEntity);
             weaponEntity.GetComponent<HardpointComponent>().InstalledEntity = null;
+            var turret = weaponEntity.GetComponent<TurretComponent>();
             weaponEntity.Delete();
             foreach (var item in shipPartGroup.PartEntities)
             {
                 item.Entity.Delete();
             }
+            foreach (var item in turret.Barrels)
+                item.Delete();
         }
 
         private static ShipPartGroupComponent CreatePartGroup(string id)

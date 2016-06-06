@@ -144,6 +144,8 @@ namespace FellSky.Systems
                     color = new Color(trimdecal * color.ToVector4());
                     break;
             }
+
+            if (color.A == 0) return;
             SpriteEffects fx = UpdateTempXform(hull.Transform);
             sprite.Draw(batch: spriteBatch, matrix: TempXform.Matrix * shipMatrix, color:color, effects: fx);
         }
