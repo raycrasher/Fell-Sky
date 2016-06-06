@@ -10,19 +10,19 @@ using System.Threading.Tasks;
 
 namespace FellSky.Components
 {
-    public interface IShipPartComponent
+    public interface IShipPartComponent: IComponent
     {
         ShipPart Part { get; }
+        Entity Ship { get; }
     }
 
 
-    public abstract class ShipPartComponent<T>: IShipPartComponent, IComponent
+    public abstract class ShipPartComponent<T>: IShipPartComponent
         where T :ShipPart
     {
         protected ShipPartComponent(T part, Entity ship)
         {
             Part = part;
-            Ship = ship;
         }
         ShipPart IShipPartComponent.Part => Part;
         public T Part { get; private set; }

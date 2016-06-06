@@ -25,7 +25,7 @@ namespace FellSky.Services
         public SpriteSheet LoadSpriteSheet(string filename)
         {
             
-            var sheet = Persistence.LoadFromFile<SpriteSheet>(System.IO.File.ReadAllText(filename));
+            var sheet = Persistence.LoadFromFile<SpriteSheet>(filename);
             foreach(var s in sheet.Sprites)
             {
                 s.Texture = sheet.Texture;

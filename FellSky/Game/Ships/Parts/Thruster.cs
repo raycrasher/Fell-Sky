@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Graphics;
 using Newtonsoft.Json;
+using Artemis;
 
 namespace FellSky.Game.Ships.Parts
 {
@@ -40,6 +41,11 @@ namespace FellSky.Game.Ships.Parts
             Transform.Rotation = rotation;
             Transform.Origin = origin;
             Color = color;
+        }
+
+        public override Entity CreateEntity(EntityWorld world, Entity ship)
+        {
+            throw new NotImplementedException();
         }
     }
 }

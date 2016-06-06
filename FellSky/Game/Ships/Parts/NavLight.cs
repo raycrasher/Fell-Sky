@@ -2,6 +2,7 @@
 
 using Microsoft.Xna.Framework;
 using System;
+using Artemis;
 
 namespace FellSky.Game.Ships.Parts
 {
@@ -11,5 +12,10 @@ namespace FellSky.Game.Ships.Parts
         public float Frequency { get; set; } = 1;
         public float PhaseShift { get; set; } = 0;
         public float VerticalShift { get; set; } = 0;
+
+        public override Entity CreateEntity(EntityWorld world, Entity ship)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

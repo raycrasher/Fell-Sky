@@ -6,6 +6,10 @@ using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework.Graphics;
 using FellSky.Framework;
+using Artemis;
+using FellSky.Components;
+using FellSky.Systems.SceneGraphRenderers;
+using FellSky.Services;
 
 namespace FellSky.Game.Ships.Parts
 {
@@ -35,5 +39,19 @@ namespace FellSky.Game.Ships.Parts
         public string ShapeId { get; set; }
         //public SpriteEffects SpriteEffect { get; set; }
         public float Health { get; set; } = 100;
+
+        public override Entity CreateEntity(EntityWorld world, Entity ship)
+        {
+            var entity = world.CreateEntity();
+            entity.AddComponent<IShipPartComponent>(new HullComponent(this, ship));
+            entity.AddComponent<ISceneGraphRenderableComponent<StandardShipRenderer>>(new ShipPartRendererComponent<StandardShipRenderer>());
+            entity.AddComponent(Transform);
+            entity.AddComponent(ServiceLocator.Instance.GetService<ISpriteManagerService>().CreateSpriteComponent(SpriteId));
+            
+            return entity;
+        }
     }
+
+
+    
 }

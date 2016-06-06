@@ -1,6 +1,7 @@
 ﻿using Artemis;
 using FellSky.Components;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -152,6 +153,25 @@ namespace FellSky
             return from part in @group.Parts
                    where part.Flags?.Contains(flag) ?? false
                    select part;
+        }
+
+        static Transform _tempXform = new Transform();
+        public static Transform AdjustForFlipping(this Transform xform, out SpriteEffects fx)
+        {
+            fx = SpriteEffects.None;
+            _tempXform.CopyValuesFrom(xform);
+            if (_tempXform.Scale.X < 0)
+            {
+                fx |= SpriteEffects.FlipHorizontally;
+                _tempXform.Scale *= new Vector2(-1, 1);
+
+            }
+            if (_tempXform.Scale.Y < 0)
+            {
+                fx |= SpriteEffects.FlipVertically;
+                _tempXform.Scale *= new Vector2(1, -1);
+            }
+            return _tempXform;
         }
     }
 }

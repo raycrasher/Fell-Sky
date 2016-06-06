@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Artemis;
 
 namespace FellSky.Game.Ships.Parts
 {
@@ -35,5 +36,7 @@ namespace FellSky.Game.Ships.Parts
         {
             return Name ?? $"* {base.ToString()}";
         }
+
+        public abstract Entity CreateEntity(EntityWorld world, Entity ship);
     }
 }

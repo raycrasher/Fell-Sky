@@ -125,7 +125,6 @@
     <Compile Include="Components\CoroutineComponent.cs" />
     <Compile Include="Components\DamageComponent.cs" />
     <Compile Include="Components\DamageReductionComponent.cs" />
-    <Compile Include="Components\DoodadComponent.cs" />
     <Compile Include="Components\EditorComponent.cs" />
     <Compile Include="Components\FactionComponent.cs" />
     <Compile Include="Components\GuiComponent.cs" />
@@ -137,8 +136,12 @@
     <Compile Include="Components\IProjectileComponent.cs" />
     <Compile Include="Components\MouseHoverComponent.cs" />
     <Compile Include="Components\NavLightComponent.cs" />
+    <Compile Include="Components\ShipPartRendererComponent.cs" />
+    <Compile Include="Components\StandardShipSpriteRenderable.cs" />
     <Compile Include="Components\ParticleEmitterComponent.cs" />
     <Compile Include="Components\RadiatorComponent.cs" />
+    <Compile Include="Components\SceneGraphComponent.cs" />
+    <Compile Include="Components\SceneGraphRendererComponent.cs" />
     <Compile Include="Components\ShipPartComponent.cs" />
     <Compile Include="Components\RigidBodyFixtureComponent.cs" />
     <Compile Include="Components\ShipComponent.cs" />
@@ -150,6 +153,7 @@
     <Compile Include="Components\TurretComponent.cs" />
     <Compile Include="EntityFactories\ParticleEntityFactory.cs" />
     <Compile Include="EntityFactories\ShipEntityFactory.cs" />
+    <Compile Include="EntityFactories\ShipEntityTemplate.cs" />
     <Compile Include="EntityFactories\WeaponEntityFactory.cs" />
     <Compile Include="Framework\Constants.cs" />
     <Compile Include="Framework\FloatColor.cs" />
@@ -157,6 +161,7 @@
     <Compile Include="Framework\MersenneTwister.cs" />
     <Compile Include="Framework\Persistence.cs" />
     <Compile Include="Framework\PrimitiveBatch.cs" />
+    <Compile Include="Framework\SceneGraphExtensions.cs" />
     <Compile Include="Game\Campaign\Storyline\ActOne.cs" />
     <Compile Include="Game\Campaign\Storyline\Story.cs" />
     <Compile Include="Game\Campaign\Storyline\StoryUtilities.cs" />
@@ -175,7 +180,6 @@
     <Compile Include="Game\Inventory\IInventoryItem.cs" />
     <Compile Include="Game\Ships\IShipEditorEditable.cs" />
     <Compile Include="Game\Ships\PartEntityPair.cs" />
-    <Compile Include="Game\Ships\Parts\Doodad.cs" />
     <Compile Include="Game\Ships\Parts\DrawShipToTexture.cs" />
     <Compile Include="Game\Ships\Parts\Radiator.cs" />
     <Compile Include="Game\Ships\ShipPartGroup.cs" />
@@ -366,6 +370,10 @@
     <Compile Include="Systems\PhysicsDebugDrawSystem.cs" />
     <Compile Include="Systems\PlayerShipControlSystem.cs" />
     <Compile Include="Systems\RigidBodyToTransformSystem.cs" />
+    <Compile Include="Systems\SceneGraphRendererSystem.cs" />
+    <Compile Include="Systems\SceneGraphRenderers\ISceneGraphRenderer.cs" />
+    <Compile Include="Systems\SceneGraphRenderers\StandardShipRenderer.cs" />
+    <Compile Include="Systems\SceneGraphSystem.cs" />
     <Compile Include="Systems\ShipUpdateSystem.cs" />
     <Compile Include="Systems\ShipRendererSystem.cs" />
     <Compile Include="Framework\SteeringBehaviors\SteeringBehaviorSystem.cs" />

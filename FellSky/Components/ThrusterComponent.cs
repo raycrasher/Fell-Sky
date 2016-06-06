@@ -14,7 +14,7 @@ namespace FellSky.Components
     public class ThrusterComponent: ShipPartComponent<Thruster>
     {
         public ThrusterComponent(Thruster part, Entity ship)
-            : base(part,ship)
+            : base(part, ship)
         {
         }
 
