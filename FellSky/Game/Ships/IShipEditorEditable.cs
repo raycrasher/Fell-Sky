@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace FellSky.Game.Ships
 {
-    public interface IShipEditorEditableModel
+    public interface IShipEditorEditableModel: IPersistable
     {
+        string Id { get; }
         IList<ShipPart> Parts { get; }
         Color BaseDecalColor { get; set; }
         Color TrimDecalColor { get; set; }
-        void SaveToJsonFile(string filename);
     }
 
     public interface IShipEditorEditableComponent

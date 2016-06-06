@@ -17,6 +17,7 @@ namespace FellSky.Game.Ships
 {
     public class Ship: IShipEditorEditableModel
     {
+        public string Id { get; set; }
         public string GivenName { get; set; }
         public string HullClass { get; set; }
         public string ShipType { get; set; }
@@ -36,24 +37,6 @@ namespace FellSky.Game.Ships
         public Color BaseDecalColor { get; set; } = Color.White;
         public Color TrimDecalColor { get; set; } = Color.White;
         
-        public void SaveToJsonFile(string filename)
-        {
-            System.IO.File.WriteAllText( filename, JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented, new JsonSerializerSettings
-            {
-                TypeNameHandling = TypeNameHandling.Auto,
-                PreserveReferencesHandling = PreserveReferencesHandling.All
-            }));
-        }
-
-        public static Ship LoadFromJsonFile(string filename)
-        {
-            return JsonConvert.DeserializeObject<Ship>(System.IO.File.ReadAllText(filename), new JsonSerializerSettings
-            {
-                TypeNameHandling = TypeNameHandling.Auto,
-                PreserveReferencesHandling = PreserveReferencesHandling.All
-            });
-        }
-
         public FloatRect CalculateBoundingBox(float thrusterXScale = 0.3f)
         {
             var sprites = ServiceLocator.Instance.GetService<ISpriteManagerService>().Sprites;

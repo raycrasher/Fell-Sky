@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Newtonsoft.Json;
 using Microsoft.Xna.Framework.Content;
 using FellSky.Framework;
 
@@ -26,7 +25,7 @@ namespace FellSky.Services
         public SpriteSheet LoadSpriteSheet(string filename)
         {
             
-            var sheet = JsonConvert.DeserializeObject<SpriteSheet>(System.IO.File.ReadAllText(filename));
+            var sheet = Persistence.LoadFromFile<SpriteSheet>(System.IO.File.ReadAllText(filename));
             foreach(var s in sheet.Sprites)
             {
                 s.Texture = sheet.Texture;

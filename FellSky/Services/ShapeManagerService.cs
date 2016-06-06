@@ -29,10 +29,7 @@ namespace FellSky.Services
         {
             if (System.IO.File.Exists(filename))
             {
-                var items = JsonConvert.DeserializeObject<Dictionary<string, ShapeDefinition>>(System.IO.File.ReadAllText(filename), new JsonSerializerSettings
-                {
-                    TypeNameHandling = TypeNameHandling.Auto
-                });
+                var items = Persistence.DeserializeFromFile<Dictionary<string, ShapeDefinition>>(System.IO.File.ReadAllText(filename));
                 foreach(var item in items)
                 {
                     _shapes[item.Key] = item.Value;
@@ -42,10 +39,7 @@ namespace FellSky.Services
 
         public void SaveShapes(string filename)
         {
-            System.IO.File.WriteAllText(filename, JsonConvert.SerializeObject(_shapes, Newtonsoft.Json.Formatting.Indented, new JsonSerializerSettings
-            {
-                TypeNameHandling = TypeNameHandling.Auto
-            }));
+            _shapes.SerializeToFile(filename);
         }
 
         public ShapeDefinition GetShape(string shapeId) => _shapes[shapeId];

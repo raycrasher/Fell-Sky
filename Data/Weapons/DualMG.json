@@ -1,7 +1,4 @@
 {
-  "GivenName": null,
-  "HullClass": null,
-  "ShipType": null,
   "Parts": [
     {
       "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
@@ -84,13 +81,6 @@
       }
     }
   ],
-  "Handling": {
-    "AngularTorque": 0.2,
-    "ForwardForce": 2.0,
-    "ManeuverForce": 1.0,
-    "LinearDamping": 1.0,
-    "AngularDamping": 1.0
-  },
   "BaseDecalColor": {
     "B": 255,
     "G": 255,

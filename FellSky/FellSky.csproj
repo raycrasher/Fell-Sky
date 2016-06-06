@@ -150,8 +150,8 @@
     <Compile Include="Framework\FloatColor.cs" />
     <Compile Include="Framework\GuiElementUtilities.cs" />
     <Compile Include="Framework\MersenneTwister.cs" />
+    <Compile Include="Framework\Persistence.cs" />
     <Compile Include="Framework\PrimitiveBatch.cs" />
-    <Compile Include="Framework\Vector2TypeConverter.cs" />
     <Compile Include="Game\Campaign\Storyline\ActOne.cs" />
     <Compile Include="Game\Campaign\Storyline\Story.cs" />
     <Compile Include="Game\Campaign\Storyline\StoryUtilities.cs" />
@@ -216,7 +216,6 @@
     <Compile Include="Game\Ships\Modules\WarpCoreModule.cs" />
     <Compile Include="Game\Ships\Mothership.cs" />
     <Compile Include="Game\Space\StarSystemState.cs" />
-    <Compile Include="Services\GamePersistenceService.cs" />
     <Compile Include="Services\ICoroutineService.cs" />
     <Compile Include="Services\EventService.cs" />
     <Compile Include="States\MainMenuState.cs" />

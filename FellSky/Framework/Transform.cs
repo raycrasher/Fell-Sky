@@ -30,7 +30,6 @@ namespace FellSky
 
         private Vector2 _origin;
 
-        [System.ComponentModel.TypeConverter(typeof(Framework.Vector2TypeConverter)), Xceed.Wpf.Toolkit.PropertyGrid.Attributes.ExpandableObject]
         public Vector2 Position
         {
             get
@@ -59,7 +58,6 @@ namespace FellSky
             }
         }
 
-        [Xceed.Wpf.Toolkit.PropertyGrid.Attributes.ExpandableObject]
         public Vector2 Scale
         {
             get

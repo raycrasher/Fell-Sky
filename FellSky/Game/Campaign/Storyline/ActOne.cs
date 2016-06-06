@@ -66,14 +66,14 @@ namespace FellSky.Game.Campaign.Storyline
             yield return Coroutine.WaitFor(TimeSpan.FromSeconds(2));
             
             
-            _playerShip = Ship.LoadFromJsonFile("Ships/Scimitar.json");
+            _playerShip = Persistence.LoadFromFile<Ship>("Ships/Scimitar.json");
             _playerEntity = ShipEntityFactory.CreateShipEntity(world, _playerShip, new Vector2(500,0),0, true);
             _playerEntity.AddComponent(new PlayerControlsComponent());
             _playerEntity.Tag = "PlayerShip";
             _playerEntity.Refresh();
 
 
-            var test = ShipEntityFactory.CreateShipEntity(world, Ship.LoadFromJsonFile("Ships/Jaeger.json"), new Vector2(0, 0), MathHelper.Pi * 1.5f, true);
+            var test = ShipEntityFactory.CreateShipEntity(world, Persistence.LoadFromFile<Ship>("Ships/Jaeger.json"), new Vector2(0, 0), MathHelper.Pi * 1.5f, true);
             
             story.State.Fire(Story.Triggers.NextScene);
             yield return null;

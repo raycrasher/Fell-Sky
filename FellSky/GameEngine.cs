@@ -1,6 +1,6 @@
 ﻿using Artemis.System;
 using FellSky.Framework;
-
+using System.Linq;
 using FellSky.Services;
 using FellSky.States;
 using Microsoft.Xna.Framework;
@@ -78,7 +78,11 @@ namespace FellSky
 
             Services.AddService(new SpaceBackgroundGeneratorService());
 
-            State = new ShipRefitState(new[] { Game.Ships.Ship.LoadFromJsonFile("Ships/Jaeger.json"), Game.Ships.Ship.LoadFromJsonFile("Ships/Scimitar.json") });
+            var testShips = new[] { "Ships/Jaeger.json", "Ships/Scimitar.json" }
+                            .Select(s => Persistence.LoadFromFile<Game.Ships.Ship>(s))
+                            .ToList();                            
+
+            State = new ShipRefitState(testShips);
             State.LoadContent();
 
             EntityFactories.WeaponEntityFactory.LoadWeapons();

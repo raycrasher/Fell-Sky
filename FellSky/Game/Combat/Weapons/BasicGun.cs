@@ -12,7 +12,7 @@ using FellSky.Game.Inventory;
 
 namespace FellSky.Game.Combat.Weapons
 {
-    public class BasicGun : IWeapon, IInventoryItem
+    public class BasicGun : IWeapon, IInventoryItem, IPersistable
     {
         public string Id { get; set; }
         public string Name { get; set; }
@@ -71,7 +71,7 @@ namespace FellSky.Game.Combat.Weapons
                 var path = $"Weapons/{id}.json";
                 if (!System.IO.File.Exists(path))
                     throw new ArgumentException($"Cannot find PartGroup file: {path}");
-                group = Newtonsoft.Json.JsonConvert.DeserializeObject<ShipPartGroup>(System.IO.File.ReadAllText(path), JsonSettings);
+                group = Persistence.LoadFromFile<ShipPartGroup>(path);
                 
                 PartGroups[id] = group;
             }
@@ -79,11 +79,5 @@ namespace FellSky.Game.Combat.Weapons
         }
 
         private static readonly Dictionary<string, ShipPartGroup> PartGroups = new Dictionary<string, ShipPartGroup>();
-
-        private static readonly Newtonsoft.Json.JsonSerializerSettings JsonSettings = new Newtonsoft.Json.JsonSerializerSettings
-        {
-            TypeNameHandling = Newtonsoft.Json.TypeNameHandling.Auto,
-            PreserveReferencesHandling = Newtonsoft.Json.PreserveReferencesHandling.All
-        };
     }
 }

@@ -410,7 +410,7 @@ namespace FellSky.Editor
         {
             try
             {
-                Model.SaveToJsonFile(filename);
+                Model.SaveToFile(filename);
             }
             catch (Newtonsoft.Json.JsonException)
             {
@@ -429,7 +429,7 @@ namespace FellSky.Editor
                 }
                 if (ShipEntity != null) ShipEntity.Tag = null;
                 ShipEntity?.Delete();
-                var ship = Ship.LoadFromJsonFile(fileName);
+                var ship = Persistence.LoadFromFile<Ship>(fileName);
                 ShipEntity = ShipEntityFactory.CreateShipEntity(_world, ship, Vector2.Zero, 0, false);
                 Model = ship;
                 ShipEntity.Tag = "PlayerShip";
