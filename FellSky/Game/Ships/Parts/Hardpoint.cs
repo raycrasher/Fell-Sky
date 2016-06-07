@@ -1,4 +1,5 @@
-﻿using Artemis.Interface;
+﻿using Artemis;
+using Artemis.Interface;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -46,5 +47,10 @@ namespace FellSky.Game.Ships.Parts
         public Hull Hull { get; set; }
 
         public float FiringArc { get; set; } // in radians
+
+        public void AddToEntity(Entity ship, Entity entity)
+        {
+
+        }
     }
 }

@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace FellSky.Components
 {
-    public class StandardShipSpriteRenderable : ISceneGraphRenderableComponent<StandardShipRenderer>
+    public class StandardShipRendererComponent : ISceneGraphRenderer
     {
-        public void Render(StandardShipRenderer renderer, SpriteBatch batch, Entity entity, ref Matrix parentMatrix)
+        public void Begin(EntityWorld world, SpriteBatch batch, ICollection<Entity> root)
         {
-            
+            throw new NotImplementedException();
         }
     }
 

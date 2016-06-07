@@ -10,6 +10,7 @@ using Artemis;
 using FellSky.Components;
 using FellSky.Systems.SceneGraphRenderers;
 using FellSky.Services;
+using FellSky.Systems;
 
 namespace FellSky.Game.Ships.Parts
 {
@@ -43,11 +44,35 @@ namespace FellSky.Game.Ships.Parts
         public override Entity CreateEntity(EntityWorld world, Entity ship)
         {
             var entity = world.CreateEntity();
+            ship.AddChild(entity);
             entity.AddComponent<IShipPartComponent>(new HullComponent(this, ship));
             entity.AddComponent<ISceneGraphRenderableComponent<StandardShipRenderer>>(new ShipPartRendererComponent<StandardShipRenderer>());
             entity.AddComponent(Transform);
-            entity.AddComponent(ServiceLocator.Instance.GetService<ISpriteManagerService>().CreateSpriteComponent(SpriteId));
-            
+            var spriteManager = ServiceLocator.Instance.GetService<ISpriteManagerService>();
+            var spriteComponent = spriteManager.CreateSpriteComponent(SpriteId);
+            entity.AddComponent(spriteComponent);
+            entity.AddComponent(new BoundingBoxComponent(new FloatRect(0, 0, spriteComponent.TextureRect.Width, spriteComponent.TextureRect.Height)));
+
+            if (ship.HasComponent<RigidBodyComponent>())
+            {
+                var physics = world.SystemManager.GetSystem<PhysicsSystem>();
+                RigidBodyComponent body;
+                body = ship?.GetComponent<RigidBodyComponent>();
+                var sprite = spriteManager.Sprites[SpriteId];
+                var origin = new Vector2(sprite.OriginX ?? sprite.W / 2, sprite.OriginY ?? sprite.H / 2);
+                var factor = new Vector2(1f / Constants.PhysicsUnitScale);
+                var matrix = //Matrix.CreateTranslation(new Vector3(-0.5f,-0.5f,0)) *
+                             Matrix.CreateScale(new Vector3(factor, 1)) *
+                             Matrix.CreateTranslation(new Vector3(-Transform.Origin, 0)) *
+                             Matrix.CreateScale(new Vector3(Transform.Scale, 1)) *
+                             Matrix.CreateRotationZ(Transform.Rotation) *
+                             Matrix.CreateTranslation(new Vector3(Transform.Position, 0)) *
+                             Matrix.CreateScale(Constants.PhysicsUnitScale);
+
+                entity.AddComponent(physics.CreateAndAttachFixture(ship.GetComponent<RigidBodyComponent>(), ShapeId ?? SpriteId, matrix));
+
+            }
+            entity.Refresh();
             return entity;
         }
     }

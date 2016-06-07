@@ -137,7 +137,6 @@
     <Compile Include="Components\MouseHoverComponent.cs" />
     <Compile Include="Components\NavLightComponent.cs" />
     <Compile Include="Components\ShipPartRendererComponent.cs" />
-    <Compile Include="Components\StandardShipSpriteRenderable.cs" />
     <Compile Include="Components\ParticleEmitterComponent.cs" />
     <Compile Include="Components\RadiatorComponent.cs" />
     <Compile Include="Components\SceneGraphComponent.cs" />
@@ -147,6 +146,7 @@
     <Compile Include="Components\ShipComponent.cs" />
     <Compile Include="Components\ShipPartGroupComponent.cs" />
     <Compile Include="Components\SoundEffectComponent.cs" />
+    <Compile Include="Components\StandardShipRendererComponent.cs" />
     <Compile Include="Components\StoryComponent.cs" />
     <Compile Include="Components\ThrusterComponent.cs" />
     <Compile Include="Components\IWeaponComponent.cs" />

@@ -16,4 +16,9 @@ namespace FellSky.Components
     {
         void Render(T renderer, SpriteBatch batch, Entity entity, ref Matrix parentMatrix);
     }
+
+    public class SceneGraphRenderRoot<T>: IComponent
+        where T : ISceneGraphRenderer
+    {
+    }
 }

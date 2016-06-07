@@ -14,6 +14,7 @@ using FellSky.Game.Ships;
 using FellSky.Components;
 using FellSky.Game.Combat;
 using FellSky.Framework;
+using FellSky.Systems.SceneGraphRenderers;
 
 namespace FellSky.States
 {
@@ -61,7 +62,8 @@ namespace FellSky.States
             int depth = 0;
             World.SystemManager.SetSystem(new GridRendererSystem(), Artemis.Manager.GameLoopType.Draw, depth++);
             World.SystemManager.SetSystem(new BackgroundRendererSystem(), Artemis.Manager.GameLoopType.Draw, depth++);
-            World.SystemManager.SetSystem(new ShipRendererSystem(), Artemis.Manager.GameLoopType.Draw, depth++);
+            //World.SystemManager.SetSystem(new ShipRendererSystem(), Artemis.Manager.GameLoopType.Draw, depth++);
+            World.SystemManager.SetSystem(new SceneGraphRendererSystem<StandardShipRenderer>(new StandardShipRenderer()), Artemis.Manager.GameLoopType.Draw, depth++);
             World.SystemManager.SetSystem(new ParticleSystem(), Artemis.Manager.GameLoopType.Draw, depth++);
             World.SystemManager.SetSystem(new BoundingBoxRendererSystem(), Artemis.Manager.GameLoopType.Draw, depth++);
             World.SystemManager.SetSystem(new GenericDrawableRendererSystem(), Artemis.Manager.GameLoopType.Draw, depth++);
@@ -82,6 +84,7 @@ namespace FellSky.States
             World.SystemManager.SetSystem(new PhysicsSystem(), Artemis.Manager.GameLoopType.Update, priority++);
             World.SystemManager.SetSystem(new TurretRotationSystem(), Artemis.Manager.GameLoopType.Update, priority++);
 
+            World.SetEntityTemplate("Ship", new ShipEntityTemplate());
 
             Graphics = ServiceLocator.Instance.GetService<GraphicsDevice>();
             World.InitializeAll();
@@ -94,8 +97,9 @@ namespace FellSky.States
                 Document = GuiService.Context.LoadDocument(RefitScreenGuiDocument);
                 Core.ScriptEvent += (o,e) => Instance?.HandleScriptEvent(o, e);
             }
-          
-            CurrentShip = World.CreateShipEntity(Fleet[0], Vector2.Zero, 0, true);
+
+            //CurrentShip = World.CreateShipEntity(Fleet[0], Vector2.Zero, 0, true);
+            CurrentShip = World.CreateEntityFromTemplate("Ship", "Jaeger", Vector2.Zero, 0f);
             //debug
             CurrentShip.AddComponent(new Components.PlayerControlsComponent());
             AddHardpointsToShip(CurrentShip);

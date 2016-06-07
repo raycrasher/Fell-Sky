@@ -17,7 +17,7 @@ namespace FellSky.Systems
         private SpriteBatch _batch;
 
         public SceneGraphRendererSystem(T renderer)
-            : base(Aspect.All(typeof(ISceneGraphRenderer)))
+            : base(Aspect.All(typeof(SceneGraphRenderRoot<T>)))
         {
             _batch = Services.ServiceLocator.Instance.GetService<SpriteBatch>();
             Renderer = renderer;

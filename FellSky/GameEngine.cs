@@ -80,9 +80,10 @@ namespace FellSky
 
             var testShips = new[] { "Ships/Jaeger.json", "Ships/Scimitar.json" }
                             .Select(s => Persistence.LoadFromFile<Game.Ships.Ship>(s))
-                            .ToList();                            
+                            .ToList();
 
             State = new ShipRefitState(testShips);
+            //State = new MainGameState();
             State.LoadContent();
 
             EntityFactories.WeaponEntityFactory.LoadWeapons();

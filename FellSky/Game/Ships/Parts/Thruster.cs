@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Graphics;
 using Newtonsoft.Json;
 using Artemis;
+using FellSky.Components;
+using FellSky.Services;
+using FellSky.Systems.SceneGraphRenderers;
 
 namespace FellSky.Game.Ships.Parts
 {
@@ -45,7 +48,16 @@ namespace FellSky.Game.Ships.Parts
 
         public override Entity CreateEntity(EntityWorld world, Entity ship)
         {
-            throw new NotImplementedException();
+            var entity = world.CreateEntity();
+            ship.AddChild(entity);
+            entity.AddComponent<IShipPartComponent>(new ThrusterComponent(this, ship));
+            entity.AddComponent<ISceneGraphRenderableComponent<StandardShipRenderer>>(new ShipPartRendererComponent<StandardShipRenderer>());
+            entity.AddComponent(Transform);
+            var spriteManager = ServiceLocator.Instance.GetService<ISpriteManagerService>();
+            var spriteComponent = spriteManager.CreateSpriteComponent(SpriteId);
+            entity.AddComponent(spriteComponent);
+            entity.AddComponent(new BoundingBoxComponent(new FloatRect(0, 0, spriteComponent.TextureRect.Width, spriteComponent.TextureRect.Height)));
+            return entity;
         }
     }
 }

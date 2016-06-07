@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework;
 using FellSky.Game.Ships;
 using FellSky.Components;
 using FellSky.Game.Ships.Parts;
+using FellSky.Systems.SceneGraphRenderers;
 
 namespace FellSky.EntityFactories
 {
@@ -29,11 +30,12 @@ namespace FellSky.EntityFactories
 
             shipEntity.AddComponent(new ShipComponent(ship));
             shipEntity.AddComponent(new SceneGraphComponent());
-            foreach(var part in ship.Parts)
+            shipEntity.AddComponent(new SceneGraphRenderRoot<StandardShipRenderer>());
+            foreach (var part in ship.Parts)
             {
                 var partEntity = part.CreateEntity(world, shipEntity);
             }
-
+            shipEntity.Refresh();
             return shipEntity;
         }
         
