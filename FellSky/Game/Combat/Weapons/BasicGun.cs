@@ -33,21 +33,26 @@ namespace FellSky.Game.Combat.Weapons
 
         public virtual Entity Install(EntityWorld world, Entity owner, Entity hardpoint)
         {
-            var entity = world.CreateEntity();
+            var turretEntity = world.CreateEntity();
             var gunComponent = new BasicGunComponent();
             gunComponent.Gun = this;
             gunComponent.Owner = owner;
-            entity.AddComponent(hardpoint.GetComponent<Transform>());
-            var hardpointComponent = hardpoint.GetComponent<HardpointComponent>();
-            entity.AddComponent(hardpointComponent);
-            hardpointComponent.InstalledEntity = entity;
-            owner.GetComponent<ShipComponent>().Turrets.Add(entity);
             
-            entity.AddComponent<IWeaponComponent>(gunComponent);
+            var hardpointComponent = hardpoint.GetComponent<HardpointComponent>();
+            var hpXform = hardpoint.GetComponent<Transform>();
+            var newScale = new Vector2(Math.Sign(hpXform.Scale.X), Math.Sign(hpXform.Scale.Y));
 
+            var newXform = new Transform(Vector2.Zero, 0, newScale, -hpXform.Origin);
+            turretEntity.AddComponent(newXform);
+
+            turretEntity.AddComponent(hardpointComponent);
+            hardpointComponent.InstalledEntity = turretEntity;
+            owner.GetComponent<ShipComponent>().Turrets.Add(turretEntity);            
+            turretEntity.AddComponent<IWeaponComponent>(gunComponent);
+            hardpoint.AddChild(turretEntity);
 
             var group = GetPartGroup(TurretId);
-            group.CreateEntities(world, entity);
+            group.CreateEntities(world, turretEntity);
             
             //world.SpawnShipPartGroup(entity, group.PartGroup);
 
@@ -63,11 +68,11 @@ namespace FellSky.Game.Combat.Weapons
                 TurnRate = TurnRate,
                 FiringArc = hardpointComponent.Hardpoint.FiringArc
             };
-            entity.AddComponent(turret);
+            turretEntity.AddComponent(turret);
 
             // todo: set projectile
 
-            return entity;
+            return turretEntity;
         }
 
         
@@ -81,19 +86,9 @@ namespace FellSky.Game.Combat.Weapons
 
         public virtual void Uninstall(Entity owner, Entity weaponEntity)
         {
-            /*
-            var shipPartGroup = weaponEntity.GetComponent<ShipPartGroupComponent>();          
             owner.GetComponent<ShipComponent>().Turrets.Remove(weaponEntity);
             weaponEntity.GetComponent<HardpointComponent>().InstalledEntity = null;
-            var turret = weaponEntity.GetComponent<TurretComponent>();
             weaponEntity.Delete();
-            foreach (var item in shipPartGroup.PartEntities)
-            {
-                item.Entity.Delete();
-            }
-            foreach (var item in turret.Barrels)
-                item.Delete();
-            */
         }
 
         private static ShipPartGroup GetPartGroup(string id)

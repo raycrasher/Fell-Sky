@@ -11,7 +11,7 @@ namespace FellSky
 {
     public static class SceneGraphExtensions
     {
-        public static void AddChild(this Entity parent, Entity child, int? index)
+        public static void AddChild(this Entity parent, Entity child, int? index = null)
         {
             if (parent == null) throw new ArgumentException(nameof(parent));
             if (child == null) throw new ArgumentNullException(nameof(child));
