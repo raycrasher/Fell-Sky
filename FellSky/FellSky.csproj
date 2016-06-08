@@ -169,13 +169,6 @@
     <Compile Include="Game\Combat\BasicMissile.cs" />
     <Compile Include="Game\Combat\IProjectile.cs" />
     <Compile Include="Game\Combat\Weapons\BasicGun.cs" />
-    <Compile Include="Game\Combat\Weapons\FlakCannon.cs" />
-    <Compile Include="Game\Combat\Weapons\Howitzer.cs" />
-    <Compile Include="Game\Combat\Weapons\LaserBeamCannon.cs" />
-    <Compile Include="Game\Combat\Weapons\MachineGun.cs" />
-    <Compile Include="Game\Combat\Weapons\MissileLauncher.cs" />
-    <Compile Include="Game\Combat\Weapons\PulseLaser.cs" />
-    <Compile Include="Game\Combat\Weapons\Railgun.cs" />
     <Compile Include="Game\Combat\Weapons\WeaponData.cs" />
     <Compile Include="Game\Inventory\IInventoryItem.cs" />
     <Compile Include="Game\Ships\IShipEditorEditable.cs" />
@@ -232,6 +225,7 @@
     <Compile Include="Services\EventService.cs" />
     <Compile Include="States\MainMenuState.cs" />
     <Compile Include="States\ShipRefitState.cs" />
+    <Compile Include="Systems\AnimationSystem.cs" />
     <Compile Include="Systems\BackgroundRendererSystem.cs" />
     <Compile Include="Systems\BeamRendererSystem.cs" />
     <Compile Include="Systems\BulletComponent.cs" />

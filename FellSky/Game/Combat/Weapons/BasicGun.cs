@@ -25,9 +25,9 @@ namespace FellSky.Game.Combat.Weapons
         public IProjectile Projectile { get; set; }
 
         [Newtonsoft.Json.JsonIgnore]
-        public Dictionary<int,ShipPart> Muzzles { get; set; }
+        public Dictionary<int,ShipPart[]> Muzzles { get; set; }
         [Newtonsoft.Json.JsonIgnore]
-        public Dictionary<int, ShipPart> Barrels { get; set; }
+        public Dictionary<int, ShipPart[]> Barrels { get; set; }
         [Newtonsoft.Json.JsonIgnore]
         public ShipPart[] FixedParts { get; set; }
 

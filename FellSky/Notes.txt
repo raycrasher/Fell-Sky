@@ -1,4 +1,33 @@
-﻿Scenes:
+﻿Scene Graph hierarchy:
+
+Ship (root)
+	Hull
+		Hardpoint
+			Turret Base Parts
+			Rotating Turret Body Parts
+				Barrels
+					Muzzles
+
+
+
+
+
+
+
+
+
+
+
+On battle scenes
+
+	Warships should have radiator strips, and they should glow prominently when heat is high.
+	Heat is removed when thrusting.
+	Engines should provide some damage when thrusting at close range.
+
+
+
+
+Scenes:
 	Campaign
 	Battle 
 	Map
@@ -11,8 +40,9 @@ Battle Resources:
 	Propellant
 	Readiness
 	Energy
-	*Crew (implicit)
-	*Ship Health (implicit)
+	Heat Capacity
+	Crew
+	SHip Health
 
 Battle Flow:
 
@@ -105,3 +135,36 @@ Battle Flow:
 			- It is then explained that in the far future, the life in the universe banded together to create the Heaven's Door, 
 			  a Kerr Metric naked singularity that leads to an infinity of multiverses, thereby defeating Entropy.
 			- Credits.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Animation Domain Specific Language
+
+Keywords/Commands:
+
+EVENT eventname
+	ROTATE partid degrees speed
+	TRANSLATE partid x y
+	LOCK partid
+	RESET POSITION partid speed
+	RESET ROTATION partid speed
+	COLOR partid speed r g b a
+	COLOR partid speed r g b
+	COLOR partid speed a
+	FIRE eventname
+
+
