@@ -146,7 +146,6 @@
     <Compile Include="Components\ShipComponent.cs" />
     <Compile Include="Components\ShipPartGroupComponent.cs" />
     <Compile Include="Components\SoundEffectComponent.cs" />
-    <Compile Include="Components\StandardShipRendererComponent.cs" />
     <Compile Include="Components\StoryComponent.cs" />
     <Compile Include="Components\ThrusterComponent.cs" />
     <Compile Include="Components\IWeaponComponent.cs" />

@@ -12,7 +12,8 @@ namespace FellSky.Systems
             EVENT eventname
 	            ROTATE partid degrees speed
 	            TRANSLATE partid x y
-	            LOCK partid
+	            START MOTOR partid
+                STOP MOTOR partid
 	            RESET POSITION partid speed
 	            RESET ROTATION partid speed
 	            COLOR partid speed r g b a
