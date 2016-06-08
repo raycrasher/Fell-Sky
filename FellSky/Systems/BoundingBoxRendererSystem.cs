@@ -30,7 +30,8 @@ namespace FellSky.Systems
         {
             if (!draw.IsEnabled) return;
 
-            var matrix = entity.GetWorldMatrix();
+            Matrix matrix;
+            entity.GetWorldMatrix(out matrix);
             //var child = entity.GetComponent<ChildEntityComponent>();
             //if (child != null)
             //    matrix = child.ParentWorldMatrix * matrix;

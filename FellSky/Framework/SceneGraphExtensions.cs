@@ -11,7 +11,7 @@ namespace FellSky
 {
     public static class SceneGraphExtensions
     {
-        public static void AddChild(this Entity parent, Entity child)
+        public static void AddChild(this Entity parent, Entity child, int? index)
         {
             if (parent == null) throw new ArgumentException(nameof(parent));
             if (child == null) throw new ArgumentNullException(nameof(child));
@@ -33,7 +33,13 @@ namespace FellSky
                 throw new InvalidOperationException("Cannot attach a scene graph with a parent.");
 
             parent.AddComponent(parentComponent);
-            parentComponent.Children.Add(child);
+            if (index != null)
+            {
+                parentComponent.Children.Insert(index.Value, child);
+            }
+            else {
+                parentComponent.Children.Add(child);
+            }
             child.AddComponent(childComponent);
             childComponent.Parent = parent;
         }
@@ -59,6 +65,7 @@ namespace FellSky
         }
 
         public static Entity GetParent(this Entity entity) => entity.GetComponent<SceneGraphComponent>()?.Parent;
+        public static List<Entity> GetChildren(this Entity entity) => entity.GetComponent<SceneGraphComponent>()?.Children;
 
         public static void GetWorldMatrix(this Entity entity, out Matrix matrix)
         {

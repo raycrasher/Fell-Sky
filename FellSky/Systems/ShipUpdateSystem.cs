@@ -17,24 +17,6 @@ namespace FellSky.Systems
         { }
 
 
-        /// <summary>
-        /// Event handler. Also removes all child entities of the ship.
-        /// </summary>
-        /// <param name="entity"></param>
-        public override void OnRemoved(Entity entity)
-        {
-            var shipComponent = entity.GetComponent<ShipComponent>();
-            if (shipComponent != null)
-            {
-                foreach (var child in shipComponent.PartEntities)
-                {
-                    child.Entity.Delete();
-                }
-            }
-
-            base.OnRemoved(entity);
-        }
-
         public override void Process(Entity ship)
         {
             var shipComponent = ship.GetComponent<ShipComponent>();
@@ -57,7 +39,7 @@ namespace FellSky.Systems
         private void UpdateThrusters(Entity ship)
         {
             var shipComponent = ship.GetComponent<ShipComponent>();
-            var thrusters = shipComponent.Thrusters.Select(pe => pe.Entity.GetComponent<ThrusterComponent>());
+            var thrusters = shipComponent.Thrusters.Select(e => e.GetComponent<ThrusterComponent>());
             var xform = ship.GetComponent<Transform>();
 
             bool isShipTurning = Math.Abs(shipComponent.AngularTorque) > 0;

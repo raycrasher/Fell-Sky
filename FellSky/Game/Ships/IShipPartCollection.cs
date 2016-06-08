@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace FellSky.Game.Ships
 {
-    public interface IShipEditorEditableModel: IPersistable
+    public interface IShipPartCollection : IPersistable
     {
         string Id { get; }
         IList<ShipPart> Parts { get; }
@@ -16,9 +16,8 @@ namespace FellSky.Game.Ships
         Color TrimDecalColor { get; set; }
     }
 
-    public interface IShipEditorEditableComponent
+    public interface IShipPartCollectionComponent
     {
-        IShipEditorEditableModel Model { get; }
-        IList<PartEntityPair> PartEntities { get; }
+        IShipPartCollection  Model { get; }
     }
 }

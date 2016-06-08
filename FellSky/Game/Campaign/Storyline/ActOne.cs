@@ -56,10 +56,7 @@ namespace FellSky.Game.Campaign.Storyline
             bgGenerator.GenerateBackground(world, 12345);
             
             var entity = world.CreateStoryOverlay(Properties.Resources.String_ActOne_Intro01);
-            
-            
-
-
+                        
             yield return Coroutine.WaitFor(TimeSpan.FromSeconds(2));
             entity.FadeGuiElement(TimeSpan.FromSeconds(1.5), 0)
                 .OnDone = () => entity.Delete();
@@ -67,13 +64,13 @@ namespace FellSky.Game.Campaign.Storyline
             
             
             _playerShip = Persistence.LoadFromFile<Ship>("Ships/Scimitar.json");
-            _playerEntity = ShipEntityFactory.CreateShipEntity(world, _playerShip, new Vector2(500,0),0, true);
+            _playerEntity = ShipEntityFactory.CreateShip(world, "Scimitar", new Vector2(500,0),0, physics:true);
             _playerEntity.AddComponent(new PlayerControlsComponent());
             _playerEntity.Tag = "PlayerShip";
             _playerEntity.Refresh();
 
 
-            var test = ShipEntityFactory.CreateShipEntity(world, Persistence.LoadFromFile<Ship>("Ships/Jaeger.json"), new Vector2(0, 0), MathHelper.Pi * 1.5f, true);
+            var test = world.CreateShip("Jaeger", new Vector2(0, 0), MathHelper.Pi * 1.5f, physics:true);
             
             story.State.Fire(Story.Triggers.NextScene);
             yield return null;

@@ -46,16 +46,17 @@ namespace FellSky.Game.Combat.Weapons
             entity.AddComponent<IWeaponComponent>(gunComponent);
 
 
-            var group = CreatePartGroup(TurretId);
-            entity.AddComponent(group);
-            world.SpawnShipPartGroup(entity, group.PartGroup);
+            var group = GetPartGroup(TurretId);
+            group.CreateEntities(world, entity);
+            
+            //world.SpawnShipPartGroup(entity, group.PartGroup);
 
             if (Muzzles == null)
-                Muzzles = group.PartGroup.GetNumberedFlaggedParts("Muzzle");
+                Muzzles = group.GetNumberedFlaggedParts("Muzzle");
             if (Barrels == null)
-                Muzzles = group.PartGroup.GetNumberedFlaggedParts("Barrel");
+                Muzzles = group.GetNumberedFlaggedParts("Barrel");
             if (FixedParts == null)
-                FixedParts = group.PartGroup.GetFlaggedParts("Fixed").ToArray();
+                FixedParts = group.GetFlaggedParts("Fixed").ToArray();
 
             var turret = new TurretComponent
             {
@@ -80,6 +81,7 @@ namespace FellSky.Game.Combat.Weapons
 
         public virtual void Uninstall(Entity owner, Entity weaponEntity)
         {
+            /*
             var shipPartGroup = weaponEntity.GetComponent<ShipPartGroupComponent>();          
             owner.GetComponent<ShipComponent>().Turrets.Remove(weaponEntity);
             weaponEntity.GetComponent<HardpointComponent>().InstalledEntity = null;
@@ -91,9 +93,10 @@ namespace FellSky.Game.Combat.Weapons
             }
             foreach (var item in turret.Barrels)
                 item.Delete();
+            */
         }
 
-        private static ShipPartGroupComponent CreatePartGroup(string id)
+        private static ShipPartGroup GetPartGroup(string id)
         {
             ShipPartGroup group;
             if(!PartGroups.TryGetValue(id, out group))
@@ -105,7 +108,7 @@ namespace FellSky.Game.Combat.Weapons
                 
                 PartGroups[id] = group;
             }
-            return new ShipPartGroupComponent(group);
+            return group;
         }
 
         private static readonly Dictionary<string, ShipPartGroup> PartGroups = new Dictionary<string, ShipPartGroup>();

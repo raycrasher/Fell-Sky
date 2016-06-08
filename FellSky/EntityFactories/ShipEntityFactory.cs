@@ -9,14 +9,28 @@ using System;
 using Artemis.Interface;
 using System.Linq;
 using System.Collections.Generic;
+using FellSky.Systems.SceneGraphRenderers;
 
 namespace FellSky.EntityFactories
 {
     public static class ShipEntityFactory
     {
-        private static ISpriteManagerService SpriteManager => ServiceLocator.Instance.GetService<ISpriteManagerService>();
+        public static readonly Dictionary<string, Ship> Ships = new Dictionary<string, Ship>();
 
+        public static Entity CreateShip(this EntityWorld world, string id, Vector2 position, float rotation = 0, Vector2? scale = null, bool physics = true)
+        {
+            Ship ship;
+            if (!Ships.TryGetValue(id, out ship))
+            {
+                ship = Persistence.LoadFromFile<Ship>($"Ships/{id}.json");
+                Ships[id] = ship;
+            }
+            var shipEntity = ship.CreateEntity(world, position, rotation, scale ?? Vector2.One, physics);
+            shipEntity.Refresh();
+            return shipEntity;
+        }
 
+        /*
         public static void UpdateComponentPartList(EntityWorld world, Entity ship, bool addPhysics=false)
         {
             var component = (IShipEditorEditableComponent)ship.GetComponent<ShipComponent>() ?? ship.GetComponent<ShipPartGroupComponent>();
@@ -154,5 +168,6 @@ namespace FellSky.EntityFactories
             }
             return entity;
         }
+        */
     }
 }

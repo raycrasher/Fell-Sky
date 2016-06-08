@@ -81,16 +81,6 @@ namespace FellSky
             return camera;
         }
 
-        public static Matrix GetWorldMatrix(this Artemis.Entity entity)
-        {
-            var xform = entity.GetComponent<Transform>();
-            var matrix = xform.GetMatrix();
-            var child = entity.GetComponent<LocalTransformComponent>();
-            if (child != null)
-                matrix = child.ParentWorldMatrix * matrix;
-            return matrix;
-        }
-
         public static ICollection<T> AddRange<T>(this ICollection<T> collection, IEnumerable<T> items)
         {
             foreach (var item in items)
@@ -137,7 +127,7 @@ namespace FellSky
             }
         }
 
-        public static Dictionary<int, Game.Ships.Parts.ShipPart> GetNumberedFlaggedParts(this Game.Ships.IShipEditorEditableModel group, string flag)
+        public static Dictionary<int, Game.Ships.Parts.ShipPart> GetNumberedFlaggedParts(this Game.Ships.IShipPartCollection  group, string flag)
         {
             return (from part in @group.Parts
                     where part.Flags?.Any(s => s.StartsWith(flag)) ?? false
@@ -148,7 +138,7 @@ namespace FellSky
                     }).ToDictionary(k => k.Index, k => k.Part);
         }
 
-        public static IEnumerable<Game.Ships.Parts.ShipPart> GetFlaggedParts(this Game.Ships.IShipEditorEditableModel group, string flag)
+        public static IEnumerable<Game.Ships.Parts.ShipPart> GetFlaggedParts(this Game.Ships.IShipPartCollection  group, string flag)
         {
             return from part in @group.Parts
                    where part.Flags?.Contains(flag) ?? false

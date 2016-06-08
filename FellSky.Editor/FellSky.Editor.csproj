@@ -150,7 +150,6 @@
     <Compile Include="MouseService.cs" />
     <Compile Include="ShipEditorService.cs" />
     <Compile Include="ShipEditorViewModel.cs" />
-    <Compile Include="Systems\ShipPartGroupRendererSystem.cs" />
     <Compile Include="Systems\ShowThrusterTrailsOverrideSystem.cs" />
     <Compile Include="Utilities.cs" />
     <Page Include="ShipEditorWindow.xaml">

@@ -13,7 +13,7 @@ namespace FellSky.Game.Ships.Parts
         public float PhaseShift { get; set; } = 0;
         public float VerticalShift { get; set; } = 0;
 
-        public override Entity CreateEntity(EntityWorld world, Entity ship)
+        public override Entity CreateEntity(EntityWorld world, Entity ship, int? index)
         {
             throw new NotImplementedException();
         }

@@ -66,7 +66,9 @@ namespace FellSky.Systems
                 var hardpoint = entity.GetComponent<HardpointComponent>();
                 var draw = entity.GetComponent<HardpointArcDrawingComponent>();
                 var hull = entity.GetComponent<HullComponent>();
-                var xform = Matrix.CreateTranslation(new Vector3(hull.Part.Transform.Origin, 0)) * hull.Part.Transform.Matrix * entity.GetComponent<LocalTransformComponent>().ParentWorldMatrix;
+                Matrix parentMatrix = Matrix.Identity;
+                entity.GetParent()?.GetWorldMatrix(out parentMatrix);
+                var xform = Matrix.CreateTranslation(new Vector3(hull.Part.Transform.Origin, 0)) * hull.Part.Transform.Matrix * parentMatrix;
                 Vector2 lineOffset;
 
                 Color color = Color.White * 0.4f;
