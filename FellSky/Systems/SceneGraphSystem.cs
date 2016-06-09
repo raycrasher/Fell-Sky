@@ -14,18 +14,15 @@ namespace FellSky.Systems
             : base(Aspect.All(typeof(SceneGraphComponent)))
         { }
 
-        public override void Process()
-        {
-        }
-
         public override void OnRemoved(Entity entity)
         {
-            if (entity.DeletingState)
-            {
-                var component = entity.GetComponent<SceneGraphComponent>();
-                foreach (var child in component.Children)
-                    child.Delete();
-            }
+            var parent = entity.GetParent();
+            if (parent != null) parent.RemoveChild(entity);
+            var component = entity.GetComponent<SceneGraphComponent>();
+            foreach (var child in component.Children)
+                child.Delete();
+
         }
+
     }
 }

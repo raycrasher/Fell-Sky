@@ -72,6 +72,7 @@ namespace FellSky.States
             //World.SystemManager.SetSystem(new GuiSystem(), Artemis.Manager.GameLoopType.Draw, depth++);
 
             int priority = 1;
+            World.SystemManager.SetSystem(new SceneGraphSystem(), Artemis.Manager.GameLoopType.Update, priority++);
             World.SystemManager.SetSystem(new CameraControlSystem(), Artemis.Manager.GameLoopType.Update, priority++);
             World.SystemManager.SetSystem(new RigidBodyToTransformSystem(), Artemis.Manager.GameLoopType.Update, priority++);
             World.SystemManager.SetSystem(new MouseControlledTransformSystem(), Artemis.Manager.GameLoopType.Update, priority++);
@@ -83,8 +84,6 @@ namespace FellSky.States
             //World.SystemManager.SetSystem(new StorySystem(), Artemis.Manager.GameLoopType.Update, priority++);
             World.SystemManager.SetSystem(new PhysicsSystem(), Artemis.Manager.GameLoopType.Update, priority++);
             World.SystemManager.SetSystem(new TurretRotationSystem(), Artemis.Manager.GameLoopType.Update, priority++);
-
-            World.SetEntityTemplate("Ship", new ShipEntityTemplate());
 
             Graphics = ServiceLocator.Instance.GetService<GraphicsDevice>();
             World.InitializeAll();
@@ -99,13 +98,13 @@ namespace FellSky.States
             }
 
             //CurrentShip = World.CreateShipEntity(Fleet[0], Vector2.Zero, 0, true);
-            CurrentShip = World.CreateEntityFromTemplate("Ship", "Jaeger", Vector2.Zero, 0f);
+            CurrentShip = World.CreateShip("Jaeger", Vector2.Zero, 0f, physics:true);
             //debug
-            CurrentShip.AddComponent(new Components.PlayerControlsComponent());
-            AddHardpointsToShip(CurrentShip);
+            CurrentShip.AddComponent(new PlayerControlsComponent());
+            AddHardpointMarkersToShip(CurrentShip);
 
             SetMode(EditorMode.Weapons);
-
+            
             Document.Show();
 
             _mouse.ButtonDown += HandleMouseButtonDown;
@@ -125,15 +124,15 @@ namespace FellSky.States
             
         }
 
-        private void ShowAvailableWeaponsList(PartEntityPair partEntityPair)
+        private void ShowAvailableWeaponsList(Entity hardpointEntity)
         {
-            _selectedHardpoint = partEntityPair;
-            var hardpoint = partEntityPair.Entity.GetComponent<HardpointComponent>();
+            _selectedHardpoint = hardpointEntity;
+            var hardpoint = hardpointEntity.GetComponent<HardpointComponent>();
             var partsList = Document.GetElementById("availablePartsList");
             partsList.SetProperty("display", "block");
             partsList.RemoveAllChildren();
 
-            var weapons = GetAvailableWeaponsForHardpoint(partEntityPair.Entity);
+            var weapons = GetAvailableWeaponsForHardpoint(hardpointEntity);
 
             foreach(var weapon in weapons)
             {
@@ -175,20 +174,21 @@ namespace FellSky.States
             }
         }
 
-        private readonly HashSet<PartEntityPair> _hoverEntities = new HashSet<PartEntityPair>();
-        private PartEntityPair _selectedHardpoint;
+        private readonly HashSet<Entity> _hoverEntities = new HashSet<Entity>();
+        private Entity _selectedHardpoint;
         private Action RunOnce;
 
-        private void AddHardpointsToShip(Entity ship)
+        private void AddHardpointMarkersToShip(Entity ship)
         {
             var shipComponent = ship.GetComponent<ShipComponent>();
+            
             const float BaseAlpha = 0.3f;
-            foreach (var partEntity in shipComponent.PartEntities.Where(s=>shipComponent.Ship.Hardpoints.Any(h=>h.Hull == s.Part))){
-                var hardpoint = new HardpointArcDrawingComponent { DrawHardpointIcon = true, Alpha = BaseAlpha };
-                partEntity.Entity.AddComponent(hardpoint);
+            foreach (var hardpointEntity in ship.GetChildren().Where(e=>e.HasComponent<HardpointComponent>())){
+                var hardpointArc = new HardpointArcDrawingComponent { DrawHardpointIcon = true, Alpha = BaseAlpha };
+                hardpointEntity.AddComponent(hardpointArc);
                 var entity = World.CreateEntity();
-                var xform = partEntity.Part.Transform;
-                var box = HardpointRendererSystem.GetIconBoundingBox(partEntity.Entity.GetComponent<HardpointComponent>().Hardpoint);
+                var xform = hardpointEntity.GetComponent<Transform>();
+                var box = HardpointRendererSystem.GetIconBoundingBox(hardpointEntity.GetComponent<HardpointComponent>().Hardpoint);
                 entity.AddComponent(new Transform(xform.Position - box.Size/2, 0, Vector2.One));
                 entity.AddComponent(new BoundingBoxComponent(box));
 
@@ -197,10 +197,10 @@ namespace FellSky.States
                 var hover = new MouseHoverComponent { UsePositionOnly = true };
                 hover.HoverChanged += (o, e) =>
                 {
-                    hardpoint.Alpha = hover.IsHover ? 1 : BaseAlpha;
-                    hardpoint.Thickness = hover.IsHover ? 2 : 1;
-                    if (hover.IsHover) _hoverEntities.Add(partEntity);
-                    else _hoverEntities.Remove(partEntity);
+                    hardpointArc.Alpha = hover.IsHover ? 1 : BaseAlpha;
+                    hardpointArc.Thickness = hover.IsHover ? 2 : 1;
+                    if (hover.IsHover) _hoverEntities.Add(hardpointEntity);
+                    else _hoverEntities.Remove(hardpointEntity);
                 };
                 entity.AddComponent(hover);
             }
@@ -288,15 +288,15 @@ namespace FellSky.States
 
         private void InstallWeapon(string id)
         {
-            WeaponEntityFactory.Weapons[id].Install(World, CurrentShip, _selectedHardpoint.Entity);
+            WeaponEntityFactory.Weapons[id].Install(World, CurrentShip, _selectedHardpoint);
             Document.GetElementById("availablePartsList").SetProperty("display", "none");
         }
 
         private void UninstallWeapon()
         {
             var shipComponent = CurrentShip.GetComponent<ShipComponent>();
-            var turret = _selectedHardpoint.Entity;
-            turret.GetComponent<IWeaponComponent>()?.Weapon.Uninstall(CurrentShip, turret);
+            var turret = _selectedHardpoint;
+            turret.GetComponent<HardpointComponent>().InstalledEntity?.GetComponent<IWeaponComponent>()?.Weapon.Uninstall(CurrentShip, turret);
         }
     }
 }

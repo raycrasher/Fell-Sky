@@ -41,13 +41,15 @@ namespace FellSky.Game.Ships.Parts
         //public SpriteEffects SpriteEffect { get; set; }
         public float Health { get; set; } = 100;
 
-        public override Entity CreateEntity(EntityWorld world, Entity ship)
+        public override Entity CreateEntity(EntityWorld world, Entity ship, int? index=null)
         {
             var entity = world.CreateEntity();
-            ship.AddChild(entity);
-            entity.AddComponent<IShipPartComponent>(new HullComponent(this, ship));
+            ship.AddChild(entity, index);
+            var hull = new HullComponent(this, ship);
+            entity.AddComponent<IShipPartComponent>(hull);
+            entity.AddComponent(hull);
             entity.AddComponent<ISceneGraphRenderableComponent<StandardShipRenderer>>(new ShipPartRendererComponent<StandardShipRenderer>());
-            entity.AddComponent(Transform);
+            entity.AddComponent(Transform.Clone());
             var spriteManager = ServiceLocator.Instance.GetService<ISpriteManagerService>();
             var spriteComponent = spriteManager.CreateSpriteComponent(SpriteId);
             entity.AddComponent(spriteComponent);

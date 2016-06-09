@@ -118,7 +118,9 @@ namespace FellSky.Systems
                     var select = e.GetComponent<BoundingBoxSelectorComponent>();
                     var box = e.GetComponent<BoundingBoxComponent>();
                     var xform = e.GetComponent<Transform>();
-                    var matrix = Matrix.Invert(camera.GetViewMatrix(select.Parallax)) * Matrix.Invert(e.GetWorldMatrix());
+                    Matrix worldMatrix;
+                    e.GetWorldMatrix(out worldMatrix);
+                    var matrix = Matrix.Invert(camera.GetViewMatrix(select.Parallax)) * Matrix.Invert(worldMatrix);
 
                     // perform polygon test with oriented bounding boxes
                     var itemShape = new FarseerPhysics.Collision.Shapes.PolygonShape(FarseerPhysics.Common.PolygonTools.CreateRectangle(

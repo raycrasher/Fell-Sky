@@ -46,12 +46,14 @@ namespace FellSky.Game.Ships.Parts
             Color = color;
         }
 
-        public override Entity CreateEntity(EntityWorld world, Entity ship)
+        public override Entity CreateEntity(EntityWorld world, Entity ship, int? index=null)
         {
             var entity = world.CreateEntity();
-            ship.AddChild(entity);
-            entity.AddComponent<IShipPartComponent>(new ThrusterComponent(this, ship));
-            entity.AddComponent<ISceneGraphRenderableComponent<StandardShipRenderer>>(new ShipPartRendererComponent<StandardShipRenderer>());
+            ship.AddChild(entity, index);
+            var thruster = new ThrusterComponent(this, ship);
+            entity.AddComponent<IShipPartComponent>(thruster);
+            entity.AddComponent(thruster);
+            entity.AddComponent<ISceneGraphRenderableComponent<StandardShipRenderer>>(new ThrusterRendererComponent());
             entity.AddComponent(Transform);
             var spriteManager = ServiceLocator.Instance.GetService<ISpriteManagerService>();
             var spriteComponent = spriteManager.CreateSpriteComponent(SpriteId);

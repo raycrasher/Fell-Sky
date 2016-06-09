@@ -33,40 +33,46 @@ namespace FellSky.Game.Combat.Weapons
 
         public virtual Entity Install(EntityWorld world, Entity owner, Entity hardpoint)
         {
-            var entity = world.CreateEntity();
+            var turretEntity = world.CreateEntity();
             var gunComponent = new BasicGunComponent();
             gunComponent.Gun = this;
             gunComponent.Owner = owner;
-            entity.AddComponent(hardpoint.GetComponent<Transform>());
-            var hardpointComponent = hardpoint.GetComponent<HardpointComponent>();
-            entity.AddComponent(hardpointComponent);
-            hardpointComponent.InstalledEntity = entity;
-            owner.GetComponent<ShipComponent>().Turrets.Add(entity);
             
-            entity.AddComponent<IWeaponComponent>(gunComponent);
+            var hardpointComponent = hardpoint.GetComponent<HardpointComponent>();
+            var hpXform = hardpoint.GetComponent<Transform>();
+            var newScale = new Vector2(Math.Sign(hpXform.Scale.X), Math.Sign(hpXform.Scale.Y));
 
+            var newXform = new Transform(Vector2.Zero, 0, newScale, -hpXform.Origin);
+            turretEntity.AddComponent(newXform);
 
-            var group = CreatePartGroup(TurretId);
-            entity.AddComponent(group);
-            world.SpawnShipPartGroup(entity, group.PartGroup);
+            turretEntity.AddComponent(hardpointComponent);
+            hardpointComponent.InstalledEntity = turretEntity;
+            owner.GetComponent<ShipComponent>().Turrets.Add(turretEntity);            
+            turretEntity.AddComponent<IWeaponComponent>(gunComponent);
+            hardpoint.AddChild(turretEntity);
+
+            var group = GetPartGroup(TurretId);
+            group.CreateEntities(world, turretEntity);
+            
+            //world.SpawnShipPartGroup(entity, group.PartGroup);
 
             if (Muzzles == null)
-                Muzzles = group.PartGroup.GetNumberedFlaggedParts("Muzzle");
+                Muzzles = group.GetNumberedFlaggedParts("Muzzle");
             if (Barrels == null)
-                Muzzles = group.PartGroup.GetNumberedFlaggedParts("Barrel");
+                Muzzles = group.GetNumberedFlaggedParts("Barrel");
             if (FixedParts == null)
-                FixedParts = group.PartGroup.GetFlaggedParts("Fixed").ToArray();
+                FixedParts = group.GetFlaggedParts("Fixed").ToArray();
 
             var turret = new TurretComponent
             {
                 TurnRate = TurnRate,
                 FiringArc = hardpointComponent.Hardpoint.FiringArc
             };
-            entity.AddComponent(turret);
+            turretEntity.AddComponent(turret);
 
             // todo: set projectile
 
-            return entity;
+            return turretEntity;
         }
 
         
@@ -80,20 +86,12 @@ namespace FellSky.Game.Combat.Weapons
 
         public virtual void Uninstall(Entity owner, Entity weaponEntity)
         {
-            var shipPartGroup = weaponEntity.GetComponent<ShipPartGroupComponent>();          
             owner.GetComponent<ShipComponent>().Turrets.Remove(weaponEntity);
             weaponEntity.GetComponent<HardpointComponent>().InstalledEntity = null;
-            var turret = weaponEntity.GetComponent<TurretComponent>();
             weaponEntity.Delete();
-            foreach (var item in shipPartGroup.PartEntities)
-            {
-                item.Entity.Delete();
-            }
-            foreach (var item in turret.Barrels)
-                item.Delete();
         }
 
-        private static ShipPartGroupComponent CreatePartGroup(string id)
+        private static ShipPartGroup GetPartGroup(string id)
         {
             ShipPartGroup group;
             if(!PartGroups.TryGetValue(id, out group))
@@ -105,7 +103,7 @@ namespace FellSky.Game.Combat.Weapons
                 
                 PartGroups[id] = group;
             }
-            return new ShipPartGroupComponent(group);
+            return group;
         }
 
         private static readonly Dictionary<string, ShipPartGroup> PartGroups = new Dictionary<string, ShipPartGroup>();
