@@ -33,7 +33,8 @@ namespace FellSky
         public static readonly JsonSerializerSettings JsonSettings = new JsonSerializerSettings
         {
             TypeNameHandling = TypeNameHandling.Auto,
-            PreserveReferencesHandling = PreserveReferencesHandling.All
+            PreserveReferencesHandling = PreserveReferencesHandling.All,
+            Formatting = Formatting.Indented
         };
     }
 }

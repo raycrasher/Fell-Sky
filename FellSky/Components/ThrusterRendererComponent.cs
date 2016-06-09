@@ -44,8 +44,8 @@ namespace FellSky.Components
                 {
                     // do thruster graphic wobble
                     var time = MathHelper.ToRadians(thrusterComponent.GetHashCode() + Timer.LastFrameUpdateTime.TotalGameTime.Milliseconds);
-                    var amount = (float)Math.Sin((time % MathHelper.Pi * 2) * 1f);
-                    tempXform.Scale += new Vector2(amount * 0.01f, amount * 0.01f);
+                    var amount = (float)Math.Sin(((time * 1.5f) % MathHelper.Pi) * 1f);
+                    tempXform.Scale += new Vector2(amount * 0.05f, amount * 0.03f);
                 }
                 sprite.Draw(batch: spriteBatch, matrix: tempXform.Matrix * parentMatrix, color: thruster.Color * colorAlpha, effects: fx);
                 tempXform.Scale *= 0.8f;

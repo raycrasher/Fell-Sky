@@ -20,6 +20,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using FellSky.Editor.Systems;
 using FellSky.Systems.SceneGraphRenderers;
+using FellSky.Game.Ships;
 
 namespace FellSky.Editor
 {
@@ -392,7 +393,11 @@ namespace FellSky.Editor
         public ICommand SaveShipCommand => new DelegateCommand(o => {
             ActionsNextFrame.Add(() =>
             {
-                var startDir = Path.Combine(Content.RootDirectory, "Ships");
+                string startDir;
+                if (EditorService.Model is ShipPartGroup)
+                    startDir = Path.Combine(Content.RootDirectory, "Weapons");
+                else
+                    startDir = Path.Combine(Content.RootDirectory, "Ships");
                 if (!Directory.Exists(startDir)) startDir = Content.RootDirectory;
 
                 var dialog = new Microsoft.Win32.SaveFileDialog
@@ -400,7 +405,7 @@ namespace FellSky.Editor
                     InitialDirectory = startDir,
                     AddExtension = true,
                     Filter = ShipFileFilter,
-                    DefaultExt = ".json"
+                    DefaultExt =".json"
                 };
                 if (dialog.ShowDialog() == true)
                     EditorService.SaveShip(dialog.FileName);
@@ -409,7 +414,7 @@ namespace FellSky.Editor
         public ICommand LoadShipCommand => new DelegateCommand(o => {
             ActionsNextFrame.Add(() =>
             {
-                var startDir = Path.Combine(Content.RootDirectory, "Ships");
+                var startDir = Path.Combine(Content.RootDirectory, o?.ToString() ?? "Ships");
                 if (!Directory.Exists(startDir)) startDir = Content.RootDirectory;
 
                 var dialog = new Microsoft.Win32.OpenFileDialog
@@ -417,8 +422,12 @@ namespace FellSky.Editor
                     InitialDirectory = startDir,
                     AddExtension = true,
                     Filter = ShipFileFilter,
-                    DefaultExt = ".ship.json"
+                    DefaultExt = ".json"
                 };
+
+                if ((o?.ToString() ?? "Ships") != "Ships")
+                    dialog.FilterIndex = 2;
+
                 if (dialog.ShowDialog() == true)
                 {
                     if(dialog.FilterIndex == 2)
