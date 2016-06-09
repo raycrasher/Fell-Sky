@@ -6,15 +6,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Artemis;
+using System.ComponentModel;
 
 namespace FellSky.Game.Ships.Parts
 {
     public abstract class ShipPart: ICloneable
     {
         public string Name { get; set; }
-        [Xceed.Wpf.Toolkit.PropertyGrid.Attributes.ExpandableObject]
+        [Browsable(true), TypeConverter(typeof(ExpandableObjectConverter))]
         public Transform Transform { get; set; } = new Transform();
         public string SpriteId { get; set; }
+        [Browsable(true), TypeConverter(typeof(ExpandableObjectConverter))]
         public Color Color { get; set; }
         public string[] Flags { get; set; }
 

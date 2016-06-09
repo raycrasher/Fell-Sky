@@ -20,6 +20,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using Microsoft.Xna.Framework.Graphics;
 using System.Windows.Data;
+using FellSky.Systems.SceneGraphRenderers;
 
 namespace FellSky.Editor
 {
@@ -114,7 +115,9 @@ namespace FellSky.Editor
 
         private void OnSelectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            if(SelectedPartEntities.Count > 0)
+            if (SelectedPartEntities.Count > 1)
+                PropertyObject = (object[]) SelectedPartEntities.Select(s => s.GetComponent<IShipPartComponent>().Part).ToArray();
+            else if (SelectedPartEntities.Count > 0)
                 PropertyObject = SelectedPartEntities[0].Components.OfType<IShipPartComponent>().First().Part;
             else
                 PropertyObject = Model;
@@ -435,6 +438,9 @@ namespace FellSky.Editor
                 var group = Persistence.LoadFromFile<ShipPartGroup>(fileName);
                 ShipEntity = _world.CreateEntity();
                 group.CreateEntities(_world, ShipEntity);
+                ShipEntity.AddComponent<IShipPartCollectionComponent>(new ShipPartGroupComponent(group));
+                ShipEntity.AddComponent(new SceneGraphRenderRoot<StandardShipRenderer>());
+                ShipEntity.AddComponent(new Transform());
                 //ShipEntityFactory.SpawnShipPartGroup(_world, ShipEntity, group);
                 Model = group;
                 ShipEntity.Tag = "PlayerShip";

@@ -137,6 +137,7 @@
     <Compile Include="Components\LightRenderableComponent.cs" />
     <Compile Include="Components\MouseHoverComponent.cs" />
     <Compile Include="Components\NavLightComponent.cs" />
+    <Compile Include="Components\ShipPartGroupComponent.cs" />
     <Compile Include="Components\ShipPartRendererComponent.cs" />
     <Compile Include="Components\ParticleEmitterComponent.cs" />
     <Compile Include="Components\RadiatorComponent.cs" />

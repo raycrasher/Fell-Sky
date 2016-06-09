@@ -1,4 +1,5 @@
-﻿using FellSky.Game.Ships.Parts;
+﻿using Artemis.Interface;
+using FellSky.Game.Ships.Parts;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,7 @@ namespace FellSky.Game.Ships
         Color TrimDecalColor { get; set; }
     }
 
-    public interface IShipPartCollectionComponent
+    public interface IShipPartCollectionComponent: IComponent
     {
         IShipPartCollection  Model { get; }
     }

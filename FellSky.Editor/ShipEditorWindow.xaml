@@ -274,7 +274,7 @@
                     <Setter Property="Height" Value="20"/>
                 </Style>
             </StackPanel.Resources>
-            <Expander Header="Colors" IsExpanded="True">
+            <GroupBox Header="Colors">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="70"/>
@@ -359,23 +359,11 @@
                     </StackPanel>
                     <xctk:ColorCanvas Grid.Column="1" SelectedColor="{Binding SelectedColor}"/>
                 </Grid>
-            </Expander>
-            <Expander Header="Properties" IsExpanded="True">
-                <xctk:PropertyGrid SelectedObject="{Binding EditorService.PropertyObject}" ShowAdvancedOptions="True">
-                    <xctk:PropertyGrid.EditorDefinitions>
-                        <xctk:EditorDefinition TargetType="{x:Type fsparts:Hull}">
-                            <xctk:EditorDefinition.PropertiesDefinitions>
-                                <xctk:PropertyDefinition Name="Depth"/>
-                            </xctk:EditorDefinition.PropertiesDefinitions>
-                            <xctk:EditorDefinition.EditorTemplate>
-                                <DataTemplate>
-                                    <xctk:DecimalUpDown Value="{Binding Value, Converter={StaticResource UpDownFloatConverter}}" Minimum="0" Maximum="1" Increment="0.1" />
-                                </DataTemplate>
-                            </xctk:EditorDefinition.EditorTemplate>
-                        </xctk:EditorDefinition>
-                    </xctk:PropertyGrid.EditorDefinitions>
-                </xctk:PropertyGrid>
-            </Expander>
+            </GroupBox>
+            <GroupBox Header="Properties" >
+                <fe:PropertyGrid Height="400" PropertyObject="{Binding EditorService.PropertyObject}"/>
+            </GroupBox>
+            
         </StackPanel>
         <!--
         <Popup Name="ColorPicker" PlacementTarget="{Binding ElementName=sidePanel}" Placement="Left" Width="200">

@@ -149,10 +149,17 @@
     <Compile Include="FloatUpDownEditor.cs" />
     <Compile Include="KeyboardService.cs" />
     <Compile Include="MouseService.cs" />
+    <Compile Include="PropertyGrid.xaml.cs">
+      <DependentUpon>PropertyGrid.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ShipEditorService.cs" />
     <Compile Include="ShipEditorViewModel.cs" />
     <Compile Include="Systems\ShowThrusterTrailsOverrideSystem.cs" />
     <Compile Include="Utilities.cs" />
+    <Page Include="PropertyGrid.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="ShipEditorWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
