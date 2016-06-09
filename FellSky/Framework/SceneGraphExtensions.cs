@@ -78,5 +78,18 @@ namespace FellSky
             }
             matrix = thisMatrix;
         }
+
+        public static void DeleteWithChildren(this Entity entity)
+        {
+            var component = entity.GetComponent<SceneGraphComponent>();
+            if (component != null)
+            {
+                if (component.Parent != null)
+                    component.Parent.RemoveChild(entity);
+                foreach (var child in component.Children)
+                    child.DeleteWithChildren();
+            }
+            entity.Delete();
+        }
     }
 }

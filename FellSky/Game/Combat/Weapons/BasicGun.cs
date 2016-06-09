@@ -40,16 +40,14 @@ namespace FellSky.Game.Combat.Weapons
             
             var hardpointComponent = hardpoint.GetComponent<HardpointComponent>();
             var hpXform = hardpoint.GetComponent<Transform>();
-            var newScale = new Vector2(Math.Sign(hpXform.Scale.X), Math.Sign(hpXform.Scale.Y));
-
-            var newXform = new Transform(Vector2.Zero, 0, newScale, -hpXform.Origin);
+            var newXform = new Transform(hpXform.Position, hpXform.Rotation, Vector2.One);
             turretEntity.AddComponent(newXform);
 
             turretEntity.AddComponent(hardpointComponent);
             hardpointComponent.InstalledEntity = turretEntity;
             owner.GetComponent<ShipComponent>().Turrets.Add(turretEntity);            
             turretEntity.AddComponent<IWeaponComponent>(gunComponent);
-            hardpoint.AddChild(turretEntity);
+            hardpoint.GetParent().AddChild(turretEntity);
 
             var group = GetPartGroup(TurretId);
             group.CreateEntities(world, turretEntity);
@@ -88,7 +86,7 @@ namespace FellSky.Game.Combat.Weapons
         {
             owner.GetComponent<ShipComponent>().Turrets.Remove(weaponEntity);
             weaponEntity.GetComponent<HardpointComponent>().InstalledEntity = null;
-            weaponEntity.Delete();
+            weaponEntity.DeleteWithChildren();
         }
 
         private static ShipPartGroup GetPartGroup(string id)

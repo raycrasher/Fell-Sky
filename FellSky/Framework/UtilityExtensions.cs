@@ -127,15 +127,15 @@ namespace FellSky
             }
         }
 
-        public static Dictionary<int, Game.Ships.Parts.ShipPart> GetNumberedFlaggedParts(this Game.Ships.IShipPartCollection  group, string flag)
+        public static Dictionary<int, Game.Ships.Parts.ShipPart[]> GetNumberedFlaggedParts(this Game.Ships.IShipPartCollection group, string flag)
         {
             return (from part in @group.Parts
                     where part.Flags?.Any(s => s.StartsWith(flag)) ?? false
-                    select new
-                    {
-                        Part = part,
-                        Index = int.Parse(part.Flags.First(f => f.StartsWith(flag)).Substring(flag.Length))
-                    }).ToDictionary(k => k.Index, k => k.Part);
+                    let index = int.Parse(part.Flags.First(f => f.StartsWith(flag)).Substring(flag.Length))
+                    group part by index into byIndex
+                    select byIndex
+                    ).ToDictionary(k => k.Key, k => k.ToArray());
+
         }
 
         public static IEnumerable<Game.Ships.Parts.ShipPart> GetFlaggedParts(this Game.Ships.IShipPartCollection  group, string flag)
