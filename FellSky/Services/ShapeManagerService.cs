@@ -29,7 +29,7 @@ namespace FellSky.Services
         {
             if (System.IO.File.Exists(filename))
             {
-                var items = Persistence.DeserializeFromFile<Dictionary<string, ShapeDefinition>>(System.IO.File.ReadAllText(filename));
+                var items = Persistence.DeserializeFromFile<Dictionary<string, ShapeDefinition>>(filename);
                 foreach(var item in items)
                 {
                     _shapes[item.Key] = item.Value;
