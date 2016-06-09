@@ -87,24 +87,38 @@
                     </TabControl>
                 </TabItem>
                 <TabItem Header="Thrusters/Effects" ctl:ControlsHelper.HeaderFontSize="18">
-                    <ListView ItemsSource="{Binding ThrusterSprites}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Background="DarkGray">
-                        <ListView.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <WrapPanel IsItemsHost="True" />
-                            </ItemsPanelTemplate>
-                        </ListView.ItemsPanel>
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <Button Width="64" Height="64" Command="{Binding Source={StaticResource model}, Path=AddThruster}" CommandParameter="{Binding}" BorderThickness="0" Background="{x:Null}">
-                                    <Image Stretch="Uniform" StretchDirection="DownOnly" SnapsToDevicePixels="True" >
-                                        <Image.Source>
-                                            <CroppedBitmap Source="{Binding Source={StaticResource model}, Path=CurrentSpriteSheet.Image}" SourceRect="{Binding Converter={StaticResource spriteToIntRectConverter}}"/>
-                                        </Image.Source>
-                                    </Image>
+                    <StackPanel>
+                        <GroupBox Header="Thrusters">
+                            <ListView MinHeight="70" Grid.Row="0" ItemsSource="{Binding ThrusterSprites}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Background="DarkGray">
+                            <ListView.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel IsItemsHost="True" />
+                                </ItemsPanelTemplate>
+                            </ListView.ItemsPanel>
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <Button Width="64" Height="64" Command="{Binding Source={StaticResource model}, Path=AddThruster}" CommandParameter="{Binding}" BorderThickness="0" Background="{x:Null}">
+                                        <Image Stretch="Uniform" StretchDirection="DownOnly" SnapsToDevicePixels="True" >
+                                            <Image.Source>
+                                                <CroppedBitmap Source="{Binding Source={StaticResource model}, Path=CurrentSpriteSheet.Image}" SourceRect="{Binding Converter={StaticResource spriteToIntRectConverter}}"/>
+                                            </Image.Source>
+                                        </Image>
+                                    </Button>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                        </GroupBox>
+                        <GroupBox Header="Other">
+                            <WrapPanel>
+                                <Button Margin="2" Width="64" Height="64">
+                                    <TextBlock TextWrapping="Wrap" TextAlignment="Center"> ADD DUMMY PART </TextBlock>
                                 </Button>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
+                                <Button Margin="2" Width="64" Height="64">
+                                    <TextBlock TextWrapping="Wrap" TextAlignment="Center"> ADD LIGHT</TextBlock>
+                                </Button>
+                            </WrapPanel>
+                        </GroupBox>
+                    </StackPanel>
                 </TabItem>
                 <TabItem Header="Hardpoints" ctl:ControlsHelper.HeaderFontSize="18">
                     <Grid Margin="2">
@@ -122,7 +136,17 @@
                         </ListBox>
                         <StackPanel Grid.Column="1">
                             <Label>Weapon Arc</Label>
-                            <Slider Minimum="0" Maximum="6.28318530717959" Value="{Binding EditorService.WeaponArcAngle}"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Label>Fixed</Label>
+                                <Slider Grid.Column="1" Minimum="0" Maximum="6.28318530717959" Value="{Binding EditorService.WeaponArcAngle}"/>
+                                <Label Grid.Column="2">Omni</Label>
+                            </Grid>
+                            
                         </StackPanel>
                     </Grid>
                 </TabItem>

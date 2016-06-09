@@ -136,11 +136,17 @@ Battle Flow:
 			  a Kerr Metric naked singularity that leads to an infinity of multiverses, thereby defeating Entropy.
 			- Credits.
 
+	Side-quests 
+		NOTE: not actual quest names:
+			The Legend of the Ghost Fleet
+			Pirate Treasure Hunt
+			Bounty Hunt: (notorious character)
+			Explore: (random, unknown sector with a very valuable item/tech/data cache at the end)
+			Recon: Like explore, but with much more enemies. Stealth is required. Instead of loot at the end, you confront a unique ship.
 
 
 
-
-
+	
 
 
 
