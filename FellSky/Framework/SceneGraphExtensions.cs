@@ -86,8 +86,10 @@ namespace FellSky
             {
                 if (component.Parent != null)
                     component.Parent.RemoveChild(entity);
-                foreach (var child in component.Children)
-                    child.DeleteWithChildren();
+                for(int i=component.Children.Count - 1; i>=0; i--)
+                {
+                    component.Children[i].DeleteWithChildren();
+                }
             }
             entity.Delete();
         }

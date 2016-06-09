@@ -27,7 +27,7 @@ namespace FellSky
 
         public static T DeserializeFromFile<T>(string filename)
         {
-            return JsonConvert.DeserializeObject<T>(filename, JsonSettings);
+            return JsonConvert.DeserializeObject<T>(File.ReadAllText(filename), JsonSettings);
         }
 
         public static readonly JsonSerializerSettings JsonSettings = new JsonSerializerSettings

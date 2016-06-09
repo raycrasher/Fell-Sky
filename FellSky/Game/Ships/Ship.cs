@@ -53,7 +53,11 @@ namespace FellSky.Game.Ships
 
             if (physics)
             {
-                shipEntity.AddComponent(world.SystemManager.GetSystem<PhysicsSystem>().CreateRigidBody(position, rotation));
+                var rigidBody = world.SystemManager.GetSystem<PhysicsSystem>().CreateRigidBody(position, rotation);
+                shipEntity.AddComponent(rigidBody);
+                rigidBody.Body.IsStatic = false;
+                rigidBody.Body.AngularDamping = Handling.AngularDamping;
+                rigidBody.Body.LinearDamping = Handling.LinearDamping;
             }
 
             var partEntities = from part in Parts
