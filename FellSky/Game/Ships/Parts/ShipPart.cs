@@ -39,6 +39,10 @@ namespace FellSky.Game.Ships.Parts
             return Name ?? $"* {base.ToString()}";
         }
 
-        public abstract Entity CreateEntity(EntityWorld world, Entity ship, int? index=null);
+        public abstract Entity CreateEntity(EntityWorld world, Entity ship, Entity parent, int? index = null);
+        public Entity CreateEntity(EntityWorld world, Entity ship, int? index=null)
+        {
+            return CreateEntity(world, ship, ship, index);
+        }
     }
 }

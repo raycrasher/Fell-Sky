@@ -46,10 +46,10 @@ namespace FellSky.Game.Ships.Parts
             Color = color;
         }
 
-        public override Entity CreateEntity(EntityWorld world, Entity ship, int? index=null)
+        public override Entity CreateEntity(EntityWorld world, Entity ship, Entity parent, int? index=null)
         {
             var entity = world.CreateEntity();
-            ship.AddChild(entity, index);
+            parent.AddChild(entity, index);
             var thruster = new ThrusterComponent(this, ship);
             entity.AddComponent<IShipPartComponent>(thruster);
             entity.AddComponent(thruster);

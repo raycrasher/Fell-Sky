@@ -9,7 +9,7 @@ namespace FellSky.Game.Ships.Parts
 {
     public class DummyPart : ShipPart
     {
-        public override Entity CreateEntity(EntityWorld world, Entity ship, int? index = default(int?))
+        public override Entity CreateEntity(EntityWorld world, Entity ship, Entity parent, int? index = default(int?))
         {
             // we don't create an entity, so return null.
             return null;
