@@ -36,6 +36,8 @@ namespace FellSky.Systems.SceneGraphRenderers
                 RenderHull(batch, root, entity, ref parentMatrix);
             else if (entity.HasComponent<ThrusterComponent>())
                 RenderThruster(batch, root, entity, ref parentMatrix);
+            else if (entity.HasComponent<NavLightComponent>())
+                RenderLight(batch, root, entity, ref parentMatrix);
         }
 
         private void RenderHull(SpriteBatch batch, Entity root, Entity partEntity, ref Matrix parentMatrix)

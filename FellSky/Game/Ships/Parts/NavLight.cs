@@ -1,8 +1,10 @@
 ﻿using Artemis.Interface;
-
 using Microsoft.Xna.Framework;
 using System;
 using Artemis;
+using FellSky.Components;
+using FellSky.Systems.SceneGraphRenderers;
+using FellSky.Services;
 
 namespace FellSky.Game.Ships.Parts
 {
@@ -15,7 +17,18 @@ namespace FellSky.Game.Ships.Parts
 
         public override Entity CreateEntity(EntityWorld world, Entity ship, int? index)
         {
-            throw new NotImplementedException();
+            var entity = world.CreateEntity();
+            ship.AddChild(entity, index);
+            var thruster = new NavLightComponent(this, ship);
+            entity.AddComponent<IShipPartComponent>(thruster);
+            entity.AddComponent(thruster);
+            entity.AddSceneGraphRendererComponent<StandardShipRenderer>();
+            entity.AddComponent(Transform);
+            var spriteManager = ServiceLocator.Instance.GetService<ISpriteManagerService>();
+            var spriteComponent = spriteManager.CreateSpriteComponent(SpriteId);
+            entity.AddComponent(spriteComponent);
+            entity.AddComponent(new BoundingBoxComponent(new FloatRect(0, 0, spriteComponent.TextureRect.Width, spriteComponent.TextureRect.Height)));
+            return entity;
         }
     }
 }
