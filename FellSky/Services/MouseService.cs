@@ -2,11 +2,15 @@
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace FellSky.Services
 {
     public class MouseService: IMouseService
     {
+        private GameWindow _window;
+        private GraphicsDevice _graphics;
+
         public event Action<Point, int> ButtonDown, ButtonUp;
         public event Action<Point> Move;
         public event Action<int> WheelChanged;
@@ -27,6 +31,8 @@ namespace FellSky.Services
             coroutineService.StartCoroutine(Update());
             _lastState = Mouse.GetState();
             _position = _lastState.Position;
+            _window = ServiceLocator.Instance.GetService<GameWindow>();
+            _graphics = ServiceLocator.Instance.GetService<GraphicsDevice>();
         }
 
         private IEnumerable Update()
@@ -34,6 +40,11 @@ namespace FellSky.Services
             while (true)
             {
                 var state = Mouse.GetState();
+                state = new MouseState(state.X * _graphics.PresentationParameters.BackBufferWidth / _window.ClientBounds.Width,
+                                       state.Y * _graphics.PresentationParameters.BackBufferHeight / _window.ClientBounds.Height,
+                                       state.ScrollWheelValue, state.LeftButton, state.MiddleButton, state.RightButton,
+                                       state.XButton1, state.XButton2);
+
                 if (state.LeftButton != _lastState.LeftButton)
                 {
                     if (state.LeftButton == ButtonState.Pressed && ButtonDown != null)

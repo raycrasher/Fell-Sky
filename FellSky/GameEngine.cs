@@ -62,6 +62,8 @@ namespace FellSky
             Keyboard = new KeyboardService(Coroutines);
             Services.AddService<IKeyboardService>(Keyboard);
 
+            Services.AddService(Window);
+
             Mouse = new MouseService(Coroutines);
             Services.AddService<IMouseService>(Mouse);
 
