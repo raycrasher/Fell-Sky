@@ -31,18 +31,32 @@ namespace FellSky.Game.Combat.Weapons
         [Newtonsoft.Json.JsonIgnore]
         public ShipPart[] FixedParts { get; set; }
 
+
+        /*
+            Proposed scene graph structure is like this:
+
+            Ship
+                Part w/hardpoint
+                    Turret mount -> transform should be Part.Transform.Matrix.Inverse, then apply position and rotation only.
+                        Turret fixed entities
+                        Turret rotating entity
+                            Barrels (could also be flagged as fixed)
+                            Mounts  (could also be flagged as fixed)
+        */
         public virtual Entity Install(EntityWorld world, Entity owner, Entity hardpoint)
         {
             var turretEntity = world.CreateEntity();
             var gunComponent = new BasicGunComponent();
             gunComponent.Gun = this;
             gunComponent.Owner = owner;
-            
-            var hardpointComponent = hardpoint.GetComponent<HardpointComponent>();
+
             var hpXform = hardpoint.GetComponent<Transform>();
             var newXform = new Transform(hpXform.Position, hpXform.Rotation, Vector2.One);
-            turretEntity.AddComponent(newXform);
 
+            var matrix = Matrix.Invert(hpXform.Matrix) * newXform.Matrix;
+            newXform.CopyValuesFrom(ref matrix);
+            var hardpointComponent = hardpoint.GetComponent<HardpointComponent>();           
+            turretEntity.AddComponent(newXform);
             turretEntity.AddComponent(hardpointComponent);
             hardpointComponent.InstalledEntity = turretEntity;
             owner.GetComponent<ShipComponent>().Turrets.Add(turretEntity);            
@@ -51,14 +65,45 @@ namespace FellSky.Game.Combat.Weapons
 
             var group = GetPartGroup(TurretId);
 
-            List<Entity> turretBase = new List<Entity>();
-
-            foreach(var part in group.Parts)
+            Entity rotatingEntity = null;
+            var muzzles = new Dictionary<int, Entity>();
+           
+            foreach (var part in group.Parts)
             {
+                if (part.Flags.Contains("base", StringComparer.InvariantCultureIgnoreCase))
+                {
+                    turretEntity = part.CreateEntity(world, owner, turretEntity);
+                }
+                else if(part.Flags.Contains("rotating", StringComparer.InvariantCultureIgnoreCase))
+                {
+                    if(rotatingEntity == null)
+                    {
+                        rotatingEntity = world.CreateEntity();
+                        turretEntity.AddChild(rotatingEntity);
+                        rotatingEntity.AddComponent(new Transform());
+                    }
+                    rotatingEntity.AddChild(part.CreateEntity(world, owner, rotatingEntity));
+                }
 
+                var muzzleFlag = part.Flags.FirstOrDefault(f => f.StartsWith("muzzle", StringComparison.InvariantCultureIgnoreCase));
+                if (muzzleFlag != null)
+                {
+                    int index = 0;
+                    int.TryParse(muzzleFlag.Substring("muzzle".Length), out index);
+                    
+                    var muzzleEntity = world.CreateEntity();
+                    muzzles[index] = muzzleEntity;
+                    muzzleEntity.AddComponent(part.Transform);
+                    if(muzzleEntity.GetParent() == null)
+                    {
+                        turretEntity.AddChild(muzzleEntity);
+                    }
+                }
             }
-            group.CreateEntities(world, turretEntity);
-            
+
+            gunComponent.Muzzles = muzzles.OrderBy(m => m.Key).Select(m => m.Value).ToArray();
+
+            //group.CreateEntities(world, turretEntity);            
             //world.SpawnShipPartGroup(entity, group.PartGroup);
 
             if (Muzzles == null)

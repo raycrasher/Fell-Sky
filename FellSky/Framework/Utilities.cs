@@ -20,6 +20,22 @@ namespace FellSky
             scale = new Vector2(scale3.X, scale3.Y);
         }
 
+        public static void CopyValuesFrom(this Transform xform, Matrix matrix)
+        {
+            xform.CopyValuesFrom(ref matrix);
+        }
+
+        public static void CopyValuesFrom(this Transform xform, ref Matrix matrix)
+        {
+            Vector2 pos, scale;
+            float rot;
+            DecomposeMatrix2D(ref matrix, out pos, out rot, out scale);
+            xform.Position = pos;
+            xform.Rotation = rot;
+            xform.Scale = scale;
+            xform.Origin = Vector2.Zero;
+        }
+
         public static float GetLesserAngleDifference(float a1, float a2)
         {
             return (float)Math.Atan2(Math.Sin(a1 - a2), Math.Cos(a1 - a2));
