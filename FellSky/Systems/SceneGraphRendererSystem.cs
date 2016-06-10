@@ -27,28 +27,26 @@ namespace FellSky.Systems
 
         protected override void ProcessEntities(IDictionary<int, Entity> entities)
         {
-            Renderer.Begin(EntityWorld, _batch, entities.Values);
+            Renderer.Begin(EntityWorld, _batch);
             foreach (var root in entities.Values)
             {
+                Renderer.BeginRoot(EntityWorld, _batch, root);
                 var matrix = Matrix.Identity;
-                Render(root, ref matrix);
-                
+                Render(root, root, ref matrix);                
             }
             _batch.End();
         }
 
-        private void Render(Entity entity, ref Matrix parentMatrix)
+        private void Render(Entity root, Entity entity, ref Matrix parentMatrix)
         {
-            var sgRenderable = entity.GetComponent<ISceneGraphRenderableComponent<T>>();
-            if (sgRenderable != null)
-                sgRenderable.Render(Renderer, _batch, entity, ref parentMatrix);
+            Renderer.Render(_batch, root, entity, ref parentMatrix);
             var sgComponent = entity.GetComponent<SceneGraphComponent>();
             if (sgComponent != null)
             {
                 var matrix = (entity.GetComponent<Transform>()?.Matrix ?? Matrix.Identity) * parentMatrix;
                 foreach (var child in sgComponent.Children)
                 {
-                    Render(child, ref matrix);
+                    Render(root, child, ref matrix);
                 }
             }
         }
