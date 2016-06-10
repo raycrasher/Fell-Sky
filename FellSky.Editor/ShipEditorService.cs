@@ -20,6 +20,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using Microsoft.Xna.Framework.Graphics;
 using System.Windows.Data;
+using FellSky.Systems.SceneGraphRenderers;
 
 namespace FellSky.Editor
 {
@@ -114,7 +115,9 @@ namespace FellSky.Editor
 
         private void OnSelectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            if(SelectedPartEntities.Count > 0)
+            if (SelectedPartEntities.Count > 1)
+                PropertyObject = (object[]) SelectedPartEntities.Select(s => s.GetComponent<IShipPartComponent>().Part).ToArray();
+            else if (SelectedPartEntities.Count > 0)
                 PropertyObject = SelectedPartEntities[0].Components.OfType<IShipPartComponent>().First().Part;
             else
                 PropertyObject = Model;
@@ -245,12 +248,16 @@ namespace FellSky.Editor
             if (SelectedPartEntities.Count > 0)
             {
                 var parts = SelectedPartEntities
-                    .Select(pe => new { Part = pe.Components.OfType<IShipPartComponent>().First().Part, Index = Model.Parts.IndexOf(pe.Components.OfType<IShipPartComponent>().First().Part) });
+                    .Select(pe => new { Part = pe.Components.OfType<IShipPartComponent>().First().Part, Index = Model.Parts.IndexOf(pe.Components.OfType<IShipPartComponent>().First().Part) })
+                    .ToArray();
+                var children = ShipEntity.GetChildren();
+
                 foreach (var item in parts)
                 {
-                    Model.Parts.Move(item.Index, MathHelper.Clamp(item.Index + delta, 0, Model.Parts.Count - 1));
+                    var newindex = MathHelper.Clamp(item.Index + delta, 0, Model.Parts.Count - 1);
+                    Model.Parts.Move(item.Index, newindex);
+                    children.Move(item.Index, newindex);
                 }
-                //ShipEntityFactory.UpdateComponentPartList(_world, ShipEntity, false);
             }
         }
 
@@ -279,10 +286,7 @@ namespace FellSky.Editor
             ShipEntity?.Delete();
 
             var ship = new Ship();
-            ShipEntity = _world.CreateEntity();
-            ShipEntity.AddComponent(new ShipComponent(ship));
-            ShipEntity.AddComponent(new Transform());
-            ShipEntity.Refresh();
+            ShipEntity = ship.CreateEntity(_world, Vector2.Zero, 0, physics:false);
             ShipEntity.Tag = "PlayerShip";
             Model = ship;
             PropertyObject = Model;
@@ -387,7 +391,7 @@ namespace FellSky.Editor
             Func<ShipPart, Entity> CreatePartEntity = (ShipPart oldPart) =>
             {
                 var part = oldPart.Clone();
-                var entity = part.CreateEntity(_world, ShipEntity, Model.Parts.IndexOf(part) + 1);
+                var entity = part.CreateEntity(_world, ShipEntity, Model.Parts.IndexOf(oldPart) + 1);
                 
                 AddEditorComponentsToPartEntity(entity);
                 return entity;
@@ -434,6 +438,9 @@ namespace FellSky.Editor
                 var group = Persistence.LoadFromFile<ShipPartGroup>(fileName);
                 ShipEntity = _world.CreateEntity();
                 group.CreateEntities(_world, ShipEntity);
+                ShipEntity.AddComponent<IShipPartCollectionComponent>(new ShipPartGroupComponent(group));
+                ShipEntity.AddComponent(new SceneGraphRenderRoot<StandardShipRenderer>());
+                ShipEntity.AddComponent(new Transform());
                 //ShipEntityFactory.SpawnShipPartGroup(_world, ShipEntity, group);
                 Model = group;
                 ShipEntity.Tag = "PlayerShip";
@@ -526,7 +533,7 @@ namespace FellSky.Editor
             }            
         }
         
-        private Entity AddHullInternal(string id, Vector2 position, float rotation, Vector2 scale, Vector2 origin, Color color, HullColorType colorType = HullColorType.Hull, int index=-1)
+        private Entity AddHullInternal(string id, Vector2 position, float rotation, Vector2 scale, Vector2 origin, Color color, HullColorType colorType = HullColorType.Hull, int? index=null)
         {
             var hull = new Hull(id, position, rotation, scale, origin, color);
 
@@ -539,7 +546,7 @@ namespace FellSky.Editor
             return hullEntity;
         }
 
-        private Entity AddThrusterInternal(string id, Vector2 position, float rotation, Vector2 scale, Vector2 origin, Color color, int index=-1)
+        private Entity AddThrusterInternal(string id, Vector2 position, float rotation, Vector2 scale, Vector2 origin, Color color, int? index=null)
         {
             var thruster = new Thruster(id, position, rotation, scale, origin, color);
 
@@ -568,6 +575,8 @@ namespace FellSky.Editor
                 if (!select.IsSelected)
                     entity.RemoveComponent<MouseControlledTransformComponent>();
             };
+
+            entity.AddComponent(entity.GetComponent<IShipPartComponent>().Part.Transform);
 
             entity.Refresh();
         }

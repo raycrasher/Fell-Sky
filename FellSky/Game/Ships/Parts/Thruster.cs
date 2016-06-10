@@ -59,6 +59,7 @@ namespace FellSky.Game.Ships.Parts
             var spriteComponent = spriteManager.CreateSpriteComponent(SpriteId);
             entity.AddComponent(spriteComponent);
             entity.AddComponent(new BoundingBoxComponent(new FloatRect(0, 0, spriteComponent.TextureRect.Width, spriteComponent.TextureRect.Height)));
+            ship.GetComponent<ShipComponent>().Thrusters.Add(entity);
             return entity;
         }
     }

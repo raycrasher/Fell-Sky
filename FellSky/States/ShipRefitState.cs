@@ -99,7 +99,6 @@ namespace FellSky.States
             //CurrentShip = World.CreateShipEntity(Fleet[0], Vector2.Zero, 0, true);
             CurrentShip = World.CreateShip("Jaeger", Vector2.Zero, 0f, physics:true);
             //debug
-            CurrentShip.AddComponent(new PlayerControlsComponent());
             AddHardpointMarkersToShip(CurrentShip);
 
             SetMode(EditorMode.Weapons);
@@ -294,8 +293,8 @@ namespace FellSky.States
         private void UninstallWeapon()
         {
             var shipComponent = CurrentShip.GetComponent<ShipComponent>();
-            var turret = _selectedHardpoint;
-            turret.GetComponent<HardpointComponent>().InstalledEntity?.GetComponent<IWeaponComponent>()?.Weapon.Uninstall(CurrentShip, turret);
+            var hardpoint = _selectedHardpoint;
+            hardpoint.GetComponent<HardpointComponent>().InstalledEntity?.GetComponent<IWeaponComponent>()?.Weapon.Uninstall(CurrentShip, hardpoint.GetComponent<HardpointComponent>().InstalledEntity);
         }
     }
 }

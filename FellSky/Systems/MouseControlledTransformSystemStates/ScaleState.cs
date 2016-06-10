@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Artemis;
 using Microsoft.Xna.Framework;
 using FellSky.Components;
+using Microsoft.Xna.Framework.Input;
+using FellSky.Services;
 
 namespace FellSky.Systems.MouseControlledTransformSystemStates
 {
@@ -16,6 +18,7 @@ namespace FellSky.Systems.MouseControlledTransformSystemStates
         private Dictionary<Entity, Transform> _initialTransforms;
         private Vector2 _origin;
         private Vector2 _originToCentroidOffset;
+        private static IKeyboardService _keyboard;
 
         public bool IsSnapEnabled { get; set; }
         public float SnapAmount { get; set; }
@@ -36,6 +39,7 @@ namespace FellSky.Systems.MouseControlledTransformSystemStates
 
         public void Start(IEnumerable<Entity> entities, Vector2 worldMousePosition)
         {
+            _keyboard = _keyboard ?? ServiceLocator.Instance.GetService<IKeyboardService>();
             _origin = worldMousePosition;
             _initialTransforms = entities.ToDictionary(e => e, e => e.GetComponent<Transform>().Clone());
             _entities = entities.ToArray();
@@ -48,7 +52,10 @@ namespace FellSky.Systems.MouseControlledTransformSystemStates
             var offset = worldMousePosition - _origin;
             var centerOffset = _centroid - worldMousePosition;
             var factor = (worldMousePosition - _centroid) / (_origin - _centroid);
-            var newScale = IsSnapEnabled ? new Vector2(Math.Max(factor.X, factor.Y), Math.Max(factor.X, factor.Y)) : factor;
+
+            bool proportionalScale = _keyboard.IsKeyDown(Keys.LeftShift);
+
+            var newScale = proportionalScale ? new Vector2(Math.Max(factor.X, factor.Y), Math.Max(factor.X, factor.Y)) : factor;
             var matrix = Matrix.CreateScale(new Vector3(newScale, 1));
 
             foreach(var entity in _entities){

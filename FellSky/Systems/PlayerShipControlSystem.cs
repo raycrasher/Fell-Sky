@@ -11,6 +11,7 @@ using FellSky.Game.Ships;
 using FellSky.Framework;
 using FellSky.Components;
 using FellSky.Services;
+using FellSky.Game.Campaign;
 
 namespace FellSky.Systems
 {
@@ -20,6 +21,8 @@ namespace FellSky.Systems
         public const string PlayerShipTag = "PlayerShip";
         private IKeyboardService _keyboard;
         private IMouseService _mouse;
+
+        public PlayerControls Controls { get; set; } = new PlayerControls();
 
         public PlayerShipControlSystem()
             : base(PlayerShipTag)
@@ -61,33 +64,33 @@ namespace FellSky.Systems
         {
             var shipComponent = entity.GetComponent<ShipComponent>();
             var xform = entity.GetComponent<Transform>();
-            var control = entity.GetComponent<PlayerControlsComponent>();
+            
             Vector2 linearThrustVector = Vector2.Zero;
             float heading = xform.Rotation;
             AngularDirection torqueDirection = AngularDirection.None;
 
-            if (control.OrthogonalMovement)
+            if (Controls.OrthogonalMovement)
             {
-                if (_keyboard.IsKeyDown(control.UpKey)) linearThrustVector.Y = 1;
-                else if (_keyboard.IsKeyDown(control.DownKey)) linearThrustVector.Y = -1;
-                if (_keyboard.IsKeyDown(control.LeftKey)) linearThrustVector.X = -1;
-                else if (_keyboard.IsKeyDown(control.RightKey)) linearThrustVector.X = 1;
+                if (_keyboard.IsKeyDown(Controls.UpKey)) linearThrustVector.Y = 1;
+                else if (_keyboard.IsKeyDown(Controls.DownKey)) linearThrustVector.Y = -1;
+                if (_keyboard.IsKeyDown(Controls.LeftKey)) linearThrustVector.X = -1;
+                else if (_keyboard.IsKeyDown(Controls.RightKey)) linearThrustVector.X = 1;
             }
             else
             {
-                if (_keyboard.IsKeyDown(control.UpKey)) linearThrustVector.X = 1;
-                else if (_keyboard.IsKeyDown(control.DownKey)) linearThrustVector.X = -1;
+                if (_keyboard.IsKeyDown(Controls.UpKey)) linearThrustVector.X = 1;
+                else if (_keyboard.IsKeyDown(Controls.DownKey)) linearThrustVector.X = -1;
 
-                if (_keyboard.IsKeyDown(control.AltLeftKey)) linearThrustVector.Y = -1;
-                else if (_keyboard.IsKeyDown(control.AltRightKey)) linearThrustVector.Y = 1;
+                if (_keyboard.IsKeyDown(Controls.AltLeftKey)) linearThrustVector.Y = -1;
+                else if (_keyboard.IsKeyDown(Controls.AltRightKey)) linearThrustVector.Y = 1;
 
-                if (_keyboard.IsKeyDown(control.LeftKey)) torqueDirection = AngularDirection.CCW;
-                else if (_keyboard.IsKeyDown(control.RightKey)) torqueDirection = AngularDirection.CW;
+                if (_keyboard.IsKeyDown(Controls.LeftKey)) torqueDirection = AngularDirection.CCW;
+                else if (_keyboard.IsKeyDown(Controls.RightKey)) torqueDirection = AngularDirection.CW;
 
                 shipComponent.AngularTorque = (int)torqueDirection;
             }
 
-            if (control.MouseHeadingControl)
+            if (Controls.MouseHeadingControl)
             {
                 var camera = EntityWorld.GetActiveCamera();
                 Vector2 worldMousePosition = camera.ScreenToCameraSpace(_mouse.ScreenPosition);
@@ -95,7 +98,7 @@ namespace FellSky.Systems
 
             }
 
-            shipComponent.AttemptBoost = _keyboard.IsKeyDown(control.BoostKey);
+            shipComponent.AttemptBoost = _keyboard.IsKeyDown(Controls.BoostKey);
             shipComponent.LinearThrustVector = linearThrustVector;
         }
     }

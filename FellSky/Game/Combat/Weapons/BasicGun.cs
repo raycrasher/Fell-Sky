@@ -50,6 +50,13 @@ namespace FellSky.Game.Combat.Weapons
             hardpoint.GetParent().AddChild(turretEntity);
 
             var group = GetPartGroup(TurretId);
+
+            List<Entity> turretBase = new List<Entity>();
+
+            foreach(var part in group.Parts)
+            {
+
+            }
             group.CreateEntities(world, turretEntity);
             
             //world.SpawnShipPartGroup(entity, group.PartGroup);
@@ -58,8 +65,6 @@ namespace FellSky.Game.Combat.Weapons
                 Muzzles = group.GetNumberedFlaggedParts("Muzzle");
             if (Barrels == null)
                 Muzzles = group.GetNumberedFlaggedParts("Barrel");
-            if (FixedParts == null)
-                FixedParts = group.GetFlaggedParts("Fixed").ToArray();
 
             var turret = new TurretComponent
             {

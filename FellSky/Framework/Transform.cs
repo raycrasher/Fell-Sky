@@ -3,6 +3,7 @@ using Artemis.Interface;
 using Microsoft.Xna.Framework;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
+using System.ComponentModel;
 
 namespace FellSky
 {
@@ -17,7 +18,7 @@ namespace FellSky
     }
 
     [Serializable]
-    public class Transform : ITransform, IComponent, ICloneable
+    public class Transform : ITransform, Artemis.Interface.IComponent, ICloneable
     {
         [NonSerialized]
         private bool _matrixNeedsUpdate;
@@ -29,7 +30,7 @@ namespace FellSky
         private Vector2 _scale;
 
         private Vector2 _origin;
-
+        [Browsable(true)]
         public Vector2 Position
         {
             get
@@ -57,7 +58,7 @@ namespace FellSky
                 _rotation = value;
             }
         }
-
+        [Browsable(true)]
         public Vector2 Scale
         {
             get
@@ -71,7 +72,7 @@ namespace FellSky
                 _scale = value;
             }
         }
-
+        [Browsable(true)]
         public Vector2 Origin
         {
             get

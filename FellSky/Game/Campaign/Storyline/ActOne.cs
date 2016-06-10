@@ -65,7 +65,6 @@ namespace FellSky.Game.Campaign.Storyline
             
             _playerShip = Persistence.LoadFromFile<Ship>("Ships/Scimitar.json");
             _playerEntity = ShipEntityFactory.CreateShip(world, "Scimitar", new Vector2(500,0),0, physics:true);
-            _playerEntity.AddComponent(new PlayerControlsComponent());
             _playerEntity.Tag = "PlayerShip";
             _playerEntity.Refresh();
 

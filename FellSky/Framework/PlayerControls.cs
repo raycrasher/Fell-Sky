@@ -1,14 +1,13 @@
-﻿using Artemis.Interface;
-using Microsoft.Xna.Framework.Input;
+﻿using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FellSky.Components
+namespace FellSky.Framework
 {
-    public class PlayerControlsComponent : IComponent
+    public class PlayerControls
     {
         public Keys UpKey { get; set; } = Keys.W;
         public Keys DownKey { get; set; } = Keys.S;
