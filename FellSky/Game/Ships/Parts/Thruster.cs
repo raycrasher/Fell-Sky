@@ -53,7 +53,7 @@ namespace FellSky.Game.Ships.Parts
             var thruster = new ThrusterComponent(this, ship);
             entity.AddComponent<IShipPartComponent>(thruster);
             entity.AddComponent(thruster);
-            entity.AddComponent<ISceneGraphRenderableComponent<StandardShipRenderer>>(new ThrusterRendererComponent());
+            entity.AddSceneGraphRendererComponent<StandardShipRenderer>();
             entity.AddComponent(Transform);
             var spriteManager = ServiceLocator.Instance.GetService<ISpriteManagerService>();
             var spriteComponent = spriteManager.CreateSpriteComponent(SpriteId);

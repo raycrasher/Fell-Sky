@@ -11,10 +11,13 @@ using System.Threading.Tasks;
 
 namespace FellSky.Components
 {
+    public class SceneGraphRenderableComponent<T> : ISceneGraphRenderableComponent<T>
+        where T : ISceneGraphRenderer
+    { }
+
     public interface ISceneGraphRenderableComponent<T> : IComponent
         where T : ISceneGraphRenderer
     {
-        void Render(T renderer, SpriteBatch batch, Entity entity, ref Matrix parentMatrix);
     }
 
     public class SceneGraphRenderRoot<T>: IComponent
