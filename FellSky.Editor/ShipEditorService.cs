@@ -54,7 +54,7 @@ namespace FellSky.Editor
         public Color TrimColor { get; set; } = Color.CornflowerBlue;
         public Color BaseColor { get; set; } = Color.Gold;
 
-        public object PropertyObject { get; set; }
+        public List<ShipPart> SelectedParts { get; set; }
 
         public bool IsSnapEnabled
         {
@@ -115,12 +115,7 @@ namespace FellSky.Editor
 
         private void OnSelectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            if (SelectedPartEntities.Count > 1)
-                PropertyObject = (object[]) SelectedPartEntities.Select(s => s.GetComponent<IShipPartComponent>().Part).ToArray();
-            else if (SelectedPartEntities.Count > 0)
-                PropertyObject = SelectedPartEntities[0].Components.OfType<IShipPartComponent>().First().Part;
-            else
-                PropertyObject = Model;
+            SelectedParts = SelectedPartEntities.Select(s => s.GetComponent<IShipPartComponent>().Part).ToList();
         }
 
         /// <summary>
@@ -289,7 +284,7 @@ namespace FellSky.Editor
             ShipEntity = ship.CreateEntity(_world, Vector2.Zero, 0, physics:false);
             ShipEntity.Tag = "PlayerShip";
             Model = ship;
-            PropertyObject = Model;
+            //PropertyObject = Model;
         }
 
         public void FlipLocal(SpriteEffects flip)
@@ -450,7 +445,7 @@ namespace FellSky.Editor
                     if (entity.HasComponent<HardpointComponent>())
                         entity.AddComponent(new HardpointArcDrawingComponent());
                 }
-                PropertyObject = Model;
+                //PropertyObject = Model;
             }
             catch (Newtonsoft.Json.JsonException)
             {
@@ -479,7 +474,7 @@ namespace FellSky.Editor
                     if (entity.HasComponent<HardpointComponent>())
                         entity.AddComponent(new HardpointArcDrawingComponent());
                 }
-                PropertyObject = Model;
+                //PropertyObject = Model;
             }
             catch (Newtonsoft.Json.JsonException)
             {
@@ -504,7 +499,7 @@ namespace FellSky.Editor
             ShipEntity.Refresh();
             ShipEntity.Tag = "PlayerShip";
             Model = group;
-            PropertyObject = Model;
+            //PropertyObject = Model;
         }
 
         public void MirrorSelectedLaterally()

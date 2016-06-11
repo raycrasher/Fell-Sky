@@ -18,7 +18,7 @@ namespace FellSky.Game.Ships.Parts
         public string SpriteId { get; set; }
         [Browsable(true), TypeConverter(typeof(ExpandableObjectConverter))]
         public Color Color { get; set; }
-        public string[] Flags { get; set; }
+        public List<string> Flags { get; set; } = new List<string>();
 
         public ShipPart()
         {

@@ -154,6 +154,10 @@
     </Compile>
     <Compile Include="ShipEditorService.cs" />
     <Compile Include="ShipEditorViewModel.cs" />
+    <Compile Include="ShipPartEditorControl.xaml.cs">
+      <DependentUpon>ShipPartEditorControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ShipPartEditorViewModel.cs" />
     <Compile Include="Systems\ShowThrusterTrailsOverrideSystem.cs" />
     <Compile Include="Utilities.cs" />
     <Page Include="PropertyGrid.xaml">
@@ -172,6 +176,10 @@
       <DependentUpon>ShipEditorWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="ShipPartEditorControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">

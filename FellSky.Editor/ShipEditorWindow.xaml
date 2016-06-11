@@ -18,10 +18,6 @@
         >
     <Window.Resources>
         <fe:ShipEditorViewModel x:Key="model"/>
-        <fe:SpriteToIntRectConverter x:Key="spriteToIntRectConverter"/>
-        <fe:XnaColorToBrushConverter x:Key="xnaColorToBrushConverter" />
-        <fe:ContrastingColorConverter x:Key="contrastingColorConverter"/>
-        <fe:EnumToBooleanConverter x:Key="enumToBooleanConverter" />
         <SolidColorBrush x:Key="TabControlNormalBorderBrush" Color="#8C8E94"/>
         <Style x:Key="ColorRadioButtonStyle" TargetType="{x:Type RadioButton}" BasedOn="{StaticResource {x:Type ToggleButton}}">
             <Setter Property="BorderBrush" Value="Black" />
@@ -108,7 +104,7 @@
                             </ListView.ItemTemplate>
                         </ListView>
                         </GroupBox>
-                        <GroupBox Header="Other">
+                        <GroupBox Header="Other Parts">
                             <WrapPanel>
                                 <Button Margin="2" Width="64" Height="64">
                                     <TextBlock TextWrapping="Wrap" TextAlignment="Center"> ADD DUMMY PART </TextBlock>
@@ -117,6 +113,9 @@
                                     <TextBlock TextWrapping="Wrap" TextAlignment="Center"> ADD LIGHT</TextBlock>
                                 </Button>
                             </WrapPanel>
+                        </GroupBox>
+                        <GroupBox Header="Flags">
+                            
                         </GroupBox>
                     </StackPanel>
                 </TabItem>
@@ -361,8 +360,8 @@
                     <xctk:ColorCanvas Grid.Column="1" SelectedColor="{Binding SelectedColor}"/>
                 </Grid>
             </GroupBox>
-            <GroupBox Header="Properties" >
-                <fe:PropertyGrid Height="400" PropertyObject="{Binding EditorService.PropertyObject}"/>
+            <GroupBox Header="Properties">
+                <fe:ShipPartEditorControl Parts="{Binding EditorService.SelectedParts}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"/>
             </GroupBox>
             
         </StackPanel>

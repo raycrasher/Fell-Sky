@@ -16,6 +16,11 @@
             <Style TargetType="{x:Type Window}"/>
             <local:UpDownFloatConverter x:Key="UpDownFloatConverter"/>
             <local:XnaColorToWindowsColorConverter x:Key="XnaColorToWindowsColorConverter" />
+            <local:SpriteToIntRectConverter x:Key="spriteToIntRectConverter"/>
+            <local:XnaColorToBrushConverter x:Key="xnaColorToBrushConverter" />
+            <local:ContrastingColorConverter x:Key="contrastingColorConverter"/>
+            <local:EnumToBooleanConverter x:Key="enumToBooleanConverter" />
+            <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

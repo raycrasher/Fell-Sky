@@ -67,7 +67,7 @@ namespace FellSky.Game.Combat.Weapons
 
             Entity rotatingEntity = null;
             var muzzles = new Dictionary<int, Entity>();
-           
+            
             foreach (var part in group.Parts)
             {
                 if (part.Flags.Contains("base", StringComparer.InvariantCultureIgnoreCase))

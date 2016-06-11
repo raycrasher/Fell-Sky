@@ -163,5 +163,11 @@ namespace FellSky
             }
             return _tempXform;
         }
+
+        public static T GetAllEqualOrNothing<T>(this IEnumerable<T> enumerable)
+        {
+            T value = enumerable.FirstOrDefault();
+            return enumerable.All(i => i.Equals(value)) ? value : default(T);
+        }
     }
 }
