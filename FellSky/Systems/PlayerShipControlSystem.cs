@@ -41,22 +41,22 @@ namespace FellSky.Systems
         {
             var shipComponent = shipEntity.GetComponent<ShipComponent>();
             var shipXform = shipEntity.GetComponent<Transform>();
-            var shipMatrix = shipXform.Matrix;
             var camera = EntityWorld.GetActiveCamera();
             Vector2 worldMousePos = camera.ScreenToCameraSpace(_mouse.ScreenPosition);
 
             foreach (var turretEntity in shipComponent.Turrets)
             {
                 var turret = turretEntity.GetComponent<TurretComponent>();
-                var turretXform = turretEntity.GetComponent<Transform>();                
-                
-                Vector2 transformedMousePos;
-                Vector2 turretPos = turretXform.Position;
-                Vector2.Transform(ref turretPos, ref shipMatrix, out transformedMousePos);
+                var turretXform = turretEntity.GetComponent<Transform>();
+                Matrix matrix;
+                turretEntity.GetParent().GetWorldMatrix(out matrix);
+                Vector2 transformedPos;
+                Vector2 turretPos = Vector2.Zero;
+                Vector2.Transform(ref turretPos, ref matrix, out transformedPos);
 
-                var offset = transformedMousePos - worldMousePos;
+                var offset = worldMousePos - transformedPos;
 
-                turret.DesiredRotation = offset.GetAngleRadians() - shipXform.Rotation - turretXform.Rotation + MathHelper.PiOver2;
+                turret.DesiredRotation = offset.GetAngleRadians() - MathHelper.PiOver2;
             }
         }
 

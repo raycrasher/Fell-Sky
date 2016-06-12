@@ -14,15 +14,27 @@ namespace FellSky.Systems.SceneGraphRenderers
     public class StandardShipRenderer : ISceneGraphRenderer
     {
         private ITimerService _timer;
+        private RasterizerState _rasterizerState;
+        private RasterizerState _lastRasterizerState;
 
         public StandardShipRenderer()
         {
             _timer = ServiceLocator.Instance.GetService<ITimerService>();
+            _rasterizerState = new RasterizerState();
+            _rasterizerState.CullMode = CullMode.None;
         }
 
         public void Begin(EntityWorld world, SpriteBatch batch)
         {
+            _lastRasterizerState = batch.GraphicsDevice.RasterizerState;
+            batch.GraphicsDevice.RasterizerState = _rasterizerState;
             batch.Begin(transformMatrix: world.GetActiveCamera().GetViewMatrix(1.0f));
+        }
+
+        public void End(EntityWorld entityWorld, SpriteBatch batch)
+        {
+            batch.End();
+            batch.GraphicsDevice.RasterizerState = _lastRasterizerState;
         }
 
         public void BeginRoot(EntityWorld world, SpriteBatch batch, Entity root)
@@ -104,5 +116,7 @@ namespace FellSky.Systems.SceneGraphRenderers
 
             sprite.Draw(spriteBatch, newXform.Matrix * parentMatrix, light.Color * alpha, fx);
         }
+
+
     }
 }

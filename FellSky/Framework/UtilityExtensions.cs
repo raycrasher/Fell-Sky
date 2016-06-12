@@ -15,7 +15,8 @@ namespace FellSky
             return Matrix.CreateTranslation(new Vector3(-xform.Origin,0)) * 
                    Matrix.CreateScale(new Vector3(xform.Scale, 1)) * 
                    Matrix.CreateRotationZ(xform.Rotation) * 
-                   Matrix.CreateTranslation(new Vector3(xform.Position, 0));
+                   Matrix.CreateTranslation(new Vector3(xform.Position, 0))
+                   ;
         }
 
         public static Matrix GetMatrixNoOrigin(this ITransform xform)

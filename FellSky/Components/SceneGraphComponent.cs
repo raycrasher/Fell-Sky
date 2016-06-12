@@ -10,7 +10,7 @@ namespace FellSky.Components
 {
     public class SceneGraphComponent: IComponent
     {
-        public Entity Parent { get; set; }
-        public List<Entity> Children { get; } = new List<Entity>();
+        public Entity Parent;
+        public readonly List<Entity> Children = new List<Entity>();
     }
 }

@@ -34,7 +34,7 @@ namespace FellSky.Systems
                 var matrix = Matrix.Identity;
                 Render(root, root, ref matrix);                
             }
-            _batch.End();
+            Renderer.End(EntityWorld, _batch);
         }
 
         private void Render(Entity root, Entity entity, ref Matrix parentMatrix)

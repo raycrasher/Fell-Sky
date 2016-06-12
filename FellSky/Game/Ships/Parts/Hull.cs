@@ -55,7 +55,7 @@ namespace FellSky.Game.Ships.Parts
             entity.AddComponent(spriteComponent);
             entity.AddComponent(new BoundingBoxComponent(new FloatRect(0, 0, spriteComponent.TextureRect.Width, spriteComponent.TextureRect.Height)));
 
-            if (ship.HasComponent<RigidBodyComponent>())
+            if (parent.HasComponent<RigidBodyComponent>())
             {
                 var physics = world.SystemManager.GetSystem<PhysicsSystem>();
                 RigidBodyComponent body;
