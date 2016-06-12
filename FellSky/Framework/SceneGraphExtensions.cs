@@ -1,5 +1,6 @@
 ﻿using Artemis;
 using FellSky.Components;
+using FellSky.Systems.SceneGraphRenderers;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -85,13 +86,22 @@ namespace FellSky
             if (component != null)
             {
                 if (component.Parent != null)
-                    component.Parent.RemoveChild(entity);
+                {
+                    component.Parent.GetChildren().Remove(entity);
+                    component.Parent = null;
+                }
                 for(int i=component.Children.Count - 1; i>=0; i--)
                 {
                     component.Children[i].DeleteWithChildren();
                 }
             }
             entity.Delete();
+        }
+
+        public static void AddSceneGraphRendererComponent<T>(this Entity entity)
+            where T : ISceneGraphRenderer
+        {
+            entity.AddComponent<ISceneGraphRenderableComponent<T>>(new SceneGraphRenderableComponent<T>());
         }
     }
 }

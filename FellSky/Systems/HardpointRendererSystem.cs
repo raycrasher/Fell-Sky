@@ -26,9 +26,9 @@ namespace FellSky.Systems
         public static float NumSegments = 60;
         public static Dictionary<HardpointType, Color> Colors = new Dictionary<HardpointType, Color>
         {
-            { HardpointType.Weapon_Universal, Color.LightSlateGray * 0.4f },
-            { HardpointType.Weapon_Missile, Color.Green * 0.4f },
-            { HardpointType.Weapon_Ballistic, Color.PaleGoldenrod * 0.4f },
+            { HardpointType.Universal, Color.LightSlateGray * 0.4f },
+            { HardpointType.Missile, Color.Green * 0.4f },
+            { HardpointType.Ballistic, Color.PaleGoldenrod * 0.4f },
         };
 
         public static Dictionary<HardpointSize, float> Lengths = new Dictionary<HardpointSize, float>
@@ -114,24 +114,24 @@ namespace FellSky.Systems
                 if (draw.DrawHardpointIcon)
                 {
                     bool drawCircle = 
-                        hardpoint.Hardpoint.Type == HardpointType.Weapon_Energy ||
-                        hardpoint.Hardpoint.Type == HardpointType.Weapon_Powered ||
-                        hardpoint.Hardpoint.Type == HardpointType.Weapon_Beam ||
-                        hardpoint.Hardpoint.Type == HardpointType.Weapon_Hybrid ||
-                        hardpoint.Hardpoint.Type == HardpointType.Weapon_Universal;
+                        hardpoint.Hardpoint.Type == HardpointType.Energy ||
+                        hardpoint.Hardpoint.Type == HardpointType.Powered ||
+                        hardpoint.Hardpoint.Type == HardpointType.Beam ||
+                        hardpoint.Hardpoint.Type == HardpointType.Hybrid ||
+                        hardpoint.Hardpoint.Type == HardpointType.Universal;
 
                     bool drawRectangle = 
-                        hardpoint.Hardpoint.Type == HardpointType.Weapon_Ballistic ||
-                        hardpoint.Hardpoint.Type == HardpointType.Weapon_Powered ||
-                        hardpoint.Hardpoint.Type == HardpointType.Weapon_Composite ||
-                        hardpoint.Hardpoint.Type == HardpointType.Weapon_Universal;
+                        hardpoint.Hardpoint.Type == HardpointType.Ballistic ||
+                        hardpoint.Hardpoint.Type == HardpointType.Powered ||
+                        hardpoint.Hardpoint.Type == HardpointType.Composite ||
+                        hardpoint.Hardpoint.Type == HardpointType.Universal;
 
                     bool drawDiamond =
-                        hardpoint.Hardpoint.Type == HardpointType.Weapon_Missile ||
-                        hardpoint.Hardpoint.Type == HardpointType.Weapon_Composite ||
-                        hardpoint.Hardpoint.Type == HardpointType.Weapon_Hybrid ||
-                        hardpoint.Hardpoint.Type == HardpointType.Weapon_VLS ||
-                        hardpoint.Hardpoint.Type == HardpointType.Weapon_Universal;
+                        hardpoint.Hardpoint.Type == HardpointType.Missile ||
+                        hardpoint.Hardpoint.Type == HardpointType.Composite ||
+                        hardpoint.Hardpoint.Type == HardpointType.Hybrid ||
+                        hardpoint.Hardpoint.Type == HardpointType.VLS ||
+                        hardpoint.Hardpoint.Type == HardpointType.Universal;
 
                     float iconSize = length / 10;
 

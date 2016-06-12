@@ -53,7 +53,6 @@ namespace FellSky.Systems
                     turret.Rotation = MathHelper.Clamp(MathHelper.WrapAngle(turret.Rotation + deltaAngle), -turret.FiringArc/2, turret.FiringArc/2);
                 }
             }
-
             entity.GetComponent<Transform>().Rotation = turret.Rotation;
         }
     }

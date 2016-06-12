@@ -16,7 +16,7 @@ namespace FellSky.Game.Ships.Parts
 {
     public enum HullColorType
     {
-        Hull, BaseDecal, TrimDecal
+        Hull, Base, Trim
     }
 
     /// <summary>
@@ -41,21 +41,21 @@ namespace FellSky.Game.Ships.Parts
         //public SpriteEffects SpriteEffect { get; set; }
         public float Health { get; set; } = 100;
 
-        public override Entity CreateEntity(EntityWorld world, Entity ship, int? index=null)
+        public override Entity CreateEntity(EntityWorld world, Entity ship, Entity parent, int? index=null)
         {
             var entity = world.CreateEntity();
-            ship.AddChild(entity, index);
+            parent.AddChild(entity, index);
             var hull = new HullComponent(this, ship);
             entity.AddComponent<IShipPartComponent>(hull);
             entity.AddComponent(hull);
-            entity.AddComponent<ISceneGraphRenderableComponent<StandardShipRenderer>>(new ShipPartRendererComponent<StandardShipRenderer>());
+            entity.AddSceneGraphRendererComponent<StandardShipRenderer>();
             entity.AddComponent(Transform.Clone());
             var spriteManager = ServiceLocator.Instance.GetService<ISpriteManagerService>();
             var spriteComponent = spriteManager.CreateSpriteComponent(SpriteId);
             entity.AddComponent(spriteComponent);
             entity.AddComponent(new BoundingBoxComponent(new FloatRect(0, 0, spriteComponent.TextureRect.Width, spriteComponent.TextureRect.Height)));
 
-            if (ship.HasComponent<RigidBodyComponent>())
+            if (parent.HasComponent<RigidBodyComponent>())
             {
                 var physics = world.SystemManager.GetSystem<PhysicsSystem>();
                 RigidBodyComponent body;
