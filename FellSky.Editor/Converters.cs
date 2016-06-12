@@ -111,4 +111,17 @@ namespace FellSky.Editor
             return (float)(decimal)value;
         }
     }
+
+    public class EnumValuesConverter : System.Windows.Data.IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return Enum.GetValues((Type)value);
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

@@ -3,90 +3,159 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:parts="clr-namespace:FellSky.Game.Ships.Parts;assembly=FellSky"
              xmlns:local="clr-namespace:FellSky.Editor"
              xmlns:ctl="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300" HorizontalAlignment="Stretch">
+             FontSize="10" 
+             d:DesignHeight="600" d:DesignWidth="300" HorizontalAlignment="Stretch">
     <UserControl.Resources>
         <local:ShipPartEditorViewModel x:Key="Model"/>
     </UserControl.Resources>
     <StackPanel HorizontalAlignment="Stretch" DataContext="{StaticResource Model}" IsEnabled="{Binding HasItems}">
-        <Expander Header="General" FontSize="10" IsExpanded="True" DataContext="{Binding General}" >
+        <StackPanel.Resources>
+            <Style TargetType="TextBox">
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="Padding" Value="3"/>
+            </Style>
+        </StackPanel.Resources>
+        <StackPanel DataContext="{Binding General}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Label FontWeight="Bold">Name:</Label>
+                <TextBox Grid.Column="1" Text="{Binding Name}"/>
+            </Grid>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Label>Position:</Label>
+                <Label Grid.Column="1">X:</Label>
+                <TextBox Grid.Column="2" Text="{Binding PosX}"/>
+                <Label Grid.Column="3">Y:</Label>
+                <TextBox Grid.Column="4" Text="{Binding PosY}"/>
+            </Grid>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Label>Rotation:</Label>
+                <TextBox Grid.Column="1" Text="{Binding Rot}"/>
+            </Grid>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Label>Scale:</Label>
+                <Label Grid.Column="1">X:</Label>
+                <TextBox Grid.Column="2" Text="{Binding ScaleX}"/>
+                <Label Grid.Column="3">Y:</Label>
+                <TextBox Grid.Column="4" Text="{Binding ScaleY}"/>
+            </Grid>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Label>Sprite ID:</Label>
+                <ComboBox VerticalAlignment="Center" Padding="1" Grid.Column="1" SelectedValue="{Binding SpriteId}"/>
+            </Grid>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Label>Color:</Label>
+                <xctk:ColorPicker Grid.Column="1" VerticalAlignment="Center" SelectedColor="{Binding Color}"/>
+            </Grid>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Label VerticalAlignment="Top">Flags:</Label>
+                <TextBox AcceptsReturn="True" Height="60" Grid.Column="1" Text="{Binding Flags}"/>
+            </Grid>
+        </StackPanel>
+
+        <Expander Header="Hull" IsExpanded="True" Visibility="{Binding ShowHullPanel, Converter={StaticResource booleanToVisibilityConverter}}">
             <StackPanel>
-                <StackPanel.Resources>
-                    <Style TargetType="TextBox">
-                        <Setter Property="VerticalAlignment" Value="Center"/>
-                        <Setter Property="Padding" Value="3"/>
-                    </Style>
-                </StackPanel.Resources>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Label FontWeight="Bold">Hull Color Type:</Label>
+                    <RadioButton Grid.Column="1">Hull</RadioButton>
+                    <RadioButton Grid.Column="2">Base</RadioButton>
+                    <RadioButton Grid.Column="3">Trim</RadioButton>
+                </Grid>
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="100"/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <Label FontWeight="Bold">Name:</Label>
-                    <TextBox Grid.Column="1" Text="{Binding Name}"/>
+                    <Label>Shape Id:</Label>
+                    <TextBox Grid.Column="1"/>
                 </Grid>
+            </StackPanel>
+        </Expander>
+        <Expander Header="Thruster" IsExpanded="True" Visibility="{Binding ShowThrusterPanel, Converter={StaticResource booleanToVisibilityConverter}}">
+            <StackPanel>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Label>Draw if idle:</Label>
+                    <CheckBox Grid.Column="1"/>
+                </Grid>
+            </StackPanel>
+        </Expander>
+        <Expander Header="Hardpoint" IsExpanded="True" Visibility="{Binding ShowHardpointPanel, Converter={StaticResource booleanToVisibilityConverter}}" >
+            <StackPanel DataContext="{Binding Hardpoints}">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="100"/>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition/>
                         <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <Label>Position:</Label>
-                    <Label Grid.Column="1">X:</Label>
-                    <TextBox Grid.Column="2" Text="{Binding PosX}"/>
-                    <Label Grid.Column="3">Y:</Label>
-                    <TextBox Grid.Column="4" Text="{Binding PosY}"/>
+                    <Label>Firing Arc:</Label>
+                    <Label Grid.Column="1">Fixed</Label>
+                    <Slider Grid.Column="2" Value="{Binding FiringArc}" Minimum="0" Maximum="6.28318530717959"/>
+                    <Label Grid.Column="3">Omni</Label>
                 </Grid>
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="100"/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <Label>Rotation:</Label>
-                    <TextBox Grid.Column="1" Text="{Binding Rot}"/>
-                </Grid>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="100"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <Label>Scale:</Label>
-                    <Label Grid.Column="1">X:</Label>
-                    <TextBox Grid.Column="2" Text="{Binding ScaleX}"/>
-                    <Label Grid.Column="3">Y:</Label>
-                    <TextBox Grid.Column="4" Text="{Binding ScaleY}"/>
+                    <Label>Type:</Label>
+                    <ComboBox Grid.Column="1"  VerticalAlignment="Center" Padding="1" ItemsSource="{Binding Source={x:Type parts:HardpointType}, Converter={StaticResource enumValuesConverter}}" SelectedValue="{Binding Type}"/>
                 </Grid>
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="100"/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <Label>Sprite ID:</Label>
-                    <ComboBox VerticalAlignment="Center" Padding="1" Grid.Column="1" SelectedValue="{Binding SpriteId}"/>
-                </Grid>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="100"/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <Label>Color:</Label>
-                    <xctk:ColorPicker Grid.Column="1" VerticalAlignment="Center" SelectedColor="{Binding Color}"/>
-                </Grid>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="100"/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <Label VerticalAlignment="Top">Flags:</Label>
-                    <TextBox AcceptsReturn="True" Height="60" Grid.Column="1" Text="{Binding Flags}"/>
+                    <Label>Size:</Label>
+                    <ComboBox Grid.Column="1"  VerticalAlignment="Center" Padding="1" ItemsSource="{Binding Source={x:Type parts:HardpointSize}, Converter={StaticResource enumValuesConverter}}" SelectedValue="{Binding Size}"/>
                 </Grid>
             </StackPanel>
         </Expander>

@@ -54,8 +54,6 @@ namespace FellSky.Editor
         public Color TrimColor { get; set; } = Color.CornflowerBlue;
         public Color BaseColor { get; set; } = Color.Gold;
 
-        public List<ShipPart> SelectedParts { get; set; }
-
         public bool IsSnapEnabled
         {
             get { return _transformSystem.IsSnapEnabled; }
@@ -115,7 +113,7 @@ namespace FellSky.Editor
 
         private void OnSelectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            SelectedParts = SelectedPartEntities.Select(s => s.GetComponent<IShipPartComponent>().Part).ToList();
+            //PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedPartEntities)));
         }
 
         /// <summary>
@@ -354,7 +352,7 @@ namespace FellSky.Editor
                         FiringArc = MathHelper.ToRadians(60),
                         Hull = item.GetComponent<HullComponent>().Part,
                         Size = HardpointSize.Small,
-                        Type = HardpointType.Weapon_Universal
+                        Type = HardpointType.Universal
                     });
                     item.AddComponent(component);
                     item.AddComponent(new HardpointArcDrawingComponent());

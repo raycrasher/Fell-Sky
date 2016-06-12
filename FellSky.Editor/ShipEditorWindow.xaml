@@ -361,7 +361,7 @@
                 </Grid>
             </GroupBox>
             <GroupBox Header="Properties">
-                <fe:ShipPartEditorControl Parts="{Binding EditorService.SelectedParts}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"/>
+                <fe:ShipPartEditorControl Parts="{Binding EditorService.SelectedPartEntities}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"/>
             </GroupBox>
             
         </StackPanel>

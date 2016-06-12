@@ -11,20 +11,20 @@ namespace FellSky.Game.Ships.Parts
 {
     public enum HardpointType
     {
-        Weapon_Missile,
-        Weapon_Energy,
-        Weapon_Ballistic,
+        Missile,
+        Energy,
+        Ballistic,
 
         // combo mounts
-        Weapon_Universal,   // all weapons
-        Weapon_Powered,     // ballistic & energy
-        Weapon_Composite,      // ballistic & missile
-        Weapon_Hybrid,     // energy & missile
+        Universal,   // all weapons
+        Powered,     // ballistic & energy
+        Composite,      // ballistic & missile
+        Hybrid,     // energy & missile
 
         // specialty mounts
-        Weapon_Spinal,
-        Weapon_Beam,
-        Weapon_VLS, // vertical launch system,
+        Spinal,
+        Beam,
+        VLS, // vertical launch system,
     }
 
     public enum HardpointSize

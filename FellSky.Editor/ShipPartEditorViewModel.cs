@@ -1,30 +1,60 @@
-﻿using FellSky.Game.Ships.Parts;
+﻿using Artemis;
+using FellSky.Components;
+using FellSky.Game.Ships.Parts;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections.Specialized;
 
 namespace FellSky.Editor
 {
     [PropertyChanged.ImplementPropertyChanged]
     public class ShipPartEditorViewModel
     {
-        private IReadOnlyCollection<ShipPart> _parts;
+        private ObservableCollection<Entity> _parts;
 
-        public IReadOnlyCollection<ShipPart> Parts {
+        public ObservableCollection<Entity> Parts {
             get { return _parts; }
             set {
+                if (_parts != null)
+                    _parts.CollectionChanged -= OnCollectionChanged;
                 _parts = value;
-                HasItems = _parts.Any();
-                General = new ShipPartViewModel(_parts);
+                if(_parts != null)
+                    _parts.CollectionChanged += OnCollectionChanged;
+                else
+                {
+                    HasItems = false;
+                    ShowHullPanel = false;
+                    ShowThrusterPanel = false;
+                    ShowHardpointPanel = false;
+                }
             }
         }
-        public ShipPartViewModel General { get; set; }
 
-        public bool HasItems { get; set; }
+        private void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs evt)
+        {
+            HasItems = _parts.Any();
+            ShowHullPanel = _parts.Any(e => e.HasComponent<HullComponent>());
+            ShowThrusterPanel = _parts.Any(e => e.HasComponent<ThrusterComponent>());
+            ShowHardpointPanel = _parts.Any(e => e.HasComponent<HardpointComponent>());
+
+            General = new ShipPartViewModel(_parts.Select(e => e.GetComponent<IShipPartComponent>().Part).ToList());
+            if(ShowHardpointPanel)
+                Hardpoints = new HardpointEditorViewModel(_parts.Select(e => e.GetComponent<HardpointComponent>().Hardpoint).ToList());
+        }
+
+        public ShipPartViewModel General { get; set; }
+        public HardpointEditorViewModel Hardpoints { get; set; }
+
+        public bool ShowThrusterPanel { get; set; } = true;
+        public bool ShowHullPanel { get; set; } = true;
+        public bool ShowHardpointPanel { get; set; } = true;
+        public bool HasItems { get; set; } = true;
 
         public ShipPartEditorViewModel()
         {
@@ -150,6 +180,55 @@ namespace FellSky.Editor
                 foreach (var item in _parts)
                         item.Color = new Color(c.R, c.G, c.B, c.A);
                 }
+            }
+        }
+    }
+    
+    [PropertyChanged.ImplementPropertyChanged]
+    public class HardpointEditorViewModel
+    {
+        IReadOnlyCollection<Hardpoint> _hardpoints { get; set; }
+        public HardpointEditorViewModel(IReadOnlyCollection<Hardpoint> hardpoints)
+        {
+            _hardpoints = hardpoints;
+        }
+
+        public HardpointSize? Size
+        {
+            get
+            {
+                return _hardpoints?.Select(p => new HardpointSize?(p.Size)).GetAllEqualOrNothing();
+            }
+            set
+            {
+                foreach (var item in _hardpoints)
+                    item.Size = value ?? item.Size;
+            }
+        }
+
+        public HardpointType? Type
+        {
+            get
+            {
+                return _hardpoints?.Select(p => new HardpointType?(p.Type)).GetAllEqualOrNothing();
+            }
+            set
+            {
+                foreach (var item in _hardpoints)
+                    item.Type = value ?? item.Type;
+            }
+        }
+
+        public float? FiringArc
+        {
+            get
+            {
+                return _hardpoints?.Select(p => new float?(p.FiringArc)).GetAllEqualOrNothing();
+            }
+            set
+            {
+                foreach (var item in _hardpoints)
+                    item.FiringArc = value ?? item.FiringArc;
             }
         }
     }

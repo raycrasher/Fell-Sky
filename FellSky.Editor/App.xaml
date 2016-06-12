@@ -20,6 +20,7 @@
             <local:XnaColorToBrushConverter x:Key="xnaColorToBrushConverter" />
             <local:ContrastingColorConverter x:Key="contrastingColorConverter"/>
             <local:EnumToBooleanConverter x:Key="enumToBooleanConverter" />
+            <local:EnumValuesConverter x:Key="enumValuesConverter" />
             <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
         </ResourceDictionary>
     </Application.Resources>

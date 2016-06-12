@@ -1,6 +1,8 @@
-﻿using FellSky.Game.Ships.Parts;
+﻿using Artemis;
+using FellSky.Game.Ships.Parts;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,20 +26,20 @@ namespace FellSky.Editor
 
 
 
-        public List<ShipPart> Parts
+        public ObservableCollection<Entity> Parts
         {
-            get { return (List<ShipPart>)GetValue(PartsProperty); }
+            get { return (ObservableCollection<Entity>)GetValue(PartsProperty); }
             set { SetValue(PartsProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for Parts.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty PartsProperty =
-            DependencyProperty.Register("Parts", typeof(List<ShipPart>), typeof(ShipPartEditorControl), new PropertyMetadata(OnPartsChanged));
+            DependencyProperty.Register("Parts", typeof(ObservableCollection<Entity>), typeof(ShipPartEditorControl), new PropertyMetadata(OnPartsChanged));
 
 
         private static void OnPartsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ((ShipPartEditorControl)d)._model.Parts = (List<ShipPart>)e.NewValue;
+            ((ShipPartEditorControl)d)._model.Parts = (ObservableCollection<Entity>)e.NewValue;
         }
 
         private ShipPartEditorViewModel _model;
@@ -46,7 +48,15 @@ namespace FellSky.Editor
         {
             InitializeComponent();
             _model = (ShipPartEditorViewModel) FindResource("Model");
-            _model.Parts = Parts;
+            
+            if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(this))
+            {
+                _model.Parts = Parts;
+                _model.HasItems = true;
+                _model.ShowHardpointPanel = true;
+                _model.ShowHullPanel = true;
+                _model.ShowThrusterPanel = true;
+            }
         }
     }
 }
