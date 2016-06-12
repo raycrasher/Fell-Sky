@@ -24,7 +24,7 @@ namespace FellSky.Editor
                 if (_parts != null)
                     _parts.CollectionChanged -= OnCollectionChanged;
                 _parts = value;
-                if(_parts != null)
+                if (_parts != null)
                     _parts.CollectionChanged += OnCollectionChanged;
                 else
                 {
@@ -44,12 +44,15 @@ namespace FellSky.Editor
             ShowHardpointPanel = _parts.Any(e => e.HasComponent<HardpointComponent>());
 
             General = new ShipPartViewModel(_parts.Select(e => e.GetComponent<IShipPartComponent>().Part).ToList());
-            if(ShowHardpointPanel)
-                Hardpoints = new HardpointEditorViewModel(_parts.Select(e => e.GetComponent<HardpointComponent>().Hardpoint).ToList());
+            if (ShowHardpointPanel)
+                Hardpoints = new HardpointEditorViewModel(_parts.Select(e => e.GetComponent<HardpointComponent>()?.Hardpoint).Where(h => h != null).ToList());
+            if (ShowHullPanel)
+                Hulls = new HullEditorViewModel(_parts.Select(e => e.GetComponent<HullComponent>()?.Part).Where(h => h != null).ToList());
         }
 
         public ShipPartViewModel General { get; set; }
         public HardpointEditorViewModel Hardpoints { get; set; }
+        public HullEditorViewModel Hulls { get; set; }
 
         public bool ShowThrusterPanel { get; set; } = true;
         public bool ShowHullPanel { get; set; } = true;
@@ -229,6 +232,29 @@ namespace FellSky.Editor
             {
                 foreach (var item in _hardpoints)
                     item.FiringArc = value ?? item.FiringArc;
+            }
+        }
+    }
+
+    [PropertyChanged.ImplementPropertyChanged]
+    public class HullEditorViewModel
+    {
+        IReadOnlyCollection<Hull> _hulls { get; set; }
+        public HullEditorViewModel(IReadOnlyCollection<Hull> hulls)
+        {
+            _hulls = hulls;
+        }
+
+        public HullColorType? ColorType
+        {
+            get
+            {
+                return _hulls?.Select(p => new HullColorType?(p.ColorType)).GetAllEqualOrNothing();
+            }
+            set
+            {
+                foreach (var item in _hulls)
+                    item.ColorType = value ?? item.ColorType;
             }
         }
     }

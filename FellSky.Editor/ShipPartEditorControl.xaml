@@ -92,7 +92,7 @@
         </StackPanel>
 
         <Expander Header="Hull" IsExpanded="True" Visibility="{Binding ShowHullPanel, Converter={StaticResource booleanToVisibilityConverter}}">
-            <StackPanel>
+            <StackPanel DataContext="{Binding Hulls}">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="100"/>
@@ -101,9 +101,9 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <Label FontWeight="Bold">Hull Color Type:</Label>
-                    <RadioButton Grid.Column="1">Hull</RadioButton>
-                    <RadioButton Grid.Column="2">Base</RadioButton>
-                    <RadioButton Grid.Column="3">Trim</RadioButton>
+                    <RadioButton Grid.Column="1" IsChecked="{Binding ColorType, Converter={StaticResource enumToBooleanConverter}, ConverterParameter=Hull}">Hull</RadioButton>
+                    <RadioButton Grid.Column="2" IsChecked="{Binding ColorType, Converter={StaticResource enumToBooleanConverter}, ConverterParameter=Base}">Base</RadioButton>
+                    <RadioButton Grid.Column="3" IsChecked="{Binding ColorType, Converter={StaticResource enumToBooleanConverter}, ConverterParameter=Trim}">Trim</RadioButton>
                 </Grid>
                 <Grid>
                     <Grid.ColumnDefinitions>

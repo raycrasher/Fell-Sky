@@ -16,7 +16,7 @@ namespace FellSky.Game.Ships.Parts
 {
     public enum HullColorType
     {
-        Hull, BaseDecal, TrimDecal
+        Hull, Base, Trim
     }
 
     /// <summary>

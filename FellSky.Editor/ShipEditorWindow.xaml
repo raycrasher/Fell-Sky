@@ -82,10 +82,10 @@
                         </TabControl.ContentTemplate>
                     </TabControl>
                 </TabItem>
-                <TabItem Header="Thrusters/Effects" ctl:ControlsHelper.HeaderFontSize="18">
+                <TabItem Header="Other" ctl:ControlsHelper.HeaderFontSize="18">
                     <StackPanel>
                         <GroupBox Header="Thrusters">
-                            <ListView MinHeight="70" Grid.Row="0" ItemsSource="{Binding ThrusterSprites}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Background="DarkGray">
+                            <ListView MinHeight="70" MaxHeight="250" Grid.Row="0" ItemsSource="{Binding ThrusterSprites}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Background="DarkGray">
                             <ListView.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <WrapPanel IsItemsHost="True" />
@@ -112,42 +112,15 @@
                                 <Button Margin="2" Width="64" Height="64">
                                     <TextBlock TextWrapping="Wrap" TextAlignment="Center"> ADD LIGHT</TextBlock>
                                 </Button>
+                                <Button Margin="2" Width="70" Height="64">
+                                    <TextBlock TextWrapping="Wrap" TextAlignment="Center"> ADD HARDPOINT</TextBlock>
+                                </Button>
                             </WrapPanel>
                         </GroupBox>
                         <GroupBox Header="Flags">
                             
                         </GroupBox>
                     </StackPanel>
-                </TabItem>
-                <TabItem Header="Hardpoints" ctl:ControlsHelper.HeaderFontSize="18">
-                    <Grid Margin="2">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
-
-                        <ListBox ItemsSource="{Binding EditorService.Model.Hardpoints, UpdateSourceTrigger=LostFocus}" BorderThickness="1" BorderBrush="Gray">
-                            <ListBox.ItemTemplate>
-                                <DataTemplate>
-                                    <Label Content="{Binding Hull.Name}"/>
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
-                        </ListBox>
-                        <StackPanel Grid.Column="1">
-                            <Label>Weapon Arc</Label>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                </Grid.ColumnDefinitions>
-                                <Label>Fixed</Label>
-                                <Slider Grid.Column="1" Minimum="0" Maximum="6.28318530717959" Value="{Binding EditorService.WeaponArcAngle}"/>
-                                <Label Grid.Column="2">Omni</Label>
-                            </Grid>
-                            
-                        </StackPanel>
-                    </Grid>
                 </TabItem>
             </TabControl>
         </Grid>
