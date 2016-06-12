@@ -49,12 +49,12 @@ namespace FellSky.Systems
                 var turret = turretEntity.GetComponent<TurretComponent>();
                 var turretXform = turretEntity.GetComponent<Transform>();
                 Matrix matrix;
-                turretEntity.GetParent().GetWorldMatrix(out matrix);
+                turretEntity.GetParent().GetWorldMatrixNoOrigin(out matrix);
                 Vector2 transformedPos;
                 Vector2 turretPos = Vector2.Zero;
-                Vector2.Transform(ref turretPos, ref matrix, out transformedPos);
+                Vector2.Transform(ref worldMousePos, ref matrix, out transformedPos);
 
-                var offset = worldMousePos - transformedPos;
+                var offset = transformedPos;
 
                 turret.DesiredRotation = offset.GetAngleRadians() - MathHelper.PiOver2;
             }

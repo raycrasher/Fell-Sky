@@ -80,6 +80,19 @@ namespace FellSky
             matrix = thisMatrix;
         }
 
+        public static void GetWorldMatrixNoOrigin(this Entity entity, out Matrix matrix)
+        {
+            var thisMatrix = entity.GetComponent<Transform>()?.GetMatrixNoOrigin() ?? Matrix.Identity;
+            var parent = entity.GetParent();
+            if (parent != null)
+            {
+                Matrix parentMatrix;
+                parent.GetWorldMatrixNoOrigin(out parentMatrix);
+                matrix = thisMatrix * parentMatrix;
+            }
+            matrix = thisMatrix;
+        }
+
         public static void DeleteWithChildren(this Entity entity)
         {
             var component = entity.GetComponent<SceneGraphComponent>();
