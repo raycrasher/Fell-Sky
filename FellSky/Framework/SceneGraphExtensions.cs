@@ -77,7 +77,8 @@ namespace FellSky
                 parent.GetWorldMatrix(out parentMatrix);
                 matrix = thisMatrix * parentMatrix;
             }
-            matrix = thisMatrix;
+            else
+                matrix = thisMatrix;
         }
 
         public static void GetWorldMatrixNoOrigin(this Entity entity, out Matrix matrix)
@@ -90,7 +91,8 @@ namespace FellSky
                 parent.GetWorldMatrixNoOrigin(out parentMatrix);
                 matrix = thisMatrix * parentMatrix;
             }
-            matrix = thisMatrix;
+            else
+                matrix = thisMatrix;
         }
 
         public static void DeleteWithChildren(this Entity entity)
