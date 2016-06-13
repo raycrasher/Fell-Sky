@@ -175,6 +175,7 @@
     <Compile Include="Game\Ships\Parts\DummyPart.cs" />
     <Compile Include="Game\Ships\Parts\Radiator.cs" />
     <Compile Include="Game\Ships\ShipPartGroup.cs" />
+    <Compile Include="Game\Ships\ShipVariant.cs" />
     <Compile Include="Game\Space\Outpost.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>

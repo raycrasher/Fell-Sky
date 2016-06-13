@@ -46,10 +46,14 @@ namespace FellSky.Game.Ships
         public Entity CreateEntity(EntityWorld world, Vector2 position, float rotation, Vector2? scale=null, bool physics=true)
         {
             var shipEntity = world.CreateEntity();
+            var shipComponent = new ShipComponent(this);
             shipEntity.AddComponent(new Transform(position, rotation, scale ?? Vector2.One));
-            shipEntity.AddComponent(new ShipComponent(this));
+            shipEntity.AddComponent(shipComponent);
             shipEntity.AddComponent(new SceneGraphComponent());
             shipEntity.AddComponent(new SceneGraphRenderRoot<StandardShipRenderer>());
+
+            shipComponent.BaseDecalColor = BaseDecalColor;
+            shipComponent.TrimDecalColor = TrimDecalColor;
 
             if (physics)
             {

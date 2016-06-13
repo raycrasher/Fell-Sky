@@ -58,6 +58,21 @@ namespace FellSky.Systems.SceneGraphRenderers
             var color = partEntity.GetComponent<ColorComponent>()?.Color ?? partComponent.Part.Color;
             var sprite = partEntity.GetComponent<SpriteComponent>();
             var xform = partEntity.GetComponent<Transform>();
+            var hull = ((HullComponent)partComponent).Part;
+            var shipComponent = root.GetComponent<ShipComponent>();
+            if(shipComponent != null)
+            {
+                switch (hull.ColorType)
+                {
+                    case Game.Ships.Parts.HullColorType.Hull:
+                        color = new Color(color.ToVector4() * shipComponent.BaseDecalColor.ToVector4());
+                        break;
+                    case Game.Ships.Parts.HullColorType.Trim:
+                        color = new Color(color.ToVector4() * shipComponent.TrimDecalColor.ToVector4());
+                        break;
+                }
+            }
+
             SpriteEffects fx;
 
             var newTransform = xform.AdjustForFlipping(out fx);

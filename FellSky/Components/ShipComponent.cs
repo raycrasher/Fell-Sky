@@ -27,7 +27,13 @@ namespace FellSky.Components
         public float MaxIonization { get; set; } = 1000;
         public float CurrentIonization { get; set; } = 0;
 
+        public Color BaseDecalColor { get; set; }
+        public Color TrimDecalColor { get; set; }
+
         IShipPartCollection  IShipPartCollectionComponent.Model => Ship;
+
+        public ShipVariant Variant { get; set; }
+        public List<Entity> Weapons { get; set; } = new List<Entity>();
 
         // functions
 
