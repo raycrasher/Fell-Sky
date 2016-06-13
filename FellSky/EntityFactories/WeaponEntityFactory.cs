@@ -15,6 +15,12 @@ namespace FellSky.EntityFactories
     public static class WeaponEntityFactory
     {
         public static readonly Dictionary<string, IWeapon> Weapons = new Dictionary<string, IWeapon>();
+        public static readonly Dictionary<string, IProjectile> Projectile = new Dictionary<string, IProjectile>();
+
+        public static void LoadPrjectiles()
+        {
+
+        }
 
         public static void LoadWeapons()
         {

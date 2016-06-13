@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Artemis;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +9,6 @@ namespace FellSky.Game.Combat
 {
     public interface IProjectile
     {
+        Entity Spawn(EntityWorld world, Entity owner, Entity weapon, Entity muzzle);
     }
 }

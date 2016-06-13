@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FellSky.Game.Combat
+namespace FellSky.Game.Combat.Projectiles
 {
-    class BasicMissile
+    class Beam
     {
     }
 }
