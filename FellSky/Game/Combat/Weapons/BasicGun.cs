@@ -92,6 +92,7 @@ namespace FellSky.Game.Combat.Weapons
             turretEntity.AddComponent(turretComponent);
             turretEntity.AddComponent(new Transform());
             turretComponent.HardpointEntity = hardpointEntity;
+            gunComponent.Turret = turretEntity;
             ownerEntity.GetComponent<ShipComponent>().Turrets.Add(turretEntity);
 
             var muzzles = new Dictionary<int, Entity>();
@@ -144,7 +145,9 @@ namespace FellSky.Game.Combat.Weapons
 
         public virtual void Uninstall(Entity owner, Entity weaponEntity)
         {
-            owner.GetComponent<ShipComponent>().Turrets.Remove(weaponEntity);
+            var turret = ((BasicGunComponent)weaponEntity.GetComponent<IWeaponComponent>()).Turret;
+            owner.GetComponent<ShipComponent>().Turrets.Remove(turret);
+            owner.GetComponent<ShipComponent>().Weapons.Remove(weaponEntity);
             weaponEntity.GetComponent<HardpointComponent>().InstalledEntity = null;
             weaponEntity.DeleteWithChildren();
         }
