@@ -83,11 +83,17 @@ namespace FellSky.Editor
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            if (value == null) return null;
             return value.ToString() == parameter.ToString();
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            if(targetType.GetGenericTypeDefinition() == typeof(Nullable<>))
+            {
+                targetType = targetType.GetGenericArguments()[0];
+            }
+
             if(value.Equals(true))
             {
                 return Enum.Parse(targetType, parameter.ToString());
@@ -109,6 +115,19 @@ namespace FellSky.Editor
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             return (float)(decimal)value;
+        }
+    }
+
+    public class EnumValuesConverter : System.Windows.Data.IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return Enum.GetValues((Type)value);
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
         }
     }
 }

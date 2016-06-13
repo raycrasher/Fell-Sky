@@ -134,15 +134,13 @@
     <Compile Include="Components\HullComponent.cs" />
     <Compile Include="Components\IdFriendOrFoeComponent.cs" />
     <Compile Include="Components\IProjectileComponent.cs" />
-    <Compile Include="Components\LightRenderableComponent.cs" />
     <Compile Include="Components\MouseHoverComponent.cs" />
     <Compile Include="Components\NavLightComponent.cs" />
     <Compile Include="Components\ShipPartGroupComponent.cs" />
-    <Compile Include="Components\ShipPartRendererComponent.cs" />
     <Compile Include="Components\ParticleEmitterComponent.cs" />
     <Compile Include="Components\RadiatorComponent.cs" />
     <Compile Include="Components\SceneGraphComponent.cs" />
-    <Compile Include="Components\SceneGraphRendererComponent.cs" />
+    <Compile Include="Components\SceneGraphRenderableComponent.cs" />
     <Compile Include="Components\ShipPartComponent.cs" />
     <Compile Include="Components\RigidBodyFixtureComponent.cs" />
     <Compile Include="Components\ShipComponent.cs" />
@@ -150,7 +148,6 @@
     <Compile Include="Components\StoryComponent.cs" />
     <Compile Include="Components\ThrusterComponent.cs" />
     <Compile Include="Components\IWeaponComponent.cs" />
-    <Compile Include="Components\ThrusterRendererComponent.cs" />
     <Compile Include="Components\TurretComponent.cs" />
     <Compile Include="EntityFactories\ParticleEntityFactory.cs" />
     <Compile Include="EntityFactories\ShipEntityFactory.cs" />

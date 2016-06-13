@@ -31,49 +31,103 @@ namespace FellSky.Game.Combat.Weapons
         [Newtonsoft.Json.JsonIgnore]
         public ShipPart[] FixedParts { get; set; }
 
-        public virtual Entity Install(EntityWorld world, Entity owner, Entity hardpoint)
+
+        /*
+            Proposed scene graph structure is like this:
+
+            Ship
+                Part w/hardpoint
+                    Weapon mount -> transform should be Part.Transform.Matrix.Inverse, then apply position and rotation only.
+                        Turret fixed entities
+                        Turret rotating entity
+                            Barrels (could also be flagged as fixed)
+                            Mounts  (could also be flagged as fixed)
+        */
+        public virtual Entity Install(EntityWorld world, Entity ownerEntity, Entity hardpointEntity)
         {
-            var turretEntity = world.CreateEntity();
-            var gunComponent = new BasicGunComponent();
-            gunComponent.Gun = this;
-            gunComponent.Owner = owner;
-            
-            var hardpointComponent = hardpoint.GetComponent<HardpointComponent>();
-            var hpXform = hardpoint.GetComponent<Transform>();
-            var newXform = new Transform(hpXform.Position, hpXform.Rotation, Vector2.One);
-            turretEntity.AddComponent(newXform);
-
-            turretEntity.AddComponent(hardpointComponent);
-            hardpointComponent.InstalledEntity = turretEntity;
-            owner.GetComponent<ShipComponent>().Turrets.Add(turretEntity);            
-            turretEntity.AddComponent<IWeaponComponent>(gunComponent);
-            hardpoint.GetParent().AddChild(turretEntity);
-
+            var hardpointComponent = hardpointEntity.GetComponent<HardpointComponent>();                     
+            var hardpointTransform = hardpointEntity.GetComponent<Transform>();
             var group = GetPartGroup(TurretId);
 
-            List<Entity> turretBase = new List<Entity>();
-
-            foreach(var part in group.Parts)
+            // create weapon entity
+            var weaponEntity = world.CreateEntity();
+            var gunComponent = new BasicGunComponent
             {
+                Gun = this,
+                Owner = ownerEntity
+            };
+            weaponEntity.AddComponent<IWeaponComponent>(gunComponent);
 
-            }
-            group.CreateEntities(world, turretEntity);
+            // set weapon transform
+
+            var weaponTransform = new Transform(Vector2.Zero, 0, Vector2.One, -hardpointTransform.Origin);
             
-            //world.SpawnShipPartGroup(entity, group.PartGroup);
+            var scale = hardpointTransform.Scale;
+            var origin = -hardpointTransform.Origin;
+            if (scale.X < 0)
+            {
+                scale.X = Math.Abs(scale.X);
+                origin.X *= -1;
+            }
+            if (scale.Y < 0)
+            {
+                scale.Y *= Math.Abs(scale.Y);
+                origin.Y *= -1;
+            }
+            weaponTransform.Scale = scale;
+            weaponTransform.Origin = origin;
 
-            if (Muzzles == null)
-                Muzzles = group.GetNumberedFlaggedParts("Muzzle");
-            if (Barrels == null)
-                Muzzles = group.GetNumberedFlaggedParts("Barrel");
 
-            var turret = new TurretComponent
+            weaponEntity.AddComponent(weaponTransform);
+            weaponEntity.AddComponent(hardpointComponent);
+            hardpointComponent.InstalledEntity = weaponEntity;
+
+            // create turret entity;
+            var turretEntity = world.CreateEntity();
+            var turretComponent = new TurretComponent
             {
                 TurnRate = TurnRate,
                 FiringArc = hardpointComponent.Hardpoint.FiringArc
             };
-            turretEntity.AddComponent(turret);
+            turretEntity.AddComponent(turretComponent);
+            turretEntity.AddComponent(new Transform());
+            ownerEntity.GetComponent<ShipComponent>().Turrets.Add(turretEntity);
 
-            // todo: set projectile
+            var muzzles = new Dictionary<int, Entity>();
+
+            foreach (var part in group.Parts)
+            {
+                if (part.Flags == null || part.Flags.Contains("turret", StringComparer.InvariantCultureIgnoreCase))
+                {
+                    part.CreateEntity(world, ownerEntity, turretEntity);
+                }
+                else if (part.Flags.Contains("base", StringComparer.InvariantCultureIgnoreCase))
+                {
+                    part.CreateEntity(world, ownerEntity, weaponEntity);
+                }
+
+                var muzzleFlag = part.Flags?.FirstOrDefault(f => f.StartsWith("muzzle", StringComparison.InvariantCultureIgnoreCase));
+                if (muzzleFlag != null)
+                {
+                    int index = 0;
+                    int.TryParse(muzzleFlag.Substring("muzzle".Length), out index);
+                    
+                    var muzzleEntity = world.CreateEntity();
+                    muzzles[index] = muzzleEntity;
+                    muzzleEntity.AddComponent(part.Transform.Clone());
+                    if(muzzleEntity.GetParent() == null)
+                    {
+                        turretEntity.AddChild(muzzleEntity);
+                    }
+                }
+            }
+
+            // set parenting
+            hardpointEntity.AddChild(weaponEntity);
+            weaponEntity.AddChild(turretEntity);
+
+
+            gunComponent.Muzzles = muzzles.OrderBy(m => m.Key).Select(m => m.Value).ToArray();
 
             return turretEntity;
         }

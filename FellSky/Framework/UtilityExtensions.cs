@@ -15,7 +15,8 @@ namespace FellSky
             return Matrix.CreateTranslation(new Vector3(-xform.Origin,0)) * 
                    Matrix.CreateScale(new Vector3(xform.Scale, 1)) * 
                    Matrix.CreateRotationZ(xform.Rotation) * 
-                   Matrix.CreateTranslation(new Vector3(xform.Position, 0));
+                   Matrix.CreateTranslation(new Vector3(xform.Position, 0))
+                   ;
         }
 
         public static Matrix GetMatrixNoOrigin(this ITransform xform)
@@ -162,6 +163,12 @@ namespace FellSky
                 _tempXform.Scale *= new Vector2(1, -1);
             }
             return _tempXform;
+        }
+
+        public static T GetAllEqualOrNothing<T>(this IEnumerable<T> enumerable)
+        {
+            T value = enumerable.FirstOrDefault();
+            return enumerable.All(i => i.Equals(value)) ? value : default(T);
         }
     }
 }
