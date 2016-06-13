@@ -91,6 +91,7 @@ namespace FellSky.Game.Combat.Weapons
             };
             turretEntity.AddComponent(turretComponent);
             turretEntity.AddComponent(new Transform());
+            turretComponent.HardpointEntity = hardpointEntity;
             ownerEntity.GetComponent<ShipComponent>().Turrets.Add(turretEntity);
 
             var muzzles = new Dictionary<int, Entity>();
