@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FellSky.Framework.SteeringBehaviors
 {
-    public class SeekBehavior : ISteeringBehavior
+    public class SeekBehavior : SteeringBehavior
     {
         public void Update(Artemis.Entity entity, float[] dangerMap, float[] interestMap)
         {

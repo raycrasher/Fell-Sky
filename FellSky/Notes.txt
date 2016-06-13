@@ -10,9 +10,9 @@ Ship (root)
 
 
 
-
-
-
+MacGuffinites:
+	Muonite - a rare mineral, which, when incorporated into a Muon Generator Assembly, produces a pure beam of muons. Used for nuclear fusion.
+	Monopole dust - a collection of monopole dust.
 
 
 
@@ -25,6 +25,11 @@ On battle scenes
 	Engines should provide some damage when thrusting at close range.
 
 
+
+On Boarding:
+	After a ship is disabled, we can communicate with any surviving crew.
+		
+	Approaches: Stealth, Hull Breach, 
 
 
 Scenes:

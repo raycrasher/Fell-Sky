@@ -145,6 +145,7 @@
     <Compile Include="Components\RigidBodyFixtureComponent.cs" />
     <Compile Include="Components\ShipComponent.cs" />
     <Compile Include="Components\SoundEffectComponent.cs" />
+    <Compile Include="Components\SteeringObstacleComponent.cs" />
     <Compile Include="Components\StoryComponent.cs" />
     <Compile Include="Components\ThrusterComponent.cs" />
     <Compile Include="Components\IWeaponComponent.cs" />
@@ -250,7 +251,6 @@
     <Compile Include="Components\GridComponent.cs" />
     <Compile Include="Components\MouseControlledTransformComponent.cs" />
     <Compile Include="Components\RigidBodyComponent.cs" />
-    <Compile Include="Framework\SteeringBehaviors\SteeringComponent.cs" />
     <Compile Include="EntityFactories\CameraEntityFactory.cs" />
     <Compile Include="EntityFactories\GenericDrawableEntityFactory.cs" />
     <Compile Include="EntityFactories\GridEntityFactory.cs" />
@@ -318,7 +318,7 @@
     <Compile Include="Framework\SteeringBehaviors\EvadeBehavior.cs" />
     <Compile Include="Framework\SteeringBehaviors\FleeBehavior.cs" />
     <Compile Include="Framework\SteeringBehaviors\FollowPathBehavior.cs" />
-    <Compile Include="Framework\SteeringBehaviors\ISteeringBehavior.cs" />
+    <Compile Include="Framework\SteeringBehaviors\SteeringBehavior.cs" />
     <Compile Include="Framework\SteeringBehaviors\LeaderFollowingBehavior.cs" />
     <Compile Include="Framework\SteeringBehaviors\ObstacleAvoidanceBehavior.cs" />
     <Compile Include="Framework\SteeringBehaviors\PursuitBehavior.cs" />
@@ -365,8 +365,8 @@
     <Compile Include="Systems\SceneGraphRenderers\ISceneGraphRenderer.cs" />
     <Compile Include="Systems\SceneGraphRenderers\StandardShipRenderer.cs" />
     <Compile Include="Systems\ShipUpdateSystem.cs" />
-    <Compile Include="Framework\SteeringBehaviors\SteeringBehaviorSystem.cs" />
     <Compile Include="Systems\MouseControlledTransformSystem.cs" />
+    <Compile Include="Systems\SteeringBehaviorSystem.cs" />
     <Compile Include="Systems\StorySystem.cs" />
     <Compile Include="Systems\TurretRotationSystem.cs" />
   </ItemGroup>
