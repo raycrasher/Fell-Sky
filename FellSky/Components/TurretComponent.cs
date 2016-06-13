@@ -21,6 +21,8 @@ namespace FellSky.Components
         public bool IsOmnidirectional => FiringArc >= MathHelper.TwoPi;
         public bool IsFixedTurret => FiringArc <= 0;
 
+        public Entity HardpointEntity;
+
         public Entity[] Barrels;
         public Transform[] Muzzles;
         

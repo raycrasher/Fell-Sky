@@ -20,6 +20,15 @@ namespace FellSky
             scale = new Vector2(scale3.X, scale3.Y);
         }
 
+        public static float GetRotation(ref Matrix matrix)
+        {
+            Vector3 position3, scale3;
+            Quaternion rotationQ;
+            matrix.Decompose(out scale3, out rotationQ, out position3);
+            Vector2 direction = Vector2.Transform(Vector2.UnitX, rotationQ);
+            return (float)Math.Atan2(direction.Y, direction.X);
+        }
+
         public static void CopyValuesFrom(this Transform xform, Matrix matrix)
         {
             xform.CopyValuesFrom(ref matrix);
