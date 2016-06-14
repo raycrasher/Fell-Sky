@@ -170,6 +170,7 @@
     <Compile Include="Game\Combat\Weapons\WeaponData.cs" />
     <Compile Include="Game\Inventory\IInventoryItem.cs" />
     <Compile Include="Game\Ships\IShipPartCollection.cs" />
+    <Compile Include="Game\Ships\PartAnimation.cs" />
     <Compile Include="Game\Ships\PartEntityPair.cs" />
     <Compile Include="Game\Ships\Parts\DrawShipToTexture.cs" />
     <Compile Include="Game\Ships\Parts\DummyPart.cs" />
