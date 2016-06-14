@@ -20,9 +20,19 @@ namespace FellSky.Editor
     /// </summary>
     public partial class AnimationEditorControl : UserControl
     {
+        AnimationEditorControlViewModel Model;
+
         public AnimationEditorControl()
         {
             InitializeComponent();
+        }
+
+        private void OnPositionMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            var canvas = (Canvas)sender;
+            var pos = e.GetPosition(canvas);
+            var percentage = pos.X / canvas.ActualWidth;
+            Model.AddPositionAt(percentage);
         }
     }
 }

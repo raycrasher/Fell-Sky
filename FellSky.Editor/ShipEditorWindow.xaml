@@ -137,20 +137,7 @@
                         />
             <GridSplitter Grid.Row="1" Height="2" />
             <GroupBox Header="Animation" Grid.Row="1" Height="200">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="120"/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <Grid Grid.Column="0">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition/>
-                        </Grid.RowDefinitions>
-                        <Label>Sequences:</Label>
-                        <Button HorizontalAlignment="Right" VerticalAlignment="Center">ADD</Button>
-                    </Grid>
-                </Grid>
+                <fe:AnimationEditorControl />
             </GroupBox>
             
         </Grid>

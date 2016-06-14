@@ -152,7 +152,7 @@
     <Compile Include="FloatUpDownEditor.cs" />
     <Compile Include="KeyboardService.cs" />
     <Compile Include="MouseService.cs" />
-    <Compile Include="PartAnimationEditorViewModel.cs" />
+    <Compile Include="AnimationEditorControlViewModel.cs" />
     <Compile Include="PropertyGrid.xaml.cs">
       <DependentUpon>PropertyGrid.xaml</DependentUpon>
     </Compile>
