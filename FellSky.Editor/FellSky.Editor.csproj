@@ -141,6 +141,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AnimationEditorControl.xaml.cs">
+      <DependentUpon>AnimationEditorControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Converters.cs" />
     <Compile Include="D3D11Host.cs" />
     <Compile Include="D3D11Image.cs" />
@@ -149,6 +152,7 @@
     <Compile Include="FloatUpDownEditor.cs" />
     <Compile Include="KeyboardService.cs" />
     <Compile Include="MouseService.cs" />
+    <Compile Include="PartAnimationEditorViewModel.cs" />
     <Compile Include="PropertyGrid.xaml.cs">
       <DependentUpon>PropertyGrid.xaml</DependentUpon>
     </Compile>
@@ -160,6 +164,10 @@
     <Compile Include="ShipPartEditorViewModel.cs" />
     <Compile Include="Systems\ShowThrusterTrailsOverrideSystem.cs" />
     <Compile Include="Utilities.cs" />
+    <Page Include="AnimationEditorControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="PropertyGrid.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
