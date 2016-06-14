@@ -39,7 +39,7 @@ namespace FellSky.Systems
 
         protected override void ProcessEntities(IDictionary<int, Entity> entities)
         {
-            base.ProcessEntities(entities);
+
         }
 
         private void CollisionEventHandler(object sender, EventArgs e)

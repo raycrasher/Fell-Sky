@@ -168,6 +168,7 @@
     <Compile Include="Game\Combat\Projectiles\Bullet.cs" />
     <Compile Include="Game\Combat\Weapons\BasicGun.cs" />
     <Compile Include="Game\Combat\Weapons\WeaponData.cs" />
+    <Compile Include="Game\Combat\Weapons\WeaponStatus.cs" />
     <Compile Include="Game\Inventory\IInventoryItem.cs" />
     <Compile Include="Game\Ships\IShipPartCollection.cs" />
     <Compile Include="Game\Ships\PartAnimation.cs" />
@@ -227,6 +228,7 @@
     <Compile Include="States\ShipRefitState.cs" />
     <Compile Include="Systems\AnimationSystem.cs" />
     <Compile Include="Systems\BackgroundRendererSystem.cs" />
+    <Compile Include="Systems\BasicGunComponentSystem.cs" />
     <Compile Include="Systems\BeamRendererSystem.cs" />
     <Compile Include="Systems\BulletRendererSystem.cs" />
     <Compile Include="Systems\ClientPredictedTransformSystem.cs" />
@@ -380,6 +382,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Services\Networking\" />
+    <Folder Include="Systems\Animation\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Notes.txt" />

@@ -13,5 +13,7 @@ namespace FellSky.Components
     public interface IWeaponComponent: IComponent
     {
         IWeapon Weapon { get; }
+        bool RequestFire { get; set; }
+        WeaponStatus Status { get; set; }
     }
 }

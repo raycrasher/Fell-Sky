@@ -22,6 +22,20 @@ namespace FellSky.Game.Combat.Weapons
         public string ProjectileId { get; set; }
         public float DamagePerSecond { get; set; }
         public float TurnRate { get; set; } = MathHelper.Pi;
+
+        /// <summary>
+        /// Fire rate, in cycles per minute.
+        /// </summary>
+        public float FireRate { get; set; }
+        public float MagSize { get; set; }
+        public float ReloadRate { get; set; }
+        public float MaxAmmo { get; set; }
+
+        // animation:
+        public float RecoilSpeed { get; set; } = 5;
+        public float RecoilResetSpeed { get; set; } = 1;
+
+        
         public IProjectile Projectile { get; set; }
 
         [Newtonsoft.Json.JsonIgnore]
@@ -57,6 +71,7 @@ namespace FellSky.Game.Combat.Weapons
                 Owner = ownerEntity
             };
             weaponEntity.AddComponent<IWeaponComponent>(gunComponent);
+            weaponEntity.AddComponent(gunComponent);
 
             // set weapon transform
 
