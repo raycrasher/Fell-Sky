@@ -1,4 +1,6 @@
-﻿using System;
+﻿using FellSky.Game.Ships;
+using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,6 +11,7 @@ namespace FellSky.Editor
     [PropertyChanged.ImplementPropertyChanged]
     public class AnimationEditorControlViewModel
     {
+        public PartAnimation Animation { get; set; }
         public float? PositionX { get; set; }
         public float? PositionY { get; set; }
         public float? ScaleX { get; set; }
@@ -27,9 +30,5 @@ namespace FellSky.Editor
         public int CurrentColorIndex { get; set; }
         public int CurrentAlphaIndex { get; set; }
 
-        internal void AddPositionAt(double percentage)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

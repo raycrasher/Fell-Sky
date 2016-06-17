@@ -9,6 +9,13 @@ namespace FellSky.Game.Ships
 {
     public class Keyframe<T>
     {
+        public Keyframe(float time, T value)
+        {
+            Time = time;
+            Value = value;
+        }
+
+        public Keyframe() { }
         public float Time { get; set; }
         public T Value { get; set; }
     }
@@ -28,6 +35,31 @@ namespace FellSky.Game.Ships
             Scale.Sort((a, b) => Comparer<float>.Default.Compare(a.Time, b.Time));
             Color.Sort((a, b) => Comparer<float>.Default.Compare(a.Time, b.Time));
             Alpha.Sort((a, b) => Comparer<float>.Default.Compare(a.Time, b.Time));
+        }
+
+        public void AddPositionKeyframe(float percentage)
+        {
+            Position.Add(new Keyframe<Vector2>(percentage, GetPosition(percentage)));
+            Position.Sort((a, b) => Comparer<float>.Default.Compare(a.Time, b.Time));
+        }
+
+        private Vector2 GetPosition(Vector2 initial, float percentage)
+        {
+            foreach(var item in Position)
+            {
+
+            }
+        }
+
+        private int GetLastIndex<T>(List<Keyframe<T>> list, float percentage)
+        {
+            int index;
+
+            for(index = 0; index < list.Count; index++)
+            {
+
+            }
+            return index;
         }
     }
 }
