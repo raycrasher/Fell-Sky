@@ -26,6 +26,8 @@ namespace FellSky.Game.Ships
 
     public class PartAnimation
     {
+        public delegate T LerpFunction<T>(T start, T end, float percentage);
+
         public List<Keyframe<Vector2>> Positions { get; set; } = new List<Keyframe<Vector2>>();
         public List<Keyframe<float>> Rotations { get; set; } = new List<Keyframe<float>>();
         public List<Keyframe<Vector2>> Scales { get; set; } = new List<Keyframe<Vector2>>();
@@ -102,7 +104,7 @@ namespace FellSky.Game.Ships
             => GetValue(Alphas, MathHelper.Lerp, time, 1f);
 
 
-        public static IEnumerable<T> Animate<T>(List<Keyframe<T>> frames, Func<T, T, float, T> lerpFunction, Func<float> deltaTimeFunction, T defaultValue)
+        public static IEnumerable<T> Animate<T>(List<Keyframe<T>> frames, LerpFunction<T> lerpFunction, Func<float> deltaTimeFunction, T defaultValue)
         {
             float time = 0;
             float end = frames.Count <= 0 ? 0 : frames[frames.Count - 1].Time;
@@ -149,7 +151,7 @@ namespace FellSky.Game.Ships
             yield return currentFrame.Value;
         }
 
-        public static T GetValue<T>(List<Keyframe<T>> frames, Func<T, T, float, T> lerpFunction, float time, T defaultValue)
+        public static T GetValue<T>(List<Keyframe<T>> frames, LerpFunction<T> lerpFunction, float time, T defaultValue)
         {
             if (frames.Count <= 0) return defaultValue;
 
