@@ -146,5 +146,12 @@ namespace FellSky.Editor
             _draggedKeyframe = null;
 
         }
+
+        private void OnKeyframeRightMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            var k = (IKeyframe)((System.Windows.Shapes.Rectangle)sender).Tag;
+            Frames.Remove(k);
+            CollectionViewSource.GetDefaultView(Frames).Refresh();
+        }
     }
 }

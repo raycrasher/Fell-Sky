@@ -17,7 +17,7 @@
         </ItemsControl.ItemsPanel>
         <ItemsControl.ItemTemplate>
             <DataTemplate>
-                <Rectangle Width="5" VerticalAlignment="Stretch" HorizontalAlignment="Left" Fill="LightGray" Height="{Binding ElementName=slider, Path=ActualHeight}" Stroke="Black" StrokeThickness="1" Cursor="SizeWE" MouseLeftButtonDown="OnKeyframeMouseDown" Tag="{Binding}" MouseLeftButtonUp="Reset" ToolTip="{Binding}">
+                <Rectangle Width="5" VerticalAlignment="Stretch" HorizontalAlignment="Left" Fill="LightGray" Height="{Binding ElementName=slider, Path=ActualHeight}" Stroke="Black" StrokeThickness="1" Cursor="SizeWE" MouseLeftButtonDown="OnKeyframeMouseDown" Tag="{Binding}" MouseLeftButtonUp="Reset" MouseRightButtonDown="OnKeyframeRightMouseDown" ToolTip="{Binding}">
                     <Rectangle.Margin>
                         <MultiBinding Converter="{StaticResource sliderPercentToMarginConverter}">
                             <Binding Path="Time"/>
