@@ -1,0 +1,31 @@
+﻿<UserControl Name="root" x:Class="FellSky.Editor.KeyframeSlider"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FellSky.Editor"
+             mc:Ignorable="d" 
+             d:DesignHeight="20" d:DesignWidth="300">
+    <UserControl.Resources>
+        <local:SliderPercentToMarginConverter x:Key="sliderPercentToMarginConverter" />
+    </UserControl.Resources>
+    <ItemsControl Name="slider" MouseLeftButtonDown="OnSliderMouseDown" Grid.Column="2" Grid.Row="1" ItemsSource="{Binding ElementName=root, Path=Frames}" Background="Gray" MouseMove="OnDragKeyframe" MouseLeftButtonUp="Reset" MouseLeave="Reset">
+        <ItemsControl.ItemsPanel>
+            <ItemsPanelTemplate>
+                <Canvas IsItemsHost="True" />
+            </ItemsPanelTemplate>
+        </ItemsControl.ItemsPanel>
+        <ItemsControl.ItemTemplate>
+            <DataTemplate>
+                <Rectangle Width="5" VerticalAlignment="Stretch" HorizontalAlignment="Left" Fill="LightGray" Height="{Binding ElementName=slider, Path=ActualHeight}" Stroke="Black" StrokeThickness="1" Cursor="SizeWE" MouseLeftButtonDown="OnKeyframeMouseDown" Tag="{Binding}" MouseLeftButtonUp="Reset" ToolTip="{Binding}">
+                    <Rectangle.Margin>
+                        <MultiBinding Converter="{StaticResource sliderPercentToMarginConverter}">
+                            <Binding Path="Time"/>
+                            <Binding ElementName="slider" Path="ActualWidth"/>
+                        </MultiBinding>
+                    </Rectangle.Margin>
+                </Rectangle>
+            </DataTemplate>
+        </ItemsControl.ItemTemplate>
+    </ItemsControl>
+</UserControl>

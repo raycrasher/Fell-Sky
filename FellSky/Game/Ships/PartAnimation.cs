@@ -31,15 +31,6 @@ namespace FellSky.Game.Ships
         public IEnumerable<float> AnimateAlpha(Func<float> deltaTimeFunction)
             => KeyframeAnimation.Animate(Alphas, MathHelper.Lerp, deltaTimeFunction, 1);
 
-        public void Sort()
-        {
-            Positions.Sort((a, b) => Comparer<float>.Default.Compare(a.Time, b.Time));
-            Rotations.Sort((a, b) => Comparer<float>.Default.Compare(a.Time, b.Time));
-            Scales.Sort((a, b) => Comparer<float>.Default.Compare(a.Time, b.Time));
-            Colors.Sort((a, b) => Comparer<float>.Default.Compare(a.Time, b.Time));
-            Alphas.Sort((a, b) => Comparer<float>.Default.Compare(a.Time, b.Time));
-        }
-
         public void AddPositionKeyframe(float time, Vector2? value = null)
         {
             Positions.Add(new Keyframe<Vector2>(time, value ?? GetPosition(time)));

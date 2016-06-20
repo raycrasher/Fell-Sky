@@ -1,4 +1,6 @@
-﻿using System;
+﻿using FellSky.Framework;
+using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,14 +27,7 @@ namespace FellSky.Editor
         public AnimationEditorControl()
         {
             InitializeComponent();
-        }
-
-        private void OnPositionMouseDown(object sender, MouseButtonEventArgs e)
-        {
-            var canvas = (Canvas)sender;
-            var pos = e.GetPosition(canvas);
-            var percentage = pos.X / canvas.ActualWidth;
-            Model.Animation.AddPositionKeyframe((float)percentage);
+            Model = (AnimationEditorControlViewModel)FindResource("model");
         }
     }
 }

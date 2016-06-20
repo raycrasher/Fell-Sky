@@ -10,7 +10,13 @@ namespace FellSky.Framework
 {
     public delegate T LerpFunction<T>(T start, T end, float percentage);
 
-    public class Keyframe<T>
+    public interface IKeyframe
+    {
+        float Time { get; set; }
+        object Value { get; }
+    }
+
+    public sealed class Keyframe<T>: IKeyframe
     {
         public Keyframe(float time, T value)
         {
@@ -21,10 +27,23 @@ namespace FellSky.Framework
         public Keyframe() { }
         public float Time { get; set; }
 
+        object IKeyframe.Value
+        {
+            get { return Value; }
+        }
+
         /// <summary>
         /// The value, relative to the previous keyframe.
         /// </summary>
         public T Value { get; set; }
+
+        public static int Compare(Keyframe<T> a, Keyframe<T> b)
+            => Math.Sign(a.Time - b.Time);
+
+        public override string ToString()
+        {
+            return $"T+{Time}  V: {Value}";
+        }
     }
 
     public static class KeyframeAnimation
