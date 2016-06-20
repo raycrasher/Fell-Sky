@@ -25,7 +25,7 @@ namespace FellSky.Game.Combat.Weapons
         public IProjectile Projectile { get; set; }
 
         [Newtonsoft.Json.JsonIgnore]
-        public Dictionary<int,ShipPart[]> Muzzles { get; set; }
+        public ShipPart[] Muzzles { get; set; }
         [Newtonsoft.Json.JsonIgnore]
         public Dictionary<int, ShipPart[]> Barrels { get; set; }
         [Newtonsoft.Json.JsonIgnore]
@@ -138,8 +138,11 @@ namespace FellSky.Game.Combat.Weapons
 
         public virtual void Fire(EntityWorld world, Entity owner, Entity weapon)
         {
-            var weaponComponent = weapon.GetComponent<IWeaponComponent>();
-            
+            var weaponComponent = (BasicGunComponent)weapon.GetComponent<IWeaponComponent>();
+            Projectile = Projectile ?? WeaponEntityFactory.Projectile[ProjectileId];
+
+            foreach (var muzzle in weaponComponent.Muzzles)
+                Projectile.Spawn(world, owner, weapon, muzzle);
             
         }
 

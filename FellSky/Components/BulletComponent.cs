@@ -1,6 +1,7 @@
 ﻿using Artemis;
 using Artemis.Interface;
 using FellSky.Game.Combat;
+using FellSky.Game.Combat.Projectiles;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -10,12 +11,15 @@ using System.Threading.Tasks;
 
 namespace FellSky.Components
 {
-    public class BasicBulletComponent : IComponent
+    public class BulletComponent : IComponent, IProjectileComponent
     {
         public Color Color;
-        public Entity Owner;
-        public Entity FiringWeapon;
-        public BasicBullet Bullet;
+        public Entity Owner { get; set; }
+        public Entity Weapon { get; set; }
+        public Bullet Bullet { get; set; }
+
+        IProjectile IProjectileComponent.Bullet => Bullet;
+
         public TimeSpan Age;
         public float Alpha;
     }

@@ -118,7 +118,7 @@
     <Compile Include="Components\BasicGunComponent.cs" />
     <Compile Include="Components\BeamRendererComponent.cs" />
     <Compile Include="Components\BoundingBoxComponent.cs" />
-    <Compile Include="Components\BasicBulletComponent.cs" />
+    <Compile Include="Components\BulletComponent.cs" />
     <Compile Include="Components\ClientPredictedTransformComponent.cs" />
     <Compile Include="Components\CollisionComponent.cs" />
     <Compile Include="Components\ColorComponent.cs" />
@@ -163,9 +163,9 @@
     <Compile Include="Game\Campaign\Storyline\ActOne.cs" />
     <Compile Include="Game\Campaign\Storyline\Story.cs" />
     <Compile Include="Game\Campaign\Storyline\StoryUtilities.cs" />
-    <Compile Include="Game\Combat\BasicBeam.cs" />
-    <Compile Include="Game\Combat\BasicMissile.cs" />
     <Compile Include="Game\Combat\IProjectile.cs" />
+    <Compile Include="Game\Combat\Projectiles\Beam.cs" />
+    <Compile Include="Game\Combat\Projectiles\Bullet.cs" />
     <Compile Include="Game\Combat\Weapons\BasicGun.cs" />
     <Compile Include="Game\Combat\Weapons\WeaponData.cs" />
     <Compile Include="Game\Inventory\IInventoryItem.cs" />
@@ -214,7 +214,6 @@
     <Compile Include="Services\SpaceBackgroundGeneratorService.cs" />
     <Compile Include="Game\Combat\Beam.cs" />
     <Compile Include="Game\Combat\Explosion.cs" />
-    <Compile Include="Game\Combat\BasicBullet.cs" />
     <Compile Include="Components\SteeringBehaviorComponent.cs" />
     <Compile Include="Game\Ships\Modules\MothershipBrainModule.cs" />
     <Compile Include="Game\Ships\Modules\Module.cs" />
@@ -229,7 +228,6 @@
     <Compile Include="Systems\AnimationSystem.cs" />
     <Compile Include="Systems\BackgroundRendererSystem.cs" />
     <Compile Include="Systems\BeamRendererSystem.cs" />
-    <Compile Include="Systems\BulletComponent.cs" />
     <Compile Include="Systems\BulletRendererSystem.cs" />
     <Compile Include="Systems\ClientPredictedTransformSystem.cs" />
     <Compile Include="Systems\CommandBufferSystem.cs" />

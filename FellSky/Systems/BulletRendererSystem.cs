@@ -15,7 +15,7 @@ namespace FellSky.Systems
         private SpriteBatch _batch;
 
         public BulletRendererSystem()
-            : base(Aspect.All(typeof(BasicBulletComponent), typeof(Transform), typeof(SpriteComponent)))
+            : base(Aspect.All(typeof(Components.BulletComponent), typeof(Transform), typeof(SpriteComponent)))
         {
             _batch = ServiceLocator.Instance.GetService<SpriteBatch>();
         }
@@ -25,7 +25,7 @@ namespace FellSky.Systems
             _batch.Begin(transformMatrix: EntityWorld.GetActiveCamera().GetViewMatrix(1.0f));
             foreach (var entity in entities.Values)
             {
-                var bullet = entity.GetComponent<BasicBulletComponent>();
+                var bullet = entity.GetComponent<Components.BulletComponent>();
                 var xform = entity.GetComponent<Transform>();
                 var sprite = entity.GetComponent<SpriteComponent>();
                 sprite.Draw(_batch, xform, bullet.Color * bullet.Alpha);

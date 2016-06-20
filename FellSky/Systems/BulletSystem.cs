@@ -45,7 +45,7 @@ namespace FellSky.Systems
         private void CollisionEventHandler(object sender, EventArgs e)
         {
             var args = (PhysicsCollisionEventArgs) e;
-            var bullet = args.EntityA?.GetComponent<BasicBulletComponent>();
+            var bullet = args.EntityA?.GetComponent<Components.BulletComponent>();
             if (bullet == null) return;
             /*
             if(!bullet.IsIndiscriminate)
