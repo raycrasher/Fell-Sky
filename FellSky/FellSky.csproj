@@ -256,7 +256,7 @@
     <Compile Include="EntityFactories\CameraEntityFactory.cs" />
     <Compile Include="EntityFactories\GenericDrawableEntityFactory.cs" />
     <Compile Include="EntityFactories\GridEntityFactory.cs" />
-    <Compile Include="Framework\Animation.cs" />
+    <Compile Include="Framework\KeyframeAnimation.cs" />
     <Compile Include="Services\IKeyboardService.cs" />
     <Compile Include="Services\IMouseService.cs" />
     <Compile Include="Services\ITimerService.cs" />
