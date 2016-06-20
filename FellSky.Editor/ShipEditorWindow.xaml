@@ -125,12 +125,23 @@
             </TabControl>
         </Grid>
         <GridSplitter Width="3" Grid.Row="1" Opacity="0" />
-
-        <fe:D3D11Host x:Name="D3D11Host" Stretch="UniformToFill"
+        <Grid Grid.Column="1" Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <fe:D3D11Host x:Name="D3D11Host" Stretch="UniformToFill"
                         Initializing="D3D11Host_Initializing" Rendering="D3D11Host_Rendering" Focusable="True"
                         MouseEnter="D3D11Host_MouseEnter" MouseDown="D3D11Host_MouseDown" Visibility="Visible" IsEnabled="True"
-                        Grid.Column="1" Grid.Row="1" FocusManager.IsFocusScope="True"
+                        Grid.Row="0" FocusManager.IsFocusScope="True"
                         />
+            <GridSplitter Grid.Row="1" Height="2" />
+            <GroupBox Header="Animation" Grid.Row="1" Height="200">
+                <fe:AnimationEditorControl />
+            </GroupBox>
+            
+        </Grid>
+
 
         <Menu Name="mainMenu" VerticalAlignment="Stretch" Background="{x:Null}" HorizontalContentAlignment="Left" FontSize="12" >
             <MenuItem Header="Ship" VerticalAlignment="Center" >
