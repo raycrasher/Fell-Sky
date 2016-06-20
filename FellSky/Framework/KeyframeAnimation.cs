@@ -106,7 +106,7 @@ namespace FellSky.Framework
             {
                 last = current;
                 current = frames[i];
-                if (frames[i].Time < time) break;
+                if (frames[i].Time > time) break;
             }
 
             if (i >= frames.Count)
@@ -117,7 +117,7 @@ namespace FellSky.Framework
             }
             else
             {
-                return lerpFunction(last.Value, current.Value, time / current.Time);
+                return lerpFunction(last.Value, current.Value, (time - last.Time) / current.Time);
             }
         }
     }
