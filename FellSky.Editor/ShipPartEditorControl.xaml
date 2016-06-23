@@ -9,15 +9,19 @@
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              mc:Ignorable="d" 
              FontSize="10" 
-             d:DesignHeight="600" d:DesignWidth="300" HorizontalAlignment="Stretch">
+             d:DesignHeight="700" d:DesignWidth="300" HorizontalAlignment="Stretch">
     <UserControl.Resources>
         <local:ShipPartEditorViewModel x:Key="Model"/>
     </UserControl.Resources>
-    <StackPanel HorizontalAlignment="Stretch" DataContext="{StaticResource Model}" IsEnabled="{Binding HasItems}">
+    <StackPanel HorizontalAlignment="Stretch" DataContext="{StaticResource Model}" IsEnabled="{Binding HasItems}" ScrollViewer.VerticalScrollBarVisibility="Auto">
         <StackPanel.Resources>
             <Style TargetType="TextBox">
                 <Setter Property="VerticalAlignment" Value="Center"/>
                 <Setter Property="Padding" Value="3"/>
+            </Style>
+            <Style TargetType="ctl:NumericUpDown">
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="FontSize" Value="10" />
             </Style>
         </StackPanel.Resources>
         <StackPanel DataContext="{Binding General}">
@@ -49,7 +53,7 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <Label>Rotation:</Label>
-                <TextBox Grid.Column="1" Text="{Binding Rot}"/>
+                <ctl:NumericUpDown Grid.Column="1" Value="{Binding Rot}"/>
             </Grid>
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -61,9 +65,9 @@
                 </Grid.ColumnDefinitions>
                 <Label>Scale:</Label>
                 <Label Grid.Column="1">X:</Label>
-                <TextBox Grid.Column="2" Text="{Binding ScaleX}"/>
+                <ctl:NumericUpDown Grid.Column="2" Value="{Binding ScaleX}"/>
                 <Label Grid.Column="3">Y:</Label>
-                <TextBox Grid.Column="4" Text="{Binding ScaleY}"/>
+                <ctl:NumericUpDown Grid.Column="4" Value="{Binding ScaleY}"/>
             </Grid>
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -86,8 +90,36 @@
                     <ColumnDefinition Width="100"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <Label VerticalAlignment="Top">Flags:</Label>
-                <TextBox AcceptsReturn="True" Height="60" Grid.Column="1" Text="{Binding Flags}"/>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Label Grid.Row="0" VerticalAlignment="Top">Flags:</Label>
+                <Grid Grid.Row="0" Grid.Column="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBox Grid.Column="0" Text="{Binding Flag}"/>
+                    <Button Grid.Column="1" VerticalAlignment="Center" FontSize="8" Command="{Binding AddFlag}">Add</Button>
+                </Grid>
+                <ListBox Name="flagBox" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Height="40" Margin="2" BorderThickness="1" BorderBrush="LightGray" ItemsSource="{Binding CommonFlags}">
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel IsItemsHost="True" />
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Border CornerRadius="3" BorderBrush="DarkBlue" BorderThickness="1">
+                                <StackPanel Orientation="Horizontal">
+                                    <Label Content="{Binding}"/>
+                                    <Button Background="{x:Null}" BorderThickness="0" FontSize="8" Command="{Binding ElementName=flagBox, Path=DataContext.RemoveFlag}" CommandParameter="{Binding}">X</Button>
+                                </StackPanel>                                
+                            </Border>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
             </Grid>
         </StackPanel>
 
@@ -116,7 +148,7 @@
             </StackPanel>
         </Expander>
         <Expander Header="Thruster" IsExpanded="True" Visibility="{Binding ShowThrusterPanel, Converter={StaticResource booleanToVisibilityConverter}}">
-            <StackPanel>
+            <StackPanel DataContext="{Binding Thrusters}">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="100"/>
@@ -156,6 +188,50 @@
                     </Grid.ColumnDefinitions>
                     <Label>Size:</Label>
                     <ComboBox Grid.Column="1"  VerticalAlignment="Center" Padding="1" ItemsSource="{Binding Source={x:Type parts:HardpointSize}, Converter={StaticResource enumValuesConverter}}" SelectedValue="{Binding Size}"/>
+                </Grid>
+            </StackPanel>
+        </Expander>
+        <Expander Header="Navlight" IsExpanded="True" Visibility="{Binding ShowNavLightPanel, Converter={StaticResource booleanToVisibilityConverter}}">
+            <StackPanel DataContext="{Binding NavLights}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Label>Color:</Label>
+                    <xctk:ColorPicker Grid.Column="1" SelectedColor="{Binding Color, Converter={StaticResource XnaColorToWindowsColorConverter}}" />
+                </Grid>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Label>Amplitude:</Label>
+                    <ctl:NumericUpDown Grid.Column="1" Value="{Binding Amplitude}" Interval="0.1"/>
+                </Grid>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Label>Frequency:</Label>
+                    <ctl:NumericUpDown Grid.Column="1" Value="{Binding Frequency}" Interval="0.1"/>
+                </Grid>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Label>Phase Shift:</Label>
+                    <ctl:NumericUpDown Grid.Column="1" Value="{Binding PhaseShift}" Interval="0.1"/>
+                </Grid>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Label>Vertical Shift:</Label>
+                    <ctl:NumericUpDown Grid.Column="1" Value="{Binding VerticalShift}" Interval="0.1"/>
                 </Grid>
             </StackPanel>
         </Expander>

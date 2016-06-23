@@ -50,7 +50,7 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid Grid.Column="0" Grid.Row="1" >
-            <TabControl SelectedIndex="{Binding SelectedTabIndex}">
+            <TabControl Name="mainTabs" SelectedIndex="{Binding SelectedTabIndex}">
                 <TabItem Header="Hulls" ctl:ControlsHelper.HeaderFontSize="18">
                     <TabControl ItemsSource="{Binding HullSprites}" SelectedIndex="0" TabStripPlacement="Left" >
                         <TabControl.ItemTemplate>
@@ -136,7 +136,7 @@
                         Grid.Row="0" FocusManager.IsFocusScope="True"
                         />
             <GridSplitter Grid.Row="1" Height="2" />
-            <GroupBox Header="Animation" Grid.Row="1" Height="200">
+            <GroupBox Header="Animation" Grid.Row="1" Height="200" Visibility="{Binding ElementName=animationModeMenuItem, Path=IsChecked, Converter={StaticResource booleanToVisibilityConverter}}">
                 <fe:AnimationEditorControl />
             </GroupBox>
             
@@ -173,14 +173,13 @@
                 <Separator/>
                 <MenuItem Header="Set Cursor to Center"/>
             </MenuItem>
-            <MenuItem Header="Parts">
-            </MenuItem>
             <MenuItem Header="Animation">
-                <MenuItem Header="Add Keyframe"/>
-                <MenuItem Header="Delete Keyframe"/>
+                <MenuItem Name="animationModeMenuItem" IsCheckable="True" Header="Animation Mode" />
             </MenuItem>
             <MenuItem Header="Options">
                 <MenuItem Header="Disassemble Spritesheet..." />
+                <MenuItem Header="Export Color Palette..." />
+                <MenuItem Header="Import Color Palette..."/>
             </MenuItem>
         </Menu>
         
@@ -258,38 +257,20 @@
                     <Setter Property="Height" Value="20"/>
                 </Style>
             </StackPanel.Resources>
-            <GroupBox Header="Colors">
+            <GroupBox Header="Colors" >
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="70"/>
                         <ColumnDefinition/>
+                        <ColumnDefinition Width="233"/>
                     </Grid.ColumnDefinitions>
                     <StackPanel Grid.Column="0" xmlns:fs="clr-namespace:FellSky.Game.Ships.Parts;assembly=FellSky">
-                        <Button 
-                            HorizontalContentAlignment="Center" 
-                            Background="{Binding EditorService.HullColor, Converter={StaticResource xnaColorToBrushConverter}, Mode=TwoWay}" 
-                            Focusable="False" 
-                            Foreground="{Binding ElementName=hullColorBtn, Path=Background, Converter={StaticResource contrastingColorConverter}}" 
-                            CommandParameter="{x:Static fe:ColorPaletteSelection.Hull}">HULL</Button>
-                        <Button 
-                            HorizontalContentAlignment="Center" 
-                            Background="{Binding EditorService.BaseColor, Converter={StaticResource xnaColorToBrushConverter}, Mode=TwoWay}" 
-                            Focusable="False" 
-                            Foreground="{Binding ElementName=hullColorBtn, Path=Background, Converter={StaticResource contrastingColorConverter}}" 
-                            CommandParameter="{x:Static fe:ColorPaletteSelection.Base}">BASE
-                            </Button>
-                        <Button 
-                            HorizontalContentAlignment="Center" 
-                            Background="{Binding EditorService.TrimColor, Converter={StaticResource xnaColorToBrushConverter}, Mode=TwoWay}" 
-                            Focusable="False" 
-                            Foreground="{Binding ElementName=hullColorBtn, Path=Background, Converter={StaticResource contrastingColorConverter}}" 
-                            CommandParameter="{x:Static fe:ColorPaletteSelection.Trim}">TRIM</Button>
-                        <UniformGrid Columns="3">
-                            <Button FontSize="10" Padding="0" Focusable="False">+</Button>
-                            <Button FontSize="6" Focusable="False">Exp</Button>
-                            <Button FontSize="6" Focusable="False">Imp</Button>
-                        </UniformGrid>
-                        <ListView Height="158" ItemsSource="{Binding ColorPalette}" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectedItem="{Binding SelectedColor, Converter={StaticResource XnaColorToWindowsColorConverter}}" diag:PresentationTraceSources.TraceLevel="High">
+                        <Label FontSize="10">Base Team Color:</Label>
+                        <xctk:ColorPicker></xctk:ColorPicker>
+                        <Label FontSize="10">Trim Team Color:</Label>
+                        <xctk:ColorPicker></xctk:ColorPicker>
+                        <Label FontSize="10">Palette</Label>
+                        <Button Margin="2" FontSize="10" Padding="0" Focusable="False" Command="{Binding AddColor}">Add Color</Button>
+                        <ListView Height="113" ItemsSource="{Binding ColorPalette}" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectedItem="{Binding SelectedColor, Converter={StaticResource XnaColorToWindowsColorConverter}}" diag:PresentationTraceSources.TraceLevel="High">
                             <ListView.Resources>
                                 <ControlTemplate x:Key="SelectedTemplate" TargetType="ListViewItem">
                                     <Border SnapsToDevicePixels="true" 
@@ -336,7 +317,7 @@
                             </ListView.ItemsPanel>
                             <ListView.ItemTemplate>
                                 <DataTemplate>
-                                    <Grid/>
+                                    <Grid MouseRightButtonUp="OnPaletteRightMouseButtonDown" Tag="{Binding}"/>
                                 </DataTemplate>
                             </ListView.ItemTemplate>
                         </ListView>
