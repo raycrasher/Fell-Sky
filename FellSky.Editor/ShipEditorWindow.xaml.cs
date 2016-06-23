@@ -28,6 +28,10 @@ namespace FellSky.Editor
             if (System.ComponentModel.DesignerProperties.GetIsInDesignMode(this))
                 return;
             Model = (ShipEditorViewModel)FindResource("model");
+            if(Environment.GetEnvironmentVariable("DAVID_WORK") == "1")
+            {
+                mainTabs.SelectedIndex = 1;
+            }
         }
 
         public ShipEditorViewModel Model { get; private set; }
@@ -52,6 +56,11 @@ namespace FellSky.Editor
         private void D3D11Host_MouseDown(object sender, MouseButtonEventArgs e)
         {
             D3D11Host.Focus();
+        }
+
+        private void OnPaletteRightMouseButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            Model.ColorPalette.Remove((Microsoft.Xna.Framework.Color)((FrameworkElement)sender).Tag);
         }
     }
 }
