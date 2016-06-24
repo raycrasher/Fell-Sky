@@ -438,7 +438,7 @@ namespace FellSky.Editor
             });
         });
 
-        
+        public ICommand AddColorToPalette => new DelegateCommand(o => ColorPalette.Add(SelectedColor.ToXnaColor()));
 
         public SpriteManagerService SpriteManager { get; private set; }
         public List<Sprite> ThrusterSprites { get; private set; }

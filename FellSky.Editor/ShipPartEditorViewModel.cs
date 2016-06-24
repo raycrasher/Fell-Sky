@@ -10,6 +10,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections.Specialized;
+using System.Windows.Input;
+using System.Windows.Data;
 
 namespace FellSky.Editor
 {
@@ -32,6 +34,7 @@ namespace FellSky.Editor
                     ShowHullPanel = false;
                     ShowThrusterPanel = false;
                     ShowHardpointPanel = false;
+                    ShowNavLightPanel = false;
                 }
             }
         }
@@ -42,21 +45,29 @@ namespace FellSky.Editor
             ShowHullPanel = _parts.Any(e => e.HasComponent<HullComponent>());
             ShowThrusterPanel = _parts.Any(e => e.HasComponent<ThrusterComponent>());
             ShowHardpointPanel = _parts.Any(e => e.HasComponent<HardpointComponent>());
+            ShowNavLightPanel = _parts.Any(e => e.HasComponent<NavLightComponent>());
 
             General = new ShipPartViewModel(_parts.Select(e => e.GetComponent<IShipPartComponent>().Part).ToList());
             if (ShowHardpointPanel)
                 Hardpoints = new HardpointEditorViewModel(_parts.Select(e => e.GetComponent<HardpointComponent>()?.Hardpoint).Where(h => h != null).ToList());
             if (ShowHullPanel)
                 Hulls = new HullEditorViewModel(_parts.Select(e => e.GetComponent<HullComponent>()?.Part).Where(h => h != null).ToList());
+            if (ShowThrusterPanel)
+                Thrusters = new ThrusterEditorViewModel(_parts.Select(e => e.GetComponent<ThrusterComponent>()?.Part).Where(h => h != null).ToList());
+            if (ShowNavLightPanel)
+                NavLights = new NavLightEditorViewModel(_parts.Select(e => e.GetComponent<NavLightComponent>()?.Part).Where(h => h != null).ToList());
         }
 
         public ShipPartViewModel General { get; set; }
         public HardpointEditorViewModel Hardpoints { get; set; }
         public HullEditorViewModel Hulls { get; set; }
+        public ThrusterEditorViewModel Thrusters { get; set; }
+        public NavLightEditorViewModel NavLights { get; set; }
 
         public bool ShowThrusterPanel { get; set; } = true;
         public bool ShowHullPanel { get; set; } = true;
         public bool ShowHardpointPanel { get; set; } = true;
+        public bool ShowNavLightPanel { get; set; } = true;
         public bool HasItems { get; set; } = true;
 
         public ShipPartEditorViewModel()
@@ -67,11 +78,12 @@ namespace FellSky.Editor
     [PropertyChanged.ImplementPropertyChanged]
     public class ShipPartViewModel
     {
-        IReadOnlyCollection<ShipPart> _parts { get; set; }
+        IReadOnlyCollection<ShipPart> _parts;
 
         public ShipPartViewModel(IReadOnlyCollection<ShipPart> parts)
         {
             _parts = parts;
+            CommonFlags = new HashSet<string>(_parts.SelectMany(s => s.Flags));
         }
 
         public float? PosX {
@@ -157,19 +169,10 @@ namespace FellSky.Editor
                     item.SpriteId = value;
             }
         }
-        public string Flags
-        {
-            get
-            {
-                return null;
-                //return Parts.Select(p => p.Flags.Join(.GetAllEqualOrNothing();
-            }
-            set
-            {
-                //foreach (var item in Parts)
-                //    item.Flags = value;
-            }
-        }
+        public string Flag { get; set; }
+
+        public HashSet<string> CommonFlags { get; set; } = new HashSet<string>();
+
         public System.Windows.Media.Color? Color
         {
             get
@@ -185,12 +188,31 @@ namespace FellSky.Editor
                 }
             }
         }
+
+        public ICommand AddFlag => new DelegateCommand(o => {
+            foreach(var part in _parts)
+            {
+                part.Flags.Add(Flag);
+            }
+            CommonFlags.Add(Flag);
+            CollectionViewSource.GetDefaultView(CommonFlags).Refresh();
+        });
+
+        public ICommand RemoveFlag => new DelegateCommand(o => {
+            var flag = o?.ToString();
+            foreach (var part in _parts)
+            {
+                part.Flags.Remove(flag);
+            }
+            CommonFlags.Remove(flag);
+            CollectionViewSource.GetDefaultView(CommonFlags).Refresh();
+        });
     }
     
     [PropertyChanged.ImplementPropertyChanged]
     public class HardpointEditorViewModel
     {
-        IReadOnlyCollection<Hardpoint> _hardpoints { get; set; }
+        IReadOnlyCollection<Hardpoint> _hardpoints;
         public HardpointEditorViewModel(IReadOnlyCollection<Hardpoint> hardpoints)
         {
             _hardpoints = hardpoints;
@@ -239,7 +261,7 @@ namespace FellSky.Editor
     [PropertyChanged.ImplementPropertyChanged]
     public class HullEditorViewModel
     {
-        IReadOnlyCollection<Hull> _hulls { get; set; }
+        IReadOnlyCollection<Hull> _hulls;
         public HullEditorViewModel(IReadOnlyCollection<Hull> hulls)
         {
             _hulls = hulls;
@@ -255,6 +277,87 @@ namespace FellSky.Editor
             {
                 foreach (var item in _hulls)
                     item.ColorType = value ?? item.ColorType;
+            }
+        }
+    }
+
+    [PropertyChanged.ImplementPropertyChanged]
+    public class ThrusterEditorViewModel
+    {
+        IReadOnlyCollection<Thruster> _thrusters;
+
+        public ThrusterEditorViewModel(IReadOnlyCollection<Thruster> thrusters)
+        {
+            _thrusters = thrusters;
+        }
+
+        public bool? IsIdleModeOnZeroThrust {
+            get { return _thrusters?.Select(p => new bool?(p.IsIdleModeOnZeroThrust)).GetAllEqualOrNothing(); }
+            set
+            {
+                foreach (var item in _thrusters)
+                    item.IsIdleModeOnZeroThrust = value ?? item.IsIdleModeOnZeroThrust;
+            }
+        }
+    }
+
+    [PropertyChanged.ImplementPropertyChanged]
+    public class NavLightEditorViewModel
+    {
+        IReadOnlyCollection<NavLight> _navLights;
+
+        public NavLightEditorViewModel(IReadOnlyCollection<NavLight> thrusters)
+        {
+            _navLights = thrusters;
+        }
+
+        public float? Amplitude
+        {
+            get { return _navLights?.Select(p => new float?(p.Amplitude)).GetAllEqualOrNothing(); }
+            set
+            {
+                foreach (var item in _navLights)
+                    item.Amplitude = value ?? item.Amplitude;
+            }
+        }
+
+        public float? Frequency
+        {
+            get { return _navLights?.Select(p => new float?(p.Frequency)).GetAllEqualOrNothing(); }
+            set
+            {
+                foreach (var item in _navLights)
+                    item.Frequency = value ?? item.Frequency;
+            }
+        }
+
+        public float? PhaseShift
+        {
+            get { return _navLights?.Select(p => new float?(p.PhaseShift)).GetAllEqualOrNothing(); }
+            set
+            {
+                foreach (var item in _navLights)
+                    item.PhaseShift = value ?? item.PhaseShift;
+            }
+        }
+
+        public float? VerticalShift
+        {
+            get { return _navLights?.Select(p => new float?(p.VerticalShift)).GetAllEqualOrNothing(); }
+            set
+            {
+                foreach (var item in _navLights)
+                    item.VerticalShift = value ?? item.VerticalShift;
+            }
+        }
+
+        public Color? Color
+        {
+            get { return _navLights?.Select(p => new Color?(p.Color)).GetAllEqualOrNothing(); }
+            set
+            {
+                foreach (var item in _navLights)
+                    item.Color = value ?? item.Color;
             }
         }
     }
