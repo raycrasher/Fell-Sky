@@ -440,6 +440,37 @@ namespace FellSky.Editor
 
         public ICommand AddColorToPalette => new DelegateCommand(o => ColorPalette.Add(SelectedColor.ToXnaColor()));
 
+        public ICommand DisassembleSpritesheet => new DelegateCommand(o => {
+
+            var dialog = new System.Windows.Forms.FolderBrowserDialog();
+            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+
+                foreach (var sprite in CurrentSpriteSheet.SpriteDefinitions.Sprites)
+                {
+                    var source = CurrentSpriteSheet.Image;
+                    var bytesPerPixel = (source.Format.BitsPerPixel + 7) / 8;
+                    var stride = sprite.W * bytesPerPixel;
+
+                    var pixels = new byte[stride * sprite.H];
+                    source.CopyPixels(new Int32Rect(sprite.X, sprite.Y, sprite.W, sprite.H), pixels, stride, 0);
+
+                    var encoder = new PngBitmapEncoder();
+                    encoder.Frames.Add(BitmapFrame.Create(BitmapSource.Create(sprite.W, sprite.H, source.DpiX, source.DpiY, source.Format, source.Palette, pixels, stride)));
+                    using (var outStream = new FileStream(Path.Combine(dialog.SelectedPath, $"{sprite.Id}.png"), FileMode.Create))
+                        encoder.Save(outStream);
+                }
+            }
+            if(MessageBox.Show($"Sprites exported to {dialog.SelectedPath}. Open folder?", "Export Spritesheet", MessageBoxButton.YesNo, MessageBoxImage.Information) == MessageBoxResult.Yes)
+            {
+                try
+                {
+                    System.Diagnostics.Process.Start(dialog.SelectedPath);
+                }
+                catch (Exception) { } // gulp
+            }
+        });
+
         public SpriteManagerService SpriteManager { get; private set; }
         public List<Sprite> ThrusterSprites { get; private set; }
     }
