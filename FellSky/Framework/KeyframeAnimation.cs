@@ -42,7 +42,7 @@ namespace FellSky.Framework
 
         public override string ToString()
         {
-            return $"T+{Time}  V: {Value}";
+            return $"T+{Time}   {Value}";
         }
     }
 

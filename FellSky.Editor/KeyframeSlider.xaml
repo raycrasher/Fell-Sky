@@ -9,7 +9,7 @@
     <UserControl.Resources>
         <local:SliderPercentToMarginConverter x:Key="sliderPercentToMarginConverter" />
     </UserControl.Resources>
-    <ItemsControl Name="slider" MouseLeftButtonDown="OnSliderMouseDown" Grid.Column="2" Grid.Row="1" ItemsSource="{Binding ElementName=root, Path=Frames}" Background="Gray" MouseMove="OnDragKeyframe" MouseLeftButtonUp="Reset" MouseLeave="Reset">
+    <ItemsControl Name="slider" MouseLeftButtonDown="OnSliderMouseDown" Grid.Column="2" Grid.Row="1" ItemsSource="{Binding ElementName=root, Path=Frames}" Background="Gray" MouseMove="OnDragKeyframe" MouseLeftButtonUp="Reset" MouseLeave="Reset" ToolTipOpening="OnTooltipOpen" ToolTip="temp">
         <ItemsControl.ItemsPanel>
             <ItemsPanelTemplate>
                 <Canvas IsItemsHost="True" />

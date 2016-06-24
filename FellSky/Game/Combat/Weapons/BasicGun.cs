@@ -152,7 +152,7 @@ namespace FellSky.Game.Combat.Weapons
             owner.GetComponent<ShipComponent>().Turrets.Remove(turret);
             owner.GetComponent<ShipComponent>().Weapons.Remove(weaponEntity);
             weaponEntity.GetComponent<HardpointComponent>().InstalledEntity = null;
-            weaponEntity.DeleteWithChildren();
+            weaponEntity.DeleteFromSceneGraph();
         }
 
         private static ShipPartGroup GetPartGroup(string id)

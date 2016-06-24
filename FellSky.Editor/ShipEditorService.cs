@@ -172,7 +172,7 @@ namespace FellSky.Editor
 
             foreach (var e in SelectedPartEntities)
             {
-                e.Delete();
+                e.DeleteFromSceneGraph();
             }
             //ShipEntityFactory.UpdateComponentPartList(_world, ShipEntity, false);
             SelectedPartEntities.Clear();

@@ -153,5 +153,30 @@ namespace FellSky.Editor
             Frames.Remove(k);
             CollectionViewSource.GetDefaultView(Frames).Refresh();
         }
+
+        private void OnTooltipOpen(object sender, ToolTipEventArgs e)
+        {
+            var pos = Mouse.GetPosition(slider);
+            var percentage = (float)(pos.X / slider.ActualWidth);
+
+            object value=null;
+            if (Frames is List<Keyframe<float>>)
+            {
+                var list = (List<Keyframe<float>>)Frames;
+                value = KeyframeAnimation.GetValue(list, MathHelper.Lerp, percentage, (float)DefaultValue);
+            }
+            else if (Frames is List<Keyframe<Vector2>>)
+            {
+                var list = (List<Keyframe<Vector2>>)Frames;
+                value = KeyframeAnimation.GetValue(list, Vector2.Lerp, percentage, (Vector2)DefaultValue);
+            }
+            else if (Frames is List<Keyframe<XnaColor>>)
+            {
+                var list = (List<Keyframe<XnaColor>>)Frames;
+                value = KeyframeAnimation.GetValue(list, XnaColor.Lerp, percentage, (XnaColor)DefaultValue);
+            }
+
+            slider.ToolTip = $"T:{percentage}    {value}";
+        }
     }
 }
