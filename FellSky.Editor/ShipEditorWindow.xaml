@@ -176,6 +176,10 @@
             <MenuItem Header="Animation">
                 <MenuItem Name="animationModeMenuItem" IsCheckable="True" Header="Animation Mode" />
             </MenuItem>
+            <MenuItem Header="View">
+                <MenuItem Header="Show Hardpoints" IsCheckable="True" IsChecked="{Binding HardpointsVisible}" />
+                <MenuItem Header="Show Grid" IsCheckable="True" IsChecked="{Binding IsGridVisible}" />
+            </MenuItem>
             <MenuItem Header="Options">
                 <MenuItem Header="Disassemble Spritesheet..." />
                 <MenuItem Header="Export Color Palette..." />
@@ -241,7 +245,6 @@
             </Button>
             
             <Separator Visibility="Hidden" Width="10"/>
-            <ToggleButton Margin="2" ToolTip="Toggles Grid. Key: G">GRID</ToggleButton>
             <ToggleButton Margin="2" ToolTip="Toggle Snap. Key: P" IsChecked="{Binding EditorService.IsSnapEnabled}">SNAP</ToggleButton>
             <StackPanel Orientation="Horizontal">
                 <Label FontSize="10" VerticalAlignment="Center">Size</Label>
@@ -265,9 +268,9 @@
                     </Grid.ColumnDefinitions>
                     <StackPanel Grid.Column="0" xmlns:fs="clr-namespace:FellSky.Game.Ships.Parts;assembly=FellSky">
                         <Label FontSize="10">Base Team Color:</Label>
-                        <xctk:ColorPicker></xctk:ColorPicker>
+                        <xctk:ColorPicker SelectedColor="{Binding EditorService.BaseColor, Converter={StaticResource XnaColorToWindowsColorConverter}}"/>
                         <Label FontSize="10">Trim Team Color:</Label>
-                        <xctk:ColorPicker></xctk:ColorPicker>
+                        <xctk:ColorPicker SelectedColor="{Binding EditorService.TrimColor, Converter={StaticResource XnaColorToWindowsColorConverter}}"></xctk:ColorPicker>
                         <Label FontSize="10">Palette</Label>
                         <Button Margin="2" FontSize="10" Padding="0" Focusable="False" Command="{Binding AddColor}">Add Color</Button>
                         <ListView Height="113" ItemsSource="{Binding ColorPalette}" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectedItem="{Binding SelectedColor, Converter={StaticResource XnaColorToWindowsColorConverter}}" diag:PresentationTraceSources.TraceLevel="High">
@@ -330,25 +333,5 @@
             </GroupBox>
             
         </StackPanel>
-        <!--
-        <Popup Name="ColorPicker" PlacementTarget="{Binding ElementName=sidePanel}" Placement="Left" Width="200">
-            <StackPanel Background="#efefef">
-                <Label Padding="3">Color Picker</Label>
-                <xctk:ColorCanvas Name="ColorCanvas" SelectedColorChanged="PickerColorChanged"/>
-            </StackPanel>
-        </Popup>
-        -->
-        <!--
-        <Popup IsOpen="{Binding ElementName=helpToggle, Path=IsChecked}" Placement="Relative" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
-               PlacementTarget="{Binding ElementName=sidePanel}" Width="{Binding ElementName=sidePanel, Path=ActualWidth}" Height="{Binding ElementName=sidePanel, Path=ActualHeight}">
-            <Grid HorizontalAlignment="Stretch" Background="White">
-                <TextBlock Margin="10" HorizontalAlignment="Stretch">
-                    <Span FontSize="20">Help</Span><LineBreak/>
-                    <Separator Height="1"/>
-                    Controls:                    
-                </TextBlock>
-            </Grid>
-        </Popup>
-        -->
     </Grid>
 </Controls:MetroWindow>

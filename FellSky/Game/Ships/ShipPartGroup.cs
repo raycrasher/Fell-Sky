@@ -17,6 +17,8 @@ namespace FellSky.Game.Ships
         public Color BaseDecalColor { get; set; }
         public Color TrimDecalColor { get; set; }
 
+        public Dictionary<string, PartAnimation> Animations { get; } = new Dictionary<string, PartAnimation>();
+
         public void CreateEntities(EntityWorld world, Entity parentEntity)
         {
             foreach(var part in Parts)

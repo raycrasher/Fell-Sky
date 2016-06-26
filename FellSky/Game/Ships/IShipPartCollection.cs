@@ -15,6 +15,7 @@ namespace FellSky.Game.Ships
         IList<ShipPart> Parts { get; }
         Color BaseDecalColor { get; set; }
         Color TrimDecalColor { get; set; }
+        Dictionary<string,PartAnimation> Animations { get; }
     }
 
     public interface IShipPartCollectionComponent: IComponent

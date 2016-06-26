@@ -1,4 +1,5 @@
 ﻿using FellSky.Framework;
+using FellSky.Game.Ships;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,24 @@ namespace FellSky.Editor
     /// </summary>
     public partial class AnimationEditorControl : UserControl
     {
+
+
+
+
+        public PartAnimation Animation
+        {
+            get { return (PartAnimation)GetValue(AnimationProperty); }
+            set { SetValue(AnimationProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Animation.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty AnimationProperty =
+            DependencyProperty.Register("Animation", typeof(PartAnimation), typeof(AnimationEditorControl), new PropertyMetadata();
+
+
+
+
+
         AnimationEditorControlViewModel Model;
 
         public AnimationEditorControl()
@@ -29,5 +48,7 @@ namespace FellSky.Editor
             InitializeComponent();
             Model = (AnimationEditorControlViewModel)FindResource("model");
         }
+
+        
     }
 }

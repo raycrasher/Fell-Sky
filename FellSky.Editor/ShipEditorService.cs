@@ -335,6 +335,7 @@ namespace FellSky.Editor
 
         public void ToggleHardpointOnSelected()
         {
+
             if (!(Model is Ship)) return;
             var ship = Model as Ship;
             foreach(var item in SelectedPartEntities.Where(s=>s.HasComponent<HullComponent>()))
@@ -472,6 +473,9 @@ namespace FellSky.Editor
                     if (entity.HasComponent<HardpointComponent>())
                         entity.AddComponent(new HardpointArcDrawingComponent());
                 }
+                var shipComponent = ShipEntity.GetComponent<ShipComponent>();
+                shipComponent.BaseDecalColor = BaseColor;
+                shipComponent.TrimDecalColor = TrimColor;
                 //PropertyObject = Model;
             }
             catch (Newtonsoft.Json.JsonException)
@@ -584,10 +588,16 @@ namespace FellSky.Editor
             else if (e.PropertyName == nameof(BaseColor))
             {
                 Model.BaseDecalColor = BaseColor;
+                var component = ShipEntity.GetComponent<ShipComponent>();
+                if (component != null)
+                    component.BaseDecalColor = BaseColor;
             }
             else if (e.PropertyName == nameof(TrimColor))
             {
                 Model.TrimDecalColor = TrimColor;
+                var component = ShipEntity.GetComponent<ShipComponent>();
+                if (component != null)
+                    component.TrimDecalColor = TrimColor;
             }
             else if (e.PropertyName == nameof(SelectedHullColorType))
             {

@@ -83,6 +83,8 @@ namespace FellSky.Editor
 
         public ContentManager Content { get; set; }
         public GameServiceContainer Services { get; set; }
+
+        [PropertyChanged.DoNotNotify]
         public EntityWorld World { get; set; }
 
         private System.Diagnostics.Stopwatch _stopwatch = new System.Diagnostics.Stopwatch();
@@ -91,7 +93,10 @@ namespace FellSky.Editor
         
         public SpriteBatch SpriteBatch { get; private set; }
         public bool IsSnap { get; set; }
-        public bool IsGridVisible { get; set; }
+        public bool IsGridVisible {
+            get { return World?.SystemManager.GetSystem<GridRendererSystem>()?.IsEnabled ?? true; }
+            set { World.SystemManager.GetSystem<GridRendererSystem>().IsEnabled = value; }
+        }
         public int GridSize {
             get { return ((int?) GridEntity?.GetComponent<GridComponent>()?.GridSize.X) ?? 10;  }
             set
@@ -101,6 +106,12 @@ namespace FellSky.Editor
                 if (grid == null) return;
                 grid.GridSize = new Vector2(value, value);
             }
+        }
+
+        public bool HardpointsVisible
+        {
+            get { return World?.SystemManager.GetSystem<HardpointRendererSystem>()?.IsEnabled ?? false; }
+            set { World.SystemManager.GetSystem<HardpointRendererSystem>().IsEnabled = value; }
         }
         
         public Entity CameraEntity { get; private set; }
@@ -279,6 +290,7 @@ namespace FellSky.Editor
                     break;
                 case Key.H:
                     EditorService.ToggleHardpointOnSelected();
+                    HardpointsVisible = true;
                     break;
                 default:
                     e.Handled = false;
