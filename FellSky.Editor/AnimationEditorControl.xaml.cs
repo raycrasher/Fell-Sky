@@ -23,10 +23,6 @@ namespace FellSky.Editor
     /// </summary>
     public partial class AnimationEditorControl : UserControl
     {
-
-
-
-
         public PartAnimation Animation
         {
             get { return (PartAnimation)GetValue(AnimationProperty); }
@@ -35,20 +31,20 @@ namespace FellSky.Editor
 
         // Using a DependencyProperty as the backing store for Animation.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty AnimationProperty =
-            DependencyProperty.Register("Animation", typeof(PartAnimation), typeof(AnimationEditorControl), new PropertyMetadata();
-
-
-
-
-
+            DependencyProperty.Register("Animation", typeof(PartAnimation), typeof(AnimationEditorControl), new PropertyMetadata(OnAnimationChanged));
+        
         AnimationEditorControlViewModel Model;
-
+        
         public AnimationEditorControl()
         {
             InitializeComponent();
             Model = (AnimationEditorControlViewModel)FindResource("model");
         }
 
-        
+        static void OnAnimationChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var ctl = (AnimationEditorControl)d;
+            ctl.Model.Animation = (PartAnimation)e.NewValue;
+        }
     }
 }
