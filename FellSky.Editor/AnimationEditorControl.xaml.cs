@@ -1,4 +1,7 @@
-﻿using System;
+﻿using FellSky.Framework;
+using FellSky.Game.Ships;
+using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,19 +23,28 @@ namespace FellSky.Editor
     /// </summary>
     public partial class AnimationEditorControl : UserControl
     {
-        AnimationEditorControlViewModel Model;
+        public PartAnimation Animation
+        {
+            get { return (PartAnimation)GetValue(AnimationProperty); }
+            set { SetValue(AnimationProperty, value); }
+        }
 
+        // Using a DependencyProperty as the backing store for Animation.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty AnimationProperty =
+            DependencyProperty.Register("Animation", typeof(PartAnimation), typeof(AnimationEditorControl), new PropertyMetadata(OnAnimationChanged));
+        
+        AnimationEditorControlViewModel Model;
+        
         public AnimationEditorControl()
         {
             InitializeComponent();
+            Model = (AnimationEditorControlViewModel)FindResource("model");
         }
 
-        private void OnPositionMouseDown(object sender, MouseButtonEventArgs e)
+        static void OnAnimationChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var canvas = (Canvas)sender;
-            var pos = e.GetPosition(canvas);
-            var percentage = pos.X / canvas.ActualWidth;
-            Model.Animation.AddPositionKeyframe((float)percentage);
+            var ctl = (AnimationEditorControl)d;
+            ctl.Model.Animation = (PartAnimation)e.NewValue;
         }
     }
 }

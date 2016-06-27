@@ -1,4 +1,6 @@
-﻿using FellSky.Framework;
+﻿using FellSky.Components;
+using FellSky.Framework;
+using FellSky.Services;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -30,15 +32,6 @@ namespace FellSky.Game.Ships
 
         public IEnumerable<float> AnimateAlpha(Func<float> deltaTimeFunction)
             => KeyframeAnimation.Animate(Alphas, MathHelper.Lerp, deltaTimeFunction, 1);
-
-        public void Sort()
-        {
-            Positions.Sort((a, b) => Comparer<float>.Default.Compare(a.Time, b.Time));
-            Rotations.Sort((a, b) => Comparer<float>.Default.Compare(a.Time, b.Time));
-            Scales.Sort((a, b) => Comparer<float>.Default.Compare(a.Time, b.Time));
-            Colors.Sort((a, b) => Comparer<float>.Default.Compare(a.Time, b.Time));
-            Alphas.Sort((a, b) => Comparer<float>.Default.Compare(a.Time, b.Time));
-        }
 
         public void AddPositionKeyframe(float time, Vector2? value = null)
         {
@@ -85,7 +78,25 @@ namespace FellSky.Game.Ships
         public float GetAlpha(float time)
             => KeyframeAnimation.GetValue(Alphas, MathHelper.Lerp, time, 1f);
 
+        public AnimationComponent GetAnimationComponent(TimeSpan duration)
+        {
+            var timer = ServiceLocator.Instance.GetService<ITimerService>();
+            float durationSeconds = (float)duration.TotalSeconds;
+            var component = new AnimationComponent();
 
-        
+            var deltaTimeFunction = new Func<float>(() =>
+            {
+                component.CurrentTime = MathHelper.Clamp(component.CurrentTime + (float)timer.DeltaTime.TotalSeconds, 0f, 1f);
+                return component.CurrentTime / durationSeconds;
+            });            
+
+            component.Position = Positions.Count > 0 ? AnimatePosition(deltaTimeFunction).GetEnumerator() : null;
+            component.Rotation = Rotations.Count > 0 ? AnimateRotation(deltaTimeFunction).GetEnumerator() : null;
+            component.Scale = Scales.Count > 0 ? AnimateScale(deltaTimeFunction).GetEnumerator() : null;
+            component.Color = Colors.Count > 0 ? AnimateColor(deltaTimeFunction).GetEnumerator() : null;
+            component.Alpha = Alphas.Count > 0 ? AnimateAlpha(deltaTimeFunction).GetEnumerator() : null;
+
+            return component;
+        }        
     }
 }

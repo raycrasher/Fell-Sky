@@ -33,7 +33,7 @@ namespace FellSky.Game.Ships
             // uninstall weapons
             foreach(var entity in shipComponent.Weapons)
             {
-                entity.DeleteWithChildren();
+                entity.DeleteFromSceneGraph();
             }
 
             shipComponent.Weapons.Clear();

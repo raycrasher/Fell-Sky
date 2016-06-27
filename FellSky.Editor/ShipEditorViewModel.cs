@@ -83,15 +83,18 @@ namespace FellSky.Editor
 
         public ContentManager Content { get; set; }
         public GameServiceContainer Services { get; set; }
+
+        [PropertyChanged.DoNotNotify]
         public EntityWorld World { get; set; }
 
         private System.Diagnostics.Stopwatch _stopwatch = new System.Diagnostics.Stopwatch();
-
-        //public List<Entity> SelectedPartEntities { get; set; }
-        
+      
         public SpriteBatch SpriteBatch { get; private set; }
         public bool IsSnap { get; set; }
-        public bool IsGridVisible { get; set; }
+        public bool IsGridVisible {
+            get { return World?.SystemManager.GetSystem<GridRendererSystem>()?.IsEnabled ?? true; }
+            set { World.SystemManager.GetSystem<GridRendererSystem>().IsEnabled = value; }
+        }
         public int GridSize {
             get { return ((int?) GridEntity?.GetComponent<GridComponent>()?.GridSize.X) ?? 10;  }
             set
@@ -102,6 +105,14 @@ namespace FellSky.Editor
                 grid.GridSize = new Vector2(value, value);
             }
         }
+
+        public bool HardpointsVisible
+        {
+            get { return World?.SystemManager.GetSystem<HardpointRendererSystem>()?.IsEnabled ?? false; }
+            set { World.SystemManager.GetSystem<HardpointRendererSystem>().IsEnabled = value; }
+        }
+
+        public KeyValuePair<string, PartAnimation> SelectedAnimation { get; set; }
         
         public Entity CameraEntity { get; private set; }
         public Entity GridEntity { get; private set; }
@@ -119,6 +130,8 @@ namespace FellSky.Editor
         public event PropertyChangedEventHandler PropertyChanged;
 
         private List<Action> ActionsNextFrame { get; } = new List<Action>();
+        public SpriteManagerService SpriteManager { get; private set; }
+        public List<Sprite> ThrusterSprites { get; private set; }
 
         internal void Initialize(D3D11Host host)
         {
@@ -279,6 +292,7 @@ namespace FellSky.Editor
                     break;
                 case Key.H:
                     EditorService.ToggleHardpointOnSelected();
+                    HardpointsVisible = true;
                     break;
                 default:
                     e.Handled = false;
@@ -438,9 +452,27 @@ namespace FellSky.Editor
             });
         });
 
+        public ICommand DeleteAnimation => new DelegateCommand(o => {
+            EditorService.Model.Animations.Remove(o.ToString());
+            System.Windows.Data.CollectionViewSource.GetDefaultView(EditorService.Model.Animations).Refresh();
+        });
+
         public ICommand AddColorToPalette => new DelegateCommand(o => ColorPalette.Add(SelectedColor.ToXnaColor()));
 
-        public SpriteManagerService SpriteManager { get; private set; }
-        public List<Sprite> ThrusterSprites { get; private set; }
+        public ICommand AddAnimation => new DelegateCommand(o => {
+            var name = o as string;
+            if (string.IsNullOrWhiteSpace(name))
+                return;
+            if(!EditorService.Model.Animations.ContainsKey(name))
+            {
+                MessageBox.Show($"Animation \"{name}\" already exists.", "Add Animation", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+
+            var anim = new PartAnimation();
+            EditorService.Model.Animations[name] = anim;
+            System.Windows.Data.CollectionViewSource.GetDefaultView(EditorService.Model.Animations).Refresh();
+            SelectedAnimation = EditorService.Model.Animations.First(k => k.Key == name);
+        });
     }
 }

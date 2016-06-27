@@ -31,7 +31,7 @@ namespace FellSky.Game.Ships
         public List<ModuleSlot> ModuleSlots { get; set; } = new List<ModuleSlot>();
         public List<Radiator> Radiators { get; set; } = new List<Radiator>();
 
-
+        public Dictionary<string, PartAnimation> Animations { get; } = new Dictionary<string, PartAnimation>();
 
         public List<ShipPartGroup> PartGroups { get; set; } = new List<ShipPartGroup>();
 
