@@ -42,28 +42,28 @@
 
         <Label Name="timeSlider" Grid.Column="0" Grid.Row="1">Position:</Label>
         <UniformGrid Grid.Column="1" Grid.Row="1" Columns="2" >
-            <TextBox Text="{Binding PositionKeyframe.X}"/>
-            <TextBox Text="{Binding PositionKeyframe.Y}"/>
+            <xctk:WatermarkTextBox Watermark="X:" Text="{Binding PositionKeyframe.X}"/>
+            <xctk:WatermarkTextBox Watermark="Y:" Text="{Binding PositionKeyframe.Y}"/>
         </UniformGrid>
-        <local:KeyframeSlider x:Name="positionSlider" Margin="2" Grid.Column="2" Grid.Row="1" Frames="{Binding Animation.Positions}" DefaultValue="{Binding DefaultPosition}" CurrentKeyframe="{Binding PositionKeyframe.Keyframe, diag:PresentationTraceSources.TraceLevel=High, Mode=TwoWay}" />
+        <local:KeyframeSlider x:Name="positionSlider" Margin="2" Grid.Column="2" Grid.Row="1" Frames="{Binding Animation.Positions}" DefaultValue="{Binding DefaultPosition}" CurrentKeyframe="{Binding PositionKeyframe.Keyframe, Mode=TwoWay}" />
 
         <Label Grid.Column="0" Grid.Row="2">Rotation:</Label>
-        <TextBox Grid.Column="1" Grid.Row="2" />
-        <local:KeyframeSlider Margin="2" Grid.Column="2" Grid.Row="2" Frames="{Binding Animation.Rotations}" DefaultValue="{Binding DefaultRotation}" />
+        <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding RotationKeyframe.Value}"/>
+        <local:KeyframeSlider Margin="2" Grid.Column="2" Grid.Row="2" Frames="{Binding Animation.Rotations}" DefaultValue="{Binding DefaultRotation}" CurrentKeyframe="{Binding RotationKeyframe.Keyframe, Mode=TwoWay}" />
         
         <Label Grid.Column="0" Grid.Row="3">Scale:</Label>
         <UniformGrid Grid.Column="1" Grid.Row="3" Columns="2" >
-            <xctk:WatermarkTextBox Watermark="X:"/>
-            <xctk:WatermarkTextBox Watermark="Y:"/>
+            <xctk:WatermarkTextBox Watermark="X:" Text="{Binding ScaleKeyframe.X}"/>
+            <xctk:WatermarkTextBox Watermark="Y:" Text="{Binding ScaleKeyframe.Y}"/>
         </UniformGrid>
-        <local:KeyframeSlider Margin="2" Grid.Column="2" Grid.Row="3" Frames="{Binding Animation.Scales}" DefaultValue="{Binding DefaultScale}" />
+        <local:KeyframeSlider Margin="2" Grid.Column="2" Grid.Row="3" Frames="{Binding Animation.Scales}" DefaultValue="{Binding DefaultScale}" CurrentKeyframe="{Binding ScaleKeyframe.Keyframe, Mode=TwoWay}" />
 
         <Label Grid.Column="0" Grid.Row="4">Color:</Label>
-        <xctk:ColorPicker Grid.Column="1" Grid.Row="4" VerticalAlignment="Center"/>
-        <local:KeyframeSlider Margin="2" Grid.Column="2" Grid.Row="4" Frames="{Binding Animation.Colors}" DefaultValue="{Binding DefaultColor}" />
+        <xctk:ColorPicker Grid.Column="1" Grid.Row="4" VerticalAlignment="Center" SelectedColor="{Binding ColorKeyframe.Color}"/>
+        <local:KeyframeSlider Margin="2" Grid.Column="2" Grid.Row="4" Frames="{Binding Animation.Colors}" DefaultValue="{Binding DefaultColor}" CurrentKeyframe="{Binding ColorKeyframe.Keyframe, Mode=TwoWay}"/>
         
         <Label Grid.Column="0" Grid.Row="5">Alpha:</Label>
-        <Slider Grid.Column="1" Grid.Row="5" Minimum="0" Maximum="255" Value="255"/>
-        <local:KeyframeSlider Margin="2" Grid.Column="2" Grid.Row="5" Frames="{Binding Animation.Alphas}" DefaultValue="{Binding DefaultAlpha}" />
+        <Slider Grid.Column="1" Grid.Row="5" Minimum="0" Maximum="255" Value="{Binding AlphaKeyframe.Value}"/>
+        <local:KeyframeSlider Margin="2" Grid.Column="2" Grid.Row="5" Frames="{Binding Animation.Alphas}" DefaultValue="{Binding DefaultAlpha}" CurrentKeyframe="{Binding AlphaKeyframe.Keyframe, Mode=TwoWay}"/>
     </Grid>
 </UserControl>

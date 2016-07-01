@@ -12,6 +12,26 @@ using System.Windows.Input;
 namespace FellSky.Editor
 {
     [PropertyChanged.ImplementPropertyChanged]
+    public class AnimationEditorControlViewModel
+    {
+        public PartAnimation Animation { get; set; } = new PartAnimation();
+
+        public float CurrentTime { get; set; }
+
+        public KeyframeVector2ViewModel PositionKeyframe { get; } = new KeyframeVector2ViewModel();
+        public KeyframeFloatViewModel RotationKeyframe { get; } = new KeyframeFloatViewModel();
+        public KeyframeVector2ViewModel ScaleKeyframe { get; } = new KeyframeVector2ViewModel();
+        public KeyframeColorViewModel ColorKeyframe { get; } = new KeyframeColorViewModel();
+        public KeyframeFloatViewModel AlphaKeyframe { get; } = new KeyframeFloatViewModel();
+
+        public Vector2 DefaultPosition { get; set; } = Vector2.Zero;
+        public float DefaultRotation { get; set; } = 0f;
+        public Vector2 DefaultScale { get; set; } = Vector2.One;
+        public Color DefaultColor { get; set; } = Microsoft.Xna.Framework.Color.Black;
+        public float DefaultAlpha { get; set; } = 0f;
+    }
+
+    [PropertyChanged.ImplementPropertyChanged]
     public class KeyframeVector2ViewModel
     {
         public float? X
@@ -40,28 +60,48 @@ namespace FellSky.Editor
     }
 
     [PropertyChanged.ImplementPropertyChanged]
-    public class AnimationEditorControlViewModel
+    public class KeyframeFloatViewModel
     {
-        public PartAnimation Animation { get; set; } = new PartAnimation();
-
-        public float CurrentTime { get; set; }
-
-        public KeyframeVector2ViewModel PositionKeyframe { get; } = new KeyframeVector2ViewModel();
-        public Keyframe<float> RotationKeyframe { get; }
-        public Keyframe<Vector2> ScaleKeyframe { get; set; }
-        public Keyframe<Color> ColorKeyframe { get; set; }
-        public Keyframe<float> AlphaKeyframe { get; set; }
-
-        public Vector2 DefaultPosition { get; set; } = Vector2.Zero;
-        public float DefaultRotation { get; set; } = 0f;
-        public Vector2 DefaultScale { get; set; } = Vector2.One;
-        public Color DefaultColor { get; set; } = Microsoft.Xna.Framework.Color.Black;
-        public float DefaultAlpha { get; set; } = 0f;
-        
-
-        public AnimationEditorControlViewModel()
+        public float? Value
         {
-            Animation.Positions = new[] { new Keyframe<Vector2>(0.4f, Vector2.One), new Keyframe<Vector2>(0.8f, new Vector2(10, -40)) }.ToList();
+            get { return ((Keyframe<float>)Keyframe)?.Value; }
+            set
+            {
+                if (value != null && Keyframe != null)
+                    ((Keyframe<float>)Keyframe).Value = (float) value;
+            }
+        }
+        [PropertyChanged.AlsoNotifyFor("Value")]
+        public IKeyframe Keyframe
+        {
+            get;
+            set;
         }
     }
+
+    [PropertyChanged.ImplementPropertyChanged]
+    public class KeyframeColorViewModel
+    {
+        private Keyframe<Color> ColorKeyframe => (Keyframe<Color>)Keyframe;
+        public System.Windows.Media.Color? Color
+        {
+            get { return System.Windows.Media.Color.FromArgb(ColorKeyframe.Value.A, ColorKeyframe.Value.R,ColorKeyframe.Value.G,ColorKeyframe.Value.B); }
+            set
+            {
+                if (value != null && Keyframe != null)
+                {
+                    ColorKeyframe.Value = value.Value.ToXnaColor();
+                }
+            }
+        }
+        
+        [PropertyChanged.AlsoNotifyFor("Color")]
+        public IKeyframe Keyframe
+        {
+            get;
+            set;
+        }
+    }
+
+
 }
