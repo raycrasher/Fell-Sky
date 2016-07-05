@@ -54,6 +54,8 @@ namespace FellSky.Editor
         public Color TrimColor { get; set; } = Color.CornflowerBlue;
         public Color BaseColor { get; set; } = Color.Gold;
 
+        public bool IsAnimationModeOn { get; set; }
+
         public bool IsSnapEnabled
         {
             get { return _transformSystem.IsSnapEnabled; }
@@ -70,26 +72,6 @@ namespace FellSky.Editor
         {
             get { return _transformSystem.State?.Constraint ?? Axis.None; }
             set { if(_transformSystem.State!=null) _transformSystem.State.Constraint = value; }
-        }
-
-        public float WeaponArcAngle
-        {
-            get {
-                return SelectedPartEntities
-                  .Where(e => e.HasComponent<HardpointComponent>())
-                  .Select(e => e.GetComponent<HardpointComponent>().Hardpoint)
-                  .FirstOrDefault()?.FiringArc ?? 0;
-            }
-            set
-            {
-                foreach(var item in SelectedPartEntities
-                                    .Where(e => e.HasComponent<HardpointComponent>())
-                                    .Select(e => e.GetComponent<HardpointComponent>().Hardpoint)
-                                    )
-                {
-                    item.FiringArc = value;
-                }
-            }
         }
 
         public static ShipEditorService Instance { get; private set; }
@@ -369,7 +351,21 @@ namespace FellSky.Editor
             {
                 if (!entity.HasComponent<MouseControlledTransformComponent>())
                 {
-                    entity.AddComponent(new MouseControlledTransformComponent());
+                    var mouseControlComponent = new MouseControlledTransformComponent();
+                    entity.AddComponent(mouseControlComponent);
+
+                    if (IsAnimationModeOn)
+                    {
+                        AnimationEditorComponent anim = entity.GetComponent<AnimationEditorComponent>();
+                        if (anim == null)
+                        {
+                            anim = new AnimationEditorComponent();
+                            entity.AddComponent(anim);
+                        }
+                        anim.Transform.CopyValuesFrom(entity.GetComponent<Transform>());
+                        mouseControlComponent.Transform = anim.Transform;
+                    }
+                    
                     entity.Refresh();
                 }
             }

@@ -90,11 +90,11 @@ namespace FellSky.Game.Ships
                 return component.CurrentTime / durationSeconds;
             });            
 
-            component.Position = Positions.Count > 0 ? AnimatePosition(deltaTimeFunction).GetEnumerator() : null;
-            component.Rotation = Rotations.Count > 0 ? AnimateRotation(deltaTimeFunction).GetEnumerator() : null;
-            component.Scale = Scales.Count > 0 ? AnimateScale(deltaTimeFunction).GetEnumerator() : null;
-            component.Color = Colors.Count > 0 ? AnimateColor(deltaTimeFunction).GetEnumerator() : null;
-            component.Alpha = Alphas.Count > 0 ? AnimateAlpha(deltaTimeFunction).GetEnumerator() : null;
+            component.PositionAnimator = Positions.Count > 0 ? AnimatePosition(deltaTimeFunction).GetEnumerator() : null;
+            component.RotationAnimator = Rotations.Count > 0 ? AnimateRotation(deltaTimeFunction).GetEnumerator() : null;
+            component.ScaleAnimator = Scales.Count > 0 ? AnimateScale(deltaTimeFunction).GetEnumerator() : null;
+            component.ColorAnimator = Colors.Count > 0 ? AnimateColor(deltaTimeFunction).GetEnumerator() : null;
+            component.AlphaAnimator = Alphas.Count > 0 ? AnimateAlpha(deltaTimeFunction).GetEnumerator() : null;
 
             return component;
         }        

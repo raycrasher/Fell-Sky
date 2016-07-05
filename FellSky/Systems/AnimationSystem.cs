@@ -20,11 +20,11 @@ namespace FellSky.Systems
             foreach(var entity in entities.Values)
             {
                 var animation = entity.GetComponent<AnimationComponent>();
-                animation.Position?.MoveNext();
-                animation.Rotation?.MoveNext();
-                animation.Scale?.MoveNext();
-                animation.Color?.MoveNext();
-                animation.Alpha?.MoveNext();
+                animation.PositionAnimator?.MoveNext();
+                animation.RotationAnimator?.MoveNext();
+                animation.ScaleAnimator?.MoveNext();
+                animation.ColorAnimator?.MoveNext();
+                animation.AlphaAnimator?.MoveNext();
             }
         }
     }

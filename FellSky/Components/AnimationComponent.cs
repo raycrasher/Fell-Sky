@@ -10,12 +10,25 @@ namespace FellSky.Components
 {
     public class AnimationComponent: IComponent
     {
+        private Transform _transform = new Transform();
+
         public bool IsFinished => CurrentTime >= 1f;
         public float CurrentTime;
-        public IEnumerator<Vector2> Position;
-        public IEnumerator<float> Rotation;
-        public IEnumerator<Vector2> Scale;
-        public IEnumerator<Color> Color;
-        public IEnumerator<float> Alpha;
+
+        public Transform Transform { get {
+                _transform.Position = PositionAnimator.Current;
+                _transform.Rotation = RotationAnimator.Current;
+                _transform.Scale = ScaleAnimator.Current;
+                return _transform;
+        }}
+
+        public Color Color => ColorAnimator.Current;
+        public float Alpha => AlphaAnimator.Current;
+
+        public IEnumerator<Vector2> PositionAnimator;
+        public IEnumerator<float> RotationAnimator;
+        public IEnumerator<Vector2> ScaleAnimator;
+        public IEnumerator<Color> ColorAnimator;
+        public IEnumerator<float> AlphaAnimator;
     }
 }

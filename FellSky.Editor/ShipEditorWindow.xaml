@@ -207,7 +207,7 @@
                 <MenuItem Header="Set Cursor to Center"/>
             </MenuItem>
             <MenuItem Header="Animation">
-                <MenuItem Name="animationModeMenuItem" IsCheckable="True" Header="Animation Mode" />
+                <MenuItem Name="animationModeMenuItem" IsCheckable="True" IsChecked="{Binding EditorService.IsAnimationModeOn}" Header="Animation Mode" />
             </MenuItem>
             <MenuItem Header="View">
                 <MenuItem Header="Show Hardpoints" IsCheckable="True" IsChecked="{Binding HardpointsVisible}" />
