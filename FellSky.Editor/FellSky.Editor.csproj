@@ -165,6 +165,7 @@
       <DependentUpon>ShipPartEditorControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="ShipPartEditorViewModel.cs" />
+    <Compile Include="Systems\AnimationEditorSpriteRendererSystem.cs" />
     <Compile Include="Systems\ShowThrusterTrailsOverrideSystem.cs" />
     <Compile Include="Utilities.cs" />
     <Page Include="AnimationEditorControl.xaml">

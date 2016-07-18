@@ -35,7 +35,7 @@ namespace FellSky.Game.Ships
 
         public List<ShipPartGroup> PartGroups { get; set; } = new List<ShipPartGroup>();
 
-        IList<ShipPart> IShipPartCollection .Parts => Parts;
+        IList<ShipPart> IShipPartCollection.Parts => Parts;
 
         [ExpandableObject]
         public ShipHandlingParameters Handling { get; set; } = new ShipHandlingParameters();
