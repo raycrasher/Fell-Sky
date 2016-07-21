@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 
 namespace FellSky.Game.Ships
 {
+    [Archetype]
     public class ShipPartGroup : IShipPartCollection 
     {
         public string Id { get; set; }

@@ -34,6 +34,10 @@ namespace FellSky.Components
 
         public ShipVariant Variant { get; set; }
         public List<Entity> Weapons { get; set; } = new List<Entity>();
+        public Dictionary<Hardpoint, Entity> Hardpoints { get; set; } = new Dictionary<Hardpoint, Entity>();
+
+        public Entity GetInstalledEntityForHardpoint(Hardpoint hardpoint) 
+            => Hardpoints[hardpoint]?.GetComponent<HardpointComponent>().InstalledEntity;
 
         // functions
 

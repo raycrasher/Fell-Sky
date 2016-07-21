@@ -19,6 +19,7 @@ using FellSky.Systems;
 
 namespace FellSky.Game.Ships
 {
+    [Archetype]
     public class Ship: IShipPartCollection 
     {
         public string Id { get; set; }
@@ -28,12 +29,6 @@ namespace FellSky.Game.Ships
 
         public List<ShipPart> Parts { get; set; } = new List<ShipPart>();
         public List<Hardpoint> Hardpoints { get; set; } = new List<Hardpoint>();
-        public List<ModuleSlot> ModuleSlots { get; set; } = new List<ModuleSlot>();
-        public List<Radiator> Radiators { get; set; } = new List<Radiator>();
-
-
-
-        public List<ShipPartGroup> PartGroups { get; set; } = new List<ShipPartGroup>();
 
         IList<ShipPart> IShipPartCollection .Parts => Parts;
 
@@ -82,8 +77,7 @@ namespace FellSky.Game.Ships
         public FloatRect CalculateBoundingBox(float thrusterXScale = 0.3f)
         {
             var sprites = ServiceLocator.Instance.GetService<ISpriteManagerService>().Sprites;
-            return Parts.Concat(PartGroups.SelectMany(p => p.Parts))
-                .Aggregate(new FloatRect(), (box, part) =>
+            return Parts.Aggregate(new FloatRect(), (box, part) =>
                 {
                     Sprite spr;
                     if (!sprites.TryGetValue(part.SpriteId, out spr)) return box;

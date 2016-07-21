@@ -147,30 +147,34 @@ Battle Flow:
 
 
 	
+Weapon Modifications
 
+	Autocannon
+		Caliber:
+			25mm
+	Howitzer
+		Caliber:
+			16 inch
+			12 inch
+	Railgun
+	Beam Cannon
+	Pulse Beam Cannon
+	Bolt Cannon
+	
+	Missile Launcher
+		Configuration:
+			Box (Turreted)
+			VLS
+			Internal Rack
+			Internal Tube
+			External Rack
+			External Pod
 
-
-
-
-
-
-
-
-
-
-Animation Domain Specific Language
-
-Keywords/Commands:
-
-EVENT eventname
-	ROTATE partid degrees speed
-	TRANSLATE partid x y
-	LOCK partid
-	RESET POSITION partid speed
-	RESET ROTATION partid speed
-	COLOR partid speed r g b a
-	COLOR partid speed r g b
-	COLOR partid speed a
-	FIRE eventname
-
-
+	Rocket Launcher
+		Configuration:
+			Box (Turreted)
+			Internal Tube
+			Internal Rotary
+			External Pod
+			External Rotary
+	
