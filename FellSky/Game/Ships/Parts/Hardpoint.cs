@@ -41,12 +41,12 @@ namespace FellSky.Game.Ships.Parts
 
     public class Hardpoint
     {
-        public Module Module { get; set; }
+        public string Id { get; }
         public HardpointSize Size { get; set; }
         public HardpointType Type { get; set; }
         public Hull Hull { get; set; }
 
-        public float FiringArc { get; set; } // in radians
+        public float Traverse { get; set; } // in radians
 
         public void AddToEntity(Entity ship, Entity entity)
         {

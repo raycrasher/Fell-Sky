@@ -115,8 +115,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Components\BackgroundComponent.cs" />
-    <Compile Include="Components\BasicGunComponent.cs" />
-    <Compile Include="Components\BeamRendererComponent.cs" />
+    <Compile Include="Components\BeamComponent.cs" />
     <Compile Include="Components\BoundingBoxComponent.cs" />
     <Compile Include="Components\BulletComponent.cs" />
     <Compile Include="Components\ClientPredictedTransformComponent.cs" />
@@ -148,12 +147,12 @@
     <Compile Include="Components\SoundEffectComponent.cs" />
     <Compile Include="Components\StoryComponent.cs" />
     <Compile Include="Components\ThrusterComponent.cs" />
-    <Compile Include="Components\IWeaponComponent.cs" />
     <Compile Include="Components\TurretComponent.cs" />
+    <Compile Include="Components\WeaponBarrelComponent.cs" />
     <Compile Include="Components\WeaponComponent.cs" />
     <Compile Include="EntityFactories\ParticleEntityFactory.cs" />
     <Compile Include="EntityFactories\ShipEntityFactory.cs" />
-    <Compile Include="EntityFactories\WeaponEntityFactory.cs" />
+    <Compile Include="EntityFactories\CombatEntityFactory.cs" />
     <Compile Include="Framework\Attributes.cs" />
     <Compile Include="Framework\Constants.cs" />
     <Compile Include="Framework\FloatColor.cs" />
@@ -166,11 +165,12 @@
     <Compile Include="Game\Campaign\Storyline\ActOne.cs" />
     <Compile Include="Game\Campaign\Storyline\Story.cs" />
     <Compile Include="Game\Campaign\Storyline\StoryUtilities.cs" />
+    <Compile Include="Game\Combat\CombatEnums.cs" />
     <Compile Include="Game\Combat\IProjectile.cs" />
     <Compile Include="Game\Combat\Projectiles\Beam.cs" />
     <Compile Include="Game\Combat\Projectiles\Bullet.cs" />
-    <Compile Include="Game\Combat\Weapons\BasicGun.cs" />
-    <Compile Include="Game\Combat\Weapons\WeaponData.cs" />
+    <Compile Include="Game\Ground\Map.cs" />
+    <Compile Include="Game\Ground\MapTile.cs" />
     <Compile Include="Game\Inventory\IInventoryItem.cs" />
     <Compile Include="Game\Ships\IShipPartCollection.cs" />
     <Compile Include="Game\Ships\Modules\Weapon.cs" />
@@ -216,7 +216,6 @@
     <Compile Include="Services\AnimationService.cs" />
     <Compile Include="Services\ShapeManagerService.cs" />
     <Compile Include="Services\SpaceBackgroundGeneratorService.cs" />
-    <Compile Include="Game\Combat\Beam.cs" />
     <Compile Include="Game\Combat\Explosion.cs" />
     <Compile Include="Components\SteeringBehaviorComponent.cs" />
     <Compile Include="Game\Ships\Modules\Module.cs" />
@@ -340,7 +339,6 @@
     <Compile Include="Game\Campaign\Bases\Base.cs" />
     <Compile Include="Game\Combat\Armor.cs" />
     <Compile Include="Game\Combat\Damage.cs" />
-    <Compile Include="Game\Combat\IWeapon.cs" />
     <Compile Include="Game\Codex\CodexEntry.cs" />
     <Compile Include="Game\Campaign\Player.cs" />
     <Compile Include="Game\Campaign\Diplomacy\Reputation.cs" />
@@ -372,6 +370,7 @@
     <Compile Include="Systems\MouseControlledTransformSystem.cs" />
     <Compile Include="Systems\StorySystem.cs" />
     <Compile Include="Systems\TurretRotationSystem.cs" />
+    <Compile Include="Systems\WeaponSystem.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -382,6 +381,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Game\Ships\Compartments\" />
     <Folder Include="Services\Networking\" />
   </ItemGroup>
   <ItemGroup>
