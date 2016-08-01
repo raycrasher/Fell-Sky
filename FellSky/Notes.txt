@@ -21,11 +21,22 @@ Ship (root)
 On battle scenes
 
 	Warships should have radiator strips, and they should glow prominently when heat is high.
-	Heat is removed when thrusting.
+	Heat is removed when thrusting using reaction thrusters.
 	Engines should provide some damage when thrusting at close range.
 
 
+Ground / Ship scenes
+	Ship can land on planets / surfaces. 
+	Ships always land facing up, down, left, or right.
+	Ships can be interacted with and explored while landed.
 
+Outposts:
+	Outposts can defend themselves.
+	If an outpost is attacked, the auto-resolve process goes like this:
+		Roll a number for success(0-100)
+		If success > 90%, then colony won easily, and only ammo/a little health was lost.
+		If success > 75%, then colony won, ammo was lost, and some buildings need repair.
+		Else, send a timed quest that indicates that the colony may need help.
 
 Scenes:
 	Campaign

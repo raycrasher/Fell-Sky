@@ -44,8 +44,9 @@ namespace FellSky.Systems
             var camera = EntityWorld.GetActiveCamera();
             Vector2 worldMousePos = camera.ScreenToCameraSpace(_mouse.ScreenPosition);
 
-            foreach (var turretEntity in shipComponent.Turrets)
+            foreach (var weaponEntity in shipComponent.Weapons)
             {
+                var turretEntity = weaponEntity.GetComponent<WeaponComponent>().Turret;
                 var turret = turretEntity.GetComponent<TurretComponent>();
                 var turretXform = turretEntity.GetComponent<Transform>();
                 Matrix matrix;

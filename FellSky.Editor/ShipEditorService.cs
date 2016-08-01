@@ -78,7 +78,7 @@ namespace FellSky.Editor
                 return SelectedPartEntities
                   .Where(e => e.HasComponent<HardpointComponent>())
                   .Select(e => e.GetComponent<HardpointComponent>().Hardpoint)
-                  .FirstOrDefault()?.FiringArc ?? 0;
+                  .FirstOrDefault()?.Traverse ?? 0;
             }
             set
             {
@@ -87,7 +87,7 @@ namespace FellSky.Editor
                                     .Select(e => e.GetComponent<HardpointComponent>().Hardpoint)
                                     )
                 {
-                    item.FiringArc = value;
+                    item.Traverse = value;
                 }
             }
         }
@@ -349,7 +349,7 @@ namespace FellSky.Editor
                 else
                 {
                     var component = new HardpointComponent(new Hardpoint {
-                        FiringArc = MathHelper.ToRadians(60),
+                        Traverse = MathHelper.ToRadians(60),
                         Hull = item.GetComponent<HullComponent>().Part,
                         Size = HardpointSize.Small,
                         Type = HardpointType.Universal

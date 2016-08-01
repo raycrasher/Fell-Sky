@@ -66,7 +66,9 @@ namespace FellSky.Game.Ships
 
             foreach(var hp in Hardpoints)
             {
-                partLookup[hp.Hull].AddComponent(new HardpointComponent(hp));
+                var hullEntity = partLookup[hp.Hull];
+                hullEntity.AddComponent(new HardpointComponent(hp));
+                shipComponent.Hardpoints.Add(hullEntity);
             }
 
             shipEntity.Refresh();

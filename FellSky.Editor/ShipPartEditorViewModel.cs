@@ -248,12 +248,12 @@ namespace FellSky.Editor
         {
             get
             {
-                return _hardpoints?.Select(p => new float?(p.FiringArc)).GetAllEqualOrNothing();
+                return _hardpoints?.Select(p => new float?(p.Traverse)).GetAllEqualOrNothing();
             }
             set
             {
                 foreach (var item in _hardpoints)
-                    item.FiringArc = value ?? item.FiringArc;
+                    item.Traverse = value ?? item.Traverse;
             }
         }
     }
