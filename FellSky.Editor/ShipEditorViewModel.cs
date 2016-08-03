@@ -113,7 +113,7 @@ namespace FellSky.Editor
         private KeyboardService _keyboard;
         private System.Windows.Media.Color _selectedColor;
 
-        public string ShipFileFilter = "Ship JSON files(*.json)|*.json|Ship Part Group JSON files(*.json)|*.json|All files(*.*)|*.*";
+        public string ShipFileFilter = "Ship Model JSON files(*.json)|*.json|All files(*.*)|*.*";
         private TimerService _timer;
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -163,7 +163,7 @@ namespace FellSky.Editor
 
             World.SystemManager.SetSystem(new GridRendererSystem(), Artemis.Manager.GameLoopType.Draw, 1);
             //World.SystemManager.SetSystem(new ShipRendererSystem(), Artemis.Manager.GameLoopType.Draw, 2);
-            World.SystemManager.SetSystem(new SceneGraphRendererSystem<StandardShipRenderer>(new StandardShipRenderer()), Artemis.Manager.GameLoopType.Draw, 3);
+            World.SystemManager.SetSystem(new SceneGraphRendererSystem<StandardShipModelRenderer>(new StandardShipModelRenderer()), Artemis.Manager.GameLoopType.Draw, 3);
             World.SystemManager.SetSystem(new BoundingBoxRendererSystem(), Artemis.Manager.GameLoopType.Draw, 4);
             World.SystemManager.SetSystem(new GenericDrawableRendererSystem(), Artemis.Manager.GameLoopType.Draw, 5);
             var arcRendererSystem = new HardpointRendererSystem();
@@ -357,12 +357,7 @@ namespace FellSky.Editor
 
         public ICommand CreateNewShipCommand => new DelegateCommand(o =>
         {
-            EditorService.CreateNewShip();
-        });
-
-        public ICommand CreateNewPartGroupCommand => new DelegateCommand(o =>
-        {
-            EditorService.CreateNewPartGroup();
+            EditorService.CreateNewModel();
         });
 
         public ICommand Quit => new DelegateCommand(o => Application.Current.Shutdown());
@@ -393,11 +388,7 @@ namespace FellSky.Editor
         public ICommand SaveShipCommand => new DelegateCommand(o => {
             ActionsNextFrame.Add(() =>
             {
-                string startDir;
-                if (EditorService.Model is ShipPartGroup)
-                    startDir = Path.Combine(Content.RootDirectory, "Weapons");
-                else
-                    startDir = Path.Combine(Content.RootDirectory, "Ships");
+                string startDir = Path.Combine(Content.RootDirectory, "ShipModels");
                 if (!Directory.Exists(startDir)) startDir = Content.RootDirectory;
 
                 var dialog = new Microsoft.Win32.SaveFileDialog
@@ -414,7 +405,7 @@ namespace FellSky.Editor
         public ICommand LoadShipCommand => new DelegateCommand(o => {
             ActionsNextFrame.Add(() =>
             {
-                var startDir = Path.Combine(Content.RootDirectory, o?.ToString() ?? "Ships");
+                var startDir = Path.Combine(Content.RootDirectory, o?.ToString() ?? "Models");
                 if (!Directory.Exists(startDir)) startDir = Content.RootDirectory;
 
                 var dialog = new Microsoft.Win32.OpenFileDialog
@@ -425,15 +416,10 @@ namespace FellSky.Editor
                     DefaultExt = ".json"
                 };
 
-                if ((o?.ToString() ?? "Ships") != "Ships")
-                    dialog.FilterIndex = 2;
 
                 if (dialog.ShowDialog() == true)
                 {
-                    if(dialog.FilterIndex == 2)
-                        EditorService.LoadShipPartGroup(dialog.FileName);
-                    else
-                        EditorService.LoadShip(dialog.FileName);
+                    EditorService.LoadShipModel(dialog.FileName);
                 }
             });
         });

@@ -69,7 +69,7 @@ namespace FellSky.Game.Ships.Modules
 
             if (!string.IsNullOrWhiteSpace(PartGroupId))
             {
-                EntityFactories.ShipEntityFactory.CreatePartGroup(PartGroupId).CreateEntities(world, moduleEntity);
+                EntityFactories.ShipEntityFactory.CreateShipModel(PartGroupId).CreateChildEntities(world, moduleEntity);
             }
 
             var moduleComponent = new ModuleComponent

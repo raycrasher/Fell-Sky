@@ -16,7 +16,7 @@ namespace FellSky.EntityFactories
     public static class ShipEntityFactory
     {
         public static readonly Dictionary<string, Ship> Ships = new Dictionary<string, Ship>();
-        public static readonly Dictionary<string, ShipPartGroup> PartGroups = new Dictionary<string, ShipPartGroup>();
+        public static readonly Dictionary<string, ShipModel> Models = new Dictionary<string, ShipModel>();
 
         public static Entity CreateShip(this EntityWorld world, string id, Vector2 position, float rotation = 0, Vector2? scale = null, bool physics = true)
         {
@@ -31,19 +31,19 @@ namespace FellSky.EntityFactories
             return shipEntity;
         }
 
-        public static ShipPartGroup CreatePartGroup(string id)
+        public static ShipModel CreateShipModel(string id)
         {
-            ShipPartGroup group;
-            if (!PartGroups.TryGetValue(id, out group))
+            ShipModel model;
+            if (!Models.TryGetValue(id, out model))
             {
-                var path = $"Weapons/{id}.json";
+                var path = $"ShipModels/{id}.json";
                 if (!System.IO.File.Exists(path))
                     throw new ArgumentException($"Cannot find PartGroup file: {path}");
-                group = Persistence.LoadFromFile<ShipPartGroup>(path);
+                model = Persistence.LoadFromFile<ShipModel>(path);
 
-                PartGroups[id] = group;
+                Models[id] = model;
             }
-            return group;
+            return model;
         }
     }
 }

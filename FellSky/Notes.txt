@@ -1,21 +1,4 @@
-﻿Scene Graph hierarchy:
-
-Ship (root)
-	Hull
-		Hardpoint
-			Turret Base Parts
-			Rotating Turret Body Parts
-				Barrels
-					Muzzles
-
-
-
-
-
-
-
-
-
+﻿
 
 
 On battle scenes
@@ -189,3 +172,10 @@ Weapon Modifications
 			External Pod
 			External Rotary
 	
+
+	Launch Sequence Chat:
+
+	1. Pre-flight check (enumerate all modules)
+	2. "Ready for thruster ignition."
+	3. *Thruster ignites, dust billows below* "Thrusters are engaged."
+	4. 

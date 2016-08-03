@@ -11,13 +11,13 @@ using FellSky.Services;
 
 namespace FellSky.Systems.SceneGraphRenderers
 {
-    public class StandardShipRenderer : ISceneGraphRenderer
+    public class StandardShipModelRenderer : ISceneGraphRenderer
     {
         private ITimerService _timer;
         private RasterizerState _rasterizerState;
         private RasterizerState _lastRasterizerState;
 
-        public StandardShipRenderer()
+        public StandardShipModelRenderer()
         {
             _timer = ServiceLocator.Instance.GetService<ITimerService>();
             _rasterizerState = new RasterizerState();
@@ -59,7 +59,7 @@ namespace FellSky.Systems.SceneGraphRenderers
             var sprite = partEntity.GetComponent<SpriteComponent>();
             var xform = partEntity.GetComponent<Transform>();
             var hull = ((HullComponent)partComponent).Part;
-            var shipComponent = root.GetComponent<ShipComponent>();
+            var shipComponent = root.GetComponent<ShipModelComponent>();
             if(shipComponent != null)
             {
                 switch (hull.ColorType)

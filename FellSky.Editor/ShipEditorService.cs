@@ -42,9 +42,9 @@ namespace FellSky.Editor
         private EntityWorld _world;
 
         public ObservableCollection<Entity> SelectedPartEntities => _world.SystemManager.GetSystem<BoundingBoxSelectionSystem>().SelectedEntities;
-        public Entity ShipEntity { get; private set; }
+        public Entity ModelEntity { get; private set; }
         public Entity TransformEntity { get; private set; }
-        public IShipPartCollection  Model { get; private set; }
+        public ShipModel Model { get; private set; }
 
         public CloneTransformAction CloneTransformAction { get; set; } = CloneTransformAction.Move;
         public TransformOrigin TransformOrigin { get; set; } = TransformOrigin.Centroid;
@@ -157,16 +157,16 @@ namespace FellSky.Editor
         /// </summary>
         public void DeleteParts()
         {
-            var component = ShipEntity.Components.OfType<IShipPartCollectionComponent>().First();
+            var component = ModelEntity.GetComponent<ShipModelComponent>();
             var parts = SelectedPartEntities.Select(pe => pe.Components.OfType<IShipPartComponent>().First().Part);
-            var ship = component.Model as Ship;
-            var hardpointDictionary = ship?.Hardpoints.ToDictionary(s => (ShipPart)s.Hull);
+            var model = component.Model;
+            var hardpointDictionary = model?.Hardpoints.ToDictionary(s => (ShipPart)s.Hull);
             foreach (var item in parts)
             {
                 component.Model.Parts.Remove(item);
-                if (ship != null && hardpointDictionary.ContainsKey(item))
+                if (model != null && hardpointDictionary.ContainsKey(item))
                 {
-                    ship.Hardpoints.Remove(hardpointDictionary[item]);
+                    model.Hardpoints.Remove(hardpointDictionary[item]);
                 }
             }
 
@@ -177,8 +177,8 @@ namespace FellSky.Editor
             //ShipEntityFactory.UpdateComponentPartList(_world, ShipEntity, false);
             SelectedPartEntities.Clear();
 
-            if (ship != null)
-                CollectionViewSource.GetDefaultView(ship.Hardpoints).Refresh();
+            if (model != null)
+                CollectionViewSource.GetDefaultView(model.Hardpoints).Refresh();
         }
 
         public void OffsetParts(Vector2 offset)
@@ -243,7 +243,7 @@ namespace FellSky.Editor
                 var parts = SelectedPartEntities
                     .Select(pe => new { Part = pe.Components.OfType<IShipPartComponent>().First().Part, Index = Model.Parts.IndexOf(pe.Components.OfType<IShipPartComponent>().First().Part) })
                     .ToArray();
-                var children = ShipEntity.GetChildren();
+                var children = ModelEntity.GetChildren();
 
                 foreach (var item in parts)
                 {
@@ -267,7 +267,7 @@ namespace FellSky.Editor
             SelectedPartEntities.Clear();
         }
 
-        public void CreateNewShip()
+        public void CreateNewModel()
         {
             ClearSelection();
             foreach (var entity in _world.EntityManager.GetEntities(Aspect.All(typeof(EditorComponent))))
@@ -275,13 +275,13 @@ namespace FellSky.Editor
                 entity.Delete();
             }
 
-            if (ShipEntity != null) ShipEntity.Tag = null;
-            ShipEntity?.Delete();
+            if (ModelEntity != null) ModelEntity.Tag = null;
+            ModelEntity?.Delete();
 
-            var ship = new Ship();
-            ShipEntity = ship.CreateEntity(_world, Vector2.Zero, 0, physics:false);
-            ShipEntity.Tag = "PlayerShip";
-            Model = ship;
+            Model = new ShipModel();
+            ModelEntity = Model.CreateStandAloneEntity(_world); ;
+            ModelEntity.Tag = "PlayerShip";
+
             //PropertyObject = Model;
         }
 
@@ -335,8 +335,6 @@ namespace FellSky.Editor
 
         public void ToggleHardpointOnSelected()
         {
-            if (!(Model is Ship)) return;
-            var ship = Model as Ship;
             foreach(var item in SelectedPartEntities.Where(s=>s.HasComponent<HullComponent>()))
             {
                 if (item.HasComponent<HardpointComponent>())
@@ -344,7 +342,7 @@ namespace FellSky.Editor
                     var component = item.GetComponent<HardpointComponent>();
                     item.RemoveComponent<HardpointComponent>();
                     item.RemoveComponent<HardpointArcDrawingComponent>();
-                    ship.Hardpoints.Remove(component.Hardpoint);
+                    Model.Hardpoints.Remove(component.Hardpoint);
                 }
                 else
                 {
@@ -356,10 +354,10 @@ namespace FellSky.Editor
                     });
                     item.AddComponent(component);
                     item.AddComponent(new HardpointArcDrawingComponent());
-                    ship.Hardpoints.Add(component.Hardpoint);
+                    Model.Hardpoints.Add(component.Hardpoint);
                 }
             }
-            CollectionViewSource.GetDefaultView(ship.Hardpoints).Refresh();
+            CollectionViewSource.GetDefaultView(Model.Hardpoints).Refresh();
         }
 
         private void StartTransformOnSelectedParts()
@@ -384,7 +382,7 @@ namespace FellSky.Editor
             Func<ShipPart, Entity> CreatePartEntity = (ShipPart oldPart) =>
             {
                 var part = oldPart.Clone();
-                var entity = part.CreateEntity(_world, ShipEntity, Model.Parts.IndexOf(oldPart) + 1);
+                var entity = part.CreateEntity(_world, ModelEntity, Model.Parts.IndexOf(oldPart) + 1);
                 
                 AddEditorComponentsToPartEntity(entity);
                 return entity;
@@ -417,7 +415,7 @@ namespace FellSky.Editor
             }
         }
 
-        public void LoadShipPartGroup(string fileName)
+        public void LoadShipModel(string fileName)
         {
             try
             {
@@ -426,47 +424,12 @@ namespace FellSky.Editor
                 {
                     entity.Delete();
                 }
-                if (ShipEntity != null) ShipEntity.Tag = null;
-                ShipEntity?.Delete();
-                var group = Persistence.LoadFromFile<ShipPartGroup>(fileName);
-                ShipEntity = _world.CreateEntity();
-                group.CreateEntities(_world, ShipEntity);
-                ShipEntity.AddComponent<IShipPartCollectionComponent>(new ShipPartGroupComponent(group));
-                ShipEntity.AddComponent(new SceneGraphRenderRoot<StandardShipRenderer>());
-                ShipEntity.AddComponent(new Transform());
-                //ShipEntityFactory.SpawnShipPartGroup(_world, ShipEntity, group);
-                Model = group;
-                ShipEntity.Tag = "PlayerShip";
-                foreach (var entity in ShipEntity.GetChildren())
-                {
-                    AddEditorComponentsToPartEntity(entity);
-                    if (entity.HasComponent<HardpointComponent>())
-                        entity.AddComponent(new HardpointArcDrawingComponent());
-                }
-                //PropertyObject = Model;
-            }
-            catch (Newtonsoft.Json.JsonException)
-            {
-                MessageBox.Show($"There has been an error loading the ship from the following file: {fileName}", "Error saving ship", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
-
-        public void LoadShip(string fileName)
-        {
-            try
-            {
-                ClearSelection();
-                foreach (var entity in _world.EntityManager.GetEntities(Aspect.All(typeof(EditorComponent))))
-                {
-                    entity.Delete();
-                }
-                if (ShipEntity != null) ShipEntity.Tag = null;
-                ShipEntity?.Delete();
-                var ship = Persistence.LoadFromFile<Ship>(fileName);
-                ShipEntity = ship.CreateEntity(_world, Vector2.Zero, 0, physics:false);
-                Model = ship;
-                ShipEntity.Tag = "PlayerShip";
-                foreach (var entity in ShipEntity.GetChildren())
+                if (ModelEntity != null) ModelEntity.Tag = null;
+                ModelEntity?.Delete();
+                Model = Persistence.LoadFromFile<ShipModel>(fileName);
+                ModelEntity = Model.CreateStandAloneEntity(_world);
+                ModelEntity.Tag = "PlayerShip";
+                foreach (var entity in ModelEntity.GetChildren())
                 {
                     AddEditorComponentsToPartEntity(entity);
                     if (entity.HasComponent<HardpointComponent>())
@@ -480,27 +443,7 @@ namespace FellSky.Editor
             }
         }
 
-        public void CreateNewPartGroup()
-        {
-            ClearSelection();
-            foreach (var entity in _world.EntityManager.GetEntities(Aspect.All(typeof(EditorComponent))))
-            {
-                entity.Delete();
-            }
-
-            if (ShipEntity != null) ShipEntity.Tag = null;
-            ShipEntity?.Delete();
-
-            var group = new ShipPartGroup();
-            ShipEntity = _world.CreateEntity();
-            ShipEntity.AddComponent(new Transform());
-            ShipEntity.Refresh();
-            ShipEntity.Tag = "PlayerShip";
-            Model = group;
-            //PropertyObject = Model;
-        }
-
-        public void MirrorSelectedLaterally()
+         public void MirrorSelectedLaterally()
         {
             foreach (var part in SelectedPartEntities.Select(s => s.Components.OfType<IShipPartComponent>().First().Part))
             {
@@ -516,7 +459,7 @@ namespace FellSky.Editor
                 int index = Model.Parts.IndexOf(part) + 1;
                 var newPart = part.Clone();
                 Model.Parts.Insert(index, newPart);
-                var entity = newPart.CreateEntity(_world, ShipEntity, index);
+                var entity = newPart.CreateEntity(_world, ModelEntity, index);
                 AddEditorComponentsToPartEntity(entity);
 
                 var xform = entity.GetComponent<Transform>();
@@ -532,7 +475,7 @@ namespace FellSky.Editor
 
             Model.Parts.Add(hull);
 
-            var hullEntity = hull.CreateEntity(_world, ShipEntity, index);
+            var hullEntity = hull.CreateEntity(_world, ModelEntity, index);
             var hullComponent = hullEntity.GetComponent<HullComponent>();
             hull.ColorType = colorType;
             AddEditorComponentsToPartEntity(hullEntity);
@@ -545,7 +488,7 @@ namespace FellSky.Editor
 
             Model.Parts.Add(thruster);
 
-            var thrusterEntity = thruster.CreateEntity(_world, ShipEntity, index);
+            var thrusterEntity = thruster.CreateEntity(_world, ModelEntity, index);
             var thrusterComponent = thrusterEntity.GetComponent<ThrusterComponent>();
             thrusterComponent.ThrustPercentage = 1;
             AddEditorComponentsToPartEntity(thrusterEntity);
@@ -583,11 +526,11 @@ namespace FellSky.Editor
             }
             else if (e.PropertyName == nameof(BaseColor))
             {
-                Model.BaseDecalColor = BaseColor;
+                ModelEntity.GetComponent<ShipModelComponent>().BaseDecalColor = BaseColor;
             }
             else if (e.PropertyName == nameof(TrimColor))
             {
-                Model.TrimDecalColor = TrimColor;
+                ModelEntity.GetComponent<ShipModelComponent>().TrimDecalColor = TrimColor;
             }
             else if (e.PropertyName == nameof(SelectedHullColorType))
             {

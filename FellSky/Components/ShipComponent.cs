@@ -10,7 +10,7 @@ using FellSky.Services;
 
 namespace FellSky.Components
 {
-    public class ShipComponent: IComponent, IShipPartCollectionComponent
+    public class ShipComponent: IComponent
     {
         public Ship Ship { get; set; }
 
@@ -18,16 +18,10 @@ namespace FellSky.Components
         public List<Entity> Weapons { get; set; } = new List<Entity>();
         public List<Entity> Hardpoints { get; set; } = new List<Entity>();
 
-
         public float AngularTorque { get; set; }
         public Vector2 LinearThrustVector { get; set; }
         public bool AttemptBoost { get; set; }
         public Vector2 CenterOfMass { get; set; }
-
-        public Color BaseDecalColor { get; set; }
-        public Color TrimDecalColor { get; set; }
-
-        IShipPartCollection  IShipPartCollectionComponent.Model => Ship;
 
         public ShipVariant Variant { get; set; }
 

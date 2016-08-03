@@ -16,21 +16,20 @@ using Artemis;
 using FellSky.Components;
 using FellSky.Systems.SceneGraphRenderers;
 using FellSky.Systems;
+using FellSky.EntityFactories;
 
 namespace FellSky.Game.Ships
 {
     [Archetype]
-    public class Ship: IShipPartCollection 
+    public class Ship: IPersistable
     {
         public string Id { get; set; }
         public string GivenName { get; set; }
         public string HullClass { get; set; }
         public string ShipType { get; set; }
 
-        public List<ShipPart> Parts { get; set; } = new List<ShipPart>();
-        public List<Hardpoint> Hardpoints { get; set; } = new List<Hardpoint>();
+        public string ModelId { get; set; }
 
-        IList<ShipPart> IShipPartCollection .Parts => Parts;
 
         [ExpandableObject]
         public ShipHandlingParameters Handling { get; set; } = new ShipHandlingParameters();
@@ -45,10 +44,7 @@ namespace FellSky.Game.Ships
             shipEntity.AddComponent(new Transform(position, rotation, scale ?? Vector2.One));
             shipEntity.AddComponent(shipComponent);
             shipEntity.AddComponent(new SceneGraphComponent());
-            shipEntity.AddComponent(new SceneGraphRenderRoot<StandardShipRenderer>());
-
-            shipComponent.BaseDecalColor = BaseDecalColor;
-            shipComponent.TrimDecalColor = TrimDecalColor;
+            shipEntity.AddComponent(new SceneGraphRenderRoot<StandardShipModelRenderer>());
 
             if (physics)
             {
@@ -59,23 +55,32 @@ namespace FellSky.Game.Ships
                 rigidBody.Body.LinearDamping = Handling.LinearDamping;
             }
 
-            var partEntities = from part in Parts
+            var model = ShipEntityFactory.CreateShipModel(ModelId);
+
+            var partEntities = from part in model.Parts
                                select new { Entity = part.CreateEntity(world, shipEntity), Part = part };
 
             var partLookup = partEntities.ToDictionary(k => k.Part, v => v.Entity);
+            
 
-            foreach(var hp in Hardpoints)
+            foreach(var hp in model.Hardpoints)
             {
                 var hullEntity = partLookup[hp.Hull];
                 hullEntity.AddComponent(new HardpointComponent(hp));
                 shipComponent.Hardpoints.Add(hullEntity);
             }
+            var shipModelComponent = new ShipModelComponent { Model = model };
+            shipModelComponent.BaseDecalColor = BaseDecalColor;
+            shipModelComponent.TrimDecalColor = TrimDecalColor;
 
+            shipEntity.AddComponent(shipModelComponent);
             shipEntity.Refresh();
+
+
             return shipEntity;
         }
 
-
+        /*
         public FloatRect CalculateBoundingBox(float thrusterXScale = 0.3f)
         {
             var sprites = ServiceLocator.Instance.GetService<ISpriteManagerService>().Sprites;
@@ -103,5 +108,6 @@ namespace FellSky.Game.Ships
                 });
             
         }
+        */
     }
 }
