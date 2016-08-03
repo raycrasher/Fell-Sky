@@ -56,14 +56,12 @@ namespace FellSky.Game.Ships
             }
 
             var model = ShipEntityFactory.CreateShipModel(ModelId);
-
-            var partEntities = from part in model.Parts
-                               select new { Entity = part.CreateEntity(world, shipEntity), Part = part };
-
-            var partLookup = partEntities.ToDictionary(k => k.Part, v => v.Entity);
+            model.CreateChildEntities(world, shipEntity);
             
-
-            foreach(var hp in model.Hardpoints)
+            var partLookup = shipEntity.GetChildren()
+                             .ToDictionary(c => c.Components.OfType<IShipPartComponent>().First().Part, c => c);
+            
+            foreach (var hp in model.Hardpoints)
             {
                 var hullEntity = partLookup[hp.Hull];
                 hullEntity.AddComponent(new HardpointComponent(hp));
