@@ -49,7 +49,6 @@ namespace FellSky.Editor
         public CloneTransformAction CloneTransformAction { get; set; } = CloneTransformAction.Move;
         public TransformOrigin TransformOrigin { get; set; } = TransformOrigin.Centroid;
 
-        public HullColorType SelectedHullColorType { get; set; }
         public Color PartColor { get; set; } = Color.White;
         public Color TrimColor { get; set; } = Color.CornflowerBlue;
         public Color BaseColor { get; set; } = Color.Gold;
@@ -207,7 +206,7 @@ namespace FellSky.Editor
                     sprite.OriginX ?? sprite.W / 2, 
                     sprite.OriginY ?? sprite.H / 2), 
                 PartColor, 
-                SelectedHullColorType);
+                HullColorType.Hull);
 
             SelectedPartEntities.Add(entity);
             entity.AddComponent(new MouseControlledTransformComponent());
@@ -531,11 +530,6 @@ namespace FellSky.Editor
             else if (e.PropertyName == nameof(TrimColor))
             {
                 ModelEntity.GetComponent<ShipModelComponent>().TrimDecalColor = TrimColor;
-            }
-            else if (e.PropertyName == nameof(SelectedHullColorType))
-            {
-                foreach (var hull in SelectedPartEntities.Select(en => en.Components.OfType<HullComponent>().First()))
-                    hull.Part.ColorType = SelectedHullColorType;
             }
         }
 
