@@ -265,7 +265,7 @@ namespace FellSky.Editor
             if (SelectedPartEntities.Count > 0)
             {
                 var parts = SelectedPartEntities
-                    .Select(pe => new { Part = pe.Components.OfType<IShipPartComponent>().First().Part, Index = Model.Parts.IndexOf(pe.Components.OfType<IShipPartComponent>().First().Part) })
+                    .Select(pe => new { Part = pe.GetComponent<IShipPartComponent>().Part, Index = Model.Parts.IndexOf(pe.GetComponent<IShipPartComponent>().Part) })
                     .ToArray();
                 var children = ModelEntity.GetChildren();
 

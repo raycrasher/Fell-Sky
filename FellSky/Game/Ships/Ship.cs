@@ -59,7 +59,7 @@ namespace FellSky.Game.Ships
             model.CreateChildEntities(world, shipEntity);
             
             var partLookup = shipEntity.GetChildren()
-                             .ToDictionary(c => c.Components.OfType<IShipPartComponent>().First().Part, c => c);
+                             .ToDictionary(c => c.GetComponent<IShipPartComponent>().Part, c => c);
             
             foreach (var hp in model.Hardpoints)
             {
