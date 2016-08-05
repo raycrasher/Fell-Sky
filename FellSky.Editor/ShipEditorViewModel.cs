@@ -83,18 +83,15 @@ namespace FellSky.Editor
 
         public ContentManager Content { get; set; }
         public GameServiceContainer Services { get; set; }
-
-        [PropertyChanged.DoNotNotify]
         public EntityWorld World { get; set; }
 
         private System.Diagnostics.Stopwatch _stopwatch = new System.Diagnostics.Stopwatch();
-      
+
+        //public List<Entity> SelectedPartEntities { get; set; }
+        
         public SpriteBatch SpriteBatch { get; private set; }
         public bool IsSnap { get; set; }
-        public bool IsGridVisible {
-            get { return World?.SystemManager.GetSystem<GridRendererSystem>()?.IsEnabled ?? true; }
-            set { World.SystemManager.GetSystem<GridRendererSystem>().IsEnabled = value; }
-        }
+        public bool IsGridVisible { get; set; }
         public int GridSize {
             get { return ((int?) GridEntity?.GetComponent<GridComponent>()?.GridSize.X) ?? 10;  }
             set
@@ -105,14 +102,6 @@ namespace FellSky.Editor
                 grid.GridSize = new Vector2(value, value);
             }
         }
-
-        public bool HardpointsVisible
-        {
-            get { return World?.SystemManager.GetSystem<HardpointRendererSystem>()?.IsEnabled ?? false; }
-            set { World.SystemManager.GetSystem<HardpointRendererSystem>().IsEnabled = value; }
-        }
-
-        public KeyValuePair<string, PartAnimation> SelectedAnimation { get; set; }
         
         public Entity CameraEntity { get; private set; }
         public Entity GridEntity { get; private set; }
@@ -124,14 +113,12 @@ namespace FellSky.Editor
         private KeyboardService _keyboard;
         private System.Windows.Media.Color _selectedColor;
 
-        public string ShipFileFilter = "Ship JSON files(*.json)|*.json|Ship Part Group JSON files(*.json)|*.json|All files(*.*)|*.*";
+        public string ShipFileFilter = "Ship Model JSON files(*.json)|*.json|All files(*.*)|*.*";
         private TimerService _timer;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
         private List<Action> ActionsNextFrame { get; } = new List<Action>();
-        public SpriteManagerService SpriteManager { get; private set; }
-        public List<Sprite> ThrusterSprites { get; private set; }
 
         internal void Initialize(D3D11Host host)
         {
@@ -176,7 +163,7 @@ namespace FellSky.Editor
 
             World.SystemManager.SetSystem(new GridRendererSystem(), Artemis.Manager.GameLoopType.Draw, 1);
             //World.SystemManager.SetSystem(new ShipRendererSystem(), Artemis.Manager.GameLoopType.Draw, 2);
-            World.SystemManager.SetSystem(new SceneGraphRendererSystem<StandardShipRenderer>(new StandardShipRenderer()), Artemis.Manager.GameLoopType.Draw, 3);
+            World.SystemManager.SetSystem(new SceneGraphRendererSystem<StandardShipModelRenderer>(new StandardShipModelRenderer()), Artemis.Manager.GameLoopType.Draw, 3);
             World.SystemManager.SetSystem(new BoundingBoxRendererSystem(), Artemis.Manager.GameLoopType.Draw, 4);
             World.SystemManager.SetSystem(new GenericDrawableRendererSystem(), Artemis.Manager.GameLoopType.Draw, 5);
             var arcRendererSystem = new HardpointRendererSystem();
@@ -292,7 +279,6 @@ namespace FellSky.Editor
                     break;
                 case Key.H:
                     EditorService.ToggleHardpointOnSelected();
-                    HardpointsVisible = true;
                     break;
                 default:
                     e.Handled = false;
@@ -371,12 +357,7 @@ namespace FellSky.Editor
 
         public ICommand CreateNewShipCommand => new DelegateCommand(o =>
         {
-            EditorService.CreateNewShip();
-        });
-
-        public ICommand CreateNewPartGroupCommand => new DelegateCommand(o =>
-        {
-            EditorService.CreateNewPartGroup();
+            EditorService.CreateNewModel();
         });
 
         public ICommand Quit => new DelegateCommand(o => Application.Current.Shutdown());
@@ -401,17 +382,24 @@ namespace FellSky.Editor
             });
         });
 
+        public ICommand AddDummyPart => new DelegateCommand(o =>
+        {
+            ActionsNextFrame.Add(() =>
+            {
+                var pos = _host.PointToScreen(new System.Windows.Point(_host.ActualWidth / 2, _host.ActualHeight / 2));
+                _mouse.ScreenPosition = new Vector2((float)pos.X, (float)pos.Y);
+                System.Threading.Thread.Sleep(10);
+                EditorService.AddDummyPart();
+            });
+        });
+
         public ICommand DeletePartsCommand => new DelegateCommand(o => EditorService.DeleteParts());
         public ICommand MirrorLateralCommand => new DelegateCommand(o => EditorService.MirrorSelectedLaterally());
         public ICommand RotatePartsCommand => new DelegateCommand(o => EditorService.RotateParts());
         public ICommand SaveShipCommand => new DelegateCommand(o => {
             ActionsNextFrame.Add(() =>
             {
-                string startDir;
-                if (EditorService.Model is ShipPartGroup)
-                    startDir = Path.Combine(Content.RootDirectory, "Weapons");
-                else
-                    startDir = Path.Combine(Content.RootDirectory, "Ships");
+                string startDir = Path.Combine(Content.RootDirectory, "ShipModels");
                 if (!Directory.Exists(startDir)) startDir = Content.RootDirectory;
 
                 var dialog = new Microsoft.Win32.SaveFileDialog
@@ -428,7 +416,7 @@ namespace FellSky.Editor
         public ICommand LoadShipCommand => new DelegateCommand(o => {
             ActionsNextFrame.Add(() =>
             {
-                var startDir = Path.Combine(Content.RootDirectory, o?.ToString() ?? "Ships");
+                var startDir = Path.Combine(Content.RootDirectory, o?.ToString() ?? "Models");
                 if (!Directory.Exists(startDir)) startDir = Content.RootDirectory;
 
                 var dialog = new Microsoft.Win32.OpenFileDialog
@@ -439,40 +427,48 @@ namespace FellSky.Editor
                     DefaultExt = ".json"
                 };
 
-                if ((o?.ToString() ?? "Ships") != "Ships")
-                    dialog.FilterIndex = 2;
 
                 if (dialog.ShowDialog() == true)
                 {
-                    if(dialog.FilterIndex == 2)
-                        EditorService.LoadShipPartGroup(dialog.FileName);
-                    else
-                        EditorService.LoadShip(dialog.FileName);
+                    EditorService.LoadShipModel(dialog.FileName);
                 }
             });
         });
 
-        public ICommand DeleteAnimation => new DelegateCommand(o => {
-            EditorService.Model.Animations.Remove(o.ToString());
-            System.Windows.Data.CollectionViewSource.GetDefaultView(EditorService.Model.Animations).Refresh();
-        });
-
         public ICommand AddColorToPalette => new DelegateCommand(o => ColorPalette.Add(SelectedColor.ToXnaColor()));
 
-        public ICommand AddAnimation => new DelegateCommand(o => {
-            var name = o as string;
-            if (string.IsNullOrWhiteSpace(name))
-                return;
-            if(!EditorService.Model.Animations.ContainsKey(name))
-            {
-                MessageBox.Show($"Animation \"{name}\" already exists.", "Add Animation", MessageBoxButton.OK, MessageBoxImage.Information);
-                return;
-            }
+        public ICommand DisassembleSpritesheet => new DelegateCommand(o => {
 
-            var anim = new PartAnimation();
-            EditorService.Model.Animations[name] = anim;
-            System.Windows.Data.CollectionViewSource.GetDefaultView(EditorService.Model.Animations).Refresh();
-            SelectedAnimation = EditorService.Model.Animations.First(k => k.Key == name);
+            var dialog = new System.Windows.Forms.FolderBrowserDialog();
+            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+
+                foreach (var sprite in CurrentSpriteSheet.SpriteDefinitions.Sprites)
+                {
+                    var source = CurrentSpriteSheet.Image;
+                    var bytesPerPixel = (source.Format.BitsPerPixel + 7) / 8;
+                    var stride = sprite.W * bytesPerPixel;
+
+                    var pixels = new byte[stride * sprite.H];
+                    source.CopyPixels(new Int32Rect(sprite.X, sprite.Y, sprite.W, sprite.H), pixels, stride, 0);
+
+                    var encoder = new PngBitmapEncoder();
+                    encoder.Frames.Add(BitmapFrame.Create(BitmapSource.Create(sprite.W, sprite.H, source.DpiX, source.DpiY, source.Format, source.Palette, pixels, stride)));
+                    using (var outStream = new FileStream(Path.Combine(dialog.SelectedPath, $"{sprite.Id}.png"), FileMode.Create))
+                        encoder.Save(outStream);
+                }
+            }
+            if(MessageBox.Show($"Sprites exported to {dialog.SelectedPath}. Open folder?", "Export Spritesheet", MessageBoxButton.YesNo, MessageBoxImage.Information) == MessageBoxResult.Yes)
+            {
+                try
+                {
+                    System.Diagnostics.Process.Start(dialog.SelectedPath);
+                }
+                catch (Exception) { } // gulp
+            }
         });
+
+        public SpriteManagerService SpriteManager { get; private set; }
+        public List<Sprite> ThrusterSprites { get; private set; }
     }
 }

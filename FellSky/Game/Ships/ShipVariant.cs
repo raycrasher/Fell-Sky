@@ -27,8 +27,10 @@ namespace FellSky.Game.Ships
             var shipComponent = shipEntity.GetComponent<ShipComponent>();
             var ship = shipComponent.Ship;
             shipComponent.Variant = this;
-            shipComponent.BaseDecalColor = BaseDecalColor;
-            shipComponent.TrimDecalColor = TrimDecalColor;
+
+            var model = shipEntity.GetComponent<ShipModelComponent>();
+            model.BaseDecalColor = BaseDecalColor;
+            model.TrimDecalColor = TrimDecalColor;
             
             // uninstall weapons
             foreach(var entity in shipComponent.Weapons)

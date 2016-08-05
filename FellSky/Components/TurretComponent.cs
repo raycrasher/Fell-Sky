@@ -18,13 +18,12 @@ namespace FellSky.Components
         public float TurnRate = MathHelper.TwoPi;
         public bool IsEnabled = true;
 
+        public float AimTolerance = 0.1f;
+        public bool IsAimed => Math.Abs(Utilities.GetLesserAngleDifference(Rotation, DesiredRotation)) <= AimTolerance;
+        public Entity Weapon;
+        public Entity Ship;
+
         public bool IsOmnidirectional => FiringArc >= MathHelper.TwoPi;
         public bool IsFixedTurret => FiringArc <= 0;
-
-        public Entity HardpointEntity;
-
-        public Entity[] Barrels;
-        public Transform[] Muzzles;
-        
     }
 }

@@ -1,31 +1,25 @@
-﻿Scene Graph hierarchy:
-
-Ship (root)
-	Hull
-		Hardpoint
-			Turret Base Parts
-			Rotating Turret Body Parts
-				Barrels
-					Muzzles
-
-
-
-
-
-
-
-
-
+﻿
 
 
 On battle scenes
 
 	Warships should have radiator strips, and they should glow prominently when heat is high.
-	Heat is removed when thrusting.
+	Heat is removed when thrusting using reaction thrusters.
 	Engines should provide some damage when thrusting at close range.
 
 
+Ground / Ship scenes
+	Ship can land on planets / surfaces. 
+	Ships always land facing up, down, left, or right.
+	Ships can be interacted with and explored while landed.
 
+Outposts:
+	Outposts can defend themselves.
+	If an outpost is attacked, the auto-resolve process goes like this:
+		Roll a number for success(0-100)
+		If success > 90%, then colony won easily, and only ammo/a little health was lost.
+		If success > 75%, then colony won, ammo was lost, and some buildings need repair.
+		Else, send a timed quest that indicates that the colony may need help.
 
 Scenes:
 	Campaign
@@ -147,30 +141,41 @@ Battle Flow:
 
 
 	
+Weapon Modifications
 
+	Autocannon
+		Caliber:
+			25mm
+	Howitzer
+		Caliber:
+			16 inch
+			12 inch
+	Railgun
+	Beam Cannon
+	Pulse Beam Cannon
+	Bolt Cannon
+	
+	Missile Launcher
+		Configuration:
+			Box (Turreted)
+			VLS
+			Internal Rack
+			Internal Tube
+			External Rack
+			External Pod
 
+	Rocket Launcher
+		Configuration:
+			Box (Turreted)
+			Internal Tube
+			Internal Rotary
+			External Pod
+			External Rotary
+	
 
+	Launch Sequence Chat:
 
-
-
-
-
-
-
-
-Animation Domain Specific Language
-
-Keywords/Commands:
-
-EVENT eventname
-	ROTATE partid degrees speed
-	TRANSLATE partid x y
-	LOCK partid
-	RESET POSITION partid speed
-	RESET ROTATION partid speed
-	COLOR partid speed r g b a
-	COLOR partid speed r g b
-	COLOR partid speed a
-	FIRE eventname
-
-
+	1. Pre-flight check (enumerate all modules)
+	2. "Ready for thruster ignition."
+	3. *Thruster ignites, dust billows below* "Thrusters are engaged."
+	4. 

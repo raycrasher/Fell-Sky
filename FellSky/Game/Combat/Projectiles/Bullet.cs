@@ -18,6 +18,7 @@ namespace FellSky.Game.Combat.Projectiles
         public string SpriteId { get; set; }
         public Color Color { get; set; }
         public TimeSpan MaxAge { get; set; }
+        public float Damage { get; set; }
 
         public Entity Spawn(EntityWorld world, Entity owner, Entity weapon, Entity muzzle)
         {

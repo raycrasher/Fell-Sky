@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FellSky.Game.Combat
+namespace FellSky.Game.Ground
 {
-    class Beam
+    class Map
     {
+        public MapTile[][] Tiles;
     }
 }

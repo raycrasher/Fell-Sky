@@ -1,91 +1,103 @@
-﻿using FellSky.Game.Ships.Parts;
+﻿using Artemis;
+using FellSky.Components;
+using FellSky.Game.Ships.Parts;
+using FellSky.Services;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace FellSky.Game.Ships.Modules
 {
-    public interface IModule
+    public interface IModuleUpgrade
     {
-        IEnumerable<string> AvailableUpgrades { get; }
-        IEnumerable<string> InstalledUpgrades { get; }
-
-        string ModuleName { get; }
-
-        bool InstallUpgrade(string upgrade);
+        string Name { get; }
+        string Description { get; }
     }
 
-    public abstract class Module<TUpgrade> : Module<TUpgrade, HashSet<TUpgrade>>
-        where TUpgrade : struct
+    public abstract class Module
     {
-    }
-
-    public abstract class Module<TUpgrade, TUpgradeCollectionType> : IModule
-        where TUpgrade : struct
-        where TUpgradeCollectionType : ICollection<TUpgrade>, new()
-    {
-        private TUpgradeCollectionType _upgrades = new TUpgradeCollectionType();
-
-        public Ship Ship { get; set; }
-        public ModuleSlot ModuleSlot { get; set; }
-        public virtual IEnumerable<TUpgrade> AvailableUpgrades => GetAvailableUpgrades();
-        public virtual TUpgradeCollectionType InstalledUpgrades => _upgrades;
+        public string Id { get; set; }
         public string ModuleName { get; set; }
 
-        IEnumerable<string> IModule.InstalledUpgrades => InstalledUpgrades.Select(s => s.ToString());
-        IEnumerable<string> IModule.AvailableUpgrades => AvailableUpgrades.Select(s => s.ToString());
+        public HardpointSize Size { get; set; }
+        public string PartGroupId { get; set; }
 
-
-        public static int CalculateUpgradeLevel(ICollection<TUpgrade> upgradeCollection, params TUpgrade[] upgrades)
+        public virtual bool CanInstall(Entity shipEntity, Hardpoint slot)
         {
-            int level;
-            for (level = upgrades.Length; level > 0; level--)
+            return Size == slot.Size && slot.Type == HardpointType.Module;
+        }
+
+        public virtual bool CanInstallUpgrade(Entity shipEntity, Entity moduleEntity, IModuleUpgrade upgrade) => false;
+
+        public virtual bool CanMountToHardpoint(HardpointType type) => false;
+
+        public virtual Entity Install(EntityWorld world, Entity shipEntity, Entity hardpointEntity)
+        {
+            var slot = hardpointEntity.GetComponent<HardpointComponent>();
+            if (!hardpointEntity.IsChildOf(shipEntity)) throw new InvalidOperationException("Cannot install, ship entity does not own hardpoint entity.");
+            if (slot == null) throw new InvalidOperationException("Cannot install on non-hardpoint entity.");
+            var shipComponent = shipEntity.GetComponent<ShipComponent>();
+            var moduleEntity = world.CreateEntity();
+
+            var hardpointTransform = hardpointEntity.GetComponent<Transform>();
+            var moduleTransform = new Transform(Vector2.Zero, 0, Vector2.One, -hardpointTransform.Origin);
+
+            var scale = hardpointTransform.Scale;
+            var origin = -hardpointTransform.Origin;
+            if (scale.X < 0)
             {
-                if (upgradeCollection.Contains(upgrades[level - 1])) return level;
+                scale.X = Math.Abs(scale.X);
+                origin.X *= -1;
             }
-            return level;
-        }
-
-        public static TUpgrade? GetNextLevelledUpgrade(ICollection<TUpgrade> upgradeCollection, int level, params TUpgrade[] upgrades)
-        {
-            if (upgrades.Length <= 0) return null;
-            if (level >= upgrades.Length) return null;
-            if (level <= 0) return upgrades[0];
-            return upgrades[level];
-        }
-
-        public virtual bool InstallUpgrade(TUpgrade upgrade)
-        {
-            if (!AvailableUpgrades.Contains(upgrade)) return false;
-            InstalledUpgrades.Add(upgrade);
-            return true;
-        }
-
-        bool IModule.InstallUpgrade(string upgrade) => InstallUpgrade(AvailableUpgrades, upgrade, InstallUpgrade);
-
-        protected int CalculateUpgradeLevel(params TUpgrade[] upgrades) => CalculateUpgradeLevel(InstalledUpgrades, upgrades);
-
-        protected virtual IEnumerable<TUpgrade> GetAvailableUpgrades()
-        {
-            yield break;
-        }
-        protected TUpgrade? GetNextLevelledUpgrade(int level, params TUpgrade[] upgrades) => GetNextLevelledUpgrade(InstalledUpgrades, level, upgrades);
-
-        protected bool InstallUpgrade(IEnumerable<TUpgrade> availableUpgrades, string upgrade, Func<TUpgrade, bool> upgradeFunc)
-        {
-            TUpgrade value;
-            if (Enum.TryParse(upgrade, out value))
+            if (scale.Y < 0)
             {
-                return upgradeFunc(value);
+                scale.Y *= Math.Abs(scale.Y);
+                origin.Y *= -1;
             }
-            return false;
+            moduleTransform.Scale = scale;
+            moduleTransform.Origin = origin;
+
+            moduleEntity.AddComponent(moduleTransform);
+
+            hardpointEntity.AddChild(moduleEntity);
+            var previousInstalled = slot.InstalledEntity;
+            if (previousInstalled != null)
+            {
+                previousInstalled.GetComponent<ModuleComponent>().Module.Uninstall(shipEntity, previousInstalled);
+            }
+
+            if (!string.IsNullOrWhiteSpace(PartGroupId))
+            {
+                EntityFactories.ShipEntityFactory.CreateShipModel(PartGroupId).CreateChildEntities(world, moduleEntity);
+            }
+
+            var moduleComponent = new ModuleComponent
+            {
+                HardpointEntity = hardpointEntity,
+                Module = this
+            };
+            moduleEntity.AddComponent(moduleComponent);
+            return moduleEntity;
         }
-    }
 
-    public class ModuleSlot
-    {
-        public IModule InstalledModule { get; set; }
-        public List<Hull> Hulls { get; set; }
+        public virtual void InstallMod(Entity moduleEntity, IModuleUpgrade upgrade)
+        {
+            var component = moduleEntity.GetComponent<ModuleComponent>();
+            component.InstalledMods.Add(upgrade);
+        }
 
+        public virtual void Uninstall(Entity shipEntity, Entity moduleEntity)
+        {
+            var component = moduleEntity.GetComponent<ModuleComponent>();
+            component.HardpointEntity.GetComponent<HardpointComponent>().InstalledEntity = null;
+            component.HardpointEntity.RemoveChild(moduleEntity);
+        }
+
+        public virtual void UninstallMod(Entity moduleEntity, IModuleUpgrade upgrade)
+        {
+            var component = moduleEntity.GetComponent<ModuleComponent>();
+            component.InstalledMods.Remove(upgrade);
+        }
     }
 }

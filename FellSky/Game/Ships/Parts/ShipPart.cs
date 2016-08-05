@@ -7,7 +7,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Artemis;
 using System.ComponentModel;
-using System.Runtime.Serialization;
 
 namespace FellSky.Game.Ships.Parts
 {
@@ -19,8 +18,7 @@ namespace FellSky.Game.Ships.Parts
         public string SpriteId { get; set; }
         [Browsable(true), TypeConverter(typeof(ExpandableObjectConverter))]
         public Color Color { get; set; }
-
-        public HashSet<string> Flags { get; set; } = new HashSet<string>();
+        public HashSet<string> Flags { get; set; } = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
         public ShipPart()
         {
@@ -45,12 +43,6 @@ namespace FellSky.Game.Ships.Parts
         public Entity CreateEntity(EntityWorld world, Entity ship, int? index=null)
         {
             return CreateEntity(world, ship, ship, index);
-        }
-
-        [OnDeserialized]
-        private void OnDeserialized(StreamingContext context)
-        {
-            Flags = Flags ?? new HashSet<string>();
         }
     }
 }

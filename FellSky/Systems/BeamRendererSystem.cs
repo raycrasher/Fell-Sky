@@ -15,7 +15,7 @@ namespace FellSky.Systems
         private SpriteBatch _batch;
 
         public BeamRendererSystem()
-            : base(Aspect.All(typeof(Transform), typeof(BeamRendererComponent)))
+            : base(Aspect.All(typeof(Transform), typeof(BeamComponent)))
         {
             _batch = ServiceLocator.Instance.GetService<SpriteBatch>();
         }
@@ -26,7 +26,7 @@ namespace FellSky.Systems
             foreach(var item in entities.Values)
             {
                 var xform = item.GetComponent<Transform>();
-                var beam = item.GetComponent<BeamRendererComponent>();
+                var beam = item.GetComponent<BeamComponent>();
             }
             _batch.End();
         }

@@ -118,5 +118,14 @@ namespace FellSky
         {
             entity.AddComponent<ISceneGraphRenderableComponent<T>>(new SceneGraphRenderableComponent<T>());
         }
+
+        public static bool IsChildOf(this Entity child, Entity parent)
+        {
+            if (child == null || parent == null) throw new ArgumentNullException(nameof(child));
+            var childParent = child.GetParent();
+            if (childParent == null) return false;
+            if (childParent == parent) return true;
+            return childParent.IsChildOf(parent);
+        }
     }
 }

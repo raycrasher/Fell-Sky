@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace FellSky.Game.Ships.Modules
 {
-    public class MothershipBrainModule
+    public class WarpCore: Module
     {
+        
     }
 }

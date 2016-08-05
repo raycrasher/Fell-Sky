@@ -128,24 +128,6 @@ namespace FellSky
             }
         }
 
-        public static Dictionary<int, Game.Ships.Parts.ShipPart[]> GetNumberedFlaggedParts(this Game.Ships.IShipPartCollection group, string flag)
-        {
-            return (from part in @group.Parts
-                    where part.Flags?.Any(s => s.StartsWith(flag)) ?? false
-                    let index = int.Parse(part.Flags.First(f => f.StartsWith(flag)).Substring(flag.Length))
-                    group part by index into byIndex
-                    select byIndex
-                    ).ToDictionary(k => k.Key, k => k.ToArray());
-
-        }
-
-        public static IEnumerable<Game.Ships.Parts.ShipPart> GetFlaggedParts(this Game.Ships.IShipPartCollection  group, string flag)
-        {
-            return from part in @group.Parts
-                   where part.Flags?.Contains(flag) ?? false
-                   select part;
-        }
-
         static Transform _tempXform = new Transform();
         public static Transform AdjustForFlipping(this Transform xform, out SpriteEffects fx)
         {
@@ -168,6 +150,7 @@ namespace FellSky
         public static T GetAllEqualOrNothing<T>(this IEnumerable<T> enumerable)
         {
             T value = enumerable.FirstOrDefault();
+            if (value == null) return default(T);
             return enumerable.All(i => i.Equals(value)) ? value : default(T);
         }
     }

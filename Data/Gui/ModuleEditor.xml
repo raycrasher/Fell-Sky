@@ -1,0 +1,22 @@
+<rml>
+<head>
+<link type="text/rcss" href="Global.css"/>
+<link type="text/rcss" href="ModuleEditor.css"/>
+</head>
+<body id="root" onshow="ModuleEditor_Show">
+
+<div id="header">
+	<h1 class="title">Modify <span id="moduleTitle"/></h1>
+</div>
+
+<div id="content">
+	<ul id="blueprints">
+		
+	</ul>
+
+	<div id="moduleView">
+	</div>
+</div>
+
+</body>
+</rml>

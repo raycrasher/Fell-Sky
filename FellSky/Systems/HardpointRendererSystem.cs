@@ -81,7 +81,7 @@ namespace FellSky.Systems
                 int sign = ((hull.Part.Transform.Scale.X < 0) ^ (hull.Part.Transform.Scale.Y < 0)) ? -1 : 1;
 
                 var step = MathHelper.Pi / NumSegments;
-                float endAngle = MathHelper.WrapAngle(hardpoint.Hardpoint.FiringArc / 2);
+                float endAngle = MathHelper.WrapAngle(hardpoint.Hardpoint.Traverse / 2);
                 float angle, angle2;
 
 

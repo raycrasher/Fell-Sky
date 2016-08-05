@@ -1,5 +1,6 @@
 ﻿using Artemis;
 using Artemis.Interface;
+using FellSky.Game.Ships.Modules;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -25,6 +26,12 @@ namespace FellSky.Game.Ships.Parts
         Spinal,
         Beam,
         VLS, // vertical launch system,
+
+        Sensor,
+        Thruster,
+        PowerCore,
+
+        Module,
     }
 
     public enum HardpointSize
@@ -32,21 +39,14 @@ namespace FellSky.Game.Ships.Parts
         Small, Medium, Large, Huge
     }
 
-    public interface IHardpointMountable
-    {
-        Hardpoint CurrentHardpoint { get; set; }
-        HardpointSize Size { get; }
-        bool CanMountToHardpoint(HardpointType type);
-    }
-
     public class Hardpoint
     {
-        public IHardpointMountable Module { get; set; }
+        public string Id { get; }
         public HardpointSize Size { get; set; }
         public HardpointType Type { get; set; }
         public Hull Hull { get; set; }
 
-        public float FiringArc { get; set; } // in radians
+        public float Traverse { get; set; } // in radians
 
         public void AddToEntity(Entity ship, Entity entity)
         {

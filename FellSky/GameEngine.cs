@@ -88,7 +88,7 @@ namespace FellSky
             //State = new MainGameState();
             State.LoadContent();
 
-            EntityFactories.WeaponEntityFactory.LoadWeapons();
+            EntityFactories.CombatEntityFactory.LoadWeapons();
             base.LoadContent();
         }
 

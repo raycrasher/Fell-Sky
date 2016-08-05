@@ -48,14 +48,14 @@ namespace FellSky.Game.Ships.Parts
             var hull = new HullComponent(this, ship);
             entity.AddComponent<IShipPartComponent>(hull);
             entity.AddComponent(hull);
-            entity.AddSceneGraphRendererComponent<StandardShipRenderer>();
+            entity.AddSceneGraphRendererComponent<StandardShipModelRenderer>();
             entity.AddComponent(Transform.Clone());
             var spriteManager = ServiceLocator.Instance.GetService<ISpriteManagerService>();
             var spriteComponent = spriteManager.CreateSpriteComponent(SpriteId);
             entity.AddComponent(spriteComponent);
             entity.AddComponent(new BoundingBoxComponent(new FloatRect(0, 0, spriteComponent.TextureRect.Width, spriteComponent.TextureRect.Height)));
 
-            if (parent.HasComponent<RigidBodyComponent>())
+            if (parent.HasComponent<RigidBodyComponent>() && !Flags.Contains("NoPhysics"))
             {
                 var physics = world.SystemManager.GetSystem<PhysicsSystem>();
                 RigidBodyComponent body;

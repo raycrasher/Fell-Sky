@@ -15,6 +15,7 @@ using FellSky.Components;
 using FellSky.Game.Combat;
 using FellSky.Framework;
 using FellSky.Systems.SceneGraphRenderers;
+using FellSky.Game.Ships.Modules;
 
 namespace FellSky.States
 {
@@ -63,7 +64,7 @@ namespace FellSky.States
             World.SystemManager.SetSystem(new GridRendererSystem(), Artemis.Manager.GameLoopType.Draw, depth++);
             World.SystemManager.SetSystem(new BackgroundRendererSystem(), Artemis.Manager.GameLoopType.Draw, depth++);
             //World.SystemManager.SetSystem(new ShipRendererSystem(), Artemis.Manager.GameLoopType.Draw, depth++);
-            World.SystemManager.SetSystem(new SceneGraphRendererSystem<StandardShipRenderer>(new StandardShipRenderer()), Artemis.Manager.GameLoopType.Draw, depth++);
+            World.SystemManager.SetSystem(new SceneGraphRendererSystem<StandardShipModelRenderer>(new StandardShipModelRenderer()), Artemis.Manager.GameLoopType.Draw, depth++);
             World.SystemManager.SetSystem(new ParticleSystem(), Artemis.Manager.GameLoopType.Draw, depth++);
             World.SystemManager.SetSystem(new BoundingBoxRendererSystem(), Artemis.Manager.GameLoopType.Draw, depth++);
             World.SystemManager.SetSystem(new GenericDrawableRendererSystem(), Artemis.Manager.GameLoopType.Draw, depth++);
@@ -153,9 +154,9 @@ namespace FellSky.States
             }
         }
 
-        private IList<IWeapon> GetAvailableWeaponsForHardpoint(Entity entity)
+        private IList<Weapon> GetAvailableWeaponsForHardpoint(Entity entity)
         {
-            return WeaponEntityFactory.Weapons.Values.ToList();
+            return CombatEntityFactory.Weapons.Values.ToList();
         }
 
         private void HandleMouseButtonUp(Point pos, int button)
@@ -215,7 +216,7 @@ namespace FellSky.States
         {
             RunOnce?.Invoke();
             RunOnce = null;
-            World.Update();
+            World.Update(gameTime.ElapsedGameTime.Milliseconds);
         }
 
         public override void Draw(GameTime gameTime)
@@ -243,7 +244,7 @@ namespace FellSky.States
                 var body = CurrentShip.GetComponent<RigidBodyComponent>().Body;
                 body.AngularVelocity = 0;
                 body.LinearVelocity = Vector2.Zero;
-                foreach (var turret in CurrentShip.GetComponent<ShipComponent>().Turrets.Select(t => t.GetComponent<TurretComponent>()))
+                foreach (var turret in CurrentShip.GetComponent<ShipComponent>().Weapons.Select(w=>w.GetComponent<WeaponComponent>().Turret.GetComponent<TurretComponent>()))
                 {
                     turret.Rotation = 0;
                     turret.DesiredRotation = 0;
@@ -286,7 +287,7 @@ namespace FellSky.States
 
         private void InstallWeapon(string id)
         {
-            WeaponEntityFactory.Weapons[id].Install(World, CurrentShip, _selectedHardpoint);
+            CombatEntityFactory.Weapons[id].Install(World, CurrentShip, _selectedHardpoint);
             Document.GetElementById("availablePartsList").SetProperty("display", "none");
         }
 
@@ -294,7 +295,7 @@ namespace FellSky.States
         {
             var shipComponent = CurrentShip.GetComponent<ShipComponent>();
             var hardpoint = _selectedHardpoint;
-            hardpoint.GetComponent<HardpointComponent>().InstalledEntity?.GetComponent<IWeaponComponent>()?.Weapon.Uninstall(CurrentShip, hardpoint.GetComponent<HardpointComponent>().InstalledEntity);
+            hardpoint.GetComponent<HardpointComponent>().InstalledEntity?.GetComponent<WeaponComponent>()?.Weapon.Uninstall(CurrentShip, hardpoint.GetComponent<HardpointComponent>().InstalledEntity);
         }
     }
 }
