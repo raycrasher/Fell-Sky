@@ -150,6 +150,7 @@ namespace FellSky
         public static T GetAllEqualOrNothing<T>(this IEnumerable<T> enumerable)
         {
             T value = enumerable.FirstOrDefault();
+            if (value == null) return default(T);
             return enumerable.All(i => i.Equals(value)) ? value : default(T);
         }
     }

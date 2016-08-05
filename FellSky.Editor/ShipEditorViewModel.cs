@@ -382,6 +382,17 @@ namespace FellSky.Editor
             });
         });
 
+        public ICommand AddDummyPart => new DelegateCommand(o =>
+        {
+            ActionsNextFrame.Add(() =>
+            {
+                var pos = _host.PointToScreen(new System.Windows.Point(_host.ActualWidth / 2, _host.ActualHeight / 2));
+                _mouse.ScreenPosition = new Vector2((float)pos.X, (float)pos.Y);
+                System.Threading.Thread.Sleep(10);
+                EditorService.AddDummyPart();
+            });
+        });
+
         public ICommand DeletePartsCommand => new DelegateCommand(o => EditorService.DeleteParts());
         public ICommand MirrorLateralCommand => new DelegateCommand(o => EditorService.MirrorSelectedLaterally());
         public ICommand RotatePartsCommand => new DelegateCommand(o => EditorService.RotateParts());

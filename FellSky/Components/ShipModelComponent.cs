@@ -11,8 +11,8 @@ namespace FellSky.Components
 {
     public class ShipModelComponent: IComponent
     {
-        public Color BaseDecalColor;
         public ShipModel Model;
-        public Color TrimDecalColor;
+        public Color TrimDecalColor = Color.White;
+        public Color BaseDecalColor = Color.White;
     }
 }

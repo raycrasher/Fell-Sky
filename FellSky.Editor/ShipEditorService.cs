@@ -233,7 +233,32 @@ namespace FellSky.Editor
             _transformSystem.StartTransform<TranslateState>();
         }
 
+        public void AddDummyPart()
+        {
+            ClearSelection();
+            var camera = _world.TagManager.GetEntity(Constants.ActiveCameraTag).GetComponent<Camera>();
+            var entity = AddDummyPartInternal(camera.ScreenToCameraSpace(_mouse.ScreenPosition), 0, Vector2.One, Vector2.Zero);
+            SelectedPartEntities.Add(entity);
+            entity.AddComponent(new MouseControlledTransformComponent());
+            _transformSystem.StartTransform<TranslateState>();
+        }
 
+        private Entity AddDummyPartInternal(Vector2 position, float rotation, Vector2 scale, Vector2 origin)
+        {
+            var part = new DummyPart();
+            var entity = part.CreateEntity(_world, ModelEntity);
+            entity.AddComponent(new EditorComponent());
+            entity.AddComponent(new BoundingBoxComponent(new FloatRect(-10, -10, 20, 20)));
+            entity.AddComponent(new GenericDrawableComponent((a, b, e) => {
+                var xform = e.GetComponent<Transform>();
+                b.DrawCircle(xform.Position, 9, 15, Color.Cyan);
+                b.DrawLine(xform.Position.X - 10, xform.Position.Y, xform.Position.X + 10, xform.Position.Y, Color.LightCyan);
+                b.DrawLine(xform.Position.X, xform.Position.Y-10, xform.Position.X, xform.Position.Y+10, Color.LightCyan);
+
+            }));
+            AddEditorComponentsToPartEntity(entity);
+            return entity;
+        }
 
         public void ChangePartDepth(int delta)
         {
@@ -442,7 +467,7 @@ namespace FellSky.Editor
             }
         }
 
-         public void MirrorSelectedLaterally()
+        public void MirrorSelectedLaterally()
         {
             foreach (var part in SelectedPartEntities.Select(s => s.Components.OfType<IShipPartComponent>().First().Part))
             {

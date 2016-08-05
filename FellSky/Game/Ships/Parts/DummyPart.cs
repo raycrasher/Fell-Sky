@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Artemis;
+using FellSky.Components;
 
 namespace FellSky.Game.Ships.Parts
 {
@@ -11,8 +12,13 @@ namespace FellSky.Game.Ships.Parts
     {
         public override Entity CreateEntity(EntityWorld world, Entity ship, Entity parent, int? index = default(int?))
         {
-            // we don't create an entity, so return null.
-            return null;
+            var entity = world.CreateEntity();
+            parent.AddChild(entity);
+            entity.AddComponent(Transform.Clone());
+            var component = new DummyPartComponent(this, ship);
+            entity.AddComponent(component);
+            entity.AddComponent<IShipPartComponent>(component);
+            return entity;
         }
     }
 }

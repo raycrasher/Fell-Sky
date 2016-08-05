@@ -106,10 +106,10 @@
                         </GroupBox>
                         <GroupBox Header="Other Parts">
                             <WrapPanel>
-                                <Button Margin="2" Width="64" Height="64">
+                                <Button Margin="2" Width="64" Height="64" Command="{Binding AddDummyPart}">
                                     <TextBlock TextWrapping="Wrap" TextAlignment="Center"> ADD DUMMY PART </TextBlock>
                                 </Button>
-                                <Button Margin="2" Width="64" Height="64">
+                                <Button Margin="2" Width="64" Height="64" >
                                     <TextBlock TextWrapping="Wrap" TextAlignment="Center"> ADD LIGHT</TextBlock>
                                 </Button>
                                 <Button Margin="2" Width="70" Height="64">
