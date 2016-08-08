@@ -239,8 +239,6 @@
     <Compile Include="Systems\BackgroundRendererSystem.cs" />
     <Compile Include="Systems\BeamRendererSystem.cs" />
     <Compile Include="Systems\BulletRendererSystem.cs" />
-    <Compile Include="Systems\ClientPredictedTransformSystem.cs" />
-    <Compile Include="Systems\CommandBufferSystem.cs" />
     <Compile Include="Systems\CoroutineSystem.cs" />
     <Compile Include="Systems\DustRendererSystem.cs" />
     <Compile Include="Systems\GuiSystem.cs" />
@@ -308,7 +306,6 @@
     <Compile Include="Systems\BoundingBoxSelectionSystem.cs" />
     <Compile Include="Systems\BulletSystem.cs" />
     <Compile Include="Systems\CameraControlSystem.cs" />
-    <Compile Include="Systems\DiplomacySystem.cs" />
     <Compile Include="Systems\MouseControlledTransformSystemStates\IMouseControlledTransformSystemState.cs" />
     <Compile Include="Systems\MouseControlledTransformSystemStates\RotateCentroidState.cs" />
     <Compile Include="Systems\MouseControlledTransformSystemStates\TranslateState.cs" />
