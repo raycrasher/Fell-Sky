@@ -5,7 +5,8 @@ using System.Collections.Generic;
 
 namespace FellSky.Components
 {
-    public class MouseControlledTransformComponent: IComponent
+    public class MouseControlledTransformComponent : IComponent
     {
+        public Transform Transform;
     }
 }

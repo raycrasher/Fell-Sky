@@ -157,7 +157,7 @@ namespace FellSky.Editor
         public void DeleteParts()
         {
             var component = ModelEntity.GetComponent<ShipModelComponent>();
-            var parts = SelectedPartEntities.Select(pe => pe.Components.OfType<IShipPartComponent>().First().Part);
+            var parts = SelectedPartEntities.Select(pe => pe.GetComponent<IShipPartComponent>().Part);
             var model = component.Model;
             var hardpointDictionary = model?.Hardpoints.ToDictionary(s => (ShipPart)s.Hull);
             foreach (var item in parts)
@@ -265,7 +265,7 @@ namespace FellSky.Editor
             if (SelectedPartEntities.Count > 0)
             {
                 var parts = SelectedPartEntities
-                    .Select(pe => new { Part = pe.Components.OfType<IShipPartComponent>().First().Part, Index = Model.Parts.IndexOf(pe.Components.OfType<IShipPartComponent>().First().Part) })
+                    .Select(pe => new { Part = pe.GetComponent<IShipPartComponent>().Part, Index = Model.Parts.IndexOf(pe.GetComponent<IShipPartComponent>().Part) })
                     .ToArray();
                 var children = ModelEntity.GetChildren();
 
@@ -312,7 +312,7 @@ namespace FellSky.Editor
         public void FlipLocal(SpriteEffects flip)
         {
             if (SelectedPartEntities.Count <= 0) return;
-            foreach(var item in SelectedPartEntities.Select(e => e.Components.OfType<IShipPartComponent>().First().Part))
+            foreach(var item in SelectedPartEntities.Select(e => e.GetComponent<IShipPartComponent>().Part))
             {
                 //if(item is Hull)
                 //{
@@ -329,7 +329,7 @@ namespace FellSky.Editor
             if (flip == SpriteEffects.None) return;
             if (SelectedPartEntities.Count <= 0) return;
             var centroid = SelectedPartEntities.Aggregate(Vector2.Zero, (ta, e) => ta += e.GetComponent<Transform>().Position) / SelectedPartEntities.Count;
-            foreach (var item in SelectedPartEntities.Select(e => e.Components.OfType<IShipPartComponent>().First().Part))
+            foreach (var item in SelectedPartEntities.Select(e => e.GetComponent<IShipPartComponent>().Part))
             {
                 //if (item is Hull)
                 //{
@@ -416,7 +416,7 @@ namespace FellSky.Editor
             ClearSelection();
                         
             SelectedPartEntities.AddRange(from entity in toClone
-                                    let part = entity.Components.OfType<IShipPartComponent>().First().Part
+                                    let part = entity.GetComponent<IShipPartComponent>().Part
                                     select CreatePartEntity(part));
 
             foreach(var entity in SelectedPartEntities)
@@ -469,7 +469,7 @@ namespace FellSky.Editor
 
         public void MirrorSelectedLaterally()
         {
-            foreach (var part in SelectedPartEntities.Select(s => s.Components.OfType<IShipPartComponent>().First().Part))
+            foreach (var part in SelectedPartEntities.Select(s => s.GetComponent<IShipPartComponent>().Part))
             {
                 Vector2 position = part.Transform.Position * new Vector2(1, -1);
                 Vector2 scale = part.Transform.Scale * new Vector2(1,-1);
@@ -545,7 +545,7 @@ namespace FellSky.Editor
         {
             if (e.PropertyName == nameof(PartColor))
             {
-                foreach (var part in SelectedPartEntities.Select(en => en.Components.OfType<IShipPartComponent>().First()))
+                foreach (var part in SelectedPartEntities.Select(en => en.GetComponent<IShipPartComponent>()))
                     part.Part.Color = PartColor;
             }
             else if (e.PropertyName == nameof(BaseColor))
@@ -565,7 +565,7 @@ namespace FellSky.Editor
         public void SetPartColor(Color color)
         {
             PartColor = color;
-            foreach (var part in SelectedPartEntities.Select(e => e.Components.OfType<IShipPartComponent>().First().Part))
+            foreach (var part in SelectedPartEntities.Select(e => e.GetComponent<IShipPartComponent>().Part))
                 part.Color = color;
         }
     }

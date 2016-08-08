@@ -4,6 +4,7 @@ using System.Globalization;
 using XnaColor = Microsoft.Xna.Framework.Color;
 using WpfColor = System.Windows.Media.Color;
 using FellSky.Framework;
+using System.Windows.Data;
 
 namespace FellSky.Editor
 {
@@ -128,6 +129,22 @@ namespace FellSky.Editor
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
+        }
+    }
+
+    public class SliderPercentToMarginConverter : System.Windows.Data.IMultiValueConverter
+    {
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (values.Length < 2) return Binding.DoNothing;
+            var pct = (float)values[0];
+            var width = (double)values[1];
+            return new System.Windows.Thickness(width * pct,0,0,0);
+        }
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        {
+            return null;
         }
     }
 }

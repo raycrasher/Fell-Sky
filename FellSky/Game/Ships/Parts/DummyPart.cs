@@ -10,6 +10,8 @@ namespace FellSky.Game.Ships.Parts
 {
     public class DummyPart : ShipPart
     {
+        public bool IsWeaponMuzzle { get; set; }
+
         public override Entity CreateEntity(EntityWorld world, Entity ship, Entity parent, int? index = default(int?))
         {
             var entity = world.CreateEntity();

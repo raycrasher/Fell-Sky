@@ -204,7 +204,7 @@ namespace FellSky.Editor
             EditorService.SelectedPartEntities.CollectionChanged += (o, e) =>
             {
                 if (e.NewItems != null && e.NewItems.Count > 0) {
-                    var color = e.NewItems.Cast<Entity>().First().Components.OfType<IShipPartComponent>().First().Part.Color;
+                    var color = e.NewItems.Cast<Entity>().First().GetComponent<IShipPartComponent>().Part.Color;
                     _selectedColor = System.Windows.Media.Color.FromArgb(color.A, color.R, color.G, color.B);
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedColor)));
                 }

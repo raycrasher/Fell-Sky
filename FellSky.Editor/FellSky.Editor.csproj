@@ -151,6 +151,9 @@
     <Compile Include="DelegateCommand.cs" />
     <Compile Include="FloatUpDownEditor.cs" />
     <Compile Include="KeyboardService.cs" />
+    <Compile Include="KeyframeSlider.xaml.cs">
+      <DependentUpon>KeyframeSlider.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MouseService.cs" />
     <Compile Include="AnimationEditorControlViewModel.cs" />
     <Compile Include="PropertyGrid.xaml.cs">
@@ -162,9 +165,14 @@
       <DependentUpon>ShipPartEditorControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="ShipPartEditorViewModel.cs" />
+    <Compile Include="Systems\AnimationEditorSpriteRendererSystem.cs" />
     <Compile Include="Systems\ShowThrusterTrailsOverrideSystem.cs" />
     <Compile Include="Utilities.cs" />
     <Page Include="AnimationEditorControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="KeyframeSlider.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

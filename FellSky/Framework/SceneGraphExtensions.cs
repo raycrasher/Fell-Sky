@@ -95,7 +95,7 @@ namespace FellSky
                 matrix = thisMatrix;
         }
 
-        public static void DeleteWithChildren(this Entity entity)
+        public static void DeleteFromSceneGraph(this Entity entity)
         {
             var component = entity.GetComponent<SceneGraphComponent>();
             if (component != null)
@@ -107,7 +107,7 @@ namespace FellSky
                 }
                 for(int i=component.Children.Count - 1; i>=0; i--)
                 {
-                    component.Children[i].DeleteWithChildren();
+                    component.Children[i].DeleteFromSceneGraph();
                 }
             }
             entity.Delete();

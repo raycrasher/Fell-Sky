@@ -10,7 +10,13 @@ namespace FellSky.Framework
 {
     public delegate T LerpFunction<T>(T start, T end, float percentage);
 
-    public class Keyframe<T>
+    public interface IKeyframe
+    {
+        float Time { get; set; }
+        object Value { get; }
+    }
+
+    public sealed class Keyframe<T>: IKeyframe
     {
         public Keyframe(float time, T value)
         {
@@ -21,10 +27,23 @@ namespace FellSky.Framework
         public Keyframe() { }
         public float Time { get; set; }
 
+        object IKeyframe.Value
+        {
+            get { return Value; }
+        }
+
         /// <summary>
         /// The value, relative to the previous keyframe.
         /// </summary>
         public T Value { get; set; }
+
+        public static int Compare(Keyframe<T> a, Keyframe<T> b)
+            => Math.Sign(a.Time - b.Time);
+
+        public override string ToString()
+        {
+            return $"T+{Time}   {Value}";
+        }
     }
 
     public static class KeyframeAnimation
@@ -87,7 +106,7 @@ namespace FellSky.Framework
             {
                 last = current;
                 current = frames[i];
-                if (frames[i].Time < time) break;
+                if (frames[i].Time > time) break;
             }
 
             if (i >= frames.Count)
@@ -98,7 +117,7 @@ namespace FellSky.Framework
             }
             else
             {
-                return lerpFunction(last.Value, current.Value, time / current.Time);
+                return lerpFunction(last.Value, current.Value, (time - last.Time) / current.Time);
             }
         }
     }

@@ -64,7 +64,7 @@ namespace FellSky.Systems.SceneGraphRenderers
             {
                 switch (hull.ColorType)
                 {
-                    case Game.Ships.Parts.HullColorType.Hull:
+                    case Game.Ships.Parts.HullColorType.Base:
                         color = new Color(color.ToVector4() * shipComponent.BaseDecalColor.ToVector4());
                         break;
                     case Game.Ships.Parts.HullColorType.Trim:

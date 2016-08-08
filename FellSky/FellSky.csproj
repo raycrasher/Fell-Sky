@@ -117,6 +117,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Components\AnimationComponent.cs" />
+    <Compile Include="Components\AnimationEditorComponent.cs" />
     <Compile Include="Components\BackgroundComponent.cs" />
     <Compile Include="Components\BeamComponent.cs" />
     <Compile Include="Components\BoundingBoxComponent.cs" />
@@ -183,6 +185,10 @@
     <Compile Include="Game\Ships\Parts\Radiator.cs" />
     <Compile Include="Game\Ships\ShipModel.cs" />
     <Compile Include="Game\Ships\ShipVariant.cs" />
+    <Compile Include="Game\Ships\Weapons\ShipWeapon.cs" />
+    <Compile Include="Game\Ships\Weapons\ShipWeaponBarrel.cs" />
+    <Compile Include="Game\Ships\Weapons\ShipWeaponMount.cs" />
+    <Compile Include="Game\Ships\Weapons\ShipWeaponTurret.cs" />
     <Compile Include="Game\Space\Outpost.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -233,8 +239,6 @@
     <Compile Include="Systems\BackgroundRendererSystem.cs" />
     <Compile Include="Systems\BeamRendererSystem.cs" />
     <Compile Include="Systems\BulletRendererSystem.cs" />
-    <Compile Include="Systems\ClientPredictedTransformSystem.cs" />
-    <Compile Include="Systems\CommandBufferSystem.cs" />
     <Compile Include="Systems\CoroutineSystem.cs" />
     <Compile Include="Systems\DustRendererSystem.cs" />
     <Compile Include="Systems\GuiSystem.cs" />
@@ -302,7 +306,6 @@
     <Compile Include="Systems\BoundingBoxSelectionSystem.cs" />
     <Compile Include="Systems\BulletSystem.cs" />
     <Compile Include="Systems\CameraControlSystem.cs" />
-    <Compile Include="Systems\DiplomacySystem.cs" />
     <Compile Include="Systems\MouseControlledTransformSystemStates\IMouseControlledTransformSystemState.cs" />
     <Compile Include="Systems\MouseControlledTransformSystemStates\RotateCentroidState.cs" />
     <Compile Include="Systems\MouseControlledTransformSystemStates\TranslateState.cs" />
