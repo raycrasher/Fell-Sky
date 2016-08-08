@@ -116,6 +116,17 @@ namespace FellSky.Editor
         public string ShipFileFilter = "Ship Model JSON files(*.json)|*.json|All files(*.*)|*.*";
         private TimerService _timer;
 
+        public string WindowTitle
+        {
+            get
+            {
+                if (CurrentFilename != null)
+                    return "ShipEditor: " + CurrentFilename;
+                else
+                    return "Ship Editor";
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         private List<Action> ActionsNextFrame { get; } = new List<Action>();
@@ -189,7 +200,7 @@ namespace FellSky.Editor
             host.PreviewKeyDown += HandleKeyboardInput;
 
             EditorService = new ShipEditorService(_mouse, World);
-            CreateNewShipCommand.Execute(null);
+            CreateNewShipModelCommand.Execute(null);
             EditorService.SelectedPartEntities.CollectionChanged += (o, e) =>
             {
                 if (e.NewItems != null && e.NewItems.Count > 0) {
@@ -355,9 +366,10 @@ namespace FellSky.Editor
         }
 
 
-        public ICommand CreateNewShipCommand => new DelegateCommand(o =>
+        public ICommand CreateNewShipModelCommand => new DelegateCommand(o =>
         {
             EditorService.CreateNewModel();
+            CurrentFilename = null;
         });
 
         public ICommand Quit => new DelegateCommand(o => Application.Current.Shutdown());
@@ -396,27 +408,39 @@ namespace FellSky.Editor
         public ICommand DeletePartsCommand => new DelegateCommand(o => EditorService.DeleteParts());
         public ICommand MirrorLateralCommand => new DelegateCommand(o => EditorService.MirrorSelectedLaterally());
         public ICommand RotatePartsCommand => new DelegateCommand(o => EditorService.RotateParts());
-        public ICommand SaveShipCommand => new DelegateCommand(o => {
+        public ICommand SaveShipModelCommand => new DelegateCommand(o => {
             ActionsNextFrame.Add(() =>
             {
-                string startDir = Path.Combine(Content.RootDirectory, "ShipModels");
-                if (!Directory.Exists(startDir)) startDir = Content.RootDirectory;
-
-                var dialog = new Microsoft.Win32.SaveFileDialog
+                var startDir = o?.ToString();
+                if (startDir == null)
                 {
-                    InitialDirectory = startDir,
-                    AddExtension = true,
-                    Filter = ShipFileFilter,
-                    DefaultExt =".json"
-                };
-                if (dialog.ShowDialog() == true)
-                    EditorService.SaveShip(dialog.FileName);
+                    startDir = Path.Combine(Content.RootDirectory, "ShipModels");
+                    if (!Directory.Exists(startDir)) startDir = Content.RootDirectory;
+
+                    var dialog = new Microsoft.Win32.SaveFileDialog
+                    {
+                        InitialDirectory = startDir,
+                        AddExtension = true,
+                        Filter = ShipFileFilter,
+                        FileName = CurrentFilename,
+                        DefaultExt = ".json"
+                    };
+                    if (dialog.ShowDialog() == true)
+                    {
+                        EditorService.SaveShip(dialog.FileName);
+                        CurrentFilename = dialog.FileName;
+                    }
+                        
+                } else
+                {
+                    EditorService.SaveShip(CurrentFilename);
+                }
             });
         });
-        public ICommand LoadShipCommand => new DelegateCommand(o => {
+        public ICommand LoadShipModelCommand => new DelegateCommand(o => {
             ActionsNextFrame.Add(() =>
             {
-                var startDir = Path.Combine(Content.RootDirectory, o?.ToString() ?? "Models");
+                var startDir = Path.Combine(Content.RootDirectory, o?.ToString() ?? "ShipModels");
                 if (!Directory.Exists(startDir)) startDir = Content.RootDirectory;
 
                 var dialog = new Microsoft.Win32.OpenFileDialog
@@ -431,6 +455,7 @@ namespace FellSky.Editor
                 if (dialog.ShowDialog() == true)
                 {
                     EditorService.LoadShipModel(dialog.FileName);
+                    CurrentFilename = dialog.FileName;
                 }
             });
         });
@@ -470,5 +495,8 @@ namespace FellSky.Editor
 
         public SpriteManagerService SpriteManager { get; private set; }
         public List<Sprite> ThrusterSprites { get; private set; }
+
+        [PropertyChanged.AlsoNotifyFor(nameof(WindowTitle))]
+        public string CurrentFilename { get; set; }
     }
 }

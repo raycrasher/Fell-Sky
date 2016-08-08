@@ -7,16 +7,15 @@ using System.Text;
 using System.Threading.Tasks;
 using Artemis;
 using System.ComponentModel;
+using System.Runtime.Serialization;
 
 namespace FellSky.Game.Ships.Parts
 {
     public abstract class ShipPart: ICloneable
     {
         public string Name { get; set; }
-        [Browsable(true), TypeConverter(typeof(ExpandableObjectConverter))]
         public Transform Transform { get; set; } = new Transform();
-        public string SpriteId { get; set; }
-        [Browsable(true), TypeConverter(typeof(ExpandableObjectConverter))]
+        public string SpriteId { get; set; }        
         public Color Color { get; set; }
         public HashSet<string> Flags { get; set; } = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
@@ -43,6 +42,13 @@ namespace FellSky.Game.Ships.Parts
         public Entity CreateEntity(EntityWorld world, Entity ship, int? index=null)
         {
             return CreateEntity(world, ship, ship, index);
+        }
+
+        [OnDeserialized]
+        protected void OnDeserialized(StreamingContext context)
+        {
+            Transform = Transform ?? new Transform();
+            Flags = Flags ?? new HashSet<string>();
         }
     }
 }

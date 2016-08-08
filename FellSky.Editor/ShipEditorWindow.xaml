@@ -12,7 +12,7 @@
         xmlns:xcad="http://schemas.xceed.com/wpf/xaml/avalondock"
         xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:diag="clr-namespace:System.Diagnostics;assembly=WindowsBase"
-        Title="Ship Editor" Height="768" Width="1366" 
+        Title="{Binding ElementName=Root, Path=DataContext.WindowTitle, Mode=OneWay}" Height="768" Width="1366" 
         MinHeight="480" MinWidth="800"
         WindowState="Maximized"
         >
@@ -39,7 +39,7 @@
             </Setter>
         </Style>
     </Window.Resources>
-    <Grid DataContext="{StaticResource model}">
+    <Grid Name="Root" DataContext="{StaticResource model}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="269*"/>
             <ColumnDefinition Width="489*"/>
@@ -145,12 +145,10 @@
 
         <Menu Name="mainMenu" VerticalAlignment="Stretch" Background="{x:Null}" HorizontalContentAlignment="Left" FontSize="12" >
             <MenuItem Header="Ship" VerticalAlignment="Center" >
-                <MenuItem Header="New Ship" Command="{Binding CreateNewShipCommand}"/>
-                <MenuItem Header="New Part Group" Command="{Binding CreateNewPartGroupCommand}" />
-                <MenuItem Header="Load Ship..." Command="{Binding LoadShipCommand}" CommandParameter="Ships"/>
-                <MenuItem Header="Load Part Group..." Command="{Binding LoadShipCommand}" CommandParameter="Weapons"/>
-                <MenuItem Header="Save" Command="{Binding SaveShipCommand}"/>
-                <MenuItem Header="Save As..."/>
+                <MenuItem Header="New Ship Model" Command="{Binding CreateNewShipModelCommand}"/>
+                <MenuItem Header="Load Ship Model..." Command="{Binding LoadShipModelCommand}"/>
+                <MenuItem Header="Save" Command="{Binding SaveShipModelCommand}" CommandParameter="{Binding CurrentFilename}"/>
+                <MenuItem Header="Save As..." Command="{Binding SaveShipModelCommand}" CommandParameter="{x:Null}"/>
             </MenuItem>
             <MenuItem Header="Edit">
                 <MenuItem Header="Undo" InputGestureText="Ctrl-Z" />
