@@ -1771,7 +1771,7 @@
         "Hull": {
           "$ref": "191"
         },
-        "Traverse": 0.0
+        "Traverse": 2
       },
       {
         "$id": "253",
@@ -1781,7 +1781,7 @@
         "Hull": {
           "$ref": "203"
         },
-        "Traverse": 0.0
+        "Traverse": 2
       },
       {
         "$id": "254",
@@ -1791,7 +1791,7 @@
         "Hull": {
           "$ref": "243"
         },
-        "Traverse": 0.0
+        "Traverse": 2
       },
       {
         "$id": "255",
@@ -1801,7 +1801,7 @@
         "Hull": {
           "$ref": "247"
         },
-        "Traverse": 0.0
+        "Traverse": 2
       },
       {
         "$id": "256",
@@ -1811,7 +1811,7 @@
         "Hull": {
           "$ref": "239"
         },
-        "Traverse": 0.0
+        "Traverse": 2
       },
       {
         "$id": "257",
@@ -1821,7 +1821,7 @@
         "Hull": {
           "$ref": "235"
         },
-        "Traverse": 0.0
+        "Traverse": 2
       },
       {
         "$id": "258",
@@ -1831,7 +1831,7 @@
         "Hull": {
           "$ref": "227"
         },
-        "Traverse": 0.0
+        "Traverse": 2
       },
       {
         "$id": "259",
@@ -1841,7 +1841,7 @@
         "Hull": {
           "$ref": "231"
         },
-        "Traverse": 0.0
+        "Traverse": 2
       }
     ]
   }

@@ -55,7 +55,7 @@ namespace FellSky.Game.Ships
                 rigidBody.Body.LinearDamping = Handling.LinearDamping;
             }
 
-            var model = ShipEntityFactory.CreateShipModel(ModelId);
+            var model = ShipEntityFactory.GetShipModel(ModelId);
             model.CreateChildEntities(world, shipEntity);
             
             var partLookup = shipEntity.GetChildren()

@@ -185,16 +185,13 @@
     <Compile Include="Game\Ships\Parts\Radiator.cs" />
     <Compile Include="Game\Ships\ShipModel.cs" />
     <Compile Include="Game\Ships\ShipVariant.cs" />
-    <Compile Include="Game\Ships\Weapons\ShipWeapon.cs" />
-    <Compile Include="Game\Ships\Weapons\ShipWeaponBarrel.cs" />
-    <Compile Include="Game\Ships\Weapons\ShipWeaponMount.cs" />
-    <Compile Include="Game\Ships\Weapons\ShipWeaponTurret.cs" />
     <Compile Include="Game\Space\Outpost.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Scenes\HyperspaceScene.cs" />
     <Compile Include="Services\ServiceLocator.cs" />
     <Compile Include="Framework\ShapeDefinitions\ChainShape.cs" />
     <Compile Include="Framework\ShapeDefinitions\CircleShape.cs" />
@@ -233,8 +230,8 @@
     <Compile Include="Game\Space\StarSystemState.cs" />
     <Compile Include="Services\ICoroutineService.cs" />
     <Compile Include="Services\EventService.cs" />
-    <Compile Include="States\MainMenuState.cs" />
-    <Compile Include="States\ShipRefitState.cs" />
+    <Compile Include="Scenes\MainMenuScene.cs" />
+    <Compile Include="Scenes\ShipRefitScene.cs" />
     <Compile Include="Systems\AnimationSystem.cs" />
     <Compile Include="Systems\BackgroundRendererSystem.cs" />
     <Compile Include="Systems\BeamRendererSystem.cs" />
@@ -315,9 +312,9 @@
     <Compile Include="Components\Camera.cs" />
     <Compile Include="Services\Coroutine.cs" />
     <Compile Include="Services\CoroutineService.cs" />
-    <Compile Include="States\GameState.cs" />
+    <Compile Include="Scenes\Scene.cs" />
     <Compile Include="Services\KeyboardService.cs" />
-    <Compile Include="States\MainGameState.cs" />
+    <Compile Include="Scenes\MainGameScene.cs" />
     <Compile Include="Services\MouseService.cs" />
     <Compile Include="Framework\SteeringBehaviors\AlignmentBehavior.cs" />
     <Compile Include="Framework\SteeringBehaviors\ArrivalBehavior.cs" />

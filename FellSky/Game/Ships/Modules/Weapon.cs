@@ -130,14 +130,14 @@ namespace FellSky.Game.Ships.Modules
                 case WeaponUpgradeType.Barrel:
                     foreach (var barrel in weaponComponent.Barrels)
                     {
-                        EntityFactories.ShipEntityFactory.CreateShipModel(PartGroupId).CreateChildEntities(world, barrel);
+                        EntityFactories.ShipEntityFactory.GetShipModel(PartGroupId).CreateChildEntities(world, barrel);
                     }
                     break;
                 case WeaponUpgradeType.Mount:
-                    EntityFactories.ShipEntityFactory.CreateShipModel(PartGroupId).CreateChildEntities(world, weaponComponent.Mount);
+                    EntityFactories.ShipEntityFactory.GetShipModel(PartGroupId).CreateChildEntities(world, weaponComponent.Mount);
                     break;
                 case WeaponUpgradeType.Turret:
-                    EntityFactories.ShipEntityFactory.CreateShipModel(PartGroupId).CreateChildEntities(world, weaponComponent.Turret);
+                    EntityFactories.ShipEntityFactory.GetShipModel(PartGroupId).CreateChildEntities(world, weaponComponent.Turret);
                     break;
             }
         }

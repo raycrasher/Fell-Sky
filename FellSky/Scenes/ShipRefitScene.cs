@@ -17,9 +17,9 @@ using FellSky.Framework;
 using FellSky.Systems.SceneGraphRenderers;
 using FellSky.Game.Ships.Modules;
 
-namespace FellSky.States
+namespace FellSky.Scenes
 {
-    public class ShipRefitState: GameState
+    public class ShipRefitScene: Scene
     {
         public enum EditorMode
         {
@@ -37,7 +37,7 @@ namespace FellSky.States
         public EditorMode Mode { get; private set; }
 
         public ElementDocument Document { get; private set; }
-        public static ShipRefitState Instance { get; private set; }
+        public static ShipRefitScene Instance { get; private set; }
         public EntityWorld World { get; private set; }
         public IReadOnlyList<Ship> Fleet { get; private set; }
 
@@ -46,7 +46,7 @@ namespace FellSky.States
         public Entity GridEntity { get; private set; }
         public Entity CameraEntity { get; private set; }
 
-        public ShipRefitState(IReadOnlyList<Ship> fleet)
+        public ShipRefitScene(IReadOnlyList<Ship> fleet)
         {
             if (fleet == null) throw new ArgumentException("Fleet is null.");
             if (fleet.Count < 0) throw new ArgumentException("Fleet is empty.");

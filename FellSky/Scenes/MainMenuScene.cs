@@ -12,9 +12,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 
-namespace FellSky.States
+namespace FellSky.Scenes
 {
-    public class MainMenuState: GameState
+    public class MainMenuScene: Scene
     {
         EntityWorld World;
 
@@ -23,7 +23,7 @@ namespace FellSky.States
         private IGuiService _guiService;
         private Entity _bgEntity;
 
-        public static MainMenuState Instance { get; private set; }
+        public static MainMenuScene Instance { get; private set; }
 
         public override void LoadContent()
         {

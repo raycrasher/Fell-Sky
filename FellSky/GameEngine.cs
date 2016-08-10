@@ -2,7 +2,7 @@
 using FellSky.Framework;
 using System.Linq;
 using FellSky.Services;
-using FellSky.States;
+using FellSky.Scenes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -19,7 +19,7 @@ namespace FellSky
         public CoroutineService Coroutines { get; private set; }
         public KeyboardService Keyboard { get; private set; }
         public MouseService Mouse { get; private set; }
-        public GameState State { get; set; }
+        public Scene CurrentScene { get; set; }
         public SpriteBatch SpriteBatch { get; private set; }
         public SpriteManagerService SpriteManager { get; private set; }
         public TimerService Timer { get; private set; }
@@ -84,9 +84,9 @@ namespace FellSky
                             .Select(s => Persistence.LoadFromFile<Game.Ships.Ship>(s))
                             .ToList();
 
-            State = new ShipRefitState(testShips);
+            CurrentScene = new ShipRefitScene(testShips);
             //State = new MainGameState();
-            State.LoadContent();
+            CurrentScene.LoadContent();
 
             EntityFactories.CombatEntityFactory.LoadWeapons();
             base.LoadContent();
@@ -96,14 +96,14 @@ namespace FellSky
         {
             Coroutines.RunCoroutines(gameTime.ElapsedGameTime);
             Timer.LastFrameUpdateTime = gameTime;
-            State?.Update(gameTime);
+            CurrentScene?.Update(gameTime);
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
             Timer.LastFrameRenderTime = gameTime;
-            State?.Draw(gameTime);
+            CurrentScene?.Draw(gameTime);
             base.Draw(gameTime);
         }
 

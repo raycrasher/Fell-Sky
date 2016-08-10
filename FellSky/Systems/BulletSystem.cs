@@ -22,7 +22,6 @@ namespace FellSky.Systems
 
     public class BulletSystem: Artemis.System.EntitySystem
     {
-        private DiplomacySystem _diplomacy;
         private IEventService _events;
 
         public BulletSystem(IEventService events)
@@ -33,7 +32,6 @@ namespace FellSky.Systems
         public override void LoadContent()
         {
             _events.AddEventListener(EventId.PhysicsCollision, CollisionEventHandler);
-            _diplomacy = EntityWorld.SystemManager.GetSystem<DiplomacySystem>();
             base.LoadContent();
         }
 

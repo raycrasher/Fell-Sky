@@ -31,7 +31,7 @@ namespace FellSky.EntityFactories
             return shipEntity;
         }
 
-        public static ShipModel CreateShipModel(string id)
+        public static ShipModel GetShipModel(string id)
         {
             ShipModel model;
             if (!Models.TryGetValue(id, out model))

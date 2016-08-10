@@ -5,12 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FellSky.States
+namespace FellSky.Scenes
 {
-    public abstract class GameState
+    public abstract class Scene
     {
-        public virtual void Enter(GameState previous) { }
-        public virtual void Exit(GameState next) { }
+        public virtual void Enter(Scene previous) { }
+        public virtual void Exit(Scene next) { }
         public virtual void Pause() { }
         public virtual void Resume() { }
         public virtual void Update(GameTime gameTime) { }

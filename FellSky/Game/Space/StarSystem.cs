@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Xna.Framework;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,8 +9,8 @@ using System.Threading.Tasks;
 namespace FellSky.Game.Space
 {
     public sealed class StarSystem
-    {
-        [JsonIgnore]
+    {        
+        public Vector2 Position { get; set; }
         public SpaceObject MainBody { get { return Objects[0]; } }
         public List<SpaceObject> Objects { get; } = new List<SpaceObject>();
         

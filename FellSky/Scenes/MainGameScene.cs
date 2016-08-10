@@ -13,16 +13,16 @@ using FellSky.Components;
 using FellSky.Game.Ships;
 using FellSky.Systems.SceneGraphRenderers;
 
-namespace FellSky.States
+namespace FellSky.Scenes
 {
-    class MainGameState: GameState
+    class MainGameScene: Scene
     {
         private IGuiService _guiService;
 
         public EntityWorld World { get; private set; }
         public Entity Camera { get; private set; }
 
-        public MainGameState()
+        public MainGameScene()
         {
             _guiService = ServiceLocator.Instance.GetService<IGuiService>();
         }
