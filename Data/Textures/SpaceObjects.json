@@ -1,0 +1,27 @@
+{ "texture":"Textures/spaceObjects",
+  "sprites":[
+   { "id":"sun", "x":0, "y":0, "w":512, "h":512, "type":"spaceobject" },
+   { "id":"cityplanet", "x":0, "y":513, "w":256, "h":256, "type":"spaceobject" },
+   { "id":"cityplanet2", "x":513, "y":0, "w":256, "h":256, "type":"spaceobject" },
+   { "id":"crystalplanet", "x":513, "y":257, "w":256, "h":256, "type":"spaceobject" },
+   { "id":"desertplanet", "x":257, "y":514, "w":256, "h":256, "type":"spaceobject" },
+   { "id":"earth", "x":514, "y":514, "w":256, "h":256, "type":"spaceobject" },
+   { "id":"gasgiant", "x":770, "y":0, "w":256, "h":256, "type":"spaceobject" },
+   { "id":"icegiant", "x":1027, "y":0, "w":256, "h":256, "type":"spaceobject" },
+   { "id":"iceplanet", "x":770, "y":257, "w":256, "h":256, "type":"spaceobject" },
+   { "id":"iceplanet2", "x":1027, "y":257, "w":256, "h":256, "type":"spaceobject" },
+   { "id":"jungleplanet", "x":1284, "y":0, "w":256, "h":256, "type":"spaceobject" },
+   { "id":"jupiter", "x":771, "y":514, "w":256, "h":256, "type":"spaceobject" },
+   { "id":"mercury", "x":1284, "y":257, "w":256, "h":256, "type":"spaceobject" },
+   { "id":"moon", "x":1541, "y":0, "w":256, "h":256, "type":"spaceobject" },
+   { "id":"planetshadowmask", "x":1028, "y":514, "w":256, "h":256, "type":"spaceobject" },
+   { "id":"primordialplanet", "x":1541, "y":257, "w":256, "h":256, "type":"spaceobject" },
+   { "id":"rockplanet", "x":1285, "y":514, "w":256, "h":256, "type":"spaceobject" },
+   { "id":"rockplanet2", "x":1542, "y":514, "w":256, "h":256, "type":"spaceobject" },
+   { "id":"sulfurplanet", "x":0, "y":770, "w":256, "h":256, "type":"spaceobject" },
+   { "id":"terranplanet", "x":0, "y":1027, "w":256, "h":256, "type":"spaceobject" },
+   { "id":"tundraplanet", "x":257, "y":771, "w":256, "h":256, "type":"spaceobject" },
+   { "id":"volcanicplanet", "x":0, "y":1284, "w":256, "h":256, "type":"spaceobject" },
+   { "id":"staricon", "x":257, "y":1028, "w":16, "h":16, "type":"spaceobject" }
+  ]
+}
