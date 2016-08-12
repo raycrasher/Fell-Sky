@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FellSky.Game.Space
+namespace FellSky.Scenes
 {
-    class StarSystemState
+    public class SystemMapScene: Scene
     {
     }
 }

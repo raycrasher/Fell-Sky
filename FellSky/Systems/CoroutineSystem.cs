@@ -11,7 +11,7 @@ namespace FellSky.Systems
 {
     public class CoroutineSystem: Artemis.System.EntitySystem
     {
-        CoroutineService _service = new CoroutineService();
+        public readonly CoroutineService Service = new CoroutineService();
         private ITimerService _timer;
         private Dictionary<Entity, Coroutine> _coroutines = new Dictionary<Entity, Coroutine>();
 
@@ -24,7 +24,7 @@ namespace FellSky.Systems
         public override void OnAdded(Entity entity)
         {
             var component = entity.GetComponent<CoroutineComponent>();
-            component.Coroutine = _service.StartCoroutine(component.CoroutineFunction);
+            component.Coroutine = Service.StartCoroutine(component.CoroutineFunction);
             component.Coroutine.OnDone = component.OnDone;
             _coroutines[entity] = component.Coroutine;
             base.OnAdded(entity);
@@ -40,7 +40,7 @@ namespace FellSky.Systems
 
         public override void Process()
         {
-            _service.RunCoroutines(_timer.DeltaTime);
+            Service.RunCoroutines(_timer.DeltaTime);
         }
     }
 }

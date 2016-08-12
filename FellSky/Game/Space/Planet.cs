@@ -8,12 +8,45 @@ namespace FellSky.Game.Space
 {
     public enum PlanetType
     {
-        Rock,
-        GasGiant
+        AirlessRock,
+        Terran,
+        Desert,
+        Ice,
+        JovianGasGiant,
+        IceGasGiant,
+        Volcanic,
+        Primordial,
+        Jungle,
+        
+        Sulfur,
+        CloudyRock,
+        Asteroid,
+
+        Mercury,
+        Venus,
+        Earth,
+        Mars,
+        Jupiter,
+        Saturn,
+        Uranus,
+        Neptune,
+        Pluto
+
     }
 
-    public class Planet
+    public class Planet: SpaceObject
     {
-        public PlanetType PlanetType { get; set; }
+        public OrbitalParameters OrbitalParameters { get; set; } = new OrbitalParameters(10e6f, 0.016f, 102.947, 358.17f); // Earth
+
+        public Planet(string name, string sprite, PlanetType type, float radius, OrbitalParameters orbitalParameters, params SpaceObject[] children)
+            : base(children)
+        {
+            Name = name;
+            SpriteId = sprite;
+            Type = type;
+            OrbitalParameters = orbitalParameters;
+        }
+
+        public PlanetType Type { get; set; }
     }
 }

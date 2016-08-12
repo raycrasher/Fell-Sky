@@ -68,6 +68,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\Artemis.dll</HintPath>
     </Reference>
+    <Reference Include="CsvHelper, Version=2.0.0.0, Culture=neutral, PublicKeyToken=8c4959082be5c823, processorArchitecture=MSIL">
+      <HintPath>..\packages\CsvHelper.2.16.0.0\lib\net45\CsvHelper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="FarseerPhysics MonoGame">
       <HintPath>..\Dependencies\FarseerPhysics MonoGame.dll</HintPath>
     </Reference>
@@ -151,6 +155,8 @@
     <Compile Include="Components\RigidBodyFixtureComponent.cs" />
     <Compile Include="Components\ShipComponent.cs" />
     <Compile Include="Components\SoundEffectComponent.cs" />
+    <Compile Include="Components\SpaceObjectComponent.cs" />
+    <Compile Include="Components\StarComponent.cs" />
     <Compile Include="Components\StoryComponent.cs" />
     <Compile Include="Components\ThrusterComponent.cs" />
     <Compile Include="Components\TurretComponent.cs" />
@@ -185,13 +191,15 @@
     <Compile Include="Game\Ships\Parts\Radiator.cs" />
     <Compile Include="Game\Ships\ShipModel.cs" />
     <Compile Include="Game\Ships\ShipVariant.cs" />
+    <Compile Include="Game\Space\OrbitalParameters.cs" />
     <Compile Include="Game\Space\Outpost.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Scenes\HyperspaceScene.cs" />
+    <Compile Include="Scenes\SystemMapScene.cs" />
+    <Compile Include="Services\GalaxyGeneratorService.cs" />
     <Compile Include="Services\ServiceLocator.cs" />
     <Compile Include="Framework\ShapeDefinitions\ChainShape.cs" />
     <Compile Include="Framework\ShapeDefinitions\CircleShape.cs" />
@@ -227,7 +235,6 @@
     <Compile Include="Game\Ships\Modules\Sensor.cs" />
     <Compile Include="Game\Ships\Modules\WarpCore.cs" />
     <Compile Include="Game\Ships\Mothership.cs" />
-    <Compile Include="Game\Space\StarSystemState.cs" />
     <Compile Include="Services\ICoroutineService.cs" />
     <Compile Include="Services\EventService.cs" />
     <Compile Include="Scenes\MainMenuScene.cs" />
@@ -271,7 +278,6 @@
     <Compile Include="Game\Ships\Parts\Hardpoint.cs" />
     <Compile Include="Game\Ships\Parts\ShipPart.cs" />
     <Compile Include="Game\Ships\Parts\NavLight.cs" />
-    <Compile Include="Game\Space\Planetoid.cs" />
     <Compile Include="Game\Space\Fleet.cs" />
     <Compile Include="Game\Space\Planet.cs" />
     <Compile Include="Game\Space\HyperspaceObject.cs" />
@@ -351,7 +357,6 @@
     <Compile Include="Game\Ships\Parts\Thruster.cs" />
     <Compile Include="Game\Space\SpaceObject.cs" />
     <Compile Include="Game\Space\Star.cs" />
-    <Compile Include="Game\Space\StarSystem.cs" />
     <Compile Include="Game\Space\Galaxy.cs" />
     <Compile Include="Services\StateManagerService.cs" />
     <Compile Include="GameEngine.cs" />
@@ -371,6 +376,7 @@
     <Compile Include="Framework\SteeringBehaviors\SteeringBehaviorSystem.cs" />
     <Compile Include="Systems\MouseControlledTransformSystem.cs" />
     <Compile Include="Systems\StorySystem.cs" />
+    <Compile Include="Systems\SystemMapSpaceObjectRenderer.cs" />
     <Compile Include="Systems\TurretRotationSystem.cs" />
     <Compile Include="Systems\WeaponSystem.cs" />
   </ItemGroup>

@@ -8,6 +8,7 @@ namespace FellSky.Game.Space
 {
     public sealed class Galaxy
     {
-        public List<StarSystem> StarSystems { get; } = new List<StarSystem>();
+        public List<SpaceObject> StarSystems { get; } = new List<SpaceObject>();
+        
     }
 }

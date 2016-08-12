@@ -1,5 +1,6 @@
 ﻿using Artemis;
 using FellSky.Components;
+using FellSky.Services;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -152,6 +153,12 @@ namespace FellSky
             T value = enumerable.FirstOrDefault();
             if (value == null) return default(T);
             return enumerable.All(i => i.Equals(value)) ? value : default(T);
+        }
+
+        public static Coroutine RunCoroutine(this EntityWorld world, System.Collections.IEnumerable routine)
+        {
+            var system = world.SystemManager.GetSystem<Systems.CoroutineSystem>();
+            return system.Service.StartCoroutine(routine);
         }
     }
 }
