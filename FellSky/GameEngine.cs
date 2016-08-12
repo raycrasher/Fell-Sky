@@ -84,6 +84,8 @@ namespace FellSky
                             .Select(s => Persistence.LoadFromFile<Game.Ships.Ship>(s))
                             .ToList();
 
+            Game.Space.Star.LoadStellarClasses();
+
             CurrentScene = new ShipRefitScene(testShips);
             //State = new MainGameState();
             CurrentScene.LoadContent();

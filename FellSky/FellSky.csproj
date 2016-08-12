@@ -151,6 +151,7 @@
     <Compile Include="Components\RigidBodyFixtureComponent.cs" />
     <Compile Include="Components\ShipComponent.cs" />
     <Compile Include="Components\SoundEffectComponent.cs" />
+    <Compile Include="Components\StarComponent.cs" />
     <Compile Include="Components\StoryComponent.cs" />
     <Compile Include="Components\ThrusterComponent.cs" />
     <Compile Include="Components\TurretComponent.cs" />
@@ -191,7 +192,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Scenes\HyperspaceScene.cs" />
+    <Compile Include="Scenes\SystemMapScene.cs" />
+    <Compile Include="Services\GalaxyGeneratorService.cs" />
     <Compile Include="Services\ServiceLocator.cs" />
     <Compile Include="Framework\ShapeDefinitions\ChainShape.cs" />
     <Compile Include="Framework\ShapeDefinitions\CircleShape.cs" />
@@ -371,6 +373,7 @@
     <Compile Include="Framework\SteeringBehaviors\SteeringBehaviorSystem.cs" />
     <Compile Include="Systems\MouseControlledTransformSystem.cs" />
     <Compile Include="Systems\StorySystem.cs" />
+    <Compile Include="Systems\SystemMapStarRenderer.cs" />
     <Compile Include="Systems\TurretRotationSystem.cs" />
     <Compile Include="Systems\WeaponSystem.cs" />
   </ItemGroup>
