@@ -124,12 +124,8 @@ namespace FellSky.Systems
         private void FireBarrel(Entity weaponEntity, Entity barrel, WeaponComponent weaponComponent)
         {
             // fire the projectile
-            var barrelComponent = barrel.GetComponent<WeaponBarrelComponent>();
-            Matrix matrix;            
-            barrel.GetWorldMatrix(out matrix);
-            Vector2 position, scale;
-            float rotation;
-            Utilities.DecomposeMatrix2D(ref matrix, out position, out rotation, out scale);
+            var barrelComponent = barrel.GetComponent<WeaponBarrelComponent>();      
+
             weaponComponent.Projectile.Spawn(EntityWorld, weaponComponent.Owner, weaponEntity, barrelComponent.Muzzle);
 
             // do recoil

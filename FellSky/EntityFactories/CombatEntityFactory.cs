@@ -48,6 +48,7 @@ namespace FellSky.EntityFactories
                 Description = "A twin-linked 20mm autocannon.",
                 Name = "20mm Autocannon",
                 ProjectileId = "20mmAutocannon",
+                TurnRate = MathHelper.Pi / 4,
                 TurretModel = "Weapons/DualCannonAnimated",
                 UsesFrameAnimation = true
             };
@@ -58,9 +59,20 @@ namespace FellSky.EntityFactories
                 Name = "Laser Cannon",
                 Damage = 90,
                 Description = "This weapon incinerates targets using a free electron laser in the near UV range.",
-                TurnRate = MathHelper.Pi / 4,
+                TurnRate = MathHelper.Pi / 2,
                 ProjectileId = "LaserCannon",
                 TurretModel = "Weapons/LaserTurret",
+            };
+
+            Weapons["BoxLauncher2x2Small"] = new Weapon
+            {
+                Id = "BoxLauncher2x2Small",
+                Name = "Box Launcher 2x2",
+                Damage = 90,
+                Description = "This turret-mounted 2x2 box missile launcher launches small-size missiles.",
+                TurnRate = MathHelper.Pi / 10,
+                ProjectileId = "SmallMissile",
+                TurretModel = "Weapons/BoxLauncher2x2",
 
             };
         }

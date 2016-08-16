@@ -1,0 +1,113 @@
+{
+  "$id": "1",
+  "Id": null,
+  "Parts": {
+    "$id": "2",
+    "$values": [
+      {
+        "$id": "3",
+        "$type": "FellSky.Game.Ships.Parts.DummyPart, FellSky",
+        "IsWeaponMuzzle": false,
+        "Name": "Muzzle4",
+        "Transform": {
+          "$id": "4",
+          "Position": "6.05999947, 3.02999973",
+          "Rotation": 0.0,
+          "Scale": "1, -1",
+          "Origin": "0, 0"
+        },
+        "SpriteId": null,
+        "Color": {
+          "$id": "5",
+          "B": 0,
+          "G": 0,
+          "R": 0,
+          "A": 0
+        },
+        "Flags": {
+          "$id": "6",
+          "$values": []
+        }
+      },
+      {
+        "$id": "7",
+        "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
+        "ColorType": 0,
+        "ShapeId": null,
+        "Health": 100.0,
+        "Name": "Hull",
+        "Transform": {
+          "$id": "8",
+          "Position": "0, 0",
+          "Rotation": 0.0,
+          "Scale": "1, 1",
+          "Origin": "7, 6"
+        },
+        "SpriteId": "HM_wepMissile",
+        "Color": {
+          "$id": "9",
+          "B": 255,
+          "G": 255,
+          "R": 255,
+          "A": 255
+        },
+        "Flags": {
+          "$id": "10",
+          "$values": []
+        }
+      },
+      {
+        "$id": "11",
+        "$type": "FellSky.Game.Ships.Parts.DummyPart, FellSky",
+        "IsWeaponMuzzle": false,
+        "Name": "Muzzle1",
+        "Transform": {
+          "$id": "12",
+          "Position": "3.02999878, -3.02999973",
+          "Rotation": 0.0,
+          "Scale": "1, 1",
+          "Origin": "0, 0"
+        },
+        "SpriteId": null,
+        "Color": {
+          "$id": "13",
+          "B": 0,
+          "G": 0,
+          "R": 0,
+          "A": 0
+        },
+        "Flags": {
+          "$ref": "6"
+        }
+      },
+      {
+        "$id": "14",
+        "$type": "FellSky.Game.Ships.Parts.DummyPart, FellSky",
+        "IsWeaponMuzzle": false,
+        "Name": "Muzzle2",
+        "Transform": {
+          "$id": "15",
+          "Position": "3.02999878, 3.02999973",
+          "Rotation": 0.0,
+          "Scale": "1, -1",
+          "Origin": "0, 0"
+        },
+        "SpriteId": null,
+        "Color": {
+          "$id": "16",
+          "B": 0,
+          "G": 0,
+          "R": 0,
+          "A": 0
+        },
+        "Flags": {
+          "$ref": "6"
+        }
+      }
+    ]
+  },
+  "Hardpoints": {
+    "$id": "17",
+    "$values": []
+  }
+}
