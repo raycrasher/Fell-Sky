@@ -91,6 +91,7 @@ namespace FellSky
             CurrentScene.LoadContent();
 
             EntityFactories.CombatEntityFactory.LoadWeapons();
+            EntityFactories.CombatEntityFactory.LoadProjectiles();
             base.LoadContent();
         }
 

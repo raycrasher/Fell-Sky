@@ -41,7 +41,7 @@ namespace FellSky.Systems
                                     {
                                         FireBarrel(weaponEntity, weaponComponent.Barrels[weaponComponent.CurrentBarrel], weaponComponent);
                                         weaponComponent.CurrentBarrel++;
-                                        if (weaponComponent.CurrentBarrel >= weapon.NumBarrels)
+                                        if (weaponComponent.CurrentBarrel >= weaponComponent.Barrels.Length)
                                             weaponComponent.CurrentBarrel = 0;
                                     }
                                     else
@@ -75,8 +75,8 @@ namespace FellSky.Systems
                         }
                         else weaponComponent.CyclePercent += weapon.FireRate * delta;
                         break;
-                    default:
-                        throw new NotImplementedException();
+                    case WeaponStatus.Disabled:
+                        break;
                 }
 
                 // handle barrel recoil

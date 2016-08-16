@@ -24,7 +24,7 @@ namespace FellSky.Components
         public Vector2 CenterOfMass { get; set; }
 
         public ShipVariant Variant { get; set; }
-
+        
         // functions
 
         public ShipComponent(Ship ship)

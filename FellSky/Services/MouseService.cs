@@ -80,5 +80,20 @@ namespace FellSky.Services
                 yield return null;
             }
         }
+
+        public bool IsMouseDown(int button)
+        {
+            switch (button)
+            {
+                case 0:
+                    return _lastState.LeftButton == ButtonState.Pressed;
+                case 1:
+                    return _lastState.RightButton == ButtonState.Pressed;
+                case 2:
+                    return _lastState.MiddleButton == ButtonState.Pressed;
+                default:
+                    return false;
+            }
+        }
     }
 }

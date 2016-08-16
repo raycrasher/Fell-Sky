@@ -22,8 +22,6 @@ namespace FellSky.Game.Ships.Modules
 
         public WeaponMountType CompatibleHardpoint { get; set; }
 
-        public int NumBarrels { get; set; }
-
         public float VisualRecoilMuzzleTravelDistance { get; set; }
         public float VisualRecoilSpeed { get; set; }
         public float VisualRecoilCycleSpeed { get; set; }
@@ -69,14 +67,7 @@ namespace FellSky.Game.Ships.Modules
             weaponEntity.AddChild(weaponComponent.Turret);
             weaponEntity.AddChild(weaponComponent.Mount);
             weaponEntity.AddComponent(weaponComponent);
-            weaponComponent.Barrels = new Entity[NumBarrels];
-            for (int i = 0; i < NumBarrels; i++)
-            {
-                var barrel = world.CreateEntity();
-                barrel.AddComponent(new Transform());
-                weaponComponent.Barrels[i] = barrel;
-                weaponEntity.AddChild(weaponComponent.Turret);
-            }
+            weaponComponent.Barrels = new Entity[0];
 
             weaponComponent.Mount.AddComponent(new Transform());
             weaponComponent.Turret.AddComponent(new Transform());
@@ -103,6 +94,21 @@ namespace FellSky.Game.Ships.Modules
                 foreach(var barrel in weaponComponent.Barrels)
                     ShipEntityFactory.GetShipModel(BarrelModel).CreateChildEntities(world, barrel);
             }
+            else
+            {
+                var mounts = weaponComponent.Mount.GetChildren().Concat(weaponComponent.Turret.GetChildren()).Where(e => e.GetComponent<IShipPartComponent>().Part.Name.StartsWith("muzzle", StringComparison.InvariantCultureIgnoreCase)).ToArray();
+                weaponComponent.Barrels = mounts.Select(m => {
+                    var barrel = world.CreateEntity();
+                    barrel.AddComponent(new Transform());
+                    var barrelComponent = new WeaponBarrelComponent
+                    {
+                        Muzzle = m
+                    };
+                    barrel.AddComponent(barrelComponent);
+                    weaponComponent.Turret.AddChild(barrel);
+                    return barrel;
+                }).ToArray();
+            }
 
 
             var moduleComponent = weaponEntity.GetComponent<ModuleComponent>();
@@ -115,6 +121,10 @@ namespace FellSky.Game.Ships.Modules
             var shipComponent = shipEntity.GetComponent<ShipComponent>();
             shipComponent.Weapons.Add(weaponEntity);
 
+            weaponComponent.Status = WeaponStatus.Ready;
+
+            weaponComponent.Projectile = CombatEntityFactory.Projectiles[ProjectileId];
+            weaponComponent.Owner = shipEntity;
             return weaponEntity;
         }
 

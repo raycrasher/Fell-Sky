@@ -13,6 +13,8 @@ namespace FellSky.Editor
     {
         private System.Windows.FrameworkElement host;
 
+        MouseButtonState _left, _right, _middle;
+
         public MouseService(System.Windows.FrameworkElement host)
         {
             this.host = host;
@@ -31,13 +33,18 @@ namespace FellSky.Editor
         {
             var pos = ScreenPosition;
             _updateActions.Add(()=>ButtonUp?.Invoke(new Point((int)pos.X, (int)pos.Y), (int) e.ChangedButton));
+            _left = e.LeftButton;
+            _right = e.RightButton;
+            _middle = e.MiddleButton;
         }
 
         private void OnButtonDown(object sender, MouseButtonEventArgs e)
         {
             var pos = ScreenPosition;
             _updateActions.Add(()=>ButtonDown?.Invoke(new Point((int)pos.X, (int)pos.Y), (int)e.ChangedButton));
-
+            _left = e.LeftButton;
+            _right = e.RightButton;
+            _middle = e.MiddleButton;
         }
 
         private void OnMouseMove(object sender, MouseEventArgs e)
@@ -110,6 +117,21 @@ namespace FellSky.Editor
             while(_updateActions.TryTake(out action))
             {
                 action?.Invoke();
+            }
+        }
+
+        public bool IsMouseDown(int button)
+        {
+            switch (button)
+            {
+                case 0:
+                    return _left == MouseButtonState.Pressed;
+                case 1:
+                    return _right == MouseButtonState.Pressed;
+                case 2:
+                    return _middle == MouseButtonState.Pressed;
+                default:
+                    return false;
             }
         }
     }

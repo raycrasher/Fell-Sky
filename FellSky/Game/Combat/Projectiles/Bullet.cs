@@ -32,18 +32,20 @@ namespace FellSky.Game.Combat.Projectiles
             xform.CopyValuesFrom(ref matrix);
             bulletEntity.AddComponent(xform);
 
-            var radius = Math.Min(sprite.TextureRect.Width/2, sprite.TextureRect.Height/2);
+            var radius = Math.Min(sprite.TextureRect.Width/2, sprite.TextureRect.Height/2) * Constants.PhysicsUnitScale;
             var physics = world.SystemManager.GetSystem<PhysicsSystem>();
             var rigidBody = physics.CreateRigidBody(xform.Position, xform.Rotation);
+            rigidBody.Body.IgnoreCollisionWith(owner.GetComponent<RigidBodyComponent>().Body);
+            rigidBody.Body.IsStatic = false;
             FarseerPhysics.Factories.FixtureFactory.AttachCircle(radius, 0.01f, rigidBody.Body, bulletEntity);
-            rigidBody.Body.ApplyForce(rigidBody.Body.GetWorldVector(Utilities.CreateVector2FromAngle(xform.Rotation)) * MuzzleVelocity);
+            rigidBody.Body.ApplyForce(rigidBody.Body.GetWorldVector(Utilities.CreateVector2FromAngle(xform.Rotation)) * MuzzleVelocity * Constants.PhysicsUnitScale);
 
             var bulletComponent = new BulletComponent()
             {
                 Owner = owner,
                 Weapon = weapon,
                 Bullet = this,
-                Color = Color,
+                Color = Color.White,
                 Age = TimeSpan.Zero,
                 Alpha = 1
             };

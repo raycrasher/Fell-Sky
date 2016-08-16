@@ -13,5 +13,6 @@ namespace FellSky.Services
         event Action<Point> Move;
         event Action<int> WheelChanged;
         Vector2 ScreenPosition { get; set; }
+        bool IsMouseDown(int button);
     }
 }
