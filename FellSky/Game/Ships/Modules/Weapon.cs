@@ -8,6 +8,7 @@ using FellSky.Components;
 using FellSky.Game.Ships.Parts;
 using FellSky.Game.Inventory;
 using FellSky.Game.Combat;
+using FellSky.EntityFactories;
 
 namespace FellSky.Game.Ships.Modules
 {
@@ -33,7 +34,6 @@ namespace FellSky.Game.Ships.Modules
         public string Description { get; set; }
         public float DamagePerSecond => Damage * FireRate;
         public string ProjectileId { get; set; }
-        public string TurretId { get; set; }
 
         public int MagazineSize { get; set; }
 
@@ -43,6 +43,8 @@ namespace FellSky.Game.Ships.Modules
         public string MountModel { get; set; }
         public string TurretModel { get; set; }
         public string BarrelModel { get; set; }
+
+        public bool UsesFrameAnimation { get; set; }
 
         public override bool CanInstall(Entity shipEntity, Hardpoint slot)
         {
@@ -87,6 +89,21 @@ namespace FellSky.Game.Ships.Modules
                 Weapon = weaponEntity,
                 Ship = shipEntity
             });
+
+            if (!string.IsNullOrEmpty(MountModel))
+            {
+                ShipEntityFactory.GetShipModel(MountModel).CreateChildEntities(world, weaponComponent.Mount);
+            }
+            if (!string.IsNullOrEmpty(TurretModel))
+            {
+                ShipEntityFactory.GetShipModel(TurretModel).CreateChildEntities(world, weaponComponent.Turret);
+            }
+            if (!string.IsNullOrEmpty(BarrelModel))
+            {
+                foreach(var barrel in weaponComponent.Barrels)
+                    ShipEntityFactory.GetShipModel(BarrelModel).CreateChildEntities(world, barrel);
+            }
+
 
             var moduleComponent = weaponEntity.GetComponent<ModuleComponent>();
 
@@ -134,14 +151,14 @@ namespace FellSky.Game.Ships.Modules
                 case WeaponUpgradeType.Barrel:
                     foreach (var barrel in weaponComponent.Barrels)
                     {
-                        EntityFactories.ShipEntityFactory.GetShipModel(PartGroupId).CreateChildEntities(world, barrel);
+                        ShipEntityFactory.GetShipModel(PartGroupId).CreateChildEntities(world, barrel);
                     }
                     break;
                 case WeaponUpgradeType.Mount:
-                    EntityFactories.ShipEntityFactory.GetShipModel(PartGroupId).CreateChildEntities(world, weaponComponent.Mount);
+                    ShipEntityFactory.GetShipModel(PartGroupId).CreateChildEntities(world, weaponComponent.Mount);
                     break;
                 case WeaponUpgradeType.Turret:
-                    EntityFactories.ShipEntityFactory.GetShipModel(PartGroupId).CreateChildEntities(world, weaponComponent.Turret);
+                    ShipEntityFactory.GetShipModel(PartGroupId).CreateChildEntities(world, weaponComponent.Turret);
                     break;
             }
         }

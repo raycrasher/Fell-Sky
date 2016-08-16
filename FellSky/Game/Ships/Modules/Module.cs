@@ -77,6 +77,7 @@ namespace FellSky.Game.Ships.Modules
                 HardpointEntity = hardpointEntity,
                 Module = this
             };
+            slot.InstalledEntity = moduleEntity;
             moduleEntity.AddComponent(moduleComponent);
             return moduleEntity;
         }

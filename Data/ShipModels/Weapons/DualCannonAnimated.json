@@ -13,12 +13,12 @@
         "Name": "Hull",
         "Transform": {
           "$id": "4",
-          "Position": "0, 0",
+          "Position": "2.67828846, 0.176760033",
           "Rotation": 0.0,
           "Scale": "1, 1",
-          "Origin": "8, 7"
+          "Origin": "23, 10"
         },
-        "SpriteId": "HM_wepHugeLaserBallTurret",
+        "SpriteId": "HM_wepDoubleSuperCannon01_0008_Layer-1",
         "Color": {
           "$id": "5",
           "B": 255,
@@ -28,17 +28,19 @@
         },
         "Flags": {
           "$id": "6",
-          "$values": []
+          "$values": [
+            "animated"
+          ]
         }
       },
       {
         "$id": "7",
         "$type": "FellSky.Game.Ships.Parts.DummyPart, FellSky",
         "IsWeaponMuzzle": false,
-        "Name": "Muzzle",
+        "Name": "Muzzle1",
         "Transform": {
           "$id": "8",
-          "Position": "6.565, 0",
+          "Position": "24.7450142, -3.535",
           "Rotation": 0.0,
           "Scale": "1, 1",
           "Origin": "0, 0"
@@ -55,11 +57,35 @@
           "$id": "10",
           "$values": []
         }
+      },
+      {
+        "$id": "11",
+        "$type": "FellSky.Game.Ships.Parts.DummyPart, FellSky",
+        "IsWeaponMuzzle": false,
+        "Name": "Muzzle2",
+        "Transform": {
+          "$id": "12",
+          "Position": "24.7450142, 3.535",
+          "Rotation": 0.0,
+          "Scale": "1, -1",
+          "Origin": "0, 0"
+        },
+        "SpriteId": null,
+        "Color": {
+          "$id": "13",
+          "B": 0,
+          "G": 0,
+          "R": 0,
+          "A": 0
+        },
+        "Flags": {
+          "$ref": "10"
+        }
       }
     ]
   },
   "Hardpoints": {
-    "$id": "11",
+    "$id": "14",
     "$values": []
   }
 }

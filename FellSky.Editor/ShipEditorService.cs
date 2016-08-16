@@ -246,9 +246,9 @@ namespace FellSky.Editor
         private Entity AddDummyPartInternal(Vector2 position, float rotation, Vector2 scale, Vector2 origin)
         {
             var part = new DummyPart();
+            Model.Parts.Add(part);
             var entity = part.CreateEntity(_world, ModelEntity);
             entity.AddComponent(new EditorComponent());
-            entity.AddComponent(new BoundingBoxComponent(new FloatRect(-10, -10, 20, 20)));
             entity.AddComponent(new GenericDrawableComponent((a, b, e) => {
                 var xform = e.GetComponent<Transform>();
                 b.DrawCircle(xform.Position, 9, 15, Color.Cyan);
@@ -537,7 +537,15 @@ namespace FellSky.Editor
             };
 
             entity.AddComponent(entity.GetComponent<IShipPartComponent>().Part.Transform);
-
+            if (entity.HasComponent<DummyPartComponent>())
+            {
+                entity.AddComponent(new GenericDrawableComponent((a, b, e) => {
+                    var xform = e.GetComponent<Transform>();
+                    b.DrawCircle(xform.Position, 9, 15, Color.Cyan);
+                    b.DrawLine(xform.Position.X - 10, xform.Position.Y, xform.Position.X + 10, xform.Position.Y, Color.LightCyan);
+                    b.DrawLine(xform.Position.X, xform.Position.Y - 10, xform.Position.X, xform.Position.Y + 10, Color.LightCyan);
+                }));
+            }
             entity.Refresh();
         }
 

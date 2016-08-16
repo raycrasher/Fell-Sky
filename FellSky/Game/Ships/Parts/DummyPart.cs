@@ -20,6 +20,7 @@ namespace FellSky.Game.Ships.Parts
             var component = new DummyPartComponent(this, ship);
             entity.AddComponent(component);
             entity.AddComponent<IShipPartComponent>(component);
+            entity.AddComponent(new BoundingBoxComponent(new FloatRect(-10, -10, 20, 20)));
             return entity;
         }
     }
