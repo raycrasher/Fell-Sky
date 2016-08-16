@@ -40,6 +40,10 @@ namespace FellSky.Game.Ships.Modules
         public WeaponAction Action { get; set; }
         public bool IsMultiBarrelAlternateFire { get; set; }
 
+        public string MountModel { get; set; }
+        public string TurretModel { get; set; }
+        public string BarrelModel { get; set; }
+
         public override bool CanInstall(Entity shipEntity, Hardpoint slot)
         {
             if (slot.Size != Size) return false;

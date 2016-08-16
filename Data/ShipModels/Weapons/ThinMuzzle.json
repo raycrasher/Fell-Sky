@@ -1,0 +1,40 @@
+{
+  "$id": "1",
+  "Id": null,
+  "Parts": {
+    "$id": "2",
+    "$values": [
+      {
+        "$id": "3",
+        "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
+        "ColorType": 0,
+        "ShapeId": null,
+        "Health": 100.0,
+        "Name": "Hull",
+        "Transform": {
+          "$id": "4",
+          "Position": "20.982666, 0.3500061",
+          "Rotation": 0.0,
+          "Scale": "1, 1",
+          "Origin": "22, 6"
+        },
+        "SpriteId": "KA_StWr_062",
+        "Color": {
+          "$id": "5",
+          "B": 255,
+          "G": 255,
+          "R": 255,
+          "A": 255
+        },
+        "Flags": {
+          "$id": "6",
+          "$values": []
+        }
+      }
+    ]
+  },
+  "Hardpoints": {
+    "$id": "7",
+    "$values": []
+  }
+}

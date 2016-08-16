@@ -73,7 +73,7 @@ namespace FellSky.Game.Space
                 var csvReader = new CsvHelper.CsvReader(stream);
                 // skip 2 header rows
                 csvReader.ReadHeader();
-                csvReader.ReadHeader();
+                csvReader.Read();
                 while (csvReader.Read())
                 {
                     var item = new StarClass
