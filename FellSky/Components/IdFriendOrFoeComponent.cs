@@ -9,6 +9,10 @@ namespace FellSky.Components
 {
     public class IdFriendOrFoeComponent: IComponent
     {
-        
+        public int IffCode { get; set; }
+        public IdFriendOrFoeComponent()
+        {
+            IffCode = GetHashCode();
+        }
     }
 }

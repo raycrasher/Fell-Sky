@@ -41,10 +41,12 @@ namespace FellSky.Game.Ships
         {
             var shipEntity = world.CreateEntity();
             var shipComponent = new ShipComponent(this);
+            var iff = new IdFriendOrFoeComponent();
             shipEntity.AddComponent(new Transform(position, rotation, scale ?? Vector2.One));
             shipEntity.AddComponent(shipComponent);
             shipEntity.AddComponent(new SceneGraphComponent());
             shipEntity.AddComponent(new SceneGraphRenderRoot<StandardShipModelRenderer>());
+            shipEntity.AddComponent(iff);
 
             if (physics)
             {
@@ -57,7 +59,11 @@ namespace FellSky.Game.Ships
 
             var model = ShipEntityFactory.GetShipModel(ModelId);
             model.CreateChildEntities(world, shipEntity);
-            
+            foreach(var entity in shipEntity.GetChildren())
+            {
+                entity.AddComponent(iff);
+            }
+
             var partLookup = shipEntity.GetChildren()
                              .ToDictionary(c => c.GetComponent<IShipPartComponent>().Part, c => c);
             

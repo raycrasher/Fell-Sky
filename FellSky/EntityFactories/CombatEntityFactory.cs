@@ -25,7 +25,7 @@ namespace FellSky.EntityFactories
                 SpriteId = "bullet_boltsmall",
                 Color = Color.White,
                 MaxAge = TimeSpan.FromSeconds(1),
-                MuzzleVelocity = 100,
+                MuzzleVelocity = 200,
                 Damage = 10
             };
 

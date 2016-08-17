@@ -38,7 +38,20 @@ namespace FellSky.Game.Combat.Projectiles
             rigidBody.Body.IgnoreCollisionWith(owner.GetComponent<RigidBodyComponent>().Body);
             rigidBody.Body.IsStatic = false;
             FarseerPhysics.Factories.FixtureFactory.AttachCircle(radius, 0.01f, rigidBody.Body, bulletEntity);
-            rigidBody.Body.ApplyForce(rigidBody.Body.GetWorldVector(Utilities.CreateVector2FromAngle(xform.Rotation)) * MuzzleVelocity * Constants.PhysicsUnitScale);
+            rigidBody.Body.LinearVelocity = Utilities.CreateVector2FromAngle(xform.Rotation) * MuzzleVelocity * Constants.PhysicsUnitScale;
+            bulletEntity.AddComponent(rigidBody);
+            rigidBody.Body.UserData = bulletEntity;
+            var fixture = rigidBody.Body.FixtureList[0];
+            var iff = owner.GetComponent<IdFriendOrFoeComponent>();
+            bulletEntity.AddComponent(iff);
+            fixture.BeforeCollision += (a, b) =>
+            {
+                var entity = b.UserData as Entity;
+                if (entity.HasComponent<IdFriendOrFoeComponent>() && entity.GetComponent<IdFriendOrFoeComponent>().IffCode == iff.IffCode)
+                    return false;
+                
+                return false;
+            };
 
             var bulletComponent = new BulletComponent()
             {
@@ -51,6 +64,7 @@ namespace FellSky.Game.Combat.Projectiles
             };
 
             bulletEntity.AddComponent<IProjectileComponent>(bulletComponent);
+            bulletEntity.AddComponent(bulletComponent);
 
             return bulletEntity;
         }

@@ -72,7 +72,12 @@ namespace FellSky.Game.Ships.Parts
                              Matrix.CreateTranslation(new Vector3(Transform.Position, 0)) *
                              Matrix.CreateScale(Constants.PhysicsUnitScale);
 
-                entity.AddComponent(physics.CreateAndAttachFixture(ship.GetComponent<RigidBodyComponent>(), ShapeId ?? SpriteId, matrix));
+                var fixtureComponent = physics.CreateAndAttachFixture(ship.GetComponent<RigidBodyComponent>(), ShapeId ?? SpriteId, matrix);
+                foreach (var fixture in fixtureComponent.Fixtures)
+                {
+                    fixture.UserData = entity;
+                }
+                entity.AddComponent(fixtureComponent);
 
             }
             entity.Refresh();

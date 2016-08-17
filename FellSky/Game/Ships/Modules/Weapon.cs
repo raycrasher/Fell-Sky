@@ -110,7 +110,6 @@ namespace FellSky.Game.Ships.Modules
                 }).ToArray();
             }
 
-
             var moduleComponent = weaponEntity.GetComponent<ModuleComponent>();
 
             foreach(var upgrade in moduleComponent.InstalledMods.OfType<WeaponUpgrade>().Where(b=>!string.IsNullOrWhiteSpace(b.PartGroupId)))

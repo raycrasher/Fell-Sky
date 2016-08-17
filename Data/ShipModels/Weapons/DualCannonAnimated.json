@@ -67,7 +67,7 @@
           "$id": "12",
           "Position": "24.7450142, 3.535",
           "Rotation": 0.0,
-          "Scale": "1, -1",
+          "Scale": "1, 1",
           "Origin": "0, 0"
         },
         "SpriteId": null,

@@ -13,7 +13,7 @@ namespace FellSky.Components
 {
     public class BulletComponent : IComponent, IProjectileComponent
     {
-        public Color Color;
+        public Color Color = Color.White;
         public Entity Owner { get; set; }
         public Entity Weapon { get; set; }
         public Bullet Bullet { get; set; }
@@ -21,6 +21,6 @@ namespace FellSky.Components
         IProjectile IProjectileComponent.Bullet => Bullet;
 
         public TimeSpan Age;
-        public float Alpha;
+        public float Alpha = 1;
     }
 }
