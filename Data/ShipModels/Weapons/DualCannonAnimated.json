@@ -29,7 +29,7 @@
         "Flags": {
           "$id": "6",
           "$values": [
-            "animated"
+            "animate-weaponcycle"
           ]
         }
       },

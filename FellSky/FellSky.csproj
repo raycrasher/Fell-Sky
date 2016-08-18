@@ -136,6 +136,7 @@
     <Compile Include="Components\DummyPartComponent.cs" />
     <Compile Include="Components\EditorComponent.cs" />
     <Compile Include="Components\FactionComponent.cs" />
+    <Compile Include="Components\FrameAnimationComponent.cs" />
     <Compile Include="Components\GuiComponent.cs" />
     <Compile Include="Components\HardpointArcDrawingComponent.cs" />
     <Compile Include="Components\HardpointComponent.cs" />
@@ -167,6 +168,7 @@
     <Compile Include="EntityFactories\CombatEntityFactory.cs" />
     <Compile Include="Framework\Attributes.cs" />
     <Compile Include="Framework\Constants.cs" />
+    <Compile Include="Framework\Enums.cs" />
     <Compile Include="Framework\FloatColor.cs" />
     <Compile Include="Framework\GuiElementUtilities.cs" />
     <Compile Include="Framework\MersenneTwister.cs" />
@@ -245,6 +247,7 @@
     <Compile Include="Systems\BulletRendererSystem.cs" />
     <Compile Include="Systems\CoroutineSystem.cs" />
     <Compile Include="Systems\DustRendererSystem.cs" />
+    <Compile Include="Systems\FrameAnimationSystem.cs" />
     <Compile Include="Systems\GuiSystem.cs" />
     <Compile Include="Systems\HardpointRendererSystem.cs" />
     <Compile Include="Systems\MouseControlledTransformSystemStates\ScaleState.cs" />
