@@ -11,6 +11,7 @@ namespace FellSky.Components
         public string Name { get; set; }
         public Texture2D Texture { get; set; }
         public Rectangle TextureRect { get; set; }
+        public Vector2 Origin { get; set; }
 
         public SpriteComponent()
         {
@@ -20,6 +21,7 @@ namespace FellSky.Components
         {
             Name = sprite.Id;
             Texture = texture;
+            Origin = new Vector2(sprite.OriginX ?? sprite.W/2, sprite.OriginY ?? sprite.H/2);
             TextureRect = new Rectangle(sprite.X, sprite.Y, sprite.W, sprite.H);
         }
 

@@ -5,6 +5,7 @@ using FellSky.Framework;
 using System;
 using FellSky.Components;
 using Microsoft.Xna.Framework.Graphics;
+using Artemis.Interface;
 
 namespace FellSky.Services
 {
@@ -38,6 +39,20 @@ namespace FellSky.Services
         {
             var spriteDef = Sprites[spriteId];
             return new SpriteComponent(spriteDef, _content.Load<Texture2D>(spriteDef.Texture));
+        }
+
+        public FrameAnimationComponent CreateFrameAnimationComponent(string name, float animateWeaponCycleFps)
+        {
+            var component = new FrameAnimationComponent();
+
+            var spriteDef = Sprites[name];
+            component.Frames.Add(new SpriteComponent(spriteDef, _content.Load<Texture2D>(spriteDef.Texture)));
+            foreach (var subsprite in spriteDef.Subsprites)
+            {
+                component.Frames.Add(new SpriteComponent(subsprite, _content.Load<Texture2D>(subsprite.Texture)));
+            }
+
+            return component;
         }
     }
 }

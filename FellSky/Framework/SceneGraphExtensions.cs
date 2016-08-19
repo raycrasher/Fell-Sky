@@ -68,6 +68,16 @@ namespace FellSky
         public static Entity GetParent(this Entity entity) => entity.GetComponent<SceneGraphComponent>()?.Parent;
         public static List<Entity> GetChildren(this Entity entity) => entity.GetComponent<SceneGraphComponent>()?.Children;
 
+        public static IEnumerable<Entity> GetDescendants(this Entity entity)
+        {
+            foreach(var child in entity.GetChildren())
+            {
+                yield return child;
+                foreach (var descendant in child.GetDescendants())
+                    yield return descendant;
+            }
+        }
+
         public static void GetWorldMatrix(this Entity entity, out Matrix matrix)
         {
             var thisMatrix = entity.GetComponent<Transform>()?.Matrix ?? Matrix.Identity;

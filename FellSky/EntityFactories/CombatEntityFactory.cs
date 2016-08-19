@@ -23,6 +23,7 @@ namespace FellSky.EntityFactories
             Projectiles["20mmAP"] = new Bullet
             {
                 SpriteId = "bullet_boltsmall",
+                Scale = new Vector2(0.4f, 0.4f),
                 Color = Color.White,
                 MaxAge = TimeSpan.FromSeconds(1),
                 MuzzleVelocity = 200,
@@ -51,6 +52,7 @@ namespace FellSky.EntityFactories
                 TurnRate = MathHelper.Pi / 4,
                 TurretModel = "Weapons/DualCannonAnimated",
                 UsesFrameAnimation = true,
+                AnimateWeaponCycleFps = 0.1f,
                 FireRate = 1,
             };
 

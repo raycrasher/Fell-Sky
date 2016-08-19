@@ -13,6 +13,7 @@ namespace FellSky.Systems
 {
     public class WeaponSystem: Artemis.System.EntitySystem
     {
+        WeaponFireEventArgs _weaponFireEventArgs = new WeaponFireEventArgs();
         private ITimerService _timer;
 
         public WeaponSystem()
@@ -37,6 +38,7 @@ namespace FellSky.Systems
                             switch (weapon.Action)
                             {
                                 case WeaponAction.Automatic:
+                                    weaponComponent.OnFire?.Invoke(this, _weaponFireEventArgs);
                                     if (weapon.IsMultiBarrelAlternateFire)
                                     {
                                         FireBarrel(weaponEntity, weaponComponent.Barrels[weaponComponent.CurrentBarrel], weaponComponent);

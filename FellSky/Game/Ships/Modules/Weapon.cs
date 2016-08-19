@@ -9,12 +9,15 @@ using FellSky.Game.Ships.Parts;
 using FellSky.Game.Inventory;
 using FellSky.Game.Combat;
 using FellSky.EntityFactories;
+using FellSky.Services;
 
 namespace FellSky.Game.Ships.Modules
 {
     [Archetype]
     public class Weapon : Module, IInventoryItem
     {
+        public const string AnimateWeaponCycleFlag = "animate-weaponcycle";
+
         public float TurnRate { get; set; }
         public float ShotSpread { get; set; }
         public float FireRate { get; set; } // shots per second
@@ -43,6 +46,7 @@ namespace FellSky.Game.Ships.Modules
         public string BarrelModel { get; set; }
 
         public bool UsesFrameAnimation { get; set; }
+        public float AnimateWeaponCycleFps { get; set; } = 1;
 
         public override bool CanInstall(Entity shipEntity, Hardpoint slot)
         {
@@ -124,6 +128,16 @@ namespace FellSky.Game.Ships.Modules
 
             weaponComponent.Projectile = CombatEntityFactory.Projectiles[ProjectileId];
             weaponComponent.Owner = shipEntity;
+
+            var spriteManager = ServiceLocator.Instance.GetService<SpriteManagerService>();
+
+            foreach(var entity in weaponEntity.GetDescendants().Where(w=>w.GetComponent<IShipPartComponent>()?.Part.Flags?.Contains(AnimateWeaponCycleFlag) ?? false))
+            {
+                var frameComponent = spriteManager.CreateFrameAnimationComponent(entity.GetComponent<SpriteComponent>().Name, AnimateWeaponCycleFps);
+                entity.AddComponent(frameComponent);
+                weaponComponent.OnFire += (o, e) => frameComponent.Play();
+            }
+
             return weaponEntity;
         }
 

@@ -14,11 +14,12 @@ namespace FellSky.Game.Combat.Projectiles
     public class Bullet : IProjectile
     {
         private ISpriteManagerService _spriteManager;
-        public float MuzzleVelocity { get; set; } = 100;
+        public float MuzzleVelocity { get; set; } = 200;
         public string SpriteId { get; set; }
-        public Color Color { get; set; }
-        public TimeSpan MaxAge { get; set; }
-        public float Damage { get; set; }
+        public Color Color { get; set; } = Color.White;
+        public TimeSpan MaxAge { get; set; } = TimeSpan.FromSeconds(1);
+        public float Damage { get; set; } = 10;
+        public Vector2 Scale { get; set; } = Vector2.One;
 
         public Entity Spawn(EntityWorld world, Entity owner, Entity weapon, Entity muzzle)
         {
@@ -30,6 +31,8 @@ namespace FellSky.Game.Combat.Projectiles
             Matrix matrix;
             muzzle.GetWorldMatrix(out matrix);
             xform.CopyValuesFrom(ref matrix);
+            xform.Scale = Scale;
+            xform.Origin = sprite.Origin;
             bulletEntity.AddComponent(xform);
 
             var radius = Math.Min(sprite.TextureRect.Width/2, sprite.TextureRect.Height/2) * Constants.PhysicsUnitScale;
