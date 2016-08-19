@@ -183,6 +183,7 @@
     <Compile Include="Game\Combat\IProjectile.cs" />
     <Compile Include="Game\Combat\Projectiles\Beam.cs" />
     <Compile Include="Game\Combat\Projectiles\Bullet.cs" />
+    <Compile Include="Game\Combat\WeaponFireEventArgs.cs" />
     <Compile Include="Game\Ground\Map.cs" />
     <Compile Include="Game\Ground\MapTile.cs" />
     <Compile Include="Game\Inventory\IInventoryItem.cs" />
