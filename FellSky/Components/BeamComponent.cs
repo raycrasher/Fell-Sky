@@ -15,5 +15,6 @@ namespace FellSky.Components
         public Color Color;
         public float DamagePerSecond;
         public Entity Muzzle;
+        public float Intensity;
     }
 }

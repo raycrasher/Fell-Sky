@@ -18,7 +18,11 @@ namespace FellSky.Components
         public List<SpriteComponent> Frames = new List<SpriteComponent>();
         public AnimationState State = AnimationState.Stopped;
 
-        public void Play() => State = AnimationState.Playing;
+        public void Play()
+        {
+            CurrentTime = 0;
+            State = AnimationState.Playing;
+        }
         public void Stop()
         {
             State = AnimationState.Stopped;

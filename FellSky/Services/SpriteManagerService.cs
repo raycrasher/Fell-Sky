@@ -41,15 +41,15 @@ namespace FellSky.Services
             return new SpriteComponent(spriteDef, _content.Load<Texture2D>(spriteDef.Texture));
         }
 
-        public FrameAnimationComponent CreateFrameAnimationComponent(string name, float animateWeaponCycleFps)
+        public FrameAnimationComponent CreateFrameAnimationComponent(string name, float fps)
         {
             var component = new FrameAnimationComponent();
-
+            component.Fps = fps;
             var spriteDef = Sprites[name];
             component.Frames.Add(new SpriteComponent(spriteDef, _content.Load<Texture2D>(spriteDef.Texture)));
             foreach (var subsprite in spriteDef.Subsprites)
             {
-                component.Frames.Add(new SpriteComponent(subsprite, _content.Load<Texture2D>(subsprite.Texture)));
+                component.Frames.Add(new SpriteComponent(subsprite, _content.Load<Texture2D>(spriteDef.Texture)));
             }
 
             return component;

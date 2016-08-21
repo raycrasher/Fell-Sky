@@ -135,6 +135,7 @@
     <Compile Include="Components\DamageReductionComponent.cs" />
     <Compile Include="Components\DummyPartComponent.cs" />
     <Compile Include="Components\EditorComponent.cs" />
+    <Compile Include="Components\EventHandlerComponent.cs" />
     <Compile Include="Components\FactionComponent.cs" />
     <Compile Include="Components\FrameAnimationComponent.cs" />
     <Compile Include="Components\GuiComponent.cs" />
@@ -169,6 +170,7 @@
     <Compile Include="Framework\Attributes.cs" />
     <Compile Include="Framework\Constants.cs" />
     <Compile Include="Framework\Enums.cs" />
+    <Compile Include="Framework\EventExtensions.cs" />
     <Compile Include="Framework\FloatColor.cs" />
     <Compile Include="Framework\GuiElementUtilities.cs" />
     <Compile Include="Framework\MersenneTwister.cs" />
@@ -245,9 +247,11 @@
     <Compile Include="Systems\AnimationSystem.cs" />
     <Compile Include="Systems\BackgroundRendererSystem.cs" />
     <Compile Include="Systems\BeamRendererSystem.cs" />
+    <Compile Include="Systems\BeamSystem.cs" />
     <Compile Include="Systems\BulletRendererSystem.cs" />
     <Compile Include="Systems\CoroutineSystem.cs" />
     <Compile Include="Systems\DustRendererSystem.cs" />
+    <Compile Include="Systems\EventSystem.cs" />
     <Compile Include="Systems\FrameAnimationSystem.cs" />
     <Compile Include="Systems\GuiSystem.cs" />
     <Compile Include="Systems\HardpointRendererSystem.cs" />
@@ -372,7 +376,7 @@
     </Compile>
     <Compile Include="Systems\PhysicsDebugDrawSystem.cs" />
     <Compile Include="Systems\PlayerShipControlSystem.cs" />
-    <Compile Include="Systems\RigidBodyToTransformSystem.cs" />
+    <Compile Include="Systems\RigidBodySystem.cs" />
     <Compile Include="Systems\SceneGraphRendererSystem.cs" />
     <Compile Include="Systems\SceneGraphRenderers\ISceneGraphRenderer.cs" />
     <Compile Include="Systems\SceneGraphRenderers\StandardShipModelRenderer.cs" />

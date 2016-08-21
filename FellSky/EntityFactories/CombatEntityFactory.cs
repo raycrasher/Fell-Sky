@@ -23,8 +23,8 @@ namespace FellSky.EntityFactories
             Projectiles["20mmAP"] = new Bullet
             {
                 SpriteId = "bullet_boltsmall",
-                Scale = new Vector2(0.4f, 0.4f),
-                Color = Color.White,
+                Scale = new Vector2(0.7f, 0.7f),
+                Color = new Color(255,200,100,255),
                 MaxAge = TimeSpan.FromSeconds(1),
                 MuzzleVelocity = 200,
                 Damage = 10
@@ -52,7 +52,9 @@ namespace FellSky.EntityFactories
                 TurnRate = MathHelper.Pi / 4,
                 TurretModel = "Weapons/DualCannonAnimated",
                 UsesFrameAnimation = true,
-                AnimateWeaponCycleFps = 0.1f,
+                AnimateWeaponCycleFps = 0.075f,
+                BurstSize = 2,
+                BurstRoF = 5f,
                 FireRate = 1,
             };
 
@@ -64,7 +66,7 @@ namespace FellSky.EntityFactories
                 Description = "This weapon incinerates targets using a free electron laser in the near UV range.",
                 TurnRate = MathHelper.Pi / 2,
                 FireRate = 1,
-                ProjectileId = "LaserCannon",
+                ProjectileId = "LaserBeam",
                 TurretModel = "Weapons/LaserTurret",
             };
 

@@ -8,12 +8,13 @@ namespace FellSky.Game.Combat
 {
     public enum WeaponStatus
     {
-        Disabled, Ready, Cycling, Reloading
+        Disabled, Ready, ContinuousFiring, Cycling, BurstCycling, Reloading
     }
 
     public enum WeaponAction
     {
-        Automatic
+        Automatic,
+        ContinuousFire // use for continuous beams
     }
 
     public enum WeaponBarrelStatus

@@ -21,6 +21,7 @@ namespace FellSky.Game.Ships.Modules
         public float TurnRate { get; set; }
         public float ShotSpread { get; set; }
         public float FireRate { get; set; } // shots per second
+        public int BurstSize { get; set; } = 1;
         public float ReloadRate { get; set; }
 
         public WeaponMountType CompatibleHardpoint { get; set; }
@@ -47,6 +48,8 @@ namespace FellSky.Game.Ships.Modules
 
         public bool UsesFrameAnimation { get; set; }
         public float AnimateWeaponCycleFps { get; set; } = 1;
+        public float BurstRoF { get; set; } = 0;
+        public bool NeedsAmmo { get; set; } = false;
 
         public override bool CanInstall(Entity shipEntity, Hardpoint slot)
         {
@@ -129,7 +132,7 @@ namespace FellSky.Game.Ships.Modules
             weaponComponent.Projectile = CombatEntityFactory.Projectiles[ProjectileId];
             weaponComponent.Owner = shipEntity;
 
-            var spriteManager = ServiceLocator.Instance.GetService<SpriteManagerService>();
+            var spriteManager = ServiceLocator.Instance.GetService<ISpriteManagerService>();
 
             foreach(var entity in weaponEntity.GetDescendants().Where(w=>w.GetComponent<IShipPartComponent>()?.Part.Flags?.Contains(AnimateWeaponCycleFlag) ?? false))
             {

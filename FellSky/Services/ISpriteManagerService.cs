@@ -10,5 +10,6 @@ namespace FellSky.Services
         Dictionary<string, Sprite> Sprites { get; }
         SpriteSheet LoadSpriteSheet(string filename);
         SpriteComponent CreateSpriteComponent(string spriteId);
+        FrameAnimationComponent CreateFrameAnimationComponent(string name, float fps);
     }
 }

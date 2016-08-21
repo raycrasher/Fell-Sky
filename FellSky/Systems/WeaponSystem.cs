@@ -25,6 +25,7 @@ namespace FellSky.Systems
         protected override void ProcessEntities(IDictionary<int, Entity> entities)
         {
             var delta = (entityWorld.Delta / 1000f);
+
             foreach (var weaponEntity in entities.Values)
             {
                 var weaponComponent = weaponEntity.GetComponent<WeaponComponent>();
@@ -39,29 +40,74 @@ namespace FellSky.Systems
                             {
                                 case WeaponAction.Automatic:
                                     weaponComponent.OnFire?.Invoke(this, _weaponFireEventArgs);
-                                    if (weapon.IsMultiBarrelAlternateFire)
+                                    if (weapon.BurstSize > 1)
                                     {
-                                        FireBarrel(weaponEntity, weaponComponent.Barrels[weaponComponent.CurrentBarrel], weaponComponent);
-                                        weaponComponent.CurrentBarrel++;
-                                        if (weaponComponent.CurrentBarrel >= weaponComponent.Barrels.Length)
-                                            weaponComponent.CurrentBarrel = 0;
-                                    }
-                                    else
-                                    {
-                                        foreach (var barrel in weaponComponent.Barrels)
+                                        weaponComponent.Status = WeaponStatus.BurstCycling;
+                                        weaponComponent.CyclePercent = 0;
+
+                                        FireBarrel(weaponEntity, 0, weaponComponent);
+
+                                        if (weapon.NeedsAmmo && weaponComponent.AmmoLeft <= 0)
                                         {
-                                            FireBarrel(weaponEntity, barrel, weaponComponent);
+                                            weaponComponent.Status = WeaponStatus.Reloading;
+                                            weaponComponent.ReloadPercent = 0;
+                                            break;
                                         }
                                     }
-                                    weaponComponent.Status = WeaponStatus.Cycling;
-                                    weaponComponent.CyclePercent = 0;
+                                    else {
+                                        weaponComponent.Status = WeaponStatus.Cycling;
+                                        weaponComponent.CyclePercent = 0;
+                                        for (int index=0;index < weaponComponent.Barrels.Length; index++)
+                                        {
+                                            FireBarrel(weaponEntity, index, weaponComponent);
+                                            if(weapon.NeedsAmmo && weaponComponent.AmmoLeft <= 0)
+                                            {
+                                                weaponComponent.Status = WeaponStatus.Reloading;
+                                                weaponComponent.ReloadPercent = 0;
+                                                break;
+                                            }
+                                        }
+                                    }
+                                    break;
+                                case WeaponAction.ContinuousFire:
+                                    weaponComponent.Status = WeaponStatus.ContinuousFiring;
+
                                     break;
                                 default:
                                     throw new NotImplementedException();
                             }
                         }
                         break;
-                    case WeaponStatus.Cycling:
+                    case WeaponStatus.ContinuousFiring:
+
+                        break;
+                    case WeaponStatus.BurstCycling:
+                        if (weaponComponent.CyclePercent >= 1)
+                        {
+                            weaponComponent.CyclePercent = 1;
+                            FireBarrel(weaponEntity, weaponComponent.CurrentBarrel, weaponComponent);
+                            if (weapon.NeedsAmmo && weaponComponent.AmmoLeft <= 0)
+                            {
+                                weaponComponent.Status = WeaponStatus.Reloading;
+                                weaponComponent.ReloadPercent = 0;
+                                break;
+                            }
+                            else {
+                                if (weaponComponent.CurrentBarrel == 0)
+                                {
+                                    weaponComponent.Status = WeaponStatus.Cycling;
+                                    weaponComponent.CyclePercent = 0;
+                                }
+                                else
+                                {
+                                    weaponComponent.Status = WeaponStatus.BurstCycling;
+                                    weaponComponent.CyclePercent = 0;
+                                }
+                            }
+                        }
+                        else weaponComponent.CyclePercent += weapon.BurstRoF * delta;
+                        break;
+                    case WeaponStatus.Cycling:                    
                         if (weaponComponent.CyclePercent >= 1) {
                             weaponComponent.CyclePercent = 1;
                             weaponComponent.Status = WeaponStatus.Ready;
@@ -123,12 +169,17 @@ namespace FellSky.Systems
             }
         }
 
-        private void FireBarrel(Entity weaponEntity, Entity barrel, WeaponComponent weaponComponent)
+        private void FireBarrel(Entity weaponEntity, int barrelIndex, WeaponComponent weaponComponent)
         {
             // fire the projectile
+            var barrel = weaponComponent.Barrels[barrelIndex];
             var barrelComponent = barrel.GetComponent<WeaponBarrelComponent>();      
-
             weaponComponent.Projectile.Spawn(EntityWorld, weaponComponent.Owner, weaponEntity, barrelComponent.Muzzle);
+            weaponComponent.AmmoLeft--;
+
+            weaponComponent.CurrentBarrel++;
+            if (weaponComponent.CurrentBarrel >= weaponComponent.Barrels.Length)
+                weaponComponent.CurrentBarrel = 0;
 
             // do recoil
             if (weaponComponent.Weapon.VisualRecoilMuzzleTravelDistance > 0)

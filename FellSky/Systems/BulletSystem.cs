@@ -22,22 +22,29 @@ namespace FellSky.Systems
 
     public class BulletSystem: Artemis.System.EntitySystem
     {
-        private IEventService _events;
+        BulletHitEventArgs hitArgs = new BulletHitEventArgs();
 
-        public BulletSystem(IEventService events)
+        public BulletSystem()
+            : base(Aspect.All(typeof(BulletComponent)))
         {
-            _events = events;
         }
 
         public override void LoadContent()
         {
-            _events.AddEventListener(EventId.PhysicsCollision, CollisionEventHandler);
-            base.LoadContent();
+            EntityWorld.RegisterListener(EventId.PhysicsCollision, CollisionEventHandler);
         }
 
         protected override void ProcessEntities(IDictionary<int, Entity> entities)
         {
-            base.ProcessEntities(entities);
+            foreach(var entity in entities.Values)
+            {
+                var bulletComponnet = entity.GetComponent<BulletComponent>();
+                bulletComponnet.Age += TimeSpan.FromMilliseconds(EntityWorld.Delta);
+                if (bulletComponnet.Age >= bulletComponnet.Bullet.MaxAge)
+                {
+                    entity.Delete();
+                }
+            }
         }
 
         private void CollisionEventHandler(object sender, EventArgs e)
@@ -54,16 +61,17 @@ namespace FellSky.Systems
                     args.IgnoreCollision = true;
             }
             */
-            _events.FireEventNextFrame(this, EventId.BulletHit, new BulletHitEventArgs
-            {
-                Bullet = args.EntityA,
-                Target = args.EntityB
-            });
+            hitArgs.Bullet = args.EntityA;
+            hitArgs.Target = args.EntityB;
+
+            args.EntityB.FireEvent(this, EventId.BulletHit, hitArgs);
+            args.EntityA.FireEvent(this, EventId.BulletHit, hitArgs);
+            EntityWorld.FireEvent(this, EventId.BulletHit, hitArgs);
         }
 
         public override void UnloadContent()
         {
-            _events.RemoveEventListener(EventId.PhysicsCollision, CollisionEventHandler);
+            EntityWorld.UnregisterListener(EventId.PhysicsCollision, CollisionEventHandler);
             base.UnloadContent();
         }
     }

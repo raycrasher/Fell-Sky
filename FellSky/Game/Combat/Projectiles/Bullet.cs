@@ -61,9 +61,9 @@ namespace FellSky.Game.Combat.Projectiles
                 Owner = owner,
                 Weapon = weapon,
                 Bullet = this,
-                Color = Color.White,
+                Color = Color,
                 Age = TimeSpan.Zero,
-                Alpha = 1
+                Alpha = 1,
             };
 
             bulletEntity.AddComponent<IProjectileComponent>(bulletComponent);
