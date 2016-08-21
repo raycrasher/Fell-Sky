@@ -1821,7 +1821,7 @@
         </member>
         <member name="M:Artemis.System.QueueProcessingSystem.ProcessSystem">
             <summary>
-            Processes the system.
+            Process the system.
             </summary>
         </member>
         <member name="M:Artemis.System.QueueProcessingSystem.Process(Artemis.Entity)">
@@ -1976,7 +1976,7 @@
         </member>
         <member name="M:Artemis.System.TagSystem.ProcessSystem">
             <summary>
-            Processes the system.
+            Process the system.
             </summary>
         </member>
         <member name="M:Artemis.System.TagSystem.Process(Artemis.Entity)">
