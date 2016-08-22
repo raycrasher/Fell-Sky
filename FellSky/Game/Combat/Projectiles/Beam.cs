@@ -39,7 +39,9 @@ namespace FellSky.Game.Combat.Projectiles
             beamEntity.AddComponent(new BeamComponent {
                 Muzzle = muzzle,
                 DamagePerSecond = DamagePerSecond + weaponComponent.Weapon.DamagePerSecond,
-                Color = Color
+                Color = Color,
+                Origin = muzzle,
+                Range = Range
             });
 
             return beamEntity;
