@@ -35,9 +35,9 @@ namespace FellSky
         {
             foreach(var entity in entities.Values)
             {
-                var bulletComponnet = entity.GetComponent<BulletComponent>();
-                bulletComponnet.Age += TimeSpan.FromMilliseconds(EntityWorld.Delta);
-                if (bulletComponnet.Age >= bulletComponnet.Bullet.MaxAge)
+                var bulletComponent = entity.GetComponent<BulletComponent>();
+                bulletComponent.Age += TimeSpan.FromMilliseconds(EntityWorld.Delta);
+                if (bulletComponent.Age >= bulletComponent.Bullet.MaxAge)
                 {
                     entity.Delete();
                 }
