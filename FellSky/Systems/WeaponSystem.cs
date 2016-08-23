@@ -39,7 +39,7 @@ namespace FellSky.Systems
                             switch (weapon.Action)
                             {
                                 case WeaponAction.Automatic:
-                                    weaponComponent.OnFire?.Invoke(this, _weaponFireEventArgs);
+                                    weaponEntity.FireEvent(this, EventId.WeaponFire, _weaponFireEventArgs);
                                     if (weapon.BurstSize > 1)
                                     {
                                         weaponComponent.Status = WeaponStatus.BurstCycling;

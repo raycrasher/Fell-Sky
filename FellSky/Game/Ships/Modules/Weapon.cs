@@ -138,7 +138,7 @@ namespace FellSky.Game.Ships.Modules
             {
                 var frameComponent = spriteManager.CreateFrameAnimationComponent(entity.GetComponent<SpriteComponent>().Name, AnimateWeaponCycleFps);
                 entity.AddComponent(frameComponent);
-                weaponComponent.OnFire += (o, e) => frameComponent.Play();
+                weaponEntity.RegisterEvent(EventId.WeaponFire, (o, e) => frameComponent.Play());
             }
 
             return weaponEntity;

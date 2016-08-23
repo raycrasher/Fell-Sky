@@ -7,12 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FellSky.Systems
+namespace FellSky
 {
-    public static partial class EventId
-    {
-        public static int BulletHit;
-    }
+
 
     public class BulletHitEventArgs : EventArgs
     {
@@ -64,9 +61,9 @@ namespace FellSky.Systems
             hitArgs.Bullet = args.EntityA;
             hitArgs.Target = args.EntityB;
 
-            args.EntityB.FireEvent(this, EventId.BulletHit, hitArgs);
-            args.EntityA.FireEvent(this, EventId.BulletHit, hitArgs);
-            EntityWorld.FireEvent(this, EventId.BulletHit, hitArgs);
+            args.EntityB.FireEvent(this, EventId.ProjectileHit, hitArgs);
+            args.EntityA.FireEvent(this, EventId.ProjectileHit, hitArgs);
+            EntityWorld.FireEvent(this, EventId.ProjectileHit, hitArgs);
         }
 
         public override void UnloadContent()

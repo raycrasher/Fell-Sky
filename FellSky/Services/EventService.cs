@@ -10,19 +10,6 @@ using Priority_Queue;
 
 namespace FellSky.Services
 {
-    public static partial class EventId
-    {
-        static EventId()
-        {
-            int counter = 1;
-            foreach(var field in typeof(EventId).GetFields(BindingFlags.Static | BindingFlags.Public))
-            {
-                field.SetValue(null, counter);
-                counter++;
-            }
-        }
-    }
-
     public interface IEventService
     {
         void AddEventListener(int id, EventHandler handler);

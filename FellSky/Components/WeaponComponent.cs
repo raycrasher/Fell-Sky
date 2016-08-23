@@ -27,6 +27,6 @@ namespace FellSky.Components
         public int AmmoInMagazine;
         public int AmmoLeft;
 
-        public EventHandler<WeaponFireEventArgs> OnFire;
+        //public EventHandler<WeaponFireEventArgs> OnFire;
     }
 }

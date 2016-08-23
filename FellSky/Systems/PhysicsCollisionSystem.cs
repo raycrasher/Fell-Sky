@@ -8,16 +8,11 @@ using FarseerPhysics.Dynamics;
 using FarseerPhysics.Dynamics.Contacts;
 using FellSky.Components;
 using FellSky.Services;
+using FellSky.Systems;
 
-namespace FellSky.Systems
+namespace FellSky
 {
-    public static partial class EventId
-    {
-        public static int PhysicsCollision;
-        public static int PhysicsBeforeCollision;
-        public static int PhysicsAfterSeparation;
-        public static int PhysicsOnSeparation;
-    }
+
 
     public class PhysicsCollisionEventArgs: EventArgs
     {
