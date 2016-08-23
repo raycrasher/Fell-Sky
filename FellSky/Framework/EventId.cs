@@ -16,5 +16,7 @@ namespace FellSky
         public const int PhysicsCollision = 300;
         public const int PhysicsOnSeparation = 301;
         public const int PhysicsAfterSeparation = 302;
+        public const int AfterCollision = 303;
+        public const int BeforeCollision = 304;
     }
 }

@@ -30,13 +30,12 @@ namespace FellSky
 
     public class PhysicsCollisionSystem: Artemis.System.EntitySystem
     {
-        private IEventService _events;
+        PhysicsCollisionEventArgs _physicsCollisionArgs;
 
         public World PhysicsWorld { get; private set; }
-        public PhysicsCollisionSystem(IEventService eventService)
+        public PhysicsCollisionSystem()
             : base(Aspect.All(typeof(CollisionComponent), typeof(RigidBodyFixtureComponent)))
         {
-            _events = eventService;
         }
 
         public override void LoadContent()
@@ -68,49 +67,58 @@ namespace FellSky
 
         private void HandleOnSeparation(Fixture fixtureA, Fixture fixtureB)
         {
-            var eventArgs = new PhysicsCollisionEventArgs
-            {
-                FixtureA = fixtureA,
-                FixtureB = fixtureB
-            };
-            _events.FireEventNextFrame(this, EventId.PhysicsOnSeparation, eventArgs);
+            _physicsCollisionArgs.Contact = null;
+            _physicsCollisionArgs.FixtureA = fixtureA;
+            _physicsCollisionArgs.FixtureB = fixtureB;
+            _physicsCollisionArgs.IgnoreCollision = false;
+
+            EntityWorld.FireEvent(this, EventId.PhysicsOnSeparation, _physicsCollisionArgs);
+            _physicsCollisionArgs.EntityA?.FireEvent(this, EventId.PhysicsOnSeparation, _physicsCollisionArgs);
+            _physicsCollisionArgs.EntityB.FireEvent(this, EventId.PhysicsOnSeparation, _physicsCollisionArgs);
+
         }
 
         private void HandleAfterCollision(Fixture fixtureA, Fixture fixtureB, Contact contact, ContactVelocityConstraint impulse)
         {
-            var eventArgs = new PhysicsCollisionEventArgs
-            {
-                FixtureA = fixtureA,
-                FixtureB = fixtureB,
-                Contact = contact,
-                Impulse = impulse
-            };
-            _events.FireEventNextFrame(this, EventId.PhysicsOnSeparation, eventArgs);
+            _physicsCollisionArgs.FixtureA = fixtureA;
+            _physicsCollisionArgs.FixtureB = fixtureB;
+            _physicsCollisionArgs.Contact = contact;
+            _physicsCollisionArgs.Impulse = impulse;
+            _physicsCollisionArgs.IgnoreCollision = false;
+
+            EntityWorld.FireEvent(this, EventId.AfterCollision, _physicsCollisionArgs);
+            _physicsCollisionArgs.EntityA?.FireEvent(this, EventId.AfterCollision, _physicsCollisionArgs);
+            _physicsCollisionArgs.EntityB.FireEvent(this, EventId.AfterCollision, _physicsCollisionArgs);
         }
 
         private bool HandleBeforeCollision(Fixture fixtureA, Fixture fixtureB)
         {
-            var eventArgs = new PhysicsCollisionEventArgs
-            {
-                FixtureA = fixtureA,
-                FixtureB = fixtureB
-            };
-            _events.FireEventNextFrame(this, EventId.PhysicsOnSeparation, eventArgs);
-            return eventArgs.IgnoreCollision ?? (fixtureA.CollidesWith | fixtureB.CollidesWith) > 0;
+            _physicsCollisionArgs.Contact = null;
+            _physicsCollisionArgs.FixtureA = fixtureA;
+            _physicsCollisionArgs.FixtureB = fixtureB;
+            _physicsCollisionArgs.IgnoreCollision = false;
+            
+            EntityWorld.FireEvent(this, EventId.BeforeCollision, _physicsCollisionArgs);
+            _physicsCollisionArgs.EntityA?.FireEvent(this, EventId.BeforeCollision, _physicsCollisionArgs);
+            _physicsCollisionArgs.EntityB.FireEvent(this, EventId.BeforeCollision, _physicsCollisionArgs);
+
+            return _physicsCollisionArgs.IgnoreCollision ?? (fixtureA.CollidesWith | fixtureB.CollidesWith) > 0;
         }
 
         private bool HandleCollision(Fixture fixtureA, Fixture fixtureB, Contact contact)
         {
-            var eventArgs = new PhysicsCollisionEventArgs
-            {
-                FixtureA = fixtureA,
-                FixtureB = fixtureB,
-                Contact = contact,
-            };
+            _physicsCollisionArgs.Contact = contact;
+            _physicsCollisionArgs.FixtureA = fixtureA;
+            _physicsCollisionArgs.FixtureB = fixtureB;
+            _physicsCollisionArgs.IgnoreCollision = false;
 
             // filter here
-            _events.FireEventNextFrame(this, EventId.PhysicsCollision, eventArgs);
-            return eventArgs.IgnoreCollision ?? (fixtureA.CollidesWith | fixtureB.CollidesWith) > 0;
+            EntityWorld.FireEvent(this, EventId.PhysicsCollision, _physicsCollisionArgs);
+            _physicsCollisionArgs.EntityA?.FireEvent(this, EventId.PhysicsCollision, _physicsCollisionArgs);
+            _physicsCollisionArgs.EntityB.FireEvent(this, EventId.PhysicsCollision, _physicsCollisionArgs);
+
+
+            return _physicsCollisionArgs.IgnoreCollision ?? (fixtureA.CollidesWith | fixtureB.CollidesWith) > 0;
         }
     }
 }
