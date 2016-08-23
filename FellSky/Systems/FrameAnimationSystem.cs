@@ -15,7 +15,7 @@ namespace FellSky.Systems
         {
             if (animation.State == Framework.AnimationState.Playing)
             {
-                animation.CurrentTime += EntityWorld.Delta * 0.001f;
+                animation.CurrentTime += EntityWorld.Delta;
                 if (animation.CurrentFrame >= animation.Frames.Count)
                     animation.Stop();
                 entity.AddComponent(animation.Frames[animation.CurrentFrame]);

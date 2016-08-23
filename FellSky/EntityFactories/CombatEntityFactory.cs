@@ -35,7 +35,11 @@ namespace FellSky.EntityFactories
                 Color = Color.LightYellow,
                 DamagePerSecond = 20,
                 Range = 800,
-                SpriteId = "beam_ordinary"
+                IntensityFadeInTime = 0.2f,
+                IntensityFadeOutTime = 0.5f,
+                FrameAnimationFps = 30,
+                UseFrameAnimation = true,
+                SpriteId = "beeeammu-beam_0003_Layer-1"
             };
 
         }
@@ -52,7 +56,7 @@ namespace FellSky.EntityFactories
                 TurnRate = MathHelper.Pi / 4,
                 TurretModel = "Weapons/DualCannonAnimated",
                 UsesFrameAnimation = true,
-                AnimateWeaponCycleFps = 0.075f,
+                AnimateWeaponCycleFps = 10,
                 BurstSize = 2,
                 BurstRoF = 5f,
                 FireRate = 1,

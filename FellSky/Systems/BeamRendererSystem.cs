@@ -82,13 +82,13 @@ namespace FellSky.Systems
                 var right = direction.GetPerpendicularRight();
                 var offset = direction * beam.Scale.X;
 
-                Vector2 texel0 = Vector2.Zero;
-                Vector2 texel1 = new Vector2(0, sprite.TextureRect.Height);
-                Vector2 texel2 = new Vector2(sprite.TextureRect.Width, 0);
-                Vector2 texel3 = new Vector2(sprite.TextureRect.Width, sprite.TextureRect.Height);
+                Vector2 texel0 = new Vector2(sprite.TextureRect.Left, sprite.TextureRect.Top);
+                Vector2 texel1 = new Vector2(sprite.TextureRect.Left, sprite.TextureRect.Bottom);
+                Vector2 texel2 = new Vector2(sprite.TextureRect.Right, sprite.TextureRect.Top);
+                Vector2 texel3 = new Vector2(sprite.TextureRect.Right, sprite.TextureRect.Bottom);
 
                 Vertex vtx;
-                vtx.Color = beam.Color;
+                vtx.Color = beam.Color * beam.Intensity;
 
                 vtx.Position = _originXform.Position + left;
                 vtx.TextureCoords = texel0;
@@ -97,6 +97,8 @@ namespace FellSky.Systems
                 vtx.Position = _originXform.Position + right;
                 vtx.TextureCoords = texel1;
                 _vertices[iVertex++] = vtx;
+
+                Vector2 posOffset;
 
                 for (int i = 0; i < numSections; i++)
                 {
@@ -107,7 +109,7 @@ namespace FellSky.Systems
                     }
                     
 
-                    var posOffset = _originXform.Position + offset;                    
+                    posOffset = _originXform.Position + offset;                    
                     
                     vtx.Position = posOffset + left;
                     vtx.TextureCoords = texel2;
@@ -127,6 +129,25 @@ namespace FellSky.Systems
                     //sprite.Draw(_batch, _originXform, new Color(0,0,255,128));
                     _originXform.Position = posOffset;
                 }
+
+                // draw fadeout
+                posOffset = _originXform.Position + offset / 2;
+                vtx.Color = beam.Color * 0;
+
+                vtx.Position = posOffset + left;
+                vtx.TextureCoords = texel2;
+                _vertices[iVertex++] = vtx;
+
+                vtx.Position = posOffset + left;
+                vtx.TextureCoords = texel3;
+                _vertices[iVertex++] = vtx;
+
+                _indices[iIndex++] = iVertex - 4;
+                _indices[iIndex++] = iVertex - 3;
+                _indices[iIndex++] = iVertex - 2;
+                _indices[iIndex++] = iVertex - 2;
+                _indices[iIndex++] = iVertex - 3;
+                _indices[iIndex++] = iVertex - 1;
             }
 
             // draw geometry

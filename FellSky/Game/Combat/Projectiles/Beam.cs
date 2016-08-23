@@ -18,9 +18,15 @@ namespace FellSky.Game.Combat.Projectiles
         public float DamagePerSecond { get; set; }
         public string SpriteId { get; set; }
         public Color Color { get; set; }
+        public bool UseFrameAnimation { get; set; }
+        public float FrameAnimationFps { get; set; } = 20f;
+        public float IntensityFadeInTime { get; set; } = 0.2f;
+        public float IntensityFadeOutTime { get; set; } = 0.3f;
 
         [Newtonsoft.Json.JsonIgnore, Browsable(false)]
         public Sprite Sprite;
+
+        [Newtonsoft.Json.JsonIgnore, Browsable(false)]
         private ISpriteManagerService _spriteManager;
 
         public Entity Spawn(EntityWorld world, Entity owner, Entity weapon, Entity muzzle)
@@ -43,6 +49,11 @@ namespace FellSky.Game.Combat.Projectiles
                 Origin = muzzle,
                 Range = Range
             });
+
+            if (UseFrameAnimation)
+            {
+                beamEntity.AddComponent(_spriteManager.CreateFrameAnimationComponent(SpriteId, FrameAnimationFps));
+            }
 
             return beamEntity;
         }
