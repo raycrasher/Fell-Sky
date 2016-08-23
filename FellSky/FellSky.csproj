@@ -242,7 +242,6 @@
     <Compile Include="Game\Ships\Modules\WarpCore.cs" />
     <Compile Include="Game\Ships\Mothership.cs" />
     <Compile Include="Services\ICoroutineService.cs" />
-    <Compile Include="Services\EventService.cs" />
     <Compile Include="Scenes\MainMenuScene.cs" />
     <Compile Include="Scenes\ShipRefitScene.cs" />
     <Compile Include="Systems\AnimationSystem.cs" />
