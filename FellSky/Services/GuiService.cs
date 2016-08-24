@@ -38,7 +38,7 @@ namespace FellSky.Services
             _timer = ServiceLocator.Instance.GetService<ITimerService>();
             _keyboard = ServiceLocator.Instance.GetService<IKeyboardService>();
             _mouse = ServiceLocator.Instance.GetService<IMouseService>();
-            _renderInterface = new Gui.LibRocketRenderInterface(_graphics, ServiceLocator.Instance.GetService<ContentManager>());
+            _renderInterface = new Gui.LibRocketRenderInterface(_graphics, ServiceLocator.Instance.GetService<ContentManager>(), true);
             _coroutines = ServiceLocator.Instance.GetService<ICoroutineService>();
 
             LibRocketNet.Core.SystemInterface = new Gui.LibRocketSystemInterface(_timer);

@@ -29,6 +29,8 @@ namespace FellSky.Systems
             //_batch = ServiceLocator.Instance.GetService<SpriteBatch>();
             _beamEffect = new BasicEffect(_device);
             _beamEffect.VertexColorEnabled = true;
+            _beamEffect.EmissiveColor = Color.White.ToVector3();
+            _beamEffect.DiffuseColor = Color.White.ToVector3();
         }
 
         protected override void ProcessEntities(IDictionary<int, Entity> entities)
@@ -37,9 +39,15 @@ namespace FellSky.Systems
 
             //_batch.Begin(transformMatrix: camera.GetViewMatrix(1.0f));
 
-            _beamEffect.Projection = camera.ProjectionMatrix;
-            _beamEffect.View = Matrix.CreateScale(1f / Constants.PhysicsUnitScale) * camera.GetViewMatrix(1.0f);
+            //_beamEffect.Projection = camera.ProjectionMatrix;
+            //_beamEffect.View = Matrix.CreateScale(1f / Constants.PhysicsUnitScale) * camera.GetViewMatrix(1.0f);
 
+            var w = _device.Viewport.Width;
+            var h = _device.Viewport.Height;
+
+            _beamEffect.Projection = Matrix.CreateOrthographic(w, -h, -1, 1);
+            _beamEffect.View = Matrix.CreateLookAt(new Vector3(w / 2, h / 2, 1), new Vector3(w / 2, h / 2, 0), Vector3.Up);
+            _device.BlendState = BlendState.AlphaBlend;
             int iVertex = 0;
             int iIndex = 0;
             Texture2D lastTexture = null;
@@ -54,18 +62,25 @@ namespace FellSky.Systems
                 {
                     if(lastTexture != null)
                     {
+                        _beamEffect.TextureEnabled = true;
+                        _beamEffect.Texture = sprite.Texture;
                         if (iIndex > 0)
                         {
                             foreach (var technique in _beamEffect.Techniques)
                             {
-                                foreach(var pass in technique.Passes)
+                                foreach (var pass in _beamEffect.CurrentTechnique.Passes)
                                 {
                                     pass.Apply();
                                     _device.DrawUserIndexedPrimitives(PrimitiveType.TriangleList, _vertices, 0, iVertex, _indices, 0, iIndex / 3);
                                 }
                             }
                         }
+                    } else
+                    {
+                        _beamEffect.TextureEnabled = false;
+                        _beamEffect.Texture = null;
                     }
+                    
                     lastTexture = sprite.Texture;
                     iVertex = 0;
                     iIndex = 0;
@@ -88,7 +103,8 @@ namespace FellSky.Systems
                 Vector2 texel3 = new Vector2(sprite.TextureRect.Right, sprite.TextureRect.Bottom);
 
                 Vertex vtx;
-                vtx.Color = beam.Color * beam.Intensity;
+                //vtx.Color = beam.Color * beam.Intensity;
+                vtx.Color = beam.Color * 1;
 
                 vtx.Position = _originXform.Position + left;
                 vtx.TextureCoords = texel0;
@@ -119,12 +135,12 @@ namespace FellSky.Systems
                     vtx.TextureCoords = texel3;
                     _vertices[iVertex++] = vtx;
 
+                    _indices[iIndex++] = iVertex - 2;
+                    _indices[iIndex++] = iVertex - 3;
                     _indices[iIndex++] = iVertex - 4;
-                    _indices[iIndex++] = iVertex - 3;
                     _indices[iIndex++] = iVertex - 2;
-                    _indices[iIndex++] = iVertex - 2;
-                    _indices[iIndex++] = iVertex - 3;
                     _indices[iIndex++] = iVertex - 1;
+                    _indices[iIndex++] = iVertex - 3;
 
                     //sprite.Draw(_batch, _originXform, new Color(0,0,255,128));
                     _originXform.Position = posOffset;
@@ -153,13 +169,12 @@ namespace FellSky.Systems
             // draw geometry
             if (iVertex > 0 && iIndex > 0 && lastTexture != null)
             {
-                foreach (var technique in _beamEffect.Techniques)
+                foreach (var pass in _beamEffect.CurrentTechnique.Passes)
                 {
-                    foreach (var pass in technique.Passes)
-                    {
-                        pass.Apply();
-                        _device.DrawUserIndexedPrimitives(PrimitiveType.TriangleList, _vertices, 0, iVertex, _indices, 0, iIndex / 3);
-                    }
+                    _beamEffect.TextureEnabled = true;
+                    _beamEffect.Texture = lastTexture;
+                    pass.Apply();
+                    _device.DrawUserIndexedPrimitives(PrimitiveType.TriangleList, _vertices, 0, iVertex, _indices, 0, iIndex / 3);
                 }
             }
         }
