@@ -21,6 +21,7 @@ namespace FellSky.Systems
 
         private Vertex[] _vertices = new Vertex[1000];
         private int[] _indices = new int[2000];
+        RasterizerState _rasterizerState = new RasterizerState { CullMode = CullMode.None, ScissorTestEnable = false };
 
         public BeamRendererSystem()
             : base(Aspect.All(typeof(Transform), typeof(BeamComponent)))
@@ -29,8 +30,13 @@ namespace FellSky.Systems
             //_batch = ServiceLocator.Instance.GetService<SpriteBatch>();
             _beamEffect = new BasicEffect(_device);
             _beamEffect.VertexColorEnabled = true;
-            _beamEffect.EmissiveColor = Color.White.ToVector3();
-            _beamEffect.DiffuseColor = Color.White.ToVector3();
+            var w = _device.Viewport.Width;
+            var h = _device.Viewport.Height;
+            _beamEffect.Projection = Matrix.CreateOrthographic(w, -h, -1, 1);
+            _beamEffect.View = Matrix.CreateLookAt(new Vector3(w / 2, h / 2, 1), new Vector3(w / 2, h / 2, 0), Vector3.Up);
+
+            //_beamEffect.EmissiveColor = Color.White.ToVector3();
+            //_beamEffect.DiffuseColor = Color.White.ToVector3();
         }
 
         protected override void ProcessEntities(IDictionary<int, Entity> entities)
@@ -42,12 +48,10 @@ namespace FellSky.Systems
             //_beamEffect.Projection = camera.ProjectionMatrix;
             //_beamEffect.View = Matrix.CreateScale(1f / Constants.PhysicsUnitScale) * camera.GetViewMatrix(1.0f);
 
-            var w = _device.Viewport.Width;
-            var h = _device.Viewport.Height;
+            var rState = _device.RasterizerState;
+            _device.RasterizerState = _rasterizerState;
 
-            _beamEffect.Projection = Matrix.CreateOrthographic(w, -h, -1, 1);
-            _beamEffect.View = Matrix.CreateLookAt(new Vector3(w / 2, h / 2, 1), new Vector3(w / 2, h / 2, 0), Vector3.Up);
-            _device.BlendState = BlendState.AlphaBlend;
+            _device.BlendState = BlendState.Additive;
             int iVertex = 0;
             int iIndex = 0;
             Texture2D lastTexture = null;
@@ -86,6 +90,8 @@ namespace FellSky.Systems
                     iIndex = 0;
                 }
 
+                _beamEffect.World = camera.GetViewMatrix(1.0f);
+
 
                 Matrix matrix;
                 beam.Origin.GetWorldMatrix(out matrix);
@@ -93,26 +99,21 @@ namespace FellSky.Systems
                 _originXform.Origin = new Vector2(0, (sprite.TextureRect.Height * beam.Scale.Y) / 2);
                 int numSections = (int) Math.Ceiling(beam.Range / sprite.TextureRect.Width * beam.Scale.X);
                 var direction = Utilities.CreateVector2FromAngle(_originXform.Rotation);
-                var left = direction.GetPerpendicularLeft();
-                var right = direction.GetPerpendicularRight();
-                var offset = direction * beam.Scale.X;
+                var left = direction.GetPerpendicularLeft() * beam.Scale.Y * sprite.TextureRect.Height/2;
+                var right = direction.GetPerpendicularRight() * beam.Scale.Y * sprite.TextureRect.Height/2;
+                var offset = direction * beam.Scale.X * sprite.TextureRect.Width;
 
-                Vector2 texel0 = new Vector2(sprite.TextureRect.Left, sprite.TextureRect.Top);
-                Vector2 texel1 = new Vector2(sprite.TextureRect.Left, sprite.TextureRect.Bottom);
-                Vector2 texel2 = new Vector2(sprite.TextureRect.Right, sprite.TextureRect.Top);
-                Vector2 texel3 = new Vector2(sprite.TextureRect.Right, sprite.TextureRect.Bottom);
+                var size = new Vector2(sprite.Texture.Width, sprite.Texture.Height);
+                //var size = Vector2.One;
+
+                Vector2 texel0 = new Vector2(sprite.TextureRect.Left, sprite.TextureRect.Top) / size;
+                Vector2 texel1 = new Vector2(sprite.TextureRect.Left, sprite.TextureRect.Bottom) / size;
+                Vector2 texel2 = new Vector2(sprite.TextureRect.Right, sprite.TextureRect.Top) / size;
+                Vector2 texel3 = new Vector2(sprite.TextureRect.Right, sprite.TextureRect.Bottom) / size;
 
                 Vertex vtx;
                 //vtx.Color = beam.Color * beam.Intensity;
                 vtx.Color = beam.Color * 1;
-
-                vtx.Position = _originXform.Position + left;
-                vtx.TextureCoords = texel0;
-                _vertices[iVertex++] = vtx;
-
-                vtx.Position = _originXform.Position + right;
-                vtx.TextureCoords = texel1;
-                _vertices[iVertex++] = vtx;
 
                 Vector2 posOffset;
 
@@ -123,7 +124,14 @@ namespace FellSky.Systems
                         Array.Resize(ref _indices, _indices.Length + 1000);
                         Array.Resize(ref _vertices, _vertices.Length + 2000);
                     }
-                    
+
+                    vtx.Position = _originXform.Position + left;
+                    vtx.TextureCoords = texel0;
+                    _vertices[iVertex++] = vtx;
+
+                    vtx.Position = _originXform.Position + right;
+                    vtx.TextureCoords = texel1;
+                    _vertices[iVertex++] = vtx;
 
                     posOffset = _originXform.Position + offset;                    
                     
@@ -131,16 +139,16 @@ namespace FellSky.Systems
                     vtx.TextureCoords = texel2;
                     _vertices[iVertex++] = vtx;
 
-                    vtx.Position = posOffset + left;
+                    vtx.Position = posOffset + right;
                     vtx.TextureCoords = texel3;
                     _vertices[iVertex++] = vtx;
 
-                    _indices[iIndex++] = iVertex - 2;
-                    _indices[iIndex++] = iVertex - 3;
                     _indices[iIndex++] = iVertex - 4;
-                    _indices[iIndex++] = iVertex - 2;
-                    _indices[iIndex++] = iVertex - 1;
                     _indices[iIndex++] = iVertex - 3;
+                    _indices[iIndex++] = iVertex - 2;
+                    _indices[iIndex++] = iVertex - 3;
+                    _indices[iIndex++] = iVertex - 1;
+                    _indices[iIndex++] = iVertex - 2;
 
                     //sprite.Draw(_batch, _originXform, new Color(0,0,255,128));
                     _originXform.Position = posOffset;
@@ -154,29 +162,32 @@ namespace FellSky.Systems
                 vtx.TextureCoords = texel2;
                 _vertices[iVertex++] = vtx;
 
-                vtx.Position = posOffset + left;
+                vtx.Position = posOffset + right;
                 vtx.TextureCoords = texel3;
                 _vertices[iVertex++] = vtx;
 
                 _indices[iIndex++] = iVertex - 4;
                 _indices[iIndex++] = iVertex - 3;
                 _indices[iIndex++] = iVertex - 2;
-                _indices[iIndex++] = iVertex - 2;
                 _indices[iIndex++] = iVertex - 3;
                 _indices[iIndex++] = iVertex - 1;
+                _indices[iIndex++] = iVertex - 2;
             }
 
             // draw geometry
             if (iVertex > 0 && iIndex > 0 && lastTexture != null)
             {
+                _beamEffect.TextureEnabled = true;
+                _beamEffect.Texture = lastTexture;
+
                 foreach (var pass in _beamEffect.CurrentTechnique.Passes)
                 {
-                    _beamEffect.TextureEnabled = true;
-                    _beamEffect.Texture = lastTexture;
                     pass.Apply();
                     _device.DrawUserIndexedPrimitives(PrimitiveType.TriangleList, _vertices, 0, iVertex, _indices, 0, iIndex / 3);
+                    //_device.DrawUserIndexedPrimitives(PrimitiveType.TriangleList, _vertices, 0, iVertex, _indices, 0, iIndex / 3);
                 }
             }
+            _device.RasterizerState = rState;
         }
         
     }

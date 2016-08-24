@@ -22,6 +22,7 @@ namespace FellSky.Game.Combat.Projectiles
         public float FrameAnimationFps { get; set; } = 20f;
         public float IntensityFadeInTime { get; set; } = 0.2f;
         public float IntensityFadeOutTime { get; set; } = 0.3f;
+        public Vector2 Scale { get; set; } = Vector2.One;
 
         [Newtonsoft.Json.JsonIgnore, Browsable(false)]
         public Sprite Sprite;
@@ -47,12 +48,16 @@ namespace FellSky.Game.Combat.Projectiles
                 DamagePerSecond = DamagePerSecond + weaponComponent.Weapon.DamagePerSecond,
                 Color = Color,
                 Origin = muzzle,
-                Range = Range
+                Range = Range,
+                Scale = Scale
             });
 
             if (UseFrameAnimation)
             {
-                beamEntity.AddComponent(_spriteManager.CreateFrameAnimationComponent(SpriteId, FrameAnimationFps));
+                var animComponent = _spriteManager.CreateFrameAnimationComponent(SpriteId, FrameAnimationFps);
+                beamEntity.AddComponent(animComponent);
+                animComponent.Play();
+                animComponent.Loop = true;
             }
 
             return beamEntity;

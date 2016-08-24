@@ -17,6 +17,7 @@ namespace FellSky.Components
         public float CurrentTime;
         public List<SpriteComponent> Frames = new List<SpriteComponent>();
         public AnimationState State = AnimationState.Stopped;
+        public bool Loop;
 
         public void Play()
         {

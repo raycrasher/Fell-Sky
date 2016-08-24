@@ -164,11 +164,11 @@
     { "id":"bullet_boltlong", "x":1234, "y":461, "w":47, "h":14, "padding":0, "origin_y":7, "type":"fx", "subtype":"bolt" },
     { "id":"bullet_boltsmall", "x":1616, "y":484, "w":38, "h":10, "padding":0, "origin_y":5, "type":"fx", "subtype":"bolt" },
     { "id":"bullet_bolttapered", "x":768, "y":504, "w":53, "h":6, "padding":0, "origin_y":3, "type":"fx", "subtype":"bolt" },
-    { "id":"crispybeam_0003_Layer-1", "x":129, "y":192, "w":128, "h":19, "padding":0, "origin_y":9.5, "type":"fx", "subtype":"beam", "tags":"projectile fx beam", 
+    { "id":"crispybeam_0003_Layer-1", "x":129, "y":192, "w":127, "h":19, "padding":0, "origin_y":9.5, "type":"fx", "subtype":"beam", "tags":"projectile fx beam", 
       "subsprites":[
-        {  "id":"crispybeam_0002_Layer-2", "x":258, "y":60, "w":128, "h":19, "padding":0, "origin_x":64, "origin_y":9.5 },
-        {  "id":"crispybeam_0001_Layer-3", "x":129, "y":172, "w":128, "h":19, "padding":0, "origin_x":64, "origin_y":9.5 },
-        {  "id":"crispybeam_0000_Layer-4", "x":258, "y":40, "w":128, "h":19, "padding":0, "origin_x":64, "origin_y":9.5 }
+        {  "id":"crispybeam_0002_Layer-2", "x":258, "y":60, "w":127, "h":19, "padding":0, "origin_x":64, "origin_y":9.5 },
+        {  "id":"crispybeam_0001_Layer-3", "x":129, "y":172, "w":127, "h":19, "padding":0, "origin_x":64, "origin_y":9.5 },
+        {  "id":"crispybeam_0000_Layer-4", "x":258, "y":40, "w":127, "h":19, "padding":0, "origin_x":64, "origin_y":9.5 }
       ]
     },
     { "id":"grooovybeam_0003_Layer-1", "x":129, "y":232, "w":128, "h":19, "padding":0, "origin_y":9.5, "type":"fx", "subtype":"beam", "tags":"projectile fx beam", 

@@ -37,9 +37,10 @@ namespace FellSky.EntityFactories
                 Range = 800,
                 IntensityFadeInTime = 0.2f,
                 IntensityFadeOutTime = 0.5f,
-                FrameAnimationFps = 30,
+                FrameAnimationFps = 20,
                 UseFrameAnimation = true,
-                SpriteId = "beeeammu-beam_0003_Layer-1"
+                Scale = new Vector2(1,0.4f),
+                SpriteId = "crispybeam_0003_Layer-1"
             };
 
         }

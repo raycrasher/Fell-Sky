@@ -17,7 +17,15 @@ namespace FellSky.Systems
             {
                 animation.CurrentTime += EntityWorld.Delta;
                 if (animation.CurrentFrame >= animation.Frames.Count)
-                    animation.Stop();
+                {
+                    if (animation.Loop)
+                    {
+                        animation.CurrentTime = 0;
+                    }else
+                    {
+                        animation.Stop();
+                    }
+                }                    
                 entity.AddComponent(animation.Frames[animation.CurrentFrame]);
             }            
         }
