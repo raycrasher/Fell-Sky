@@ -106,7 +106,7 @@ namespace FellSky.Systems
                 var size = new Vector2(sprite.Texture.Width, sprite.Texture.Height);
                 //var size = Vector2.One;
 
-                Vector2 texel0 = new Vector2(sprite.TextureRect.Left, sprite.TextureRect.Top) / size;
+                Vector2 texel0 = new Vector2(sprite.TextureRect.Left, sprite.TextureRect.Top)  / size;
                 Vector2 texel1 = new Vector2(sprite.TextureRect.Left, sprite.TextureRect.Bottom) / size;
                 Vector2 texel2 = new Vector2(sprite.TextureRect.Right, sprite.TextureRect.Top) / size;
                 Vector2 texel3 = new Vector2(sprite.TextureRect.Right, sprite.TextureRect.Bottom) / size;
@@ -117,13 +117,15 @@ namespace FellSky.Systems
 
                 Vector2 posOffset;
 
+                //if (i * 6 >= _indices.Length || i * 4 > _vertices.Length)
+                //{
+                //    Array.Resize(ref _indices, _indices.Length + 1000);
+                //    Array.Resize(ref _vertices, _vertices.Length + 2000);
+                //}
+
+
                 for (int i = 0; i < numSections; i++)
                 {
-                    if(i * 6 >= _indices.Length || i * 4 > _vertices.Length)
-                    {
-                        Array.Resize(ref _indices, _indices.Length + 1000);
-                        Array.Resize(ref _vertices, _vertices.Length + 2000);
-                    }
 
                     vtx.Position = _originXform.Position + left;
                     vtx.TextureCoords = texel0;
@@ -155,7 +157,7 @@ namespace FellSky.Systems
                 }
 
                 // draw fadeout
-                posOffset = _originXform.Position + offset / 2;
+                posOffset = _originXform.Position + offset / 4;
                 vtx.Color = beam.Color * 0;
 
                 vtx.Position = posOffset + left;

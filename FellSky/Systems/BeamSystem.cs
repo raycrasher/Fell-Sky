@@ -19,7 +19,16 @@ namespace FellSky.Systems
             foreach(var beamEntity in entities.Values)
             {
                 var beamComponent = beamEntity.GetComponent<BeamComponent>();
-                beamComponent.Age += (EntityWorld.Delta / 1000f);
+                
+
+                if(beamComponent.Intensity >= 1 && beamComponent.Beam.Lifetime > 0)
+                {
+                    beamComponent.Age += (EntityWorld.Delta / 1000f);
+                    if(beamComponent.Age > beamComponent.Beam.Lifetime)
+                    {
+                        beamComponent.IsPowered = false;
+                    }
+                }
 
                 if (beamComponent.IsPowered)
                 {

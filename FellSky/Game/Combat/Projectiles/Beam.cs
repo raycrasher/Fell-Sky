@@ -42,7 +42,7 @@ namespace FellSky.Game.Combat.Projectiles
             var emitter = muzzle.GetComponent<BeamEmitterComponent>();
             if (emitter!=null)
                 emitter.BeamEntity = beamEntity;
-
+            
             Matrix matrix;
             muzzle.GetWorldMatrix(out matrix);
             var beamTransform = new Transform();
@@ -50,6 +50,7 @@ namespace FellSky.Game.Combat.Projectiles
             beamEntity.AddComponent(beamTransform);
             beamEntity.AddComponent(sprite);
             beamEntity.AddComponent(new BeamComponent {
+                Beam = this,
                 Muzzle = muzzle,
                 DamagePerSecond = DamagePerSecond + weaponComponent.Weapon.DamagePerSecond,
                 Color = Color,

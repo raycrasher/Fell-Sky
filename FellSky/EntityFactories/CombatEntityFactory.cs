@@ -39,8 +39,9 @@ namespace FellSky.EntityFactories
                 IntensityFadeOutTime = 0.5f,
                 FrameAnimationFps = 20,
                 UseFrameAnimation = true,
-                Scale = new Vector2(1,0.4f),
-                SpriteId = "crispybeam_0003_Layer-1"
+                Scale = new Vector2(1, 0.4f),
+                SpriteId = "crispybeam_0003_Layer-1",
+                Lifetime = 0.5f
             };
 
         }
@@ -70,7 +71,7 @@ namespace FellSky.EntityFactories
                 Damage = 90,
                 Description = "This weapon incinerates targets using a free electron laser in the near UV range.",
                 TurnRate = MathHelper.Pi / 2,
-                FireRate = 1,
+                FireRate = 0.5f,
                 ProjectileId = "LaserBeam",
                 TurretModel = "Weapons/LaserTurret",
             };
