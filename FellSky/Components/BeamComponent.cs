@@ -17,10 +17,11 @@ namespace FellSky.Components
         public float DamagePerSecond;
         public Entity Muzzle;
         public float Intensity = 0;
-
+        public bool IsPowered = true;
         public Entity Origin;
         public Beam Beam;
         public float Range;
+        public float Age; 
         public Vector2 Scale = Vector2.One;
     }
 }

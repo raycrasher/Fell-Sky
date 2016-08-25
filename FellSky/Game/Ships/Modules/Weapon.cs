@@ -10,6 +10,7 @@ using FellSky.Game.Inventory;
 using FellSky.Game.Combat;
 using FellSky.EntityFactories;
 using FellSky.Services;
+using FellSky.Game.Combat.Projectiles;
 
 namespace FellSky.Game.Ships.Modules
 {
@@ -139,6 +140,14 @@ namespace FellSky.Game.Ships.Modules
                 var frameComponent = spriteManager.CreateFrameAnimationComponent(entity.GetComponent<SpriteComponent>().Name, AnimateWeaponCycleFps);
                 entity.AddComponent(frameComponent);
                 weaponEntity.RegisterEvent(EventId.WeaponFire, (o, e) => frameComponent.Play());
+            }
+
+            if(weaponComponent.Projectile is Beam)
+            {
+                foreach(var muzzle in weaponComponent.Barrels.Select(b => b.GetComponent<WeaponBarrelComponent>().Muzzle))
+                {
+                    muzzle.AddComponent(new BeamEmitterComponent());
+                }
             }
 
             return weaponEntity;

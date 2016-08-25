@@ -1,6 +1,7 @@
 ﻿using Artemis;
 using FellSky.Components;
 using FellSky.Game.Combat;
+using FellSky.Game.Combat.Projectiles;
 using FellSky.Services;
 using Microsoft.Xna.Framework;
 using System;
@@ -31,6 +32,8 @@ namespace FellSky.Systems
                 var weaponComponent = weaponEntity.GetComponent<WeaponComponent>();
                 var weapon = weaponComponent.Weapon;
 
+                var lastStatus = weaponComponent.Status;
+
                 switch (weaponComponent.Status)
                 {
                     case WeaponStatus.Ready:
@@ -40,6 +43,7 @@ namespace FellSky.Systems
                             {
                                 case WeaponAction.Automatic:
                                     weaponEntity.FireEvent(this, EventId.WeaponFire, _weaponFireEventArgs);
+
                                     if (weapon.BurstSize > 1)
                                     {
                                         weaponComponent.Status = WeaponStatus.BurstCycling;
@@ -57,21 +61,30 @@ namespace FellSky.Systems
                                     else {
                                         weaponComponent.Status = WeaponStatus.Cycling;
                                         weaponComponent.CyclePercent = 0;
-                                        for (int index=0;index < weaponComponent.Barrels.Length; index++)
+                                        for (int index = 0; index < weaponComponent.Barrels.Length; index++)
                                         {
                                             FireBarrel(weaponEntity, index, weaponComponent);
-                                            if(weapon.NeedsAmmo && weaponComponent.AmmoLeft <= 0)
+                                            if (weapon.NeedsAmmo && weaponComponent.AmmoLeft <= 0)
                                             {
                                                 weaponComponent.Status = WeaponStatus.Reloading;
                                                 weaponComponent.ReloadPercent = 0;
                                                 break;
                                             }
-                                        }
+                                        }                                        
                                     }
                                     break;
                                 case WeaponAction.ContinuousFire:
+                                    for (int index = 0; index < weaponComponent.Barrels.Length; index++)
+                                    {
+                                        FireBarrel(weaponEntity, index, weaponComponent);
+                                        if (weapon.NeedsAmmo && weaponComponent.AmmoLeft <= 0)
+                                        {
+                                            weaponComponent.Status = WeaponStatus.Reloading;
+                                            weaponComponent.ReloadPercent = 0;
+                                            break;
+                                        }
+                                    }
                                     weaponComponent.Status = WeaponStatus.ContinuousFiring;
-
                                     break;
                                 default:
                                     throw new NotImplementedException();
@@ -79,7 +92,17 @@ namespace FellSky.Systems
                         }
                         break;
                     case WeaponStatus.ContinuousFiring:
-
+                        if (!weaponComponent.RequestFire)
+                        {
+                            weaponComponent.Status = WeaponStatus.Cycling;
+                            if(weaponComponent.Projectile is Beam)
+                            {
+                                foreach(var muzzle in weaponComponent.Barrels.Select(b => b.GetComponent<WeaponBarrelComponent>().Muzzle))
+                                {
+                                    muzzle.GetComponent<BeamEmitterComponent>().BeamEntity.GetComponent<BeamComponent>().IsPowered = false;
+                                }
+                            }
+                        }
                         break;
                     case WeaponStatus.BurstCycling:
                         if (weaponComponent.CyclePercent >= 1)
@@ -166,6 +189,7 @@ namespace FellSky.Systems
                         }
                     }
                 }
+                weaponComponent.LastStatus = lastStatus;
             }
         }
 

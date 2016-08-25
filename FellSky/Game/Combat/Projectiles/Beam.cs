@@ -22,6 +22,8 @@ namespace FellSky.Game.Combat.Projectiles
         public float FrameAnimationFps { get; set; } = 20f;
         public float IntensityFadeInTime { get; set; } = 0.2f;
         public float IntensityFadeOutTime { get; set; } = 0.3f;
+        public float Lifetime { get; set; } = 0;
+        
         public Vector2 Scale { get; set; } = Vector2.One;
 
         [Newtonsoft.Json.JsonIgnore, Browsable(false)]
@@ -36,6 +38,10 @@ namespace FellSky.Game.Combat.Projectiles
             var weaponComponent = weapon.GetComponent<WeaponComponent>();
             _spriteManager = _spriteManager ?? ServiceLocator.Instance.GetService<ISpriteManagerService>();
             var sprite = _spriteManager.CreateSpriteComponent(SpriteId);
+
+            var emitter = muzzle.GetComponent<BeamEmitterComponent>();
+            if (emitter!=null)
+                emitter.BeamEntity = beamEntity;
 
             Matrix matrix;
             muzzle.GetWorldMatrix(out matrix);

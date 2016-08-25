@@ -112,8 +112,8 @@ namespace FellSky.Systems
                 Vector2 texel3 = new Vector2(sprite.TextureRect.Right, sprite.TextureRect.Bottom) / size;
 
                 Vertex vtx;
-                //vtx.Color = beam.Color * beam.Intensity;
-                vtx.Color = beam.Color * 1;
+                vtx.Color = beam.Color * beam.Intensity;
+                //vtx.Color = beam.Color * 1;
 
                 Vector2 posOffset;
 

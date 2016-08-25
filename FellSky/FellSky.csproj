@@ -125,6 +125,7 @@
     <Compile Include="Components\AnimationEditorComponent.cs" />
     <Compile Include="Components\BackgroundComponent.cs" />
     <Compile Include="Components\BeamComponent.cs" />
+    <Compile Include="Components\BeamEmitterComponent.cs" />
     <Compile Include="Components\BoundingBoxComponent.cs" />
     <Compile Include="Components\BulletComponent.cs" />
     <Compile Include="Components\ClientPredictedTransformComponent.cs" />
