@@ -1,10 +1,13 @@
 ﻿using Artemis.Interface;
+using FellSky.Components;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Artemis;
+using FellSky.Services;
 
 namespace FellSky.Game.Space
 {
@@ -54,6 +57,7 @@ namespace FellSky.Game.Space
             Temperature = temperature;
             PhotosphereRadius = radius;
             CoronaRadius = radius * 1.25f;
+            SpriteId = sprite;
         }
 
         public StellarClass Class { get; set; }
@@ -93,6 +97,12 @@ namespace FellSky.Game.Space
                     StellarDefinitions[item.Name] = item;
                 }
             }
+        }
+
+        public override Entity CreateEntity(EntityWorld world)
+        {
+            var entity = base.CreateEntity(world);
+            return entity;
         }
     }
 }

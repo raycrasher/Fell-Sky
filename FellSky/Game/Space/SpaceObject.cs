@@ -1,5 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using System.Collections.Generic;
+using Artemis;
+using System;
+using FellSky.Components;
+using FellSky.Services;
 
 namespace FellSky.Game.Space
 {
@@ -21,5 +25,24 @@ namespace FellSky.Game.Space
         public float Mass { get; set; }
 
         public List<SpaceObject> Children { get; set; } = new List<SpaceObject>();
+
+        public virtual Entity CreateEntity(EntityWorld world)
+        {
+            var entity = world.CreateEntity();
+            entity.AddComponent(new SpaceObjectComponent(this));
+            var xform = new Transform();
+            var sprite = ServiceLocator.Instance.GetService<ISpriteManagerService>().CreateSpriteComponent(SpriteId);
+            xform.Origin = sprite.Origin;
+            entity.AddComponent(xform);
+            entity.AddComponent(sprite);
+
+            foreach (var child in Children)
+            {
+                child.CreateEntity(world);
+            }
+
+            return null;
+        }
+
     }
 }

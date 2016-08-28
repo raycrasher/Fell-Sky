@@ -34,12 +34,12 @@ namespace FellSky.Systems
                 var matrix = Matrix.Identity;
                 Render(root, root, ref matrix);                
             }
-            Renderer.End(EntityWorld, _batch);
+            Renderer.End();
         }
 
         private void Render(Entity root, Entity entity, ref Matrix parentMatrix)
         {
-            Renderer.Render(_batch, root, entity, ref parentMatrix);
+            Renderer.Render(root, entity, ref parentMatrix);
             var sgComponent = entity.GetComponent<SceneGraphComponent>();
             if (sgComponent != null)
             {

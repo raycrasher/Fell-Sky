@@ -11,7 +11,7 @@ namespace FellSky.Components
 {
     public class FrameAnimationComponent: IComponent
     {
-        public int CurrentFrame => MathHelper.Clamp((int)((CurrentTime / 1000) * Fps), 0, Frames?.Count ?? 0);
+        public int CurrentFrame => MathHelper.Clamp((int)((CurrentTime * 0.001f) * Fps), 0, Frames?.Count ?? 0);
 
         public float Fps;
         public float CurrentTime;

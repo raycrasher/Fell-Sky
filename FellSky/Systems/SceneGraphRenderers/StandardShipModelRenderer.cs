@@ -13,28 +13,32 @@ namespace FellSky.Systems.SceneGraphRenderers
 {
     public class StandardShipModelRenderer : ISceneGraphRenderer
     {
-        private ITimerService _timer;
         private RasterizerState _rasterizerState;
         private RasterizerState _lastRasterizerState;
+        private SpriteBatch _batch;
+        private EntityWorld _world;
+        private ulong _totalTime = 0;
 
         public StandardShipModelRenderer()
         {
-            _timer = ServiceLocator.Instance.GetService<ITimerService>();
             _rasterizerState = new RasterizerState();
             _rasterizerState.CullMode = CullMode.None;
         }
 
         public void Begin(EntityWorld world, SpriteBatch batch)
         {
+            _totalTime += (ulong)world.Delta;
+            _batch = batch;
+            _world = world;
             _lastRasterizerState = batch.GraphicsDevice.RasterizerState;
             batch.GraphicsDevice.RasterizerState = _rasterizerState;
             batch.Begin(transformMatrix: world.GetActiveCamera().GetViewMatrix(1.0f));
         }
 
-        public void End(EntityWorld entityWorld, SpriteBatch batch)
+        public void End()
         {
-            batch.End();
-            batch.GraphicsDevice.RasterizerState = _lastRasterizerState;
+            _batch.End();
+            _batch.GraphicsDevice.RasterizerState = _lastRasterizerState;
         }
 
         public void BeginRoot(EntityWorld world, SpriteBatch batch, Entity root)
@@ -42,17 +46,17 @@ namespace FellSky.Systems.SceneGraphRenderers
             
         }
 
-        public void Render(SpriteBatch batch, Entity root, Entity entity, ref Matrix parentMatrix)
+        public void Render(Entity root, Entity entity, ref Matrix parentMatrix)
         {
             if (entity.HasComponent<HullComponent>())
-                RenderHull(batch, root, entity, ref parentMatrix);
+                RenderHull(root, entity, ref parentMatrix);
             else if (entity.HasComponent<ThrusterComponent>())
-                RenderThruster(batch, root, entity, ref parentMatrix);
+                RenderThruster(root, entity, ref parentMatrix);
             else if (entity.HasComponent<NavLightComponent>())
-                RenderLight(batch, root, entity, ref parentMatrix);
+                RenderLight(root, entity, ref parentMatrix);
         }
 
-        private void RenderHull(SpriteBatch batch, Entity root, Entity partEntity, ref Matrix parentMatrix)
+        private void RenderHull(Entity root, Entity partEntity, ref Matrix parentMatrix)
         {
             var partComponent = partEntity.GetComponent<IShipPartComponent>();
             var color = partEntity.GetComponent<ColorComponent>()?.Color ?? partComponent.Part.Color;
@@ -76,10 +80,10 @@ namespace FellSky.Systems.SceneGraphRenderers
             SpriteEffects fx;
 
             var newTransform = xform.AdjustForFlipping(out fx);
-            sprite.Draw(batch: batch, matrix: newTransform.Matrix * parentMatrix, color: color, effects: fx);
+            sprite.Draw(batch: _batch, matrix: newTransform.Matrix * parentMatrix, color: color, effects: fx);
         }
 
-        private void RenderThruster(SpriteBatch spriteBatch, Entity root, Entity thrusterEntity, ref Matrix parentMatrix)
+        private void RenderThruster(Entity root, Entity thrusterEntity, ref Matrix parentMatrix)
         {
             var thrusterComponent = thrusterEntity.GetComponent<ThrusterComponent>();
             if (thrusterComponent.ThrustPercentage > 0 || thrusterComponent.Part.IsIdleModeOnZeroThrust)
@@ -106,21 +110,21 @@ namespace FellSky.Systems.SceneGraphRenderers
                 if (!thrusterEntity.HasComponent<EditorComponent>())
                 {
                     // do thruster graphic wobble
-                    var time = MathHelper.ToRadians(thrusterComponent.GetHashCode() + _timer.LastFrameUpdateTime.TotalGameTime.Milliseconds);
+                    var time = MathHelper.ToRadians((float)thrusterComponent.GetHashCode() + _totalTime);
                     var amount = (float)Math.Sin(((time * 1.5f) % MathHelper.Pi) * 1f);
                     tempXform.Scale += new Vector2(amount * 0.05f, amount * 0.03f);
                 }
-                sprite.Draw(batch: spriteBatch, matrix: tempXform.Matrix * parentMatrix, color: thruster.Color * colorAlpha, effects: fx);
+                sprite.Draw(batch: _batch, matrix: tempXform.Matrix * parentMatrix, color: thruster.Color * colorAlpha, effects: fx);
                 tempXform.Scale *= 0.8f;
-                sprite.Draw(batch: spriteBatch, matrix: tempXform.Matrix * parentMatrix, color: Color.White * colorAlpha, effects: fx);
+                sprite.Draw(batch: _batch, matrix: tempXform.Matrix * parentMatrix, color: Color.White * colorAlpha, effects: fx);
             }
         }
 
-        private void RenderLight(SpriteBatch spriteBatch, Entity root, Entity lightEntity, ref Matrix parentMatrix)
+        private void RenderLight(Entity root, Entity lightEntity, ref Matrix parentMatrix)
         {
             var lightComponent = lightEntity.GetComponent<NavLightComponent>();
             var light = lightComponent.Part;
-            var theta = MathHelper.ToRadians(_timer.LastFrameUpdateTime.TotalGameTime.Milliseconds + lightComponent.Ship.GetHashCode());
+            var theta = MathHelper.ToRadians((float)lightComponent.Ship.GetHashCode() + _totalTime);
 
             var sprite = lightEntity.GetComponent<SpriteComponent>();
             var xform = lightEntity.GetComponent<Transform>();
@@ -129,7 +133,7 @@ namespace FellSky.Systems.SceneGraphRenderers
             SpriteEffects fx;
             var newXform = xform.AdjustForFlipping(out fx);
 
-            sprite.Draw(spriteBatch, newXform.Matrix * parentMatrix, light.Color * alpha, fx);
+            sprite.Draw(_batch, newXform.Matrix * parentMatrix, light.Color * alpha, fx);
         }
 
 

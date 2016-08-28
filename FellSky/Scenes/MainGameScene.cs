@@ -74,5 +74,10 @@ namespace FellSky.Scenes
             GameEngine.Instance.GraphicsDevice.Clear(Color.Black);
             World.Draw();
         }
+
+        public override void Enter(Scene previous)
+        {
+            
+        }
     }
 }

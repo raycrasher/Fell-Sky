@@ -61,12 +61,12 @@ namespace FellSky.Systems
             if (delta > 0)
             {
                 _lastZoom = _currentZoom;
-                _targetZoom -= 0.2f;
+                _targetZoom -= 0.2f * _targetZoom > 1 ? (_currentZoom * 0.5f) : 1;
             }
             else if (delta < 0)
             {
                 _lastZoom = _currentZoom;
-                _targetZoom += 0.2f;
+                _targetZoom += 0.2f * _targetZoom > 1 ? (_currentZoom + 1) : 1;
             }
             _zoomLerpTime = 0;
             _targetZoom = MathHelper.Clamp(_targetZoom, MinZoom, MaxZoom);

@@ -205,6 +205,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Scenes\SpaceCombatScene.cs" />
     <Compile Include="Scenes\SystemMapScene.cs" />
     <Compile Include="Services\GalaxyGeneratorService.cs" />
     <Compile Include="Services\ServiceLocator.cs" />

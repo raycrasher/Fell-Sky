@@ -18,7 +18,6 @@ namespace FellSky.Systems
 {
     public class PhysicsSystem: Artemis.System.ProcessingSystem
     {
-        private ITimerService _timer;
         private IShapeManagerService _shapeManager;
 
         public World PhysicsWorld { get; set; }
@@ -28,7 +27,6 @@ namespace FellSky.Systems
         {
             _shapeManager = ServiceLocator.Instance.GetService<IShapeManagerService>();
             PhysicsWorld = new World(Vector2.Zero);
-            _timer = ServiceLocator.Instance.GetService<ITimerService>();
             //FarseerPhysics.ConvertUnits.SetDisplayUnitToSimUnitRatio(1f / UnitScale);
         }
 
@@ -53,7 +51,7 @@ namespace FellSky.Systems
 
         public override void ProcessSystem()
         {
-            PhysicsWorld.Step((float)_timer.DeltaTime.TotalSeconds);
+            PhysicsWorld.Step(EntityWorld.Delta * 0.001f);
         } 
     }
 

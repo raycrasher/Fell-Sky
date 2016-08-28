@@ -7,11 +7,14 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
+using FellSky.Game.Space;
 
 namespace FellSky
 {
     class GameEngine: Microsoft.Xna.Framework.Game
     {
+        private Scene _currentScene = null;
+
         public static GameEngine Instance { get; private set; }
         public GraphicsDeviceManager Graphics { get; private set; }
         public Properties.Settings Settings { get { return Properties.Settings.Default; } }
@@ -19,12 +22,31 @@ namespace FellSky
         public CoroutineService Coroutines { get; private set; }
         public KeyboardService Keyboard { get; private set; }
         public MouseService Mouse { get; private set; }
-        public Scene CurrentScene { get; set; }
+
+        public Scene CurrentScene {
+            get { return _currentScene; }
+            set
+            {
+                if (value != _currentScene)
+                {
+                    _currentScene?.Exit(value);
+                    value?.Enter(value);
+                    _currentScene = value;
+                }
+            }
+        }
+
         public SpriteBatch SpriteBatch { get; private set; }
         public SpriteManagerService SpriteManager { get; private set; }
         public TimerService Timer { get; private set; }
         public GuiService Gui { get; private set; }
         public ShapeManagerService ShapeManager { get; private set; }
+        public GalaxyGeneratorService GalaxyGenerator { get; private set; }
+
+        public ShipRefitScene ShipRefitScene { get; private set; }
+        public MainMenuScene MainMenuScene { get; private set; }
+        public SystemMapScene SystemMapScene { get; private set; }
+        public Galaxy Galaxy { get; private set; }
 
         private GameEngine()
         {
@@ -80,15 +102,28 @@ namespace FellSky
 
             Services.AddService(new SpaceBackgroundGeneratorService());
 
+            GalaxyGenerator = new GalaxyGeneratorService();
+
             var testShips = new[] { "Ships/Jaeger.json", "Ships/Scimitar.json" }
                             .Select(s => Persistence.LoadFromFile<Game.Ships.Ship>(s))
                             .ToList();
 
             Game.Space.Star.LoadStellarClasses();
 
-            CurrentScene = new ShipRefitScene(testShips);
-            //State = new MainGameState();
-            CurrentScene.LoadContent();
+
+            Galaxy = GalaxyGenerator.CreateGalaxy();
+
+            ShipRefitScene = new ShipRefitScene(testShips);
+            ShipRefitScene.LoadContent();
+
+            MainMenuScene = new MainMenuScene();
+            MainMenuScene.LoadContent();
+
+            SystemMapScene = new SystemMapScene(Galaxy.StarSystems[0]);
+            SystemMapScene.LoadContent();
+
+            CurrentScene = MainMenuScene;
+
 
             EntityFactories.CombatEntityFactory.LoadWeapons();
             EntityFactories.CombatEntityFactory.LoadProjectiles();

@@ -99,6 +99,7 @@ namespace FellSky.Scenes
                     break;
                 case "MainMenu_Continue":
                     document.GetElementById("options")?.SetProperty("display", "none");
+                    GameEngine.Instance.CurrentScene = GameEngine.Instance.SystemMapScene;
                     break;
                 case "MainMenu_Options":
                     document.GetElementById("options")?.SetProperty("display", "block");
@@ -110,6 +111,19 @@ namespace FellSky.Scenes
                     GameEngine.Instance.Exit();
                     break;
             }
+        }
+
+        public override void Enter(Scene previous)
+        {
+            document.Show(ElementDocument.FocusFlags.None);
+            document.PullToFront();
+            base.Enter(previous);
+        }
+
+        public override void Exit(Scene next)
+        {
+            document.Hide();
+            base.Exit(next);
         }
     }
 }

@@ -17,6 +17,7 @@ namespace FellSky.Systems
         private ContentManager _content;
         private GraphicsDevice _device;
         private SpriteBatch _spriteBatch;
+        private SpriteComponent _planetShadowMask;
 
         //private Model _sphereMesh;
 
@@ -31,28 +32,37 @@ namespace FellSky.Systems
         public override void LoadContent()
         {
             //_sphereMesh = _content.Load<Model>("Meshes/Sphere");
+            _planetShadowMask = ServiceLocator.Instance.GetService<ISpriteManagerService>().CreateSpriteComponent("planetshadowmask");
         }
 
         protected override void ProcessEntities(IDictionary<int, Entity> entities)
         {
+            var camera = EntityWorld.GetActiveCamera();
+            _spriteBatch.Begin(transformMatrix: camera.GetViewMatrix(1.0f), samplerState: SamplerState.AnisotropicClamp);
             foreach(var entity in entities.Values)
             {
                 var spaceObjectComponent = entity.GetComponent<SpaceObjectComponent>();
                 if (spaceObjectComponent.Object is Planet)
-                    DrawPlanet(entity);
+                    DrawPlanet(entity, (Planet)spaceObjectComponent.Object);
                 else if (spaceObjectComponent.Object is Star)
-                    DrawStar(entity);
+                    DrawStar(entity, (Star)spaceObjectComponent.Object);
             }
+            _spriteBatch.End();
         }
 
-        private void DrawStar(Entity entity)
+        private void DrawStar(Entity entity, Star star)
         {
-            var camera = EntityWorld.GetActiveCamera();
+            var sprite = entity.GetComponent<SpriteComponent>();
+            var xform = entity.GetComponent<Transform>();
+            sprite.Draw(_spriteBatch, xform);
         }
 
-        private void DrawPlanet(Entity entity)
+        private void DrawPlanet(Entity entity, Planet planet)
         {
-            throw new NotImplementedException();
+            var sprite = entity.GetComponent<SpriteComponent>();
+            var xform = entity.GetComponent<Transform>();
+            sprite.Draw(_spriteBatch, xform);
+            _planetShadowMask.Draw(_spriteBatch, xform);
         }
     }
 }

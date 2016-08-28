@@ -112,8 +112,6 @@ namespace FellSky.Scenes
 
             SetMode(EditorMode.Weapons);
             
-            Document.Show();
-
             _mouse.ButtonDown += HandleMouseButtonDown;
             _mouse.ButtonUp += HandleMouseButtonUp;
 
@@ -304,6 +302,17 @@ namespace FellSky.Scenes
             var shipComponent = CurrentShip.GetComponent<ShipComponent>();
             var hardpoint = _selectedHardpoint;
             hardpoint.GetComponent<HardpointComponent>().InstalledEntity?.GetComponent<WeaponComponent>()?.Weapon.Uninstall(CurrentShip, hardpoint.GetComponent<HardpointComponent>().InstalledEntity);
+        }
+
+        public override void Enter(Scene previous)
+        {
+            Document.Show(ElementDocument.FocusFlags.None);
+            Document.PullToFront();
+        }
+
+        public override void Exit(Scene next)
+        {
+            Document.Hide();
         }
     }
 }

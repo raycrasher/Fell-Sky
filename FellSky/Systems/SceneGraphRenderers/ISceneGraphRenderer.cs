@@ -13,7 +13,7 @@ namespace FellSky.Systems.SceneGraphRenderers
     {
         void Begin(EntityWorld world, SpriteBatch batch);
         void BeginRoot(EntityWorld world, SpriteBatch batch, Entity root);
-        void Render(SpriteBatch batch, Entity root, Entity entity, ref Matrix parentMatrix);
-        void End(EntityWorld entityWorld, SpriteBatch _batch);
+        void Render(Entity root, Entity entity, ref Matrix parentMatrix);
+        void End();
     }
 }

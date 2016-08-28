@@ -108,6 +108,15 @@ namespace FellSky.Services
         public float Scale;
 
         public NebulaParameters() { }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="color">Nebula color. Note that alpha is currently ignored.</param>
+        /// <param name="offset">(-1000,-1000) to (1000,1000)</param>
+        /// <param name="falloff">3 to 6</param>
+        /// <param name="intensity">1 to 1.2</param>
+        /// <param name="scale">0.01 to 4</param>
         public NebulaParameters(Color color, Vector2 offset, float falloff, float intensity, float scale)
         {
             Color = color;
