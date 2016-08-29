@@ -103,7 +103,7 @@ namespace FellSky.Systems
             {
                 var xform = entity.GetComponent<Transform>();
                 
-                xform.Position = _origin + (_offset - _mouse.ScreenPosition);
+                xform.Position = _origin + (_offset - _mouse.ScreenPosition) * (_currentZoom > 1 ? (float)Math.Log(_currentZoom)* (float)Math.Log(_currentZoom) : 1f);
             }
 
             // if zooming

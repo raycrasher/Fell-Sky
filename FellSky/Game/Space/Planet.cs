@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Artemis;
 
 namespace FellSky.Game.Space
 {
@@ -45,8 +46,26 @@ namespace FellSky.Game.Space
             SpriteId = sprite;
             Type = type;
             OrbitalParameters = orbitalParameters;
+            Radius = radius;
+        }
+
+        public override Entity CreateEntity(EntityWorld world)
+        {
+            var entity = base.CreateEntity(world);
+            var xform = entity.GetComponent<Transform>();
+            xform.Scale *= (float)Math.Log(Radius) * 1e-1f;
+            var pos = OrbitalParameters.GetPositionAtTime(DateTime.Today);
+            //pos.X = (float)Math.Log(Math.Abs(pos.X)) * Math.Sign(pos.X);
+            //pos.Y = (float)Math.Log(Math.Abs(pos.Y)) * Math.Sign(pos.Y);
+
+            //if (float.IsNaN(pos.X)) pos.X = 0;
+            //if (float.IsNaN(pos.Y)) pos.Y = 0;
+
+            xform.Position = pos * 1e-4f;
+            return entity;
         }
 
         public PlanetType Type { get; set; }
+        public float Radius { get; set; }
     }
 }

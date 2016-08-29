@@ -38,10 +38,11 @@ namespace FellSky.Game.Space
 
             foreach (var child in Children)
             {
-                child.CreateEntity(world);
+                var childEntity = child.CreateEntity(world);
+                entity.AddChild(childEntity);
             }
 
-            return null;
+            return entity;
         }
 
     }

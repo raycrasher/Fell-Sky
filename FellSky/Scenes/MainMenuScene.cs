@@ -106,6 +106,7 @@ namespace FellSky.Scenes
                     break;
                 case "MainMenu_Editor":
                     document.GetElementById("options")?.SetProperty("display", "none");
+                    GameEngine.Instance.CurrentScene = GameEngine.Instance.ShipRefitScene;
                     break;
                 case "MainMenu_Exit":
                     GameEngine.Instance.Exit();

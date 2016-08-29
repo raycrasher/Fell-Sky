@@ -2,6 +2,7 @@
 using FellSky.Components;
 using FellSky.Game.Space;
 using FellSky.Services;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -18,6 +19,7 @@ namespace FellSky.Systems
         private GraphicsDevice _device;
         private SpriteBatch _spriteBatch;
         private SpriteComponent _planetShadowMask;
+        private Transform _xform = new Transform();
 
         //private Model _sphereMesh;
 
@@ -60,9 +62,11 @@ namespace FellSky.Systems
         private void DrawPlanet(Entity entity, Planet planet)
         {
             var sprite = entity.GetComponent<SpriteComponent>();
-            var xform = entity.GetComponent<Transform>();
-            sprite.Draw(_spriteBatch, xform);
-            _planetShadowMask.Draw(_spriteBatch, xform);
+            Matrix matrix;
+            entity.GetWorldMatrix(out matrix);
+            _xform.CopyValuesFrom(matrix);
+            sprite.Draw(_spriteBatch, _xform);
+            _planetShadowMask.Draw(_spriteBatch, _xform);
         }
     }
 }
