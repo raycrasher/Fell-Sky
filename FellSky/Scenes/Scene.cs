@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace FellSky.Scenes
 {
-    public abstract class Scene
+    public abstract class Scene: IDisposable
     {
         public virtual void Enter(Scene previous) { }
         public virtual void Exit(Scene next) { }
@@ -17,5 +17,16 @@ namespace FellSky.Scenes
         public virtual void Draw(GameTime gameTime) { }
         public virtual void LoadContent() { }
         public virtual void UnloadContent() { }
+
+        bool _isDisposed = false;
+
+        public void Dispose()
+        {
+            if (!_isDisposed)
+            {
+                UnloadContent();
+                _isDisposed = true;
+            }
+        }
     }
 }

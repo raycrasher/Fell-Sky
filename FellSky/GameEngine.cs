@@ -30,7 +30,7 @@ namespace FellSky
                 if (value != _currentScene)
                 {
                     _currentScene?.Exit(value);
-                    value?.Enter(value);
+                    value?.Enter(_currentScene);
                     _currentScene = value;
                 }
             }

@@ -16,8 +16,12 @@ namespace FellSky.Scenes
 {
     public class SystemMapScene: Scene
     {
+        private Texture2D _bgTexture;
+
         public SpaceObject CurrentSpaceObject { get; set; }
         public Entity Camera { get; private set; }
+
+        public LibRocketNet.ElementDocument UiDocument { get; private set; }
 
         public SystemMapScene(SpaceObject spaceObject)
         {
@@ -69,10 +73,21 @@ namespace FellSky.Scenes
             Camera = CameraEntityFactory.CreateCamera(World, Constants.ActiveCameraTag, ServiceLocator.Instance.GetService<GraphicsDevice>());
             
             var bgGenerator = ServiceLocator.Instance.GetService<SpaceBackgroundGeneratorService>();
-            bgGenerator.GenerateBackground(World, 0.01f, 
+            var bgEntity = bgGenerator.GenerateBackground(World, 0.01f, 
                 new NebulaParameters(Color.Blue * 0.4f, Vector2.Zero, 4, 1.1f, 4)
                 );
+
+            _bgTexture = bgEntity.GetComponent<Components.SpriteComponent>().Texture;
+
             CurrentSpaceObject.CreateEntity(World);
+
+            UiDocument = ServiceLocator.Instance.GetService<IGuiService>().Context.LoadDocument("Gui/SystemMap.xml");
+        }
+
+        public override void UnloadContent()
+        {
+            _bgTexture?.Dispose();
+            _bgTexture = null;
         }
 
         public override void Update(GameTime gameTime)
@@ -84,6 +99,16 @@ namespace FellSky.Scenes
         {
             Graphics.Clear(Color.Black);
             World.Draw();
+        }
+
+        public override void Enter(Scene previous)
+        {
+            UiDocument.Show(LibRocketNet.ElementDocument.FocusFlags.Focus);
+        }
+
+        public override void Exit(Scene next)
+        {
+            UiDocument.Hide();            
         }
     }
 }
