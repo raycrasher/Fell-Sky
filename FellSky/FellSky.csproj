@@ -198,8 +198,10 @@
     <Compile Include="Game\Ships\Parts\Radiator.cs" />
     <Compile Include="Game\Ships\ShipModel.cs" />
     <Compile Include="Game\Ships\ShipVariant.cs" />
+    <Compile Include="Game\Space\Features\SpaceFeature.cs" />
     <Compile Include="Game\Space\OrbitalParameters.cs" />
     <Compile Include="Game\Space\Outpost.cs" />
+    <Compile Include="Game\Space\StarSystem.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
