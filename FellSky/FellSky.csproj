@@ -379,6 +379,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="Systems\PhysicsDebugDrawSystem.cs" />
+    <Compile Include="Systems\PlanetComponent.cs" />
     <Compile Include="Systems\PlayerShipControlSystem.cs" />
     <Compile Include="Systems\RigidBodySystem.cs" />
     <Compile Include="Systems\SceneGraphRendererSystem.cs" />
