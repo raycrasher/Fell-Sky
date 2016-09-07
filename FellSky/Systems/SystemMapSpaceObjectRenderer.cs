@@ -54,13 +54,14 @@ namespace FellSky.Systems
             //sunEffect.View = Matrix.CreateLookAt(new Vector3(_camera.Transform.Position, 0.5f), new Vector3(_camera.Transform.Position, 0), Vector3.UnitY);
             sunEffect.Projection = _projectionMatrix;
 
-            sunEffect.LightingEnabled = true;
+            //sunEffect.LightingEnabled = true;
             sunEffect.Texture = _content.Load<Texture2D>("Textures/spaceobjects/sun");
             sunEffect.TextureEnabled = true;
             sunEffect.AmbientLightColor = Vector3.Zero;
             sunEffect.EmissiveColor = Vector3.One;
             sunEffect.SpecularPower = 0;
             sunEffect.DiffuseColor = Vector3.Zero;
+            sunEffect.PreferPerPixelLighting = true;
         }
 
         protected override void ProcessEntities(IDictionary<int, Entity> entities)

@@ -53,6 +53,7 @@ namespace FellSky
             Instance = this;
             ServiceLocator.Initialize(Services);
             Graphics = new GraphicsDeviceManager(this);
+            Graphics.PreferredDepthStencilFormat = DepthFormat.Depth24;
             Graphics.PreferredBackBufferWidth = Settings.GraphicsWidth;
             Graphics.PreferredBackBufferHeight = Settings.GraphicsHeight;
             Graphics.IsFullScreen = Settings.FullScreen;
