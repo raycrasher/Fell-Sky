@@ -43,7 +43,7 @@ namespace FellSky.Game.Space
             : base(children)
         {
             Name = name;
-            SpriteId = sprite;
+            TextureId = sprite;
             Type = type;
             OrbitalParameters = orbitalParameters;
             Radius = radius;

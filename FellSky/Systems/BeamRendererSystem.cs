@@ -19,7 +19,7 @@ namespace FellSky.Systems
         private Transform _originXform = new Transform();
         private BasicEffect _beamEffect;
 
-        private Vertex[] _vertices = new Vertex[1000];
+        private Vertex2[] _vertices = new Vertex2[1000];
         private int[] _indices = new int[2000];
         RasterizerState _rasterizerState = new RasterizerState { CullMode = CullMode.None, ScissorTestEnable = false };
 
@@ -111,7 +111,7 @@ namespace FellSky.Systems
                 Vector2 texel2 = new Vector2(sprite.TextureRect.Right, sprite.TextureRect.Top) / size;
                 Vector2 texel3 = new Vector2(sprite.TextureRect.Right, sprite.TextureRect.Bottom) / size;
 
-                Vertex vtx;
+                Vertex2 vtx;
                 vtx.Color = beam.Color * beam.Intensity;
                 //vtx.Color = beam.Color * 1;
 

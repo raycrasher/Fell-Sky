@@ -57,7 +57,7 @@ namespace FellSky.Game.Space
             Temperature = temperature;
             PhotosphereRadius = radius;
             CoronaRadius = radius * 1.25f;
-            SpriteId = sprite;
+            TextureId = sprite;
         }
 
         public StellarClass Class { get; set; }

@@ -176,6 +176,7 @@
     <Compile Include="Framework\FloatColor.cs" />
     <Compile Include="Framework\GuiElementUtilities.cs" />
     <Compile Include="Framework\MersenneTwister.cs" />
+    <Compile Include="Framework\Geometry.cs" />
     <Compile Include="Framework\Persistence.cs" />
     <Compile Include="Framework\PlayerControls.cs" />
     <Compile Include="Framework\PrimitiveBatch.cs" />

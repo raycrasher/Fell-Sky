@@ -123,7 +123,8 @@ namespace FellSky
             SystemMapScene = new SystemMapScene(Galaxy.StarSystems[0]);
             SystemMapScene.LoadContent();
 
-            CurrentScene = MainMenuScene;
+            //CurrentScene = MainMenuScene;
+            CurrentScene = SystemMapScene;
 
 
             EntityFactories.CombatEntityFactory.LoadWeapons();

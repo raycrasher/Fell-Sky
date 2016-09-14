@@ -19,7 +19,7 @@ namespace FellSky.Game.Space
         public string Name { get; set; }
         public string ShortDescription { get; set; }
         public string Description { get; set; }
-        public string SpriteId { get; set; }
+        public string TextureId { get; set; }
         public string IconSpriteId { get; set; }
 
         public float Mass { get; set; }
@@ -31,7 +31,7 @@ namespace FellSky.Game.Space
             var entity = world.CreateEntity();
             entity.AddComponent(new SpaceObjectComponent(this));
             var xform = new Transform();
-            var sprite = ServiceLocator.Instance.GetService<ISpriteManagerService>().CreateSpriteComponent(SpriteId);
+            var sprite = ServiceLocator.Instance.GetService<ISpriteManagerService>().CreateSpriteComponent(TextureId);
             xform.Origin = sprite.Origin;
             entity.AddComponent(xform);
             entity.AddComponent(sprite);

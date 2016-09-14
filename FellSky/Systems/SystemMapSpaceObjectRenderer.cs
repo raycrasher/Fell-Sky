@@ -22,10 +22,19 @@ namespace FellSky.Systems
         private SpriteComponent _planetShadowMask;
         private Transform _xform = new Transform();
 
-        private Model _sphere;
+        private Model _sphereModel;
+        private Model _haloModel;
+
         private Camera _camera;
         private Matrix _projectionMatrix;
-        
+
+        private BasicEffect _sunEffect, _planetEffect, _haloEffect, _starGlowEffect;
+        private Vertex3[] _quad = new Vertex3[] {
+            new Vertex3 { Position = new Vector3(-1,-1,0), Color = Color.White, TextureCoords=new Vector2(0,0) },
+            new Vertex3 { Position = new Vector3(-1, 1,0), Color = Color.White, TextureCoords=new Vector2(0,1) },
+            new Vertex3 { Position = new Vector3( 1,-1,0), Color = Color.White, TextureCoords=new Vector2(1,0) },
+            new Vertex3 { Position = new Vector3( 1, 1,0), Color = Color.White, TextureCoords=new Vector2(1,1) },
+        };
 
         //private Model _sphereMesh;
 
@@ -43,32 +52,64 @@ namespace FellSky.Systems
             //_sphereMesh = _content.Load<Model>("Meshes/Sphere");
             _planetShadowMask = ServiceLocator.Instance.GetService<ISpriteManagerService>().CreateSpriteComponent("planetshadowmask");
             _projectionMatrix = Matrix.CreatePerspectiveFieldOfView(
-                MathHelper.ToRadians(20.0f), GameEngine.Instance.GraphicsDevice.Viewport.AspectRatio,
+                MathHelper.ToRadians(45.0f), GameEngine.Instance.GraphicsDevice.Viewport.AspectRatio,
                 1.0f, 10000.0f);
+            _projectionMatrix = Matrix.CreateOrthographic(_device.Viewport.Width / 100f, _device.Viewport.Height / 100f, 1.0f, 10000.0f);
 
-            _sphere = _content.Load<Model>("Meshes/uvsphere");
+            _sphereModel = _content.Load<Model>("Meshes/uvsphere");
 
-            var sunEffect = (BasicEffect)_sphere.Meshes[0].Effects[0];
 
-            sunEffect.World = Matrix.Identity;
-            //sunEffect.View = Matrix.CreateLookAt(new Vector3(_camera.Transform.Position, 0.5f), new Vector3(_camera.Transform.Position, 0), Vector3.UnitY);
-            sunEffect.Projection = _projectionMatrix;
+            _sunEffect = new BasicEffect(_device);
+            //var sunEffect = (BasicEffect)_sphereModel.Meshes[0].Effects[0];
 
-            //sunEffect.LightingEnabled = true;
-            sunEffect.Texture = _content.Load<Texture2D>("Textures/spaceobjects/sun");
-            sunEffect.TextureEnabled = true;
-            sunEffect.AmbientLightColor = Vector3.Zero;
-            sunEffect.EmissiveColor = Vector3.One;
-            sunEffect.SpecularPower = 0;
-            sunEffect.DiffuseColor = Vector3.Zero;
-            sunEffect.PreferPerPixelLighting = true;
+            _sunEffect.World = Matrix.Identity;
+            _sunEffect.Projection = _projectionMatrix;
+            _sunEffect.Texture = _content.Load<Texture2D>("Textures/spaceobjects/sun");
+            _sunEffect.TextureEnabled = true;
+            _sunEffect.AmbientLightColor = Vector3.Zero;
+            _sunEffect.EmissiveColor = Vector3.One;
+            _sunEffect.SpecularPower = 0;
+            _sunEffect.DiffuseColor = Vector3.Zero;
+            _sunEffect.PreferPerPixelLighting = true;
+
+            _planetEffect = new BasicEffect(_device);
+            _planetEffect.Texture = _content.Load<Texture2D>("Textures/spaceobjects/rock1");
+            _planetEffect.LightingEnabled = true;
+            _planetEffect.TextureEnabled = true;
+            _planetEffect.AmbientLightColor = Vector3.One;
+            _planetEffect.EmissiveColor = Vector3.Zero;
+            _planetEffect.SpecularPower = 0.5f;
+            _planetEffect.DiffuseColor = Vector3.One;
+            _planetEffect.PreferPerPixelLighting = true;
+            _planetEffect.Projection = _projectionMatrix;
+
+
+            _haloModel = _content.Load<Model>("Meshes/halo");
+            _haloEffect = (BasicEffect)_haloModel.Meshes[0].Effects[0];
+            _haloEffect.Texture = _content.Load<Texture2D>("Textures/spaceobjects/halo");
+            _haloEffect.TextureEnabled = true;
+            _haloEffect.PreferPerPixelLighting = true;
+            _haloEffect.SpecularPower = 0;
+            _haloEffect.AmbientLightColor = Vector3.Zero;
+            _haloEffect.EmissiveColor = Vector3.One;
+            _haloEffect.DiffuseColor = Vector3.Zero;
+            _haloEffect.Projection = _projectionMatrix;
+
+            _starGlowEffect = new BasicEffect(_device);
+            _starGlowEffect.Texture = _content.Load<Texture2D>("Textures/spaceobjects/starglow");
+            _starGlowEffect.TextureEnabled = true;
+            _starGlowEffect.PreferPerPixelLighting = true;
+            _starGlowEffect.SpecularPower = 0;
+            _starGlowEffect.AmbientLightColor = Vector3.Zero;
+            _starGlowEffect.EmissiveColor = Vector3.One;
+            _starGlowEffect.DiffuseColor = Vector3.Zero;
+            _starGlowEffect.Projection = _projectionMatrix;
         }
 
         protected override void ProcessEntities(IDictionary<int, Entity> entities)
         {
             _device.SamplerStates[0] = SamplerState.AnisotropicWrap;
             _camera = EntityWorld.GetActiveCamera();
-            //_spriteBatch.Begin(transformMatrix: camera.GetViewMatrix(1.0f), samplerState: SamplerState.AnisotropicClamp);
             foreach(var entity in entities.Values)
             {
                 var spaceObjectComponent = entity.GetComponent<SpaceObjectComponent>();
@@ -77,33 +118,60 @@ namespace FellSky.Systems
                 else if (spaceObjectComponent.Object is Star)
                     DrawStar(entity, (Star)spaceObjectComponent.Object);
             }
-            //_spriteBatch.End();
         }
 
         private void DrawStar(Entity entity, Star star)
         {
-            /*
-            var sprite = entity.GetComponent<SpriteComponent>();
             var xform = entity.GetComponent<Transform>();
-            sprite.Draw(_spriteBatch, xform);
-            */
+            var inverse = new Vector2(1, -1) * 0.01f;
+            
+            _starGlowEffect.World = Matrix.CreateTranslation(new Vector3(xform.Position, 0)) * Matrix.CreateScale(new Vector3(5, 5, 1));
+            _starGlowEffect.View = Matrix.CreateLookAt(new Vector3(_camera.Transform.Position * inverse, 20 + _camera.Zoom), new Vector3(_camera.Transform.Position * inverse, 0), Vector3.UnitY);
+
+            // draw glow
+            foreach (var pass in _starGlowEffect.CurrentTechnique.Passes)
+            {
+                pass.Apply();
+                _device.DrawUserPrimitives(PrimitiveType.TriangleStrip, _quad, 0, 2);
+            }
+
+            _sphereModel.Meshes[0].MeshParts[0].Effect = _sunEffect;
+            _sunEffect.World = Matrix.CreateTranslation(new Vector3(xform.Position, 0)) * Matrix.CreateRotationX(MathHelper.ToRadians(80)) * Matrix.CreateScale(1f);
+            _sunEffect.View = _starGlowEffect.View;
+                        
+            _sphereModel.Meshes[0].Draw();
+            DrawHalo(entity);
+        }
+
+        private void DrawHalo(Entity entity)
+        {
+            var stencilState = _device.DepthStencilState;
+            _device.DepthStencilState = DepthStencilState.None;
 
             var xform = entity.GetComponent<Transform>();
-
-            var sunEffect = (BasicEffect)_sphere.Meshes[0].Effects[0];
-
             var inverse = new Vector2(1, -1) * 0.01f;
 
-            sunEffect.World = Matrix.CreateTranslation(new Vector3(xform.Position, 0)) * Matrix.CreateRotationX(MathHelper.ToRadians(80)) * Matrix.CreateScale(1f);
-            sunEffect.View = Matrix.CreateLookAt(new Vector3(_camera.Transform.Position * inverse, 20 + _camera.Zoom ), new Vector3(_camera.Transform.Position * inverse, 0), Vector3.UnitY);
-                        
-            _sphere.Meshes[0].Draw();
-            
+            _haloEffect.World = Matrix.CreateTranslation(new Vector3(xform.Position, 0)) * Matrix.CreateScale(1f);
+            _haloEffect.View = Matrix.CreateLookAt(new Vector3(_camera.Transform.Position * inverse, 20 + _camera.Zoom), new Vector3(_camera.Transform.Position * inverse, 0), Vector3.UnitY);
+
+            _haloModel.Meshes[0].Draw();
+
+            _device.DepthStencilState = stencilState;
         }
 
         private void DrawPlanet(Entity entity, Planet planet)
         {
+            var xform = entity.GetComponent<Transform>();
+            _sphereModel.Meshes[0].MeshParts[0].Effect = _planetEffect;
+            var inverse = new Vector2(1, -1) * 0.01f;
 
+            _planetEffect.World = Matrix.CreateTranslation(new Vector3(xform.Position, 0)) * Matrix.CreateRotationX(MathHelper.ToRadians(80)) * Matrix.CreateScale(1f);
+            _planetEffect.View = Matrix.CreateLookAt(new Vector3(_camera.Transform.Position * inverse, 20 + _camera.Zoom), new Vector3(_camera.Transform.Position * inverse, 0), Vector3.UnitY);
+
+            //_planetEffect.Texture = entity.GetComponent<SpaceObjectComponent>().Texture;
+
+            _sphereModel.Meshes[0].Draw();
+            DrawHalo(entity);
         }
 
         /*
