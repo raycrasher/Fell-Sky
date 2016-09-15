@@ -61,7 +61,7 @@ namespace FellSky.Game.Space
             //if (float.IsNaN(pos.X)) pos.X = 0;
             //if (float.IsNaN(pos.Y)) pos.Y = 0;
 
-            xform.Position = pos * 1e-4f;
+            xform.Position = pos * 1e-5f;
             return entity;
         }
 

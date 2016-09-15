@@ -56,7 +56,7 @@ namespace FellSky.Systems
                 1.0f, 10000.0f);
             _projectionMatrix = Matrix.CreateOrthographic(_device.Viewport.Width / 100f, _device.Viewport.Height / 100f, 1.0f, 10000.0f);
 
-            _sphereModel = _content.Load<Model>("Meshes/uvsphere");
+            _sphereModel = _content.Load<Model>("Meshes/uvsphere_high_lod");
 
 
             _sunEffect = new BasicEffect(_device);
@@ -126,7 +126,7 @@ namespace FellSky.Systems
             var inverse = new Vector2(1, -1) * 0.01f;
             
             _starGlowEffect.World = Matrix.CreateTranslation(new Vector3(xform.Position, 0)) * Matrix.CreateScale(new Vector3(5, 5, 1));
-            _starGlowEffect.View = Matrix.CreateLookAt(new Vector3(_camera.Transform.Position * inverse, 20 + _camera.Zoom), new Vector3(_camera.Transform.Position * inverse, 0), Vector3.UnitY);
+            _starGlowEffect.View = Matrix.CreateLookAt(new Vector3(_camera.Transform.Position * inverse, 100), new Vector3(_camera.Transform.Position * inverse, 0), Vector3.UnitY) * Matrix.CreateScale(_camera.Zoom);
 
             // draw glow
             foreach (var pass in _starGlowEffect.CurrentTechnique.Passes)
@@ -136,24 +136,20 @@ namespace FellSky.Systems
             }
 
             _sphereModel.Meshes[0].MeshParts[0].Effect = _sunEffect;
-            _sunEffect.World = Matrix.CreateTranslation(new Vector3(xform.Position, 0)) * Matrix.CreateRotationX(MathHelper.ToRadians(80)) * Matrix.CreateScale(1f);
+            _sunEffect.World = Matrix.CreateTranslation(new Vector3(xform.Position, 0)) * Matrix.CreateRotationX(MathHelper.ToRadians(80)) * Matrix.CreateScale(new Vector3(xform.Scale,xform.Scale.X));
             _sunEffect.View = _starGlowEffect.View;
                         
             _sphereModel.Meshes[0].Draw();
-            DrawHalo(entity);
+            DrawHalo(entity, Matrix.CreateTranslation(new Vector3(xform.Position, 0)) * Matrix.CreateScale(new Vector3(xform.Scale, xform.Scale.X)), _sunEffect.View);
         }
 
-        private void DrawHalo(Entity entity)
+        private void DrawHalo(Entity entity, Matrix worldMatrix, Matrix viewMatrix)
         {
             var stencilState = _device.DepthStencilState;
             _device.DepthStencilState = DepthStencilState.None;
 
-            var xform = entity.GetComponent<Transform>();
-            var inverse = new Vector2(1, -1) * 0.01f;
-
-            _haloEffect.World = Matrix.CreateTranslation(new Vector3(xform.Position, 0)) * Matrix.CreateScale(1f);
-            _haloEffect.View = Matrix.CreateLookAt(new Vector3(_camera.Transform.Position * inverse, 20 + _camera.Zoom), new Vector3(_camera.Transform.Position * inverse, 0), Vector3.UnitY);
-
+            _haloEffect.World = worldMatrix;
+            _haloEffect.View = viewMatrix;
             _haloModel.Meshes[0].Draw();
 
             _device.DepthStencilState = stencilState;
@@ -171,7 +167,7 @@ namespace FellSky.Systems
             //_planetEffect.Texture = entity.GetComponent<SpaceObjectComponent>().Texture;
 
             _sphereModel.Meshes[0].Draw();
-            DrawHalo(entity);
+            DrawHalo(entity, _planetEffect.World, _planetEffect.View);
         }
 
         /*

@@ -103,7 +103,7 @@ namespace FellSky.Game.Space
         {
             var entity = base.CreateEntity(world);
             var xform = entity.GetComponent<Transform>();
-            xform.Scale *= PhotosphereRadius * 1e-5f;
+            xform.Scale *= PhotosphereRadius * 1e-6f;
             return entity;
         }
     }
