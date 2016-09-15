@@ -64,7 +64,7 @@ namespace FellSky.Systems
 
             _sunEffect.World = Matrix.Identity;
             _sunEffect.Projection = _projectionMatrix;
-            _sunEffect.Texture = _content.Load<Texture2D>("Textures/spaceobjects/sun");
+            _sunEffect.Texture = _content.Load<Texture2D>("Textures/spaceobjects/sun-white");
             _sunEffect.TextureEnabled = true;
             _sunEffect.AmbientLightColor = Vector3.Zero;
             _sunEffect.EmissiveColor = Vector3.One;
