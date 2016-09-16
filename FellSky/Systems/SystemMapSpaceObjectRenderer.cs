@@ -35,6 +35,7 @@ namespace FellSky.Systems
             new Vertex3 { Position = new Vector3( 1,-1,0), Color = Color.White, TextureCoords=new Vector2(1,0) },
             new Vertex3 { Position = new Vector3( 1, 1,0), Color = Color.White, TextureCoords=new Vector2(1,1) },
         };
+        private Model _sphereModelLowPoly;
 
         //private Model _sphereMesh;
 
@@ -57,6 +58,7 @@ namespace FellSky.Systems
             _projectionMatrix = Matrix.CreateOrthographic(_device.Viewport.Width / 100f, _device.Viewport.Height / 100f, 1.0f, 10000.0f);
 
             _sphereModel = _content.Load<Model>("Meshes/uvsphere_high_lod");
+            _sphereModelLowPoly = _content.Load<Model>("Meshes/uvsphere");
 
 
             _sunEffect = new BasicEffect(_device);
@@ -76,12 +78,15 @@ namespace FellSky.Systems
             _planetEffect.Texture = _content.Load<Texture2D>("Textures/spaceobjects/rock1");
             _planetEffect.LightingEnabled = true;
             _planetEffect.TextureEnabled = true;
-            _planetEffect.AmbientLightColor = Vector3.One;
+            _planetEffect.AmbientLightColor = new Vector3(0.1f);
             _planetEffect.EmissiveColor = Vector3.Zero;
-            _planetEffect.SpecularPower = 0.5f;
+            _planetEffect.SpecularPower = 0.1f;
             _planetEffect.DiffuseColor = Vector3.One;
-            _planetEffect.PreferPerPixelLighting = true;
+            
+
             _planetEffect.Projection = _projectionMatrix;
+            _planetEffect.PreferPerPixelLighting = true;
+            
 
 
             _haloModel = _content.Load<Model>("Meshes/halo");
@@ -158,16 +163,20 @@ namespace FellSky.Systems
         private void DrawPlanet(Entity entity, Planet planet)
         {
             var xform = entity.GetComponent<Transform>();
-            _sphereModel.Meshes[0].MeshParts[0].Effect = _planetEffect;
+            _sphereModelLowPoly.Meshes[0].MeshParts[0].Effect = _planetEffect;
             var inverse = new Vector2(1, -1) * 0.01f;
 
             _planetEffect.World = Matrix.CreateTranslation(new Vector3(xform.Position, 0)) * Matrix.CreateRotationX(MathHelper.ToRadians(80)) * Matrix.CreateScale(1f);
             _planetEffect.View = Matrix.CreateLookAt(new Vector3(_camera.Transform.Position * inverse, 20 + _camera.Zoom), new Vector3(_camera.Transform.Position * inverse, 0), Vector3.UnitY);
 
+            _planetEffect.DirectionalLight0.Enabled = true;
+            _planetEffect.DirectionalLight0.DiffuseColor = new Color(255,255,200).ToVector3() * 0.3f;
+            _planetEffect.DirectionalLight0.Direction = new Vector3(xform.Position, 0) - Vector3.Zero;
+
             //_planetEffect.Texture = entity.GetComponent<SpaceObjectComponent>().Texture;
 
-            _sphereModel.Meshes[0].Draw();
-            DrawHalo(entity, _planetEffect.World, _planetEffect.View);
+            _sphereModelLowPoly.Meshes[0].Draw();
+            DrawHalo(entity, Matrix.CreateTranslation(new Vector3(xform.Position, 0)) * Matrix.CreateScale(1f), _planetEffect.View);
         }
 
         /*
