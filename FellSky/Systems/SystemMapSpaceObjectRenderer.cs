@@ -22,6 +22,8 @@ namespace FellSky.Systems
         private SpriteComponent _planetShadowMask;
         private Transform _xform = new Transform();
 
+        private RasterizerState _antiAliasRasterizerState = new RasterizerState { MultiSampleAntiAlias = true };
+
         private Model _sphereModel;
         private Model _haloModel;
 
@@ -82,8 +84,6 @@ namespace FellSky.Systems
             _planetEffect.EmissiveColor = Vector3.Zero;
             _planetEffect.SpecularPower = 0.1f;
             _planetEffect.DiffuseColor = Vector3.One;
-            
-
             _planetEffect.Projection = _projectionMatrix;
             _planetEffect.PreferPerPixelLighting = true;
             
@@ -113,6 +113,8 @@ namespace FellSky.Systems
 
         protected override void ProcessEntities(IDictionary<int, Entity> entities)
         {
+            var previousRState = _device.RasterizerState;
+            _device.RasterizerState = _antiAliasRasterizerState;
             _device.SamplerStates[0] = SamplerState.AnisotropicWrap;
             _camera = EntityWorld.GetActiveCamera();
             foreach(var entity in entities.Values)
@@ -123,6 +125,7 @@ namespace FellSky.Systems
                 else if (spaceObjectComponent.Object is Star)
                     DrawStar(entity, (Star)spaceObjectComponent.Object);
             }
+            _device.RasterizerState = previousRState;
         }
 
         private void DrawStar(Entity entity, Star star)
@@ -148,11 +151,11 @@ namespace FellSky.Systems
             DrawHalo(entity, Matrix.CreateTranslation(new Vector3(xform.Position, 0)) * Matrix.CreateScale(new Vector3(xform.Scale, xform.Scale.X)), _sunEffect.View);
         }
 
-        private void DrawHalo(Entity entity, Matrix worldMatrix, Matrix viewMatrix)
+        private void DrawHalo(Entity entity, Matrix worldMatrix, Matrix viewMatrix, float alpha=1f)
         {
             var stencilState = _device.DepthStencilState;
             _device.DepthStencilState = DepthStencilState.None;
-
+            _haloEffect.Alpha = alpha;
             _haloEffect.World = worldMatrix;
             _haloEffect.View = viewMatrix;
             _haloModel.Meshes[0].Draw();
@@ -171,12 +174,11 @@ namespace FellSky.Systems
 
             _planetEffect.DirectionalLight0.Enabled = true;
             _planetEffect.DirectionalLight0.DiffuseColor = new Color(255,255,200).ToVector3() * 0.3f;
-            _planetEffect.DirectionalLight0.Direction = new Vector3(xform.Position, 0) - Vector3.Zero;
-
+            _planetEffect.DirectionalLight0.Direction = new Vector3(xform.Position, -5);
             //_planetEffect.Texture = entity.GetComponent<SpaceObjectComponent>().Texture;
 
             _sphereModelLowPoly.Meshes[0].Draw();
-            DrawHalo(entity, Matrix.CreateTranslation(new Vector3(xform.Position, 0)) * Matrix.CreateScale(1f), _planetEffect.View);
+            DrawHalo(entity, Matrix.CreateTranslation(new Vector3(xform.Position, 0)) * Matrix.CreateScale(1f), _planetEffect.View, 0.5f);
         }
 
         /*

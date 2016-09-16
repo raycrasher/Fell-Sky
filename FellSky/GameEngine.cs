@@ -56,6 +56,7 @@ namespace FellSky
             Graphics.PreferredDepthStencilFormat = DepthFormat.Depth24;
             Graphics.PreferredBackBufferWidth = Settings.GraphicsWidth;
             Graphics.PreferredBackBufferHeight = Settings.GraphicsHeight;
+            Graphics.PreferMultiSampling = true;
             Graphics.IsFullScreen = Settings.FullScreen;
             Graphics.SynchronizeWithVerticalRetrace = Settings.VSync;
             IsFixedTimeStep = Settings.FrameLimit > 0;
