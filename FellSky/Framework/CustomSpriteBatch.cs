@@ -13,7 +13,7 @@ namespace FellSky.Framework
     {
         private Vertex3N[] _vertices;
         private int[] _indices;
-        private int _iVertex, _iIndex;
+        private int _vertexCount, _indexCount;
         private Effect _effect;
 
         private Vertex3N[] _quadVertices = new Vertex3N[4];
@@ -35,11 +35,11 @@ namespace FellSky.Framework
 
         }
 
-        public void Draw(SpriteComponent sprite, ref Matrix transform, Color color)
+        public void Draw(SpriteComponent sprite, ref Matrix transform, Color? color=null, Vector3? normal=null)
         {
             Vertex3N vtx;
-            vtx.Color = color;
-            vtx.Normal = Vector3.Forward;
+            vtx.Color = color ?? Color.White;
+            vtx.Normal = normal ?? Vector3.Forward;
 
             vtx.Position = Vector3.Zero;
             vtx.TextureCoords = new Vector2(sprite.TextureRect.Left, sprite.TextureRect.Top);
@@ -58,23 +58,19 @@ namespace FellSky.Framework
             Draw(sprite.Texture, _quadVertices, _quadIndices, ref transform);
         }
 
-        public void Draw(SpriteComponent sprite, ref Matrix transform, Color color, Vertex3N normal)
-        {
-            Vertex3 vtx;
-            vtx.Color = color;
-
-            vtx.Position = Vector3.Zero;
-            vtx.TextureCoords = new Vector2(sprite.TextureRect.X, sprite.TextureRect.Y);
-
-        }
-
         public void Draw(Texture2D texture, Vertex3N[] vertices, int[] indices, ref Matrix transform)
         {
+            int baseIndex = _vertexCount;
+
             for (int i = 0; i < vertices.Length; i++) {
                 var vtx = vertices[i];
 
                 Vector3.Transform(ref vtx.Position, ref transform, out vtx.Position);
-                _vertices[_iVertex++] = vtx;
+                _vertices[_vertexCount++] = vtx;
+            }
+            for(int i = 0; i < indices.Length; i++)
+            {
+                _indices[_indexCount++] = indices[i] + baseIndex;
             }
         }
     }
