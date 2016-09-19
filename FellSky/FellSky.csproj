@@ -170,7 +170,7 @@
     <Compile Include="EntityFactories\CombatEntityFactory.cs" />
     <Compile Include="Framework\Attributes.cs" />
     <Compile Include="Framework\Constants.cs" />
-    <Compile Include="Framework\CustomSpriteBatch.cs" />
+    <Compile Include="Framework\FastSpriteBatch.cs" />
     <Compile Include="Framework\Enums.cs" />
     <Compile Include="Framework\EventExtensions.cs" />
     <Compile Include="Framework\EventId.cs" />

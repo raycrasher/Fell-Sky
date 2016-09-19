@@ -18,7 +18,7 @@ namespace FellSky.Systems
     {
         private BasicEffect _effect;
         private GraphicsDevice _device;
-        private Vertex2[] _vertices = new Vertex2[200];
+        private Vertex2CT[] _vertices = new Vertex2CT[200];
 
         public GridRendererSystem()
         {
@@ -47,8 +47,8 @@ namespace FellSky.Systems
             {
                 if (index >= _vertices.Length)
                     Array.Resize(ref _vertices, (int)(_vertices.Length * 1.5));
-                _vertices[index++] = new Vertex2 { Position = new Vector2(x, rect.Top), Color = grid.GridColor };
-                _vertices[index++] = new Vertex2 { Position = new Vector2(x, rect.Bottom), Color = grid.GridColor };
+                _vertices[index++] = new Vertex2CT { Position = new Vector2(x, rect.Top), Color = grid.GridColor };
+                _vertices[index++] = new Vertex2CT { Position = new Vector2(x, rect.Bottom), Color = grid.GridColor };
                 numPrimitives++;
             }
             
@@ -56,8 +56,8 @@ namespace FellSky.Systems
             {
                 if (index >= _vertices.Length - 1)
                     Array.Resize(ref _vertices, (int)(_vertices.Length * 1.5));
-                _vertices[index++] = new Vertex2 { Position = new Vector2(rect.Left, y), Color = grid.GridColor };
-                _vertices[index++] = new Vertex2 { Position = new Vector2(rect.Right, y), Color = grid.GridColor };
+                _vertices[index++] = new Vertex2CT { Position = new Vector2(rect.Left, y), Color = grid.GridColor };
+                _vertices[index++] = new Vertex2CT { Position = new Vector2(rect.Right, y), Color = grid.GridColor };
                 numPrimitives++;
 
             }
