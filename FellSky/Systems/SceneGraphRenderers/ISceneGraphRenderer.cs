@@ -11,8 +11,8 @@ namespace FellSky.Systems.SceneGraphRenderers
 {
     public interface ISceneGraphRenderer
     {
-        void Begin(EntityWorld world, SpriteBatch batch);
-        void BeginRoot(EntityWorld world, SpriteBatch batch, Entity root);
+        void Begin(EntityWorld world);
+        void BeginRoot(EntityWorld world, Entity root);
         void Render(Entity root, Entity entity, ref Matrix parentMatrix);
         void End();
     }

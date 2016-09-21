@@ -25,7 +25,7 @@ namespace FellSky.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1600")]
+        [global::System.Configuration.DefaultSettingValueAttribute("1300")]
         public int GraphicsWidth {
             get {
                 return ((int)(this["GraphicsWidth"]));
@@ -37,7 +37,7 @@ namespace FellSky.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("900")]
+        [global::System.Configuration.DefaultSettingValueAttribute("768")]
         public int GraphicsHeight {
             get {
                 return ((int)(this["GraphicsHeight"]));

@@ -27,10 +27,10 @@ namespace FellSky.Systems
 
         protected override void ProcessEntities(IDictionary<int, Entity> entities)
         {
-            Renderer.Begin(EntityWorld, _batch);
+            Renderer.Begin(EntityWorld);
             foreach (var root in entities.Values)
             {
-                Renderer.BeginRoot(EntityWorld, _batch, root);
+                Renderer.BeginRoot(EntityWorld, root);
                 var matrix = Matrix.Identity;
                 Render(root, root, ref matrix);                
             }

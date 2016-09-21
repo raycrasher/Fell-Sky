@@ -16,98 +16,66 @@ namespace FellSky.Framework
         private int[] _indices;
         private int _vertexCount, _indexCount;
         private Vertex3CTN[] _quadVertices = new Vertex3CTN[4];
-        private int[] _quadIndices = new int[] { 0, 1, 2, 1, 3, 2 };
-
-        public Effect Effect { get; set; }
-        public GraphicsDevice Device { get; set; }
+        private int[] _quadIndices = new int[]{ 0, 1, 2, 1, 3, 2 };
 
         public int NumVertices => _vertexCount;
         public int NumIndices => _indexCount;
 
-        public Matrix ViewMatrix {
-            get {
-                var matrices = Effect as IEffectMatrices;
-                if (matrices == null)
-                    throw new InvalidOperationException();
-                return matrices.View;
-            }
-            set
-            {
-                var matrices = Effect as IEffectMatrices;
-                if (matrices == null)
-                    throw new InvalidOperationException();
-                matrices.View = value;
-            }
-        }
-
-        public Matrix ProjectionMatrix
-        {
-            get
-            {
-                var matrices = Effect as IEffectMatrices;
-                if (matrices == null)
-                    throw new InvalidOperationException();
-                return matrices.Projection;
-            }
-            set
-            {
-                var matrices = Effect as IEffectMatrices;
-                if (matrices == null)
-                    throw new InvalidOperationException();
-                matrices.Projection = value;
-            }
-        }
-
-        public Matrix WorldMatrix
-        {
-            get
-            {
-                var matrices = Effect as IEffectMatrices;
-                if (matrices == null)
-                    throw new InvalidOperationException();
-                return matrices.World;
-            }
-            set
-            {
-                var matrices = Effect as IEffectMatrices;
-                if (matrices == null)
-                    throw new InvalidOperationException();
-                matrices.World = value;
-            }
-        }
-
-        public FastSpriteBatch(GraphicsDevice device, int initialVertexCount = 10000)
+        public FastSpriteBatch(int initialVertexCount = 10000)
         {
             _vertices = new Vertex3CTN[initialVertexCount];
             _indices = new int[_vertices.Length * 3 / 2];
-            Device = device;
         }
 
-        public void Reset(Effect effect)
+        public void Reset()
         {
-            Effect = effect;
             _vertexCount = 0;
             _indexCount = 0;
         }
 
-        public void Draw(SpriteComponent sprite, ref Matrix transform, Color? color=null, Vector3? normal=null)
+        public void Draw(SpriteComponent sprite, ref Matrix transform, Color? color=null, Vector3? normal=null, SpriteEffects flip = SpriteEffects.None)
         {
             Vertex3CTN vtx;
             vtx.Color = color ?? Color.White;
             vtx.Normal = normal ?? Vector3.Forward;
-            vtx.Position = Vector3.Zero;
+            
             var tex = sprite.Texture;
-            vtx.TextureCoords = GetUV(tex, sprite.TextureRect.Left, sprite.TextureRect.Top);
-            _quadVertices[0] = vtx;
+
+            Vector2 texCoordLT = GetUV(tex, sprite.TextureRect.Left, sprite.TextureRect.Top);
+            Vector2 texCoordBR = GetUV(tex, sprite.TextureRect.Right, sprite.TextureRect.Bottom);
+
+            bool changeOrder = false;
+
+            if ((flip & SpriteEffects.FlipHorizontally) != 0)
+            {
+                var temp = texCoordBR.X;
+                texCoordBR.X = texCoordLT.X;
+                texCoordLT.X = temp;
+                changeOrder = true;
+            }
+
+            if ((flip & SpriteEffects.FlipVertically) != 0)
+            {
+                var temp = texCoordBR.Y;
+                texCoordBR.Y = texCoordLT.Y;
+                texCoordLT.Y = temp;
+                changeOrder ^= true;
+            }
+
+            vtx.Position = Vector3.Zero;
+            vtx.TextureCoords = texCoordLT;
+            _quadVertices[changeOrder? 3 : 0] = vtx;
             vtx.Position = new Vector3(0, sprite.TextureRect.Height, 0);
-            vtx.TextureCoords = GetUV(tex, sprite.TextureRect.Left, sprite.TextureRect.Bottom);
-            _quadVertices[1] = vtx;
+            vtx.TextureCoords = new Vector2(texCoordLT.X, texCoordBR.Y);
+            _quadVertices[changeOrder ? 2 : 1] = vtx;
             vtx.Position = new Vector3(sprite.TextureRect.Width, 0, 0);
-            vtx.TextureCoords = GetUV(tex, sprite.TextureRect.Right, sprite.TextureRect.Top);
-            _quadVertices[2] = vtx;
+            vtx.TextureCoords = new Vector2(texCoordBR.X, texCoordLT.Y);
+            _quadVertices[changeOrder ? 1 : 2] = vtx;
             vtx.Position = new Vector3(sprite.TextureRect.Width, sprite.TextureRect.Height, 0);
-            vtx.TextureCoords = GetUV(tex, sprite.TextureRect.Right, sprite.TextureRect.Bottom);
-            _quadVertices[3] = vtx;
+            vtx.TextureCoords = texCoordBR;
+            _quadVertices[changeOrder ? 0 : 3] = vtx;
+
+            
 
             Draw(_quadVertices, _quadIndices, ref transform);
         }
@@ -130,13 +98,12 @@ namespace FellSky.Framework
             }
         }
 
-        public void Render()
+        public void Render(GraphicsDevice device, Effect effect)
         {
-            var effect = Effect;
             foreach(var pass in effect.CurrentTechnique.Passes)
             {
                 pass.Apply();
-                Device.DrawUserIndexedPrimitives(PrimitiveType.TriangleList, _vertices, 0, _vertexCount, _indices, 0, _indexCount / 3);
+                device.DrawUserIndexedPrimitives(PrimitiveType.TriangleList, _vertices, 0, _vertexCount, _indices, 0, _indexCount / 3);
             }
         }
 

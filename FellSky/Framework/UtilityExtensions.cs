@@ -11,13 +11,20 @@ namespace FellSky
 {
     public static class UtilityExtensions
     {
+        public static Matrix GetMatrix(Vector2 position, float rotation, Vector2 scale, Vector2 origin)
+        {
+            return Matrix.CreateTranslation(new Vector3(-origin, 0)) *
+                   Matrix.CreateScale(new Vector3(scale, 1)) *
+                   Matrix.CreateRotationZ(rotation) *
+                   Matrix.CreateTranslation(new Vector3(position, 0));
+        }
+
         public static Matrix GetMatrix(this ITransform xform)
         {
-            return Matrix.CreateTranslation(new Vector3(-xform.Origin,0)) * 
-                   Matrix.CreateScale(new Vector3(xform.Scale, 1)) * 
-                   Matrix.CreateRotationZ(xform.Rotation) * 
-                   Matrix.CreateTranslation(new Vector3(xform.Position, 0))
-                   ;
+            return Matrix.CreateTranslation(new Vector3(-xform.Origin, 0)) *
+                   Matrix.CreateScale(new Vector3(xform.Scale, 1)) *                   
+                   Matrix.CreateRotationZ(xform.Rotation) *
+                   Matrix.CreateTranslation(new Vector3(xform.Position, 0));
         }
 
         public static Matrix GetMatrixNoOrigin(this ITransform xform)
@@ -129,23 +136,40 @@ namespace FellSky
             }
         }
 
-        static Transform _tempXform = new Transform();
-        public static Transform AdjustForFlipping(this Transform xform, out SpriteEffects fx)
+        public static SpriteEffects AdjustForFlipping(this Transform xform, Transform output)
         {
-            fx = SpriteEffects.None;
-            _tempXform.CopyValuesFrom(xform);
-            if (_tempXform.Scale.X < 0)
+            output.CopyValuesFrom(xform);
+            var fx = SpriteEffects.None;
+
+            if (xform.Scale.X < 0)
             {
                 fx |= SpriteEffects.FlipHorizontally;
-                _tempXform.Scale *= new Vector2(-1, 1);
-
+                output.Scale *= new Vector2(-1, 1);
             }
-            if (_tempXform.Scale.Y < 0)
+            if (xform.Scale.Y < 0)
             {
                 fx |= SpriteEffects.FlipVertically;
-                _tempXform.Scale *= new Vector2(1, -1);
+                output.Scale *= new Vector2(1, -1);
             }
-            return _tempXform;
+            return fx;
+        }
+
+        public static SpriteEffects AdjustForFlipping(this Transform xform, out Matrix matrix)
+        {
+            var fx = SpriteEffects.None;
+            matrix = Matrix.Identity;
+
+            if (xform.Scale.X < 0)
+            {
+                fx |= SpriteEffects.FlipHorizontally;
+                matrix = GetMatrix(xform.Position, xform.Rotation, xform.Scale * new Vector2(-1, 1), xform.Origin);
+            }
+            if (xform.Scale.Y < 0)
+            {
+                fx |= SpriteEffects.FlipVertically;
+                matrix = matrix * GetMatrix(xform.Position, xform.Rotation, xform.Scale * new Vector2(1, -1), xform.Origin);
+            }
+            return fx;
         }
 
         public static T GetAllEqualOrNothing<T>(this IEnumerable<T> enumerable)
