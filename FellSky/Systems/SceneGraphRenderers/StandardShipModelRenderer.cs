@@ -22,7 +22,6 @@ namespace FellSky.Systems.SceneGraphRenderers
         private EntityWorld _world;
         private BasicEffect _shipEffect;
         private ulong _totalTime = 0;
-        private Transform _tempXform = new Transform();
 
         public StandardShipModelRenderer()
         {
@@ -100,10 +99,12 @@ namespace FellSky.Systems.SceneGraphRenderers
             }
 
             Matrix matrix;
-            var fx = xform.AdjustForFlipping(out matrix);
+            //var fx = xform.AdjustForFlipping(out matrix);
 
-            matrix *= parentMatrix;
-            _batch.Draw(sprite, ref matrix, color, flip: fx);
+            //matrix *= parentMatrix;
+            matrix = xform.Matrix * parentMatrix;
+            //_batch.Draw(sprite, ref matrix, color, flip: fx);
+            _batch.Draw(sprite, ref matrix, color);
 
             //sprite.Draw(batch: _batch, matrix: newTransform.Matrix * parentMatrix, color: color, effects: fx);
         }
@@ -115,19 +116,19 @@ namespace FellSky.Systems.SceneGraphRenderers
             {
                 var sprite = thrusterEntity.GetComponent<SpriteComponent>();
                 var thruster = thrusterComponent.Part;
-
-                var fx = thruster.Transform.AdjustForFlipping(_tempXform);
+                var xform = thruster.Transform;
+                Vector2 scale = xform.Scale;
 
                 float colorAlpha = 0;
 
                 if (thrusterComponent.Part.IsIdleModeOnZeroThrust)
                 {
-                    _tempXform.Scale *= new Vector2(MathHelper.Clamp(thrusterComponent.ThrustPercentage, 0.3f, 1), 1);
+                    scale *= new Vector2(MathHelper.Clamp(thrusterComponent.ThrustPercentage, 0.3f, 1), 1);
                     colorAlpha = MathHelper.Clamp(thrusterComponent.ThrustPercentage, 0.6f, 1);
                 }
                 else
                 {
-                    _tempXform.Scale *= new Vector2(MathHelper.Clamp(thrusterComponent.ThrustPercentage, 0, 1), 1);
+                    scale *= new Vector2(MathHelper.Clamp(thrusterComponent.ThrustPercentage, 0, 1), 1);
                     colorAlpha = thrusterComponent.ThrustPercentage;
                 }
 
@@ -136,13 +137,14 @@ namespace FellSky.Systems.SceneGraphRenderers
                     // do thruster graphic wobble
                     var time = MathHelper.ToRadians((float)thrusterComponent.GetHashCode() + _totalTime);
                     var amount = (float)Math.Sin(((time * 1.5f) % MathHelper.Pi) * 1f);
-                    _tempXform.Scale += new Vector2(amount * 0.05f, amount * 0.03f);
+                    scale += new Vector2(amount * 0.05f, amount * 0.03f);
                 }
-                var matrix = _tempXform.Matrix * parentMatrix;
+
+                var matrix = UtilityExtensions.GetMatrix(xform.Position, xform.Rotation, scale, xform.Origin) * parentMatrix;
                 _batch.Draw(sprite, ref matrix, thruster.Color * colorAlpha);
                 //sprite.Draw(batch: _batch, matrix: tempXform.Matrix * parentMatrix, color: thruster.Color * colorAlpha, effects: fx);
-                _tempXform.Scale *= 0.8f;
-                matrix = _tempXform.Matrix * parentMatrix;
+                scale *= 0.8f;
+                matrix = UtilityExtensions.GetMatrix(xform.Position, xform.Rotation, scale, xform.Origin) * parentMatrix;
                 _batch.Draw(sprite, ref matrix, Color.White * colorAlpha);
                 //sprite.Draw(batch: _batch, matrix: tempXform.Matrix * parentMatrix, color: Color.White * colorAlpha, effects: fx);
             }

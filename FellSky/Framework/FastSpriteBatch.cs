@@ -33,7 +33,7 @@ namespace FellSky.Framework
             _indexCount = 0;
         }
 
-        public void Draw(SpriteComponent sprite, ref Matrix transform, Color? color=null, Vector3? normal=null, SpriteEffects flip = SpriteEffects.None)
+        public void Draw(SpriteComponent sprite, ref Matrix transform, Color? color=null, Vector3? normal=null)
         {
             Vertex3CTN vtx;
             vtx.Color = color ?? Color.White;
@@ -44,38 +44,18 @@ namespace FellSky.Framework
             Vector2 texCoordLT = GetUV(tex, sprite.TextureRect.Left, sprite.TextureRect.Top);
             Vector2 texCoordBR = GetUV(tex, sprite.TextureRect.Right, sprite.TextureRect.Bottom);
 
-            bool changeOrder = false;
-
-            if ((flip & SpriteEffects.FlipHorizontally) != 0)
-            {
-                var temp = texCoordBR.X;
-                texCoordBR.X = texCoordLT.X;
-                texCoordLT.X = temp;
-                changeOrder = true;
-            }
-
-            if ((flip & SpriteEffects.FlipVertically) != 0)
-            {
-                var temp = texCoordBR.Y;
-                texCoordBR.Y = texCoordLT.Y;
-                texCoordLT.Y = temp;
-                changeOrder ^= true;
-            }
-
             vtx.Position = Vector3.Zero;
             vtx.TextureCoords = texCoordLT;
-            _quadVertices[changeOrder? 3 : 0] = vtx;
+            _quadVertices[0] = vtx;
             vtx.Position = new Vector3(0, sprite.TextureRect.Height, 0);
             vtx.TextureCoords = new Vector2(texCoordLT.X, texCoordBR.Y);
-            _quadVertices[changeOrder ? 2 : 1] = vtx;
+            _quadVertices[1] = vtx;
             vtx.Position = new Vector3(sprite.TextureRect.Width, 0, 0);
             vtx.TextureCoords = new Vector2(texCoordBR.X, texCoordLT.Y);
-            _quadVertices[changeOrder ? 1 : 2] = vtx;
+            _quadVertices[2] = vtx;
             vtx.Position = new Vector3(sprite.TextureRect.Width, sprite.TextureRect.Height, 0);
             vtx.TextureCoords = texCoordBR;
-            _quadVertices[changeOrder ? 0 : 3] = vtx;
-
-            
+            _quadVertices[3] = vtx;
 
             Draw(_quadVertices, _quadIndices, ref transform);
         }
@@ -90,6 +70,7 @@ namespace FellSky.Framework
                 var vtx = vertices[i];
 
                 Vector3.Transform(ref vtx.Position, ref transform, out vtx.Position);
+                if (Math.Abs(vtx.Position.Z) > float.Epsilon) throw new InvalidProgramException();
                 _vertices[_vertexCount++] = vtx;
             }
             for(int i = 0; i < indices.Length; i++)
