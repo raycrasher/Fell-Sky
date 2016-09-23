@@ -170,15 +170,15 @@ namespace FellSky.Systems
             var inverse = new Vector2(1, -1) * 0.01f;
 
             _planetEffect.World = Matrix.CreateTranslation(new Vector3(xform.Position, 0)) * Matrix.CreateRotationX(MathHelper.ToRadians(80)) * Matrix.CreateScale(1f);
-            _planetEffect.View = Matrix.CreateLookAt(new Vector3(_camera.Transform.Position * inverse, 20 + _camera.Zoom), new Vector3(_camera.Transform.Position * inverse, 0), Vector3.UnitY);
+            _planetEffect.View = Matrix.CreateLookAt(new Vector3(_camera.Transform.Position * inverse, 100), new Vector3(_camera.Transform.Position * inverse, 0), Vector3.UnitY) * Matrix.CreateScale(_camera.Zoom);
 
             _planetEffect.DirectionalLight0.Enabled = true;
             _planetEffect.DirectionalLight0.DiffuseColor = new Color(255,255,200).ToVector3() * 0.3f;
-            _planetEffect.DirectionalLight0.Direction = new Vector3(xform.Position, -5);
+            _planetEffect.DirectionalLight0.Direction = new Vector3(xform.Position, 0);
             //_planetEffect.Texture = entity.GetComponent<SpaceObjectComponent>().Texture;
 
             _sphereModelLowPoly.Meshes[0].Draw();
-            DrawHalo(entity, Matrix.CreateTranslation(new Vector3(xform.Position, 0)) * Matrix.CreateScale(1f), _planetEffect.View, 0.5f);
+            DrawHalo(entity, Matrix.CreateTranslation(new Vector3(xform.Position, 0)) * Matrix.CreateScale(1f), _planetEffect.View, 0.8f);
         }
 
         /*
