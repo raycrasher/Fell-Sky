@@ -4,8 +4,11 @@ using System.Runtime.InteropServices;
 
 namespace FellSky
 {
+    /// <summary>
+    /// A vertex with 2d position, color, and texture coordinates.
+    /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    public struct Vertex2 : IVertexType
+    public struct Vertex2CT : IVertexType
     {
         public static readonly VertexDeclaration VertexDeclarationStatic = new VertexDeclaration(
             new VertexElement(0, VertexElementFormat.Vector2, VertexElementUsage.Position, 0),
@@ -21,8 +24,11 @@ namespace FellSky
 #pragma warning restore 0649
     }
 
+    /// <summary>
+    /// A vertex with 3d position, color, and texture coordinates.
+    /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    public struct Vertex3 : IVertexType
+    public struct Vertex3CT : IVertexType
     {
         public static readonly VertexDeclaration VertexDeclarationStatic = new VertexDeclaration(
             new VertexElement(0, VertexElementFormat.Vector3, VertexElementUsage.Position, 0),
@@ -38,8 +44,11 @@ namespace FellSky
 #pragma warning restore 0649
     }
 
+    /// <summary>
+    /// A vertex with 3d position, color, texture coordinates, and normal.
+    /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    public struct Vertex3N : IVertexType
+    public struct Vertex3CTN : IVertexType
     {
         public static readonly VertexDeclaration VertexDeclarationStatic = new VertexDeclaration(
             new VertexElement(0, VertexElementFormat.Vector3, VertexElementUsage.Position, 0),

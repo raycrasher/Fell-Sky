@@ -31,11 +31,11 @@ namespace FellSky.Systems
         private Matrix _projectionMatrix;
 
         private BasicEffect _sunEffect, _planetEffect, _haloEffect, _starGlowEffect;
-        private Vertex3[] _quad = new Vertex3[] {
-            new Vertex3 { Position = new Vector3(-1,-1,0), Color = Color.White, TextureCoords=new Vector2(0,0) },
-            new Vertex3 { Position = new Vector3(-1, 1,0), Color = Color.White, TextureCoords=new Vector2(0,1) },
-            new Vertex3 { Position = new Vector3( 1,-1,0), Color = Color.White, TextureCoords=new Vector2(1,0) },
-            new Vertex3 { Position = new Vector3( 1, 1,0), Color = Color.White, TextureCoords=new Vector2(1,1) },
+        private Vertex3CT[] _quad = new Vertex3CT[] {
+            new Vertex3CT { Position = new Vector3(-1,-1,0), Color = Color.White, TextureCoords=new Vector2(0,0) },
+            new Vertex3CT { Position = new Vector3(-1, 1,0), Color = Color.White, TextureCoords=new Vector2(0,1) },
+            new Vertex3CT { Position = new Vector3( 1,-1,0), Color = Color.White, TextureCoords=new Vector2(1,0) },
+            new Vertex3CT { Position = new Vector3( 1, 1,0), Color = Color.White, TextureCoords=new Vector2(1,1) },
         };
         private Model _sphereModelLowPoly;
 

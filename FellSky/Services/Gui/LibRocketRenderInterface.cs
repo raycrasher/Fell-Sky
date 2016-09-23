@@ -15,7 +15,7 @@ namespace FellSky.Services.Gui
 
         public bool UseVBO { get; private set; }
 
-        private Vertex2[] _vertices;
+        private Vertex2CT[] _vertices;
         private int[] _indices;
 
 
@@ -38,7 +38,7 @@ namespace FellSky.Services.Gui
             _content = content;
             GraphicsDevice = device;
             GraphicsDevice.SamplerStates[0] = SamplerState.LinearClamp;
-            _vertices = new Vertex2[NumStartingVertices];
+            _vertices = new Vertex2CT[NumStartingVertices];
             _indices = new int[NumStartingIndices];
             _effect = new BasicEffect(device);
             _effect.VertexColorEnabled = true;
@@ -60,13 +60,13 @@ namespace FellSky.Services.Gui
             var geom = new Geometry();
             if (texture != IntPtr.Zero) geom.Texture = _textures[texture];
 
-            var vbuf = new Vertex2[num_vertices];
+            var vbuf = new Vertex2CT[num_vertices];
             var ibuf = new int[num_indices];
 
             CopyVertices(vertices, vbuf, num_vertices);
             Marshal.Copy((IntPtr)indices, ibuf, 0, num_indices);
 
-            geom.Vertices = new VertexBuffer(GraphicsDevice, Vertex2.VertexDeclarationStatic, num_vertices, BufferUsage.None);
+            geom.Vertices = new VertexBuffer(GraphicsDevice, Vertex2CT.VertexDeclarationStatic, num_vertices, BufferUsage.None);
             geom.Vertices.SetData(vbuf);
 
             geom.Indices = new IndexBuffer(GraphicsDevice, IndexElementSize.ThirtyTwoBits, num_indices, BufferUsage.None);
@@ -121,7 +121,7 @@ namespace FellSky.Services.Gui
                     _indices,
                     0,
                     num_indices / 3,
-                    Vertex2.VertexDeclarationStatic);
+                    Vertex2CT.VertexDeclarationStatic);
             }
             GraphicsDevice.RasterizerState = rstate;
         }
