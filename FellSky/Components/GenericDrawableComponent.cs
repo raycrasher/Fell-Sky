@@ -1,5 +1,6 @@
 ﻿using Artemis;
 using Artemis.Interface;
+using FellSky.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace FellSky.Components

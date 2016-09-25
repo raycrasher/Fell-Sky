@@ -153,6 +153,7 @@ namespace FellSky.Editor
             Services.AddService<IKeyboardService>(_keyboard);
             _timer = new TimerService();
             Services.AddService<ITimerService>(_timer);
+            Services.AddService(new FastSpriteBatch(host.GraphicsDevice));
 
             _timer.LastFrameUpdateTime = _gameTime;
             _timer.LastFrameRenderTime = _gameTime;

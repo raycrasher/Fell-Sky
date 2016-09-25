@@ -60,7 +60,7 @@ namespace FellSky.Systems
             var view =  camera.GetViewMatrix(1.0f);
             
             _primitiveBatch.Begin(ref projection, ref view);
-            _spriteBatch.Begin(transformMatrix: view);
+            _spriteBatch.Begin(effect: camera.SpriteBatchBasicEffect, rasterizerState: RasterizerState.CullNone);
             foreach(var entity in entities.Values)
             {
                 var hardpoint = entity.GetComponent<HardpointComponent>();
@@ -138,21 +138,23 @@ namespace FellSky.Systems
                     color = Color.LightCyan;
                     var hullPos = Vector2.Transform(Vector2.Zero, xform);
 
+                    var thickness = draw.Thickness * camera.Zoom;
+
                     if (drawCircle) {
-                        _spriteBatch.DrawCircle(hullPos, iconSize, 20, color, draw.Thickness);
+                        _spriteBatch.DrawCircle(hullPos, iconSize, 20, color, thickness);
                     }
 
                     if (drawRectangle)
                     {
-                        _spriteBatch.DrawRectangle(hullPos + new Vector2(-iconSize, -iconSize) - Vector2.One, new Vector2(iconSize * 2), color, draw.Thickness);
+                        _spriteBatch.DrawRectangle(hullPos + new Vector2(-iconSize, -iconSize) - Vector2.One, new Vector2(iconSize * 2), color, thickness);
 
                     }
                     if (drawDiamond)
                     {
-                        _spriteBatch.DrawLine(hullPos + new Vector2(-iconSize,0), hullPos + new Vector2(0, -iconSize), color, draw.Thickness);
-                        _spriteBatch.DrawLine(hullPos + new Vector2(0, -iconSize), hullPos + new Vector2(iconSize,0), color, draw.Thickness);
-                        _spriteBatch.DrawLine(hullPos + new Vector2(iconSize,0), hullPos + new Vector2(0, iconSize), color, draw.Thickness);
-                        _spriteBatch.DrawLine(hullPos + new Vector2(0, iconSize), hullPos + new Vector2(-iconSize,0), color, draw.Thickness);
+                        _spriteBatch.DrawLine(hullPos + new Vector2(-iconSize,0), hullPos + new Vector2(0, -iconSize), color, thickness);
+                        _spriteBatch.DrawLine(hullPos + new Vector2(0, -iconSize), hullPos + new Vector2(iconSize,0), color, thickness);
+                        _spriteBatch.DrawLine(hullPos + new Vector2(iconSize,0), hullPos + new Vector2(0, iconSize), color, thickness);
+                        _spriteBatch.DrawLine(hullPos + new Vector2(0, iconSize), hullPos + new Vector2(-iconSize,0), color, thickness);
                     }
                 }
             }

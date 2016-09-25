@@ -11,26 +11,47 @@ namespace FellSky.Framework
 {
     public class FastSpriteBatch
     {
-        
+        private BasicEffect _defaultEffect;
         private Vertex3CTN[] _vertices;
         private int[] _indices;
         private int _vertexCount, _indexCount;
         private Vertex3CTN[] _quadVertices = new Vertex3CTN[4];
         private int[] _quadIndices = new int[]{ 0, 1, 2, 1, 3, 2 };
+        private Effect _effect;
+        private GraphicsDevice _device;
+        private Texture2D _texture;
 
+        public GraphicsDevice GraphicsDevice => _device;
         public int NumVertices => _vertexCount;
         public int NumIndices => _indexCount;
 
-        public FastSpriteBatch(int initialVertexCount = 10000)
+        public FastSpriteBatch(GraphicsDevice device, int initialVertexCount = 10000)
         {
+            _device = device;
             _vertices = new Vertex3CTN[initialVertexCount];
             _indices = new int[_vertices.Length * 3 / 2];
+            _defaultEffect = new BasicEffect(device);
+            _defaultEffect.VertexColorEnabled = true;
+            _defaultEffect.TextureEnabled = true;
         }
 
-        public void Reset()
+        public void Begin(Effect effect)
         {
+            _effect = effect;
             _vertexCount = 0;
             _indexCount = 0;
+            _texture = null;
+        }
+
+        public void Begin(Matrix world, Matrix projection, Matrix view)
+        {
+            _effect = _defaultEffect;
+            _defaultEffect.World = world;
+            _defaultEffect.Projection = projection;
+            _defaultEffect.View = view;
+            _vertexCount = 0;
+            _indexCount = 0;
+            _texture = null;
         }
 
         public void Draw(SpriteComponent sprite, ref Matrix transform, Color? color=null, Vector3? normal=null)
@@ -57,11 +78,28 @@ namespace FellSky.Framework
             vtx.TextureCoords = texCoordBR;
             _quadVertices[3] = vtx;
 
-            Draw(_quadVertices, _quadIndices, ref transform);
+            DrawVertices(tex, _quadVertices, _quadIndices, ref transform);
         }
 
-        public void Draw(Vertex3CTN[] vertices, int[] indices, ref Matrix transform)
+        public void End()
         {
+            if (_indexCount > 0)
+            {
+                RenderImpl(_texture);
+            }
+        }
+
+        public void DrawVertices(Texture2D texture, Vertex3CTN[] vertices, int[] indices, ref Matrix transform)
+        {
+            if (_texture == null)
+                _texture = texture;
+            if (_texture != texture)
+            {
+                RenderImpl(texture);
+                _vertexCount = 0;
+                _indexCount = 0;
+                _texture = texture;
+            }
             EnsureSpace(indices.Length, vertices.Length);
 
             int baseIndex = _vertexCount;
@@ -79,12 +117,13 @@ namespace FellSky.Framework
             }
         }
 
-        public void Render(GraphicsDevice device, Effect effect)
+        private void RenderImpl(Texture2D texture)
         {
-            foreach(var pass in effect.CurrentTechnique.Passes)
+            foreach(var pass in _effect.CurrentTechnique.Passes)
             {
                 pass.Apply();
-                device.DrawUserIndexedPrimitives(PrimitiveType.TriangleList, _vertices, 0, _vertexCount, _indices, 0, _indexCount / 3);
+                _device.Textures[0] = texture;
+                _device.DrawUserIndexedPrimitives(PrimitiveType.TriangleList, _vertices, 0, _vertexCount, _indices, 0, _indexCount / 3);
             }
         }
 

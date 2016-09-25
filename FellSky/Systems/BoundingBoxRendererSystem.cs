@@ -21,7 +21,7 @@ namespace FellSky.Systems
         {
             var camera = EntityWorld.TagManager.GetEntity(Constants.ActiveCameraTag).GetComponent<Camera>();
             if (camera == null) return;
-            _spriteBatch.Begin(transformMatrix: camera?.GetViewMatrix(1.0f));            
+            _spriteBatch.Begin(effect: camera.SpriteBatchBasicEffect);            
             base.ProcessEntities(entities);
             _spriteBatch.End();
         }

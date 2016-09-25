@@ -189,7 +189,7 @@ namespace FellSky.Systems
                 new Vector2(Math.Abs(start.X - mousePos.X),
                             Math.Abs(start.Y - mousePos.Y)),
                 MarqueeBoxColor,
-                MarqueeBoxThickness
+                MarqueeBoxThickness * camera.Zoom
                 );
         }
 

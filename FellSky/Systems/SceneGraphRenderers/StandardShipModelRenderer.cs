@@ -20,7 +20,6 @@ namespace FellSky.Systems.SceneGraphRenderers
         //private SpriteBatch _batch;
         private FastSpriteBatch _batch;
         private EntityWorld _world;
-        private BasicEffect _shipEffect;
         private ulong _totalTime = 0;
 
         public StandardShipModelRenderer()
@@ -29,26 +28,17 @@ namespace FellSky.Systems.SceneGraphRenderers
             var content = ServiceLocator.Instance.GetService<Microsoft.Xna.Framework.Content.ContentManager>();
             _rasterizerState = RasterizerState.CullNone;
             _device = ServiceLocator.Instance.GetService<GraphicsDevice>();
-            _batch = new FastSpriteBatch();
-            _shipEffect = new BasicEffect(_device);
-            _shipEffect.TextureEnabled = true;            
-            _shipEffect.Texture = content.Load<Texture2D>("Textures/hulls");
-            _shipEffect.VertexColorEnabled = true;
-            var projectionDivisor = 1f;
-            _shipEffect.Projection = Matrix.CreateOrthographic(_device.Viewport.Width / projectionDivisor, _device.Viewport.Height / projectionDivisor, 1.0f, 10000.0f);
+            _batch = ServiceLocator.Instance.GetService<FastSpriteBatch>();
+           
         }
 
         public void Begin(EntityWorld world)
         {
             _totalTime += (ulong)world.Delta;
             _world = world;
-            _lastRasterizerState = _device.RasterizerState;
-            
-            //batch.GraphicsDevice.RasterizerState = _rasterizerState;
+            _lastRasterizerState = _device.RasterizerState;          
             var _camera = world.GetActiveCamera();
-            var inverse = new Vector2(1, -1) * 0.01f;
-            _shipEffect.View = Matrix.CreateLookAt(new Vector3(_camera.Transform.Position * inverse, 100), new Vector3(_camera.Transform.Position * inverse, 0), Vector3.UnitY) * Matrix.CreateScale(_camera.Zoom);
-            _batch.Reset();
+            _batch.Begin(Matrix.Identity, _camera.ProjectionMatrix, _camera.GetViewMatrix(1.0f));
         }
 
         public void End()
@@ -56,10 +46,8 @@ namespace FellSky.Systems.SceneGraphRenderers
             _device.DepthStencilState = DepthStencilState.None;
             _device.SamplerStates[0] = SamplerState.AnisotropicClamp;
             _device.RasterizerState = _rasterizerState;
-            _batch.Render(_device, _shipEffect);
+            _batch.End();
             _device.RasterizerState = _lastRasterizerState;
-            //_batch.End();
-            //_batch.GraphicsDevice.RasterizerState = _lastRasterizerState;
         }
 
         public void BeginRoot(EntityWorld world, Entity root)

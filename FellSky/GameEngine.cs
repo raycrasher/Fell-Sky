@@ -37,6 +37,7 @@ namespace FellSky
         }
 
         public SpriteBatch SpriteBatch { get; private set; }
+        public FastSpriteBatch FastSpriteBatch { get; private set; }
         public SpriteManagerService SpriteManager { get; private set; }
         public TimerService Timer { get; private set; }
         public GuiService Gui { get; private set; }
@@ -69,7 +70,10 @@ namespace FellSky
         {
             Content.RootDirectory = Path.GetFullPath(Settings.DataFolder);
             Environment.CurrentDirectory = Path.GetFullPath(Settings.DataFolder);
+            FastSpriteBatch = new FastSpriteBatch(GraphicsDevice);
 
+            Services.AddService(FastSpriteBatch);
+            
             Services.AddService(Content);
 
             Timer = new TimerService();

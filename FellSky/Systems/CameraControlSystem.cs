@@ -28,8 +28,8 @@ namespace FellSky.Systems
         private ITimerService _timer;
         private Camera _camera;
 
-        public float MinZoom { get; set; } = 0.01f;
-        public float MaxZoom { get; set; } = 3;
+        public float MinZoom { get; set; } = 0.5f;
+        public float MaxZoom { get; set; } = 5;
 
         //private ITimerService _timer;
 

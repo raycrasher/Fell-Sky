@@ -85,7 +85,10 @@ namespace FellSky.Editor
         private Keyframe<Color> ColorKeyframe => (Keyframe<Color>)Keyframe;
         public System.Windows.Media.Color? Color
         {
-            get { return System.Windows.Media.Color.FromArgb(ColorKeyframe.Value.A, ColorKeyframe.Value.R,ColorKeyframe.Value.G,ColorKeyframe.Value.B); }
+            get {
+                if (ColorKeyframe == null) return null;
+                return System.Windows.Media.Color.FromArgb(ColorKeyframe.Value.A, ColorKeyframe.Value.R,ColorKeyframe.Value.G,ColorKeyframe.Value.B);
+            }
             set
             {
                 if (value != null && Keyframe != null)
