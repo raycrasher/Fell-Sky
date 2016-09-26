@@ -138,7 +138,7 @@ namespace FellSky.Systems
                 if (newSelectedEntities.Any()) {
 
                     foreach(var e in SelectedEntities)
-                        e.GetComponent<BoundingBoxSelectorComponent>().IsSelected = false; ;
+                        e.GetComponent<BoundingBoxSelectorComponent>().IsSelected = false;
 
                     if (clickMode)
                     {

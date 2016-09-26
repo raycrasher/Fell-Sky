@@ -22,7 +22,7 @@ namespace FellSky.Systems
 
         protected override void ProcessEntities(IDictionary<int, Entity> entities)
         {
-            _batch.Begin(transformMatrix: EntityWorld.GetActiveCamera().GetViewMatrix(1.0f));
+            _batch.Begin(effect: EntityWorld.GetActiveCamera().SpriteBatchBasicEffect, rasterizerState: RasterizerState.CullNone);
             foreach (var entity in entities.Values)
             {
                 var bullet = entity.GetComponent<Components.BulletComponent>();

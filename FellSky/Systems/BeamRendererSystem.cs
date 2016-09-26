@@ -21,7 +21,6 @@ namespace FellSky.Systems
 
         private Vertex2CT[] _vertices = new Vertex2CT[1000];
         private int[] _indices = new int[2000];
-        RasterizerState _rasterizerState = new RasterizerState { CullMode = CullMode.None, ScissorTestEnable = false };
 
         public BeamRendererSystem()
             : base(Aspect.All(typeof(Transform), typeof(BeamComponent)))
@@ -49,12 +48,15 @@ namespace FellSky.Systems
             //_beamEffect.View = Matrix.CreateScale(1f / Constants.PhysicsUnitScale) * camera.GetViewMatrix(1.0f);
 
             var rState = _device.RasterizerState;
-            _device.RasterizerState = _rasterizerState;
+            _device.RasterizerState = RasterizerState.CullNone;
 
             _device.BlendState = BlendState.Additive;
             int iVertex = 0;
             int iIndex = 0;
             Texture2D lastTexture = null;
+
+            _beamEffect.Projection = camera.ProjectionMatrix;
+            _beamEffect.View = camera.GetViewMatrix(1.0f);
 
             foreach (var item in entities.Values)
             {
@@ -90,7 +92,7 @@ namespace FellSky.Systems
                     iIndex = 0;
                 }
 
-                _beamEffect.World = camera.GetViewMatrix(1.0f);
+                //_beamEffect.World = camera.GetViewMatrix(1.0f)
 
 
                 Matrix matrix;

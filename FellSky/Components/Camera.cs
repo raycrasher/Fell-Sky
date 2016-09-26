@@ -39,7 +39,7 @@ namespace FellSky.Components
 
         public Matrix GetViewMatrix(float parallax)
         {
-            float scaleFactor = 1 / (parallax + Zoom) * 2;
+            //float scaleFactor = 1 / (parallax + Zoom) * 2;
             return Matrix.CreateLookAt(new Vector3(Transform.Position, -100), new Vector3(Transform.Position, 0), -Vector3.UnitY) * Matrix.CreateScale(1f / Zoom);            
         }
 
@@ -48,10 +48,11 @@ namespace FellSky.Components
             Vector2 upperLeft = Vector2.Zero, lowerRight = ScreenSize*2;
             return new FloatRect(ScreenToCameraSpace(upperLeft), ScreenToCameraSpace(lowerRight));
         }
-
+        
         public Vector2 ScreenToCameraSpace(Vector2 screenCoords)
         {
-            return Vector2.Transform(screenCoords, Matrix.Invert(GetViewMatrix(1.0f)));
+            var result = Device.Viewport.Unproject(new Vector3(screenCoords, 0), ProjectionMatrix, GetViewMatrix(1.0f), Matrix.Identity);
+            return new Vector2(result.X, result.Y);
         }
     }
 }
