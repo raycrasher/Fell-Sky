@@ -40,7 +40,7 @@ namespace FellSky.Components
         public Matrix GetViewMatrix(float parallax)
         {
             //float scaleFactor = 1 / (parallax + Zoom) * 2;
-            return Matrix.CreateLookAt(new Vector3(Transform.Position, -100), new Vector3(Transform.Position, 0), -Vector3.UnitY) * Matrix.CreateScale(1f / Zoom);            
+            return Matrix.CreateLookAt(new Vector3(Transform.Position, -2000), new Vector3(Transform.Position, 0), -Vector3.UnitY) * Matrix.CreateScale(1f / Zoom);            
         }
 
         public FloatRect GetViewRect(float parallax)

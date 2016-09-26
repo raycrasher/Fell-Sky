@@ -122,15 +122,15 @@ namespace FellSky
             ShipRefitScene = new ShipRefitScene(testShips);
             ShipRefitScene.LoadContent();
 
-            //MainMenuScene = new MainMenuScene();
-            //MainMenuScene.LoadContent();
+            MainMenuScene = new MainMenuScene();
+            MainMenuScene.LoadContent();
 
-            //SystemMapScene = new SystemMapScene(Galaxy.StarSystems[0]);
-            //SystemMapScene.LoadContent();
+            SystemMapScene = new SystemMapScene(Galaxy.StarSystems[0]);
+            SystemMapScene.LoadContent();
 
             //CurrentScene = MainMenuScene;
-            //CurrentScene = SystemMapScene;
-            CurrentScene = ShipRefitScene;
+            CurrentScene = SystemMapScene;
+            //CurrentScene = ShipRefitScene;
 
             EntityFactories.CombatEntityFactory.LoadWeapons();
             EntityFactories.CombatEntityFactory.LoadProjectiles();
