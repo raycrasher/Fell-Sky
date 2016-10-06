@@ -262,18 +262,20 @@ namespace FellSky.Editor
 
         public void ChangePartDepth(int delta)
         {
+            var children = ModelEntity.GetChildren();
             if (SelectedPartEntities.Count > 0)
             {
                 var parts = SelectedPartEntities
-                    .Select(pe => new { Part = pe.GetComponent<IShipPartComponent>().Part, Index = Model.Parts.IndexOf(pe.GetComponent<IShipPartComponent>().Part) })
+                    .Select(pe => new {
+                        Part = pe.GetComponent<IShipPartComponent>().Part,
+                        Index = Model.Parts.IndexOf(pe.GetComponent<IShipPartComponent>().Part),
+                        SGIndex = children.IndexOf(pe)
+                    })
                     .ToArray();
-                var children = ModelEntity.GetChildren();
-
                 foreach (var item in parts)
                 {
-                    var newindex = MathHelper.Clamp(item.Index + delta, 0, Model.Parts.Count - 1);
-                    Model.Parts.Move(item.Index, newindex);
-                    children.Move(item.Index, newindex);
+                    Model.Parts.Move(item.Index, MathHelper.Clamp(item.Index + delta, 0, Model.Parts.Count - 1));
+                    children.Move(item.SGIndex, MathHelper.Clamp(item.SGIndex + delta, 0, children.Count - 1));
                 }
             }
         }
@@ -403,10 +405,13 @@ namespace FellSky.Editor
             if (_transformSystem.State != null)
                 _transformSystem.ApplyTransform();
 
-            Func<ShipPart, Entity> CreatePartEntity = (ShipPart oldPart) =>
+            var children = ModelEntity.GetChildren();
+
+            Func<Entity, ShipPart, Entity> CreatePartEntity = (Entity oldEntity, ShipPart oldPart) =>
             {
                 var part = oldPart.Clone();
-                var entity = part.CreateEntity(_world, ModelEntity, Model.Parts.IndexOf(oldPart) + 1);
+                var entity = part.CreateEntity(_world, ModelEntity, children.IndexOf(oldEntity) + 1);
+                Model.Parts.Insert(Model.Parts.IndexOf(oldPart) + 1, part);
                 
                 AddEditorComponentsToPartEntity(entity);
                 return entity;
@@ -417,7 +422,7 @@ namespace FellSky.Editor
                         
             SelectedPartEntities.AddRange(from entity in toClone
                                     let part = entity.GetComponent<IShipPartComponent>().Part
-                                    select CreatePartEntity(part));
+                                    select CreatePartEntity(entity, part));
 
             foreach(var entity in SelectedPartEntities)
             {
@@ -469,8 +474,10 @@ namespace FellSky.Editor
 
         public void MirrorSelectedLaterally()
         {
-            foreach (var part in SelectedPartEntities.Select(s => s.GetComponent<IShipPartComponent>().Part))
+            var children = ModelEntity.GetChildren();
+            foreach (var oldEntity in SelectedPartEntities)
             {
+                var part = oldEntity.GetComponent<IShipPartComponent>().Part;
                 Vector2 position = part.Transform.Position * new Vector2(1, -1);
                 Vector2 scale = part.Transform.Scale * new Vector2(1,-1);
                 float rotation = (part.Transform.Rotation.ToVector() * new Vector2(-1, 1)).GetAngleRadians();
@@ -480,10 +487,9 @@ namespace FellSky.Editor
                                         && part2.SpriteId == part2.SpriteId
                                         )) return;
 
-                int index = Model.Parts.IndexOf(part) + 1;
                 var newPart = part.Clone();
-                Model.Parts.Insert(index, newPart);
-                var entity = newPart.CreateEntity(_world, ModelEntity, index);
+                Model.Parts.Insert(Model.Parts.IndexOf(part) + 1, newPart);
+                var entity = newPart.CreateEntity(_world, ModelEntity, children.IndexOf(oldEntity) + 1);
                 AddEditorComponentsToPartEntity(entity);
 
                 var xform = entity.GetComponent<Transform>();
