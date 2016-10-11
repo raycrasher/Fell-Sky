@@ -38,7 +38,6 @@ namespace FellSky.Scenes
 
         public ElementDocument Document { get; private set; }
         public static ShipRefitScene Instance { get; private set; }
-        public EntityWorld World { get; private set; }
         public IReadOnlyList<Ship> Fleet { get; private set; }
 
         public List<Texture2D> LoadedTextures { get; set; }
@@ -57,10 +56,12 @@ namespace FellSky.Scenes
 
         public override void LoadContent()
         {
-            World = new EntityWorld(false,false,false);
             Instance = this;
 
             int depth = 0;
+
+            World.CreateComponentPool<BulletComponent>(200, 200);
+
             World.SystemManager.SetSystem(new GridRendererSystem(), Artemis.Manager.GameLoopType.Draw, depth++);
             World.SystemManager.SetSystem(new BackgroundRendererSystem(), Artemis.Manager.GameLoopType.Draw, depth++);
             //World.SystemManager.SetSystem(new ShipRendererSystem(), Artemis.Manager.GameLoopType.Draw, depth++);
@@ -194,7 +195,12 @@ namespace FellSky.Scenes
                 var entity = World.CreateEntity();
                 var xform = hardpointEntity.GetComponent<Transform>();
                 var box = HardpointRendererSystem.GetIconBoundingBox(hardpointEntity.GetComponent<HardpointComponent>().Hardpoint);
-                entity.AddComponent(new Transform(xform.Position - box.Size/2, 0, Vector2.One));
+                var newxform = entity.AddComponentFromPool<Transform>();
+
+                newxform.Position = xform.Position - box.Size / 2;
+                newxform.Rotation = 0;
+                newxform.Scale = Vector2.One;
+
                 entity.AddComponent(new BoundingBoxComponent(box));
 
                 //entity.AddComponent(new DrawBoundingBoxComponent { Color = Microsoft.Xna.Framework.Color.Red, IsEnabled = true });

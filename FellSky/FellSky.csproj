@@ -72,8 +72,20 @@
       <HintPath>..\packages\CsvHelper.2.16.0.0\lib\net45\CsvHelper.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="DiceNotation, Version=0.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\EdCanHack.DiceNotation.0.2.0\lib\portable-net45+sl50+win+wpa81+wp80\DiceNotation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DiceNotation.MathNet, Version=0.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\EdCanHack.DiceNotation.MathNet.0.2.0\lib\portable-net45+sl50+win+wpa81+wp80\DiceNotation.MathNet.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="FarseerPhysics MonoGame">
       <HintPath>..\Dependencies\FarseerPhysics MonoGame.dll</HintPath>
+    </Reference>
+    <Reference Include="JetBrains.Annotations, Version=8.0.5.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <HintPath>..\packages\JetBrains.Annotations.8.0.5.0\lib\net20\JetBrains.Annotations.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="LibRocketNet, Version=1.0.5778.34369, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
@@ -81,6 +93,10 @@
     </Reference>
     <Reference Include="Lidgren.Network">
       <HintPath>..\Dependencies\Lidgren.Network.dll</HintPath>
+    </Reference>
+    <Reference Include="MathNet.Numerics, Version=3.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MathNet.Numerics.3.5.0\lib\net40\MathNet.Numerics.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="MonoGame.Framework">
       <HintPath>..\Dependencies\MonoGame.Framework.dll</HintPath>
@@ -107,6 +123,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Numerics" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
@@ -189,6 +206,7 @@
     <Compile Include="Game\Combat\IProjectile.cs" />
     <Compile Include="Game\Combat\Projectiles\Beam.cs" />
     <Compile Include="Game\Combat\Projectiles\Bullet.cs" />
+    <Compile Include="Game\Combat\Projectiles\Missile.cs" />
     <Compile Include="Game\Combat\WeaponFireEventArgs.cs" />
     <Compile Include="Game\Ground\Map.cs" />
     <Compile Include="Game\Ground\MapTile.cs" />
@@ -255,6 +273,7 @@
     <Compile Include="Systems\BeamRendererSystem.cs" />
     <Compile Include="Systems\BeamSystem.cs" />
     <Compile Include="Systems\BulletRendererSystem.cs" />
+    <Compile Include="Systems\CombatSystem.cs" />
     <Compile Include="Systems\CoroutineSystem.cs" />
     <Compile Include="Systems\DustRendererSystem.cs" />
     <Compile Include="Systems\EventSystem.cs" />

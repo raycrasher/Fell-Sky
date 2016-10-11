@@ -13,7 +13,6 @@ namespace FellSky.EntityFactories
             var entity = world.CreateEntity();
             var camera = new Camera(device);
             entity.AddComponent(camera);
-            entity.AddComponent(camera.Transform);
             entity.Tag = tag;
             return entity;
         }

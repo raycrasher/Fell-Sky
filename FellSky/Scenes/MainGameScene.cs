@@ -19,8 +19,9 @@ namespace FellSky.Scenes
     {
         private IGuiService _guiService;
 
-        public EntityWorld World { get; private set; }
         public Entity Camera { get; private set; }
+
+        public Entity PlayerShip { get; private set; }
 
         public MainGameScene()
         {
@@ -36,7 +37,6 @@ namespace FellSky.Scenes
 
         private void CreateWorld()
         {
-            World = new EntityWorld(false, false, false);
             int depth = 1;
             World.SystemManager.SetSystem(new GridRendererSystem(), Artemis.Manager.GameLoopType.Draw, depth++);
             World.SystemManager.SetSystem(new BackgroundRendererSystem(), Artemis.Manager.GameLoopType.Draw, depth++);

@@ -28,7 +28,7 @@ namespace FellSky.Systems
             public float Size, SizeDelta;
         }
 
-        private SpriteBatch _spriteBatch;
+        private FastSpriteBatch _spriteBatch;
 
         private List<Particle> _particles = new List<Particle>();
         private ITimerService _time;
@@ -39,13 +39,13 @@ namespace FellSky.Systems
             : base(Aspect.All(typeof(ParticleEmitterComponent), typeof(SpriteComponent), typeof(Transform)))
         {
             _time = ServiceLocator.Instance.GetService<ITimerService>();
-            _spriteBatch = ServiceLocator.Instance.GetService<SpriteBatch>();
+            _spriteBatch = ServiceLocator.Instance.GetService<FastSpriteBatch>();
         }
 
         protected override void ProcessEntities(IDictionary<int, Entity> entities)
         {
             var camera = EntityWorld.TagManager.GetEntity(Constants.ActiveCameraTag).GetComponent<Camera>();
-            _spriteBatch.Begin();
+            _spriteBatch.Begin(camera.SpriteBatchBasicEffect);
             
             foreach(var entity in entities.Values)
             {
@@ -72,7 +72,8 @@ namespace FellSky.Systems
                         _particles[i] = null;
                     }
                     UpdateParticle(particle);
-                    particle.Sprite.Draw(_spriteBatch, particle, particle.Color);
+                    var matrix = UtilityExtensions.GetMatrix(particle.Position, particle.Rotation, particle.Scale, particle.Sprite.Origin);
+                    _spriteBatch.Draw(particle.Sprite, ref matrix, particle.Color);
                 }
             }
             if(offset > 0)

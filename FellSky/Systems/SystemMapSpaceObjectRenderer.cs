@@ -22,7 +22,6 @@ namespace FellSky.Systems
         private GraphicsDevice _device;
         private SpriteBatch _spriteBatch;
         private SpriteComponent _planetShadowMask;
-        private Transform _xform = new Transform();
 
         private RasterizerState _antiAliasRasterizerState = new RasterizerState { MultiSampleAntiAlias = true };
 

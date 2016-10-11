@@ -42,7 +42,11 @@ namespace FellSky.Game.Ships
             var shipEntity = world.CreateEntity();
             var shipComponent = new ShipComponent(this);
             var iff = new IdFriendOrFoeComponent();
-            shipEntity.AddComponent(new Transform(position, rotation, scale ?? Vector2.One));
+            var xform = shipEntity.AddComponentFromPool<Transform>();
+            xform.Position = position;
+            xform.Rotation = rotation;
+            xform.Scale = scale ?? Vector2.One;
+
             shipEntity.AddComponent(shipComponent);
             shipEntity.AddComponent(new SceneGraphComponent());
             shipEntity.AddComponent(new SceneGraphRenderRoot<StandardShipModelRenderer>());

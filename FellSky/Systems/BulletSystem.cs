@@ -1,6 +1,8 @@
 ﻿using Artemis;
+using DiceNotation.Rollers;
 using FellSky.Components;
 using FellSky.Services;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,11 +17,14 @@ namespace FellSky
     {
         public Entity Bullet;
         public Entity Target;
+        public float Damage;
+        public Vector2 Position;
     }
 
     public class BulletSystem: Artemis.System.EntitySystem
     {
         BulletHitEventArgs hitArgs = new BulletHitEventArgs();
+        IDieRoller _dieRoller = new StandardDieRoller(new Random());
 
         public BulletSystem()
             : base(Aspect.All(typeof(BulletComponent)))
@@ -60,10 +65,11 @@ namespace FellSky
             */
             hitArgs.Bullet = args.EntityA;
             hitArgs.Target = args.EntityB;
+            hitArgs.Damage = bullet.Damage.Roll(_dieRoller).Value;
 
-            args.EntityB.FireEvent(this, EventId.ProjectileHit, hitArgs);
-            args.EntityA.FireEvent(this, EventId.ProjectileHit, hitArgs);
-            EntityWorld.FireEvent(this, EventId.ProjectileHit, hitArgs);
+            args.EntityB.FireEvent(this, EventId.BulletHit, hitArgs);
+            args.EntityA.FireEvent(this, EventId.BulletHit, hitArgs);
+            EntityWorld.FireEvent(this, EventId.BulletHit, hitArgs);
         }
 
         public override void UnloadContent()

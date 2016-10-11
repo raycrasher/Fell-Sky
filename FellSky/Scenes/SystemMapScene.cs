@@ -11,6 +11,7 @@ using FellSky.EntityFactories;
 using FellSky.Services;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using Artemis.Interface;
 
 namespace FellSky.Scenes
 {
@@ -28,13 +29,11 @@ namespace FellSky.Scenes
             CurrentSpaceObject = spaceObject;
         }
 
-        public EntityWorld World { get; private set; }
         public GraphicsDevice Graphics { get; private set; }
 
         public override void LoadContent()
         {
             int priority = 0, depth = 0;
-            World = new EntityWorld(false,false,false);
 
             Graphics = ServiceLocator.Instance.GetService<GraphicsDevice>();
 
@@ -68,7 +67,7 @@ namespace FellSky.Scenes
             //World.SystemManager.SetSystem(new WeaponSystem(), Artemis.Manager.GameLoopType.Update, priority++);
             World.SystemManager.SetSystem(new FrameAnimationSystem(), Artemis.Manager.GameLoopType.Update, priority++);
 
-            World.InitializeAll(false);
+            World.InitializeAll();
 
             Camera = CameraEntityFactory.CreateCamera(World, Constants.ActiveCameraTag, ServiceLocator.Instance.GetService<GraphicsDevice>());
             

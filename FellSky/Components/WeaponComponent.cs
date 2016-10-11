@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FellSky.Game.Ships.Modules;
 using FellSky.Game.Combat;
+using DiceNotation;
 
 namespace FellSky.Components
 {
@@ -28,7 +29,6 @@ namespace FellSky.Components
         public int AmmoLeft;
 
         public WeaponStatus LastStatus;
-
         //public EventHandler<WeaponFireEventArgs> OnFire;
     }
 }

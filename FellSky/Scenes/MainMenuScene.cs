@@ -16,8 +16,6 @@ namespace FellSky.Scenes
 {
     public class MainMenuScene: Scene
     {
-        EntityWorld World;
-
         public const string MainMenuDocumentPath = "Gui/MainMenu.xml";
         static ElementDocument document;
         private IGuiService _guiService;
@@ -28,7 +26,9 @@ namespace FellSky.Scenes
         public override void LoadContent()
         {
             Instance = this;
-            World = new EntityWorld(false, false, false);
+
+            World.CreateComponentPool<BulletComponent>(200, 200);
+
             int depth = 1;
             World.SystemManager.SetSystem(new GridRendererSystem(), Artemis.Manager.GameLoopType.Draw, depth++);
             World.SystemManager.SetSystem(new BackgroundRendererSystem(), Artemis.Manager.GameLoopType.Draw, depth++);

@@ -41,7 +41,11 @@ namespace FellSky.Game.Ships.Modules
             var moduleEntity = world.CreateEntity();
 
             var hardpointTransform = hardpointEntity.GetComponent<Transform>();
-            var moduleTransform = new Transform(Vector2.Zero, 0, Vector2.One, -hardpointTransform.Origin);
+            var moduleTransform = moduleEntity.AddComponentFromPool<Transform>();
+            moduleTransform.Position = Vector2.Zero;
+            moduleTransform.Rotation = 0;
+            moduleTransform.Scale = Vector2.One;
+            moduleTransform.Origin = -hardpointTransform.Origin;            
 
             var scale = hardpointTransform.Scale;
             var origin = -hardpointTransform.Origin;
@@ -57,8 +61,6 @@ namespace FellSky.Game.Ships.Modules
             }
             moduleTransform.Scale = scale;
             moduleTransform.Origin = origin;
-
-            moduleEntity.AddComponent(moduleTransform);
 
             hardpointEntity.AddChild(moduleEntity);
             var previousInstalled = slot.InstalledEntity;

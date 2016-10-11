@@ -8,10 +8,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DiceNotation;
 
 namespace FellSky.Components
 {
-    public class BulletComponent : IComponent, IProjectileComponent
+    public class BulletComponent : ComponentPoolable, IProjectileComponent
     {
         public Color Color = Color.White;
         public Entity Owner { get; set; }
@@ -22,5 +23,13 @@ namespace FellSky.Components
 
         public TimeSpan Age;
         public float Alpha = 1;
+        public DiceExpression Damage;
+
+        public override void CleanUp()
+        {
+            Alpha = 1;
+            Age = TimeSpan.Zero;
+            base.CleanUp();
+        }
     }
 }

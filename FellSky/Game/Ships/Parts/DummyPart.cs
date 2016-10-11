@@ -16,7 +16,8 @@ namespace FellSky.Game.Ships.Parts
         {
             var entity = world.CreateEntity();
             parent.AddChild(entity);
-            entity.AddComponent(Transform.Clone());
+            var xform = entity.AddComponentFromPool<Transform>();
+            xform.CopyValuesFrom(Transform);
             var component = new DummyPartComponent(this, ship);
             entity.AddComponent(component);
             entity.AddComponent<IShipPartComponent>(component);

@@ -186,5 +186,11 @@ namespace FellSky
             var system = world.SystemManager.GetSystem<Systems.CoroutineSystem>();
             return system.Service.StartCoroutine(routine);
         }
+        
+        public static void CreateComponentPool<T>(this EntityWorld world, int initialSize, int resizePool, bool resizes=true)
+            where T : ComponentPoolable, new()
+        {
+            world.SetPool(typeof(T), new ComponentPool<ComponentPoolable>(200, 200, true, t => new T(), typeof(T)));
+        }
     }
 }

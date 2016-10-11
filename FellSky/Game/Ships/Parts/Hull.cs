@@ -50,7 +50,8 @@ namespace FellSky.Game.Ships.Parts
             entity.AddComponent(hull);
             entity.AddComponent(new HealthComponent(hull.Part.Health));
             entity.AddSceneGraphRendererComponent<StandardShipModelRenderer>();
-            entity.AddComponent(Transform.Clone());
+            var xform = entity.AddComponentFromPool<Transform>();
+            xform.CopyValuesFrom(Transform);
             var spriteManager = ServiceLocator.Instance.GetService<ISpriteManagerService>();
             var spriteComponent = spriteManager.CreateSpriteComponent(SpriteId);
             entity.AddComponent(spriteComponent);

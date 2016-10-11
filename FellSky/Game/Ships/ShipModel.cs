@@ -28,7 +28,7 @@ namespace FellSky.Game.Ships
         public Entity CreateStandAloneEntity(EntityWorld world)
         {
             var entity = world.CreateEntity();
-            entity.AddComponent(new Transform());
+            entity.AddComponentFromPool<Transform>();
             entity.AddComponent(new SceneGraphComponent());
             entity.AddComponent(new SceneGraphRenderRoot<StandardShipModelRenderer>());
             CreateChildEntities(world, entity);

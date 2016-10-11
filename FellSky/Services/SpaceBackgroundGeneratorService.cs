@@ -38,7 +38,7 @@ namespace FellSky.Services
         public Entity GenerateBackground(EntityWorld world, float starDensity, params NebulaParameters[] nebulae)
         {
             var entity = world.CreateEntity();
-            entity.AddComponent(new Transform());
+            entity.AddComponentFromPool<Transform>();
 
             var bgTex = GenerateBackgroundTexture(new Point(Device.Viewport.Width, Device.Viewport.Height), starDensity, nebulae);
             entity.AddComponent(new SpriteComponent { Texture = bgTex, TextureRect = new Rectangle(0, 0, bgTex.Width, bgTex.Height) });
@@ -50,7 +50,7 @@ namespace FellSky.Services
         public Entity GenerateBackground(EntityWorld world, int seed, Point size)
         {
             var entity = world.CreateEntity();
-            entity.AddComponent(new Transform());
+            entity.AddComponentFromPool<Transform>();
 
             var bgTex = GenerateBackgroundTexture(seed, size);
             entity.AddComponent(new SpriteComponent { Texture = bgTex, TextureRect = new Rectangle(0, 0, bgTex.Width, bgTex.Height) });

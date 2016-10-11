@@ -8,18 +8,30 @@ using FellSky.Services;
 using Microsoft.Xna.Framework;
 using FellSky.Systems;
 using FellSky.Components;
+using DiceNotation;
 
 namespace FellSky.Game.Combat.Projectiles
 {
     public class Bullet : IProjectile
     {
         private ISpriteManagerService _spriteManager;
+
         public float MuzzleVelocity { get; set; } = 200;
         public string SpriteId { get; set; }
         public Color Color { get; set; } = Color.White;
         public TimeSpan MaxAge { get; set; } = TimeSpan.FromSeconds(1);
-        public float Damage { get; set; } = 10;
+        
         public Vector2 Scale { get; set; } = Vector2.One;
+
+        public string Damage {
+            get { return _damage; }
+            set {
+                _damage = value;
+                _damageDice = Dice.Parse(value);
+            }
+        }
+        private string _damage;
+        private DiceExpression _damageDice;
 
         public Entity Spawn(EntityWorld world, Entity owner, Entity weapon, Entity muzzle)
         {
@@ -27,13 +39,12 @@ namespace FellSky.Game.Combat.Projectiles
             var bulletEntity = world.CreateEntity();
             var sprite = _spriteManager.CreateSpriteComponent(SpriteId);
             bulletEntity.AddComponent(sprite);
-            var xform = new Transform();
+            var xform = bulletEntity.AddComponentFromPool<Transform>();
             Matrix matrix;
             muzzle.GetWorldMatrix(out matrix);
             xform.CopyValuesFrom(ref matrix);
             xform.Scale = Scale;
             xform.Origin = sprite.Origin;
-            bulletEntity.AddComponent(xform);
 
             var radius = Math.Min(sprite.TextureRect.Width/2, sprite.TextureRect.Height/2) * Constants.PhysicsUnitScale;
             var physics = world.SystemManager.GetSystem<PhysicsSystem>();
@@ -56,18 +67,15 @@ namespace FellSky.Game.Combat.Projectiles
                 return false;
             };
 
-            var bulletComponent = new BulletComponent()
-            {
-                Owner = owner,
-                Weapon = weapon,
-                Bullet = this,
-                Color = Color,
-                Age = TimeSpan.Zero,
-                Alpha = 1,
-            };
-
+            var bulletComponent = bulletEntity.AddComponentFromPool<BulletComponent>();
+            bulletComponent.Owner = owner;
+            bulletComponent.Weapon = weapon;
+            bulletComponent.Bullet = this;
+            bulletComponent.Color = Color;
+            bulletComponent.Age = TimeSpan.Zero;
+            bulletComponent.Alpha = 1;
+            bulletComponent.Damage = _damageDice;            
             bulletEntity.AddComponent<IProjectileComponent>(bulletComponent);
-            bulletEntity.AddComponent(bulletComponent);
 
             return bulletEntity;
         }

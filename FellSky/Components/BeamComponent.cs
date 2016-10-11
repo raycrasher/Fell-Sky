@@ -8,13 +8,14 @@ using Artemis;
 using Microsoft.Xna.Framework;
 using FellSky.Framework;
 using FellSky.Game.Combat.Projectiles;
+using DiceNotation;
 
 namespace FellSky.Components
 {
     public class BeamComponent : IComponent
     {
         public Color Color = Color.Cyan;
-        public float DamagePerSecond;
+        public DiceExpression DamagePerSecond;
         public Entity Muzzle;
         public float Intensity = 0;
         public bool IsPowered = true;

@@ -18,9 +18,7 @@ namespace FellSky.Components
 
         }
 
-        public Transform Transform { get; set; }
-            = new Transform();
-
+        public Vector2 Position { get; set; }
         public float Zoom { get; set; } = 1;
         public Vector2 ScreenSize { get; set; }
         public Matrix ProjectionMatrix => Matrix.CreateOrthographic(Device.Viewport.Width, Device.Viewport.Height, 1.0f, 10000.0f);
@@ -40,7 +38,7 @@ namespace FellSky.Components
         public Matrix GetViewMatrix(float parallax)
         {
             //float scaleFactor = 1 / (parallax + Zoom) * 2;
-            return Matrix.CreateLookAt(new Vector3(Transform.Position, -2000), new Vector3(Transform.Position, 0), -Vector3.UnitY) * Matrix.CreateScale(1f / Zoom);            
+            return Matrix.CreateLookAt(new Vector3(Position, -2000), new Vector3(Position, 0), -Vector3.UnitY) * Matrix.CreateScale(1f / Zoom);            
         }
 
         public FloatRect GetViewRect(float parallax)

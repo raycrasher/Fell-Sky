@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
 using System.ComponentModel;
+using Artemis;
 
 namespace FellSky
 {
@@ -18,7 +19,8 @@ namespace FellSky
     }
 
     [Serializable]
-    public class Transform : ITransform, Artemis.Interface.IComponent, ICloneable
+    [Artemis.Attributes.ArtemisComponentPool(InitialSize=200, IsResizable=true, ResizeSize=20, IsSupportMultiThread=false)]
+    public class Transform : ComponentPoolable, ITransform, ICloneable
     {
         [NonSerialized]
         private bool _matrixNeedsUpdate;
@@ -174,6 +176,24 @@ namespace FellSky
         public override string ToString()
         {
             return $"{Position}, {Rotation}, {Scale}";
+        }
+
+        public override void CleanUp()
+        {
+            Position = Vector2.Zero;
+            Rotation = 0;
+            Scale = Vector2.One;
+            Origin = Vector2.Zero;
+            base.CleanUp();
+        }
+
+        public override void Initialize()
+        {
+            Position = Vector2.Zero;
+            Rotation = 0;
+            Scale = Vector2.One;
+            Origin = Vector2.Zero;
+            base.Initialize();
         }
     }
 }

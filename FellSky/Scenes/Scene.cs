@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Artemis;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +20,14 @@ namespace FellSky.Scenes
         public virtual void UnloadContent() { }
 
         bool _isDisposed = false;
+
+        public EntityWorld World { get; private set; }
+
+        protected Scene()
+        {
+            World = new EntityWorld(false, false, false);
+            World.CreateComponentPool<Transform>(200, 200);
+        }
 
         public void Dispose()
         {

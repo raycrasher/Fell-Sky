@@ -30,10 +30,10 @@ namespace FellSky.Game.Space
         {
             var entity = world.CreateEntity();
             entity.AddComponent(new SpaceObjectComponent(this));
-            var xform = new Transform();
+            var xform = entity.AddComponentFromPool<Transform>();
             var sprite = ServiceLocator.Instance.GetService<ISpriteManagerService>().CreateSpriteComponent(TextureId);
             xform.Origin = sprite.Origin;
-            entity.AddComponent(xform);
+            
             entity.AddComponent(sprite);
 
             foreach (var child in Children)

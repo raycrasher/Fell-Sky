@@ -91,8 +91,7 @@ namespace FellSky.Systems
                 
                 _offset = _mouse.ScreenPosition;
                 _isDragging = true;
-                var xform = entity.GetComponent<Transform>();
-                _origin = xform.Position;
+                _origin = _camera.Position;
             }
             else if (!_mouseDown && _isDragging)
             {
@@ -101,9 +100,7 @@ namespace FellSky.Systems
 
             if (_isDragging)
             {
-                var xform = entity.GetComponent<Transform>();
-                
-                xform.Position = _origin + (_offset - _mouse.ScreenPosition) * (_currentZoom > 1 ? (float)Math.Log(_currentZoom)* (float)Math.Log(_currentZoom) : 1f);
+                _camera.Position = _origin + (_offset - _mouse.ScreenPosition) * (_currentZoom > 1 ? (float)Math.Log(_currentZoom)* (float)Math.Log(_currentZoom) : 1f);
             }
 
             // if zooming
@@ -117,14 +114,14 @@ namespace FellSky.Systems
             if(_moveLerpTime < 1)
             {
                 _moveLerpTime += (float)_timer.DeltaTime.TotalSeconds * 2;
-                _camera.Transform.Position = Vector2.SmoothStep(_lastMovePosition, _targetPosition, _moveLerpTime);
+                _camera.Position = Vector2.SmoothStep(_lastMovePosition, _targetPosition, _moveLerpTime);
             }
         }
 
         public void MoveTo(Vector2 position)
         {
             _moveLerpTime = 0;
-            _lastMovePosition = _camera?.Transform.Position ?? Vector2.Zero;
+            _lastMovePosition = _camera?.Position ?? Vector2.Zero;
             _targetPosition = position;
         }
 

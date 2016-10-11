@@ -31,11 +31,8 @@ namespace FellSky.Game.Ships.Modules
         public float VisualRecoilSpeed { get; set; }
         public float VisualRecoilCycleSpeed { get; set; }
 
-        public float Damage { get; set; } // damage per shot
-
         public string Name { get; set; }
         public string Description { get; set; }
-        public float DamagePerSecond => Damage * FireRate;
         public string ProjectileId { get; set; }
 
         public int MagazineSize { get; set; }
@@ -77,8 +74,8 @@ namespace FellSky.Game.Ships.Modules
             weaponEntity.AddComponent(weaponComponent);
             weaponComponent.Barrels = new Entity[0];
 
-            weaponComponent.Mount.AddComponent(new Transform());
-            weaponComponent.Turret.AddComponent(new Transform());
+            weaponComponent.Mount.AddComponentFromPool<Transform>();
+            weaponComponent.Turret.AddComponentFromPool<Transform>();
             weaponComponent.Turret.AddComponent(new TurretComponent {
                 DesiredRotation = 0,
                 FiringArc = hardpointComponent.Hardpoint.Traverse,
@@ -107,7 +104,7 @@ namespace FellSky.Game.Ships.Modules
                 var mounts = weaponComponent.Mount.GetChildren().Concat(weaponComponent.Turret.GetChildren()).Where(e => e.GetComponent<IShipPartComponent>().Part.Name.StartsWith("muzzle", StringComparison.InvariantCultureIgnoreCase)).ToArray();
                 weaponComponent.Barrels = mounts.Select(m => {
                     var barrel = world.CreateEntity();
-                    barrel.AddComponent(new Transform());
+                    barrel.AddComponentFromPool<Transform>();
                     var barrelComponent = new WeaponBarrelComponent
                     {
                         Muzzle = m
