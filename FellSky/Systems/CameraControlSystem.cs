@@ -11,6 +11,11 @@ using Microsoft.Xna.Framework.Input;
 
 namespace FellSky.Systems
 {
+    public enum CameraMode
+    {
+        Free, FollowEntity, Locked
+    }
+
     public class CameraControlSystem: Artemis.System.TagSystem
     {
         private IMouseService _mouse;
@@ -28,8 +33,10 @@ namespace FellSky.Systems
         private ITimerService _timer;
         private Camera _camera;
 
+        public CameraMode Mode { get; set; } = CameraMode.Free;
         public float MinZoom { get; set; } = 0.5f;
         public float MaxZoom { get; set; } = 5;
+        public Entity FollowedEntity { get; set; }
 
         //private ITimerService _timer;
 
@@ -86,9 +93,37 @@ namespace FellSky.Systems
         {
             _camera = entity.GetComponent<Camera>();
 
+            switch (Mode)
+            {
+                case CameraMode.Free:
+                    DoFreeMode();
+                    break;
+                case CameraMode.Locked:
+                    break;
+                case CameraMode.FollowEntity:
+                    DoFollowEntityMode();
+                    break;
+            }
+
+            
+        }
+
+        private void DoFollowEntityMode()
+        {
+            if (FollowedEntity != null)
+            {
+                Matrix matrix;
+                FollowedEntity.GetWorldMatrix(out matrix);
+                _camera.Position = Vector2.Transform(Vector2.Zero, matrix);
+            }
+            DoZoom();
+        }
+
+        private void DoFreeMode()
+        {
             if (_mouseDown && !_isDragging)
             {
-                
+
                 _offset = _mouse.ScreenPosition;
                 _isDragging = true;
                 _origin = _camera.Position;
@@ -96,22 +131,27 @@ namespace FellSky.Systems
             else if (!_mouseDown && _isDragging)
             {
                 _isDragging = false;
-            }            
+            }
 
             if (_isDragging)
             {
-                _camera.Position = _origin + (_offset - _mouse.ScreenPosition) * (_currentZoom > 1 ? (float)Math.Log(_currentZoom)* (float)Math.Log(_currentZoom) : 1f);
+                _camera.Position = _origin + (_offset - _mouse.ScreenPosition) * (_currentZoom > 1 ? (float)Math.Log(_currentZoom) * (float)Math.Log(_currentZoom) : 1f);
             }
 
+            DoZoom();
+        }
+
+        private void DoZoom()
+        {
             // if zooming
-            if(_zoomLerpTime < 1)
+            if (_zoomLerpTime < 1)
             {
                 _currentZoom = MathHelper.SmoothStep(_lastZoom, _targetZoom, _zoomLerpTime);
                 _zoomLerpTime += (float)_timer?.DeltaTime.TotalSeconds * 2;
                 _camera.Zoom = _currentZoom;
             }
 
-            if(_moveLerpTime < 1)
+            if (_moveLerpTime < 1)
             {
                 _moveLerpTime += (float)_timer.DeltaTime.TotalSeconds * 2;
                 _camera.Position = Vector2.SmoothStep(_lastMovePosition, _targetPosition, _moveLerpTime);
