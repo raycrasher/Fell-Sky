@@ -54,6 +54,32 @@ namespace FellSky.Framework
             _texture = null;
         }
 
+        public void Draw(Texture2D texture, ref Matrix transform, FloatRect? sourceRectangle = null, Color? color=null, Vector3? normal = null)
+        {
+            Vertex3CTN vtx;
+            vtx.Color = color ?? Color.White;
+            vtx.Normal = normal ?? Vector3.Forward;
+            FloatRect texRect = sourceRectangle ?? new FloatRect(texture.Bounds);
+
+            Vector2 texCoordLT = GetUV(texture, texRect.Left, texRect.Top);
+            Vector2 texCoordBR = GetUV(texture, texRect.Right, texRect.Bottom);
+
+            vtx.Position = Vector3.Zero;
+            vtx.TextureCoords = texCoordLT;
+            _quadVertices[0] = vtx;
+            vtx.Position = new Vector3(0, texRect.Height, 0);
+            vtx.TextureCoords = new Vector2(texCoordLT.X, texCoordBR.Y);
+            _quadVertices[1] = vtx;
+            vtx.Position = new Vector3(texRect.Width, 0, 0);
+            vtx.TextureCoords = new Vector2(texCoordBR.X, texCoordLT.Y);
+            _quadVertices[2] = vtx;
+            vtx.Position = new Vector3(texRect.Width, texRect.Height, 0);
+            vtx.TextureCoords = texCoordBR;
+            _quadVertices[3] = vtx;
+
+            DrawVertices(texture, _quadVertices, _quadIndices, ref transform);
+        }
+
         public void Draw(SpriteComponent sprite, ref Matrix transform, Color? color=null, Vector3? normal=null)
         {
             Vertex3CTN vtx;

@@ -12,7 +12,10 @@ namespace FellSky.Components
 {
     public class ShipComponent: IComponent
     {
+        
+
         public Ship Ship { get; set; }
+        public ShipModel ShipModel { get; set; }
 
         public List<Entity> Thrusters { get; set; } = new List<Entity>();
         public List<Entity> Weapons { get; set; } = new List<Entity>();
@@ -24,7 +27,8 @@ namespace FellSky.Components
         public Vector2 CenterOfMass { get; set; }
 
         public ShipVariant Variant { get; set; }
-        
+        public FloatRect BoundingBox { get; set; }
+
         // functions
 
         public ShipComponent(Ship ship)

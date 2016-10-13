@@ -74,7 +74,7 @@ namespace FellSky
 
             EntityWorld.FireEvent(this, EventId.PhysicsOnSeparation, _physicsCollisionArgs);
             _physicsCollisionArgs.EntityA?.FireEvent(this, EventId.PhysicsOnSeparation, _physicsCollisionArgs);
-            _physicsCollisionArgs.EntityB.FireEvent(this, EventId.PhysicsOnSeparation, _physicsCollisionArgs);
+            _physicsCollisionArgs.EntityB?.FireEvent(this, EventId.PhysicsOnSeparation, _physicsCollisionArgs);
 
         }
 
@@ -88,7 +88,7 @@ namespace FellSky
 
             EntityWorld.FireEvent(this, EventId.AfterCollision, _physicsCollisionArgs);
             _physicsCollisionArgs.EntityA?.FireEvent(this, EventId.AfterCollision, _physicsCollisionArgs);
-            _physicsCollisionArgs.EntityB.FireEvent(this, EventId.AfterCollision, _physicsCollisionArgs);
+            _physicsCollisionArgs.EntityB?.FireEvent(this, EventId.AfterCollision, _physicsCollisionArgs);
         }
 
         private bool HandleBeforeCollision(Fixture fixtureA, Fixture fixtureB)
@@ -100,7 +100,7 @@ namespace FellSky
             
             EntityWorld.FireEvent(this, EventId.BeforeCollision, _physicsCollisionArgs);
             _physicsCollisionArgs.EntityA?.FireEvent(this, EventId.BeforeCollision, _physicsCollisionArgs);
-            _physicsCollisionArgs.EntityB.FireEvent(this, EventId.BeforeCollision, _physicsCollisionArgs);
+            _physicsCollisionArgs.EntityB?.FireEvent(this, EventId.BeforeCollision, _physicsCollisionArgs);
 
             return _physicsCollisionArgs.IgnoreCollision ?? (fixtureA.CollidesWith | fixtureB.CollidesWith) > 0;
         }
@@ -115,7 +115,7 @@ namespace FellSky
             // filter here
             EntityWorld.FireEvent(this, EventId.PhysicsCollision, _physicsCollisionArgs);
             _physicsCollisionArgs.EntityA?.FireEvent(this, EventId.PhysicsCollision, _physicsCollisionArgs);
-            _physicsCollisionArgs.EntityB.FireEvent(this, EventId.PhysicsCollision, _physicsCollisionArgs);
+            _physicsCollisionArgs.EntityB?.FireEvent(this, EventId.PhysicsCollision, _physicsCollisionArgs);
 
 
             return _physicsCollisionArgs.IgnoreCollision ?? (fixtureA.CollidesWith | fixtureB.CollidesWith) > 0;

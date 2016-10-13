@@ -4,5 +4,12 @@
 <link type="text/rcss" href="Gui.css"/>
 </head>
 <body id="gui">
+<div id="statusbar">
+	<div id="health"/>
+	<div id="heat"/>
+	<div id="power"/>
+</div>
+
+
 </body>
 </rml>

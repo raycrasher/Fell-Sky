@@ -117,6 +117,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\SharpDX.dll</HintPath>
     </Reference>
+    <Reference Include="SharpSteer2">
+      <HintPath>..\Dependencies\SharpSteer2.dll</HintPath>
+    </Reference>
     <Reference Include="Stateless">
       <HintPath>..\Dependencies\Stateless.dll</HintPath>
     </Reference>
@@ -160,12 +163,14 @@
     <Compile Include="Components\HardpointArcDrawingComponent.cs" />
     <Compile Include="Components\HardpointComponent.cs" />
     <Compile Include="Components\HealthComponent.cs" />
+    <Compile Include="Components\HeatComponent.cs" />
     <Compile Include="Components\HullComponent.cs" />
     <Compile Include="Components\IdFriendOrFoeComponent.cs" />
     <Compile Include="Components\IProjectileComponent.cs" />
     <Compile Include="Components\ModuleComponent.cs" />
     <Compile Include="Components\MouseHoverComponent.cs" />
     <Compile Include="Components\NavLightComponent.cs" />
+    <Compile Include="Components\PowerComponent.cs" />
     <Compile Include="Components\ShipModelComponent.cs" />
     <Compile Include="Components\ParticleEmitterComponent.cs" />
     <Compile Include="Components\RadiatorComponent.cs" />
@@ -210,6 +215,7 @@
     <Compile Include="Game\Combat\WeaponFireEventArgs.cs" />
     <Compile Include="Game\Ground\Map.cs" />
     <Compile Include="Game\Ground\MapTile.cs" />
+    <Compile Include="Game\Inventory\BasicItem.cs" />
     <Compile Include="Game\Inventory\IInventoryItem.cs" />
     <Compile Include="Game\Ships\Modules\Weapon.cs" />
     <Compile Include="Game\Ships\PartAnimation.cs" />
@@ -406,6 +412,7 @@
     <Compile Include="Systems\SceneGraphRendererSystem.cs" />
     <Compile Include="Systems\SceneGraphRenderers\ISceneGraphRenderer.cs" />
     <Compile Include="Systems\SceneGraphRenderers\StandardShipModelRenderer.cs" />
+    <Compile Include="Systems\ShipAISystem.cs" />
     <Compile Include="Systems\ShipUpdateSystem.cs" />
     <Compile Include="Framework\SteeringBehaviors\SteeringBehaviorSystem.cs" />
     <Compile Include="Systems\MouseControlledTransformSystem.cs" />
