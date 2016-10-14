@@ -21,6 +21,7 @@ using System.ComponentModel;
 using FellSky.Editor.Systems;
 using FellSky.Systems.SceneGraphRenderers;
 using FellSky.Game.Ships;
+using System.Threading.Tasks;
 
 namespace FellSky.Editor
 {
@@ -133,6 +134,9 @@ namespace FellSky.Editor
 
         internal void Initialize(D3D11Host host)
         {
+            if (IsInitialized) return;
+            IsInitialized = true;
+
             Services = new GameServiceContainer();
 
             ServiceLocator.Initialize(Services);
@@ -140,8 +144,6 @@ namespace FellSky.Editor
 
             Artemis.System.EntitySystem.BlackBoard.SetEntry("GraphicsDevice", _host.GraphicsDevice);
             Artemis.System.EntitySystem.BlackBoard.SetEntry("ServiceProvider", Services);
-
-            Environment.CurrentDirectory = Path.GetFullPath(Properties.Settings.Default.DataFolder);
 
             Services.AddService<IGraphicsDeviceService>(host);
             Services.AddService(host.GraphicsDevice);
@@ -167,11 +169,17 @@ namespace FellSky.Editor
             SpriteManager = new SpriteManagerService(Content);
             Services.AddService<ISpriteManagerService>(SpriteManager);
 
-            LoadHullSprites("textures/hulls.json");
+            //LoadHullSprites("textures/hulls.json");
+
+            IsLoadingSprites = true;
+            Task.Run(() => LoadHullSprites("textures/hulls.json"))
+                .ContinueWith(t => IsLoadingSprites = false);
 
             Artemis.System.EntitySystem.BlackBoard.SetEntry("ContentManager", Content);
 
             World = new EntityWorld(false, false, false);
+
+            World.CreateComponentPool<Transform>(200, 200);
 
             World.SystemManager.SetSystem(new GridRendererSystem(), Artemis.Manager.GameLoopType.Draw, 1);
             //World.SystemManager.SetSystem(new ShipRendererSystem(), Artemis.Manager.GameLoopType.Draw, 2);
@@ -220,6 +228,8 @@ namespace FellSky.Editor
             arcRendererSystem.IsEnabled = false;
 
             _mouse.WheelChanged += OnWheelChanged;
+
+
         }
 
         private void OnWheelChanged(int delta)
@@ -306,6 +316,7 @@ namespace FellSky.Editor
         }
 
         GameTime _gameTime = new GameTime();
+        private bool IsInitialized = false;
 
         internal void Render(TimeSpan timespan)
         {
@@ -499,5 +510,6 @@ namespace FellSky.Editor
 
         [PropertyChanged.AlsoNotifyFor(nameof(WindowTitle))]
         public string CurrentFilename { get; set; }
+        public bool IsLoadingSprites { get; set; }
     }
 }

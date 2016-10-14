@@ -19,19 +19,24 @@ namespace FellSky.Editor
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class ShipEditorWindow : MetroWindow
+    public partial class ShipEditorPage : Page
     {
-        public ShipEditorWindow()
+        public ShipEditorPage()
         {
             InitializeComponent();
           
             if (System.ComponentModel.DesignerProperties.GetIsInDesignMode(this))
                 return;
             Model = (ShipEditorViewModel)FindResource("model");
-            if(Environment.GetEnvironmentVariable("DAVID_WORK") == "1")
+            if(Environment.GetEnvironmentVariable("DAVID_WORK") == "1") // so that I can work on this @ work
             {
                 mainTabs.SelectedIndex = 1;
             }
+        }
+
+        ~ShipEditorPage()
+        {
+            Console.WriteLine("ShipEditorPage destroyed!");
         }
 
         public ShipEditorViewModel Model { get; private set; }

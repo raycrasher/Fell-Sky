@@ -1,4 +1,4 @@
-﻿<Controls:MetroWindow x:Class="FellSky.Editor.ShipEditorWindow"
+﻿<Page x:Class="FellSky.Editor.ShipEditorPage"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -12,11 +12,12 @@
         xmlns:xcad="http://schemas.xceed.com/wpf/xaml/avalondock"
         xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:diag="clr-namespace:System.Diagnostics;assembly=WindowsBase"
-        Title="{Binding ElementName=Root, Path=DataContext.WindowTitle, Mode=OneWay}" Height="768" Width="1366" 
-        MinHeight="480" MinWidth="800"
-        WindowState="Maximized"
+        Title="{Binding ElementName=Root, Path=DataContext.WindowTitle, Mode=OneWay}" 
+        mc:Ignorable="d" 
+        KeepAlive="True"
+        d:DesignHeight="768" d:DesignWidth="1366"
         >
-    <Window.Resources>
+    <Page.Resources>
         <fe:ShipEditorViewModel x:Key="model"/>
         <SolidColorBrush x:Key="TabControlNormalBorderBrush" Color="#8C8E94"/>
         <Style x:Key="ColorRadioButtonStyle" TargetType="{x:Type RadioButton}" BasedOn="{StaticResource {x:Type ToggleButton}}">
@@ -38,7 +39,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
-    </Window.Resources>
+    </Page.Resources>
     <Grid Name="Root" DataContext="{StaticResource model}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="269*"/>
@@ -123,6 +124,12 @@
                     </StackPanel>
                 </TabItem>
             </TabControl>
+            <Grid Visibility="{Binding IsLoadingSprites, Converter={StaticResource booleanToVisibilityConverter}}" Background="#55333333">
+                <StackPanel VerticalAlignment="Center">
+                    <Controls:ProgressRing/>
+                    <Label HorizontalAlignment="Center">Sprites are loading...</Label>
+                </StackPanel>
+            </Grid>
         </Grid>
         <GridSplitter Width="3" Grid.Row="1" Opacity="0" />
         <Grid Grid.Column="1" Grid.Row="1">
@@ -349,4 +356,4 @@
         </Popup>
         -->
     </Grid>
-</Controls:MetroWindow>
+</Page>

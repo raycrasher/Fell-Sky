@@ -285,8 +285,8 @@ namespace FellSky.Editor
 
         public void Dispose()
         {
-            _d3D11Image.Dispose();
-            _renderTarget.Dispose();
+            _d3D11Image?.Dispose();
+            _renderTarget?.Dispose();
         }
         #endregion
     }

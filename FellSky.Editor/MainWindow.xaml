@@ -1,0 +1,21 @@
+﻿<Controls:MetroWindow x:Class="FellSky.Editor.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FellSky.Editor"
+        xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+        mc:Ignorable="d"
+        Title="Fell Sky Editor" Height="768" Width="1366">
+    <Grid>
+        <Frame Name="ShipEditorFrame" Source="ShipEditorPage.xaml" NavigationUIVisibility="Hidden" />
+        <Frame Name="ParticleEditorFrame" Source="ParticleEditor.xaml" NavigationUIVisibility="Hidden" Visibility="Hidden"/>
+    </Grid>
+    <Controls:MetroWindow.RightWindowCommands>
+        <Controls:WindowCommands>
+            <Button Content="Ships" Click="ShowShipEditorPage"/>
+            <Button Content="Particles" Click="ShowParticleEditorPage"/>
+            <Button Content="World" Click="ShowWorldEditorPage"/>
+        </Controls:WindowCommands>
+    </Controls:MetroWindow.RightWindowCommands>
+</Controls:MetroWindow>
