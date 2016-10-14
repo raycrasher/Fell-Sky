@@ -69,7 +69,7 @@
       <HintPath>..\Dependencies\Artemis.dll</HintPath>
     </Reference>
     <Reference Include="CsvHelper, Version=2.0.0.0, Culture=neutral, PublicKeyToken=8c4959082be5c823, processorArchitecture=MSIL">
-      <HintPath>..\packages\CsvHelper.2.16.0.0\lib\net45\CsvHelper.dll</HintPath>
+      <HintPath>..\packages\CsvHelper.2.16.3.0\lib\net45\CsvHelper.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="DiceNotation, Version=0.2.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -94,8 +94,8 @@
     <Reference Include="Lidgren.Network">
       <HintPath>..\Dependencies\Lidgren.Network.dll</HintPath>
     </Reference>
-    <Reference Include="MathNet.Numerics, Version=3.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MathNet.Numerics.3.5.0\lib\net40\MathNet.Numerics.dll</HintPath>
+    <Reference Include="MathNet.Numerics, Version=3.13.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MathNet.Numerics.3.13.1\lib\net40\MathNet.Numerics.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="MonoGame.Framework">
@@ -109,8 +109,8 @@
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="Priority Queue, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\OptimizedPriorityQueue.2.0.0\lib\net45\Priority Queue.dll</HintPath>
+    <Reference Include="Priority Queue, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\OptimizedPriorityQueue.3.0.0\lib\net45\Priority Queue.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="SharpDX, Version=2.5.1.0, Culture=neutral, processorArchitecture=MSIL">
@@ -157,6 +157,7 @@
     <Compile Include="Components\DummyPartComponent.cs" />
     <Compile Include="Components\EditorComponent.cs" />
     <Compile Include="Components\EventHandlerComponent.cs" />
+    <Compile Include="Components\ExplosionComponent.cs" />
     <Compile Include="Components\FactionComponent.cs" />
     <Compile Include="Components\FrameAnimationComponent.cs" />
     <Compile Include="Components\GuiComponent.cs" />
@@ -283,6 +284,7 @@
     <Compile Include="Systems\CoroutineSystem.cs" />
     <Compile Include="Systems\DustRendererSystem.cs" />
     <Compile Include="Systems\EventSystem.cs" />
+    <Compile Include="Systems\ExplosionSystem.cs" />
     <Compile Include="Systems\FrameAnimationSystem.cs" />
     <Compile Include="Systems\GuiSystem.cs" />
     <Compile Include="Systems\HardpointRendererSystem.cs" />
