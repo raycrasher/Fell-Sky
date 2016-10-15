@@ -171,10 +171,6 @@ namespace FellSky.Editor
 
             //LoadHullSprites("textures/hulls.json");
 
-            IsLoadingSprites = true;
-            Task.Run(() => LoadHullSprites("textures/hulls.json"))
-                .ContinueWith(t => IsLoadingSprites = false);
-
             Artemis.System.EntitySystem.BlackBoard.SetEntry("ContentManager", Content);
 
             World = new EntityWorld(false, false, false);
@@ -229,7 +225,7 @@ namespace FellSky.Editor
 
             _mouse.WheelChanged += OnWheelChanged;
 
-
+            LoadHullSprites("textures/hulls.json");
         }
 
         private void OnWheelChanged(int delta)

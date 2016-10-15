@@ -171,7 +171,7 @@ namespace FellSky.Editor
 
             foreach (var e in SelectedPartEntities)
             {
-                e.Delete();
+                e.DeleteFromSceneGraph();
             }
             //ShipEntityFactory.UpdateComponentPartList(_world, ShipEntity, false);
             SelectedPartEntities.Clear();
@@ -307,7 +307,9 @@ namespace FellSky.Editor
             Model = new ShipModel();
             ModelEntity = Model.CreateStandAloneEntity(_world); ;
             ModelEntity.Tag = "PlayerShip";
-
+            var model = ModelEntity.GetComponent<ShipModelComponent>();
+            model.BaseDecalColor = BaseColor;
+            model.TrimDecalColor = TrimColor;
             //PropertyObject = Model;
         }
 
@@ -465,6 +467,9 @@ namespace FellSky.Editor
                         entity.AddComponent(new HardpointArcDrawingComponent());
                 }
                 //PropertyObject = Model;
+                var model = ModelEntity.GetComponent<ShipModelComponent>();
+                model.BaseDecalColor = BaseColor;
+                model.TrimDecalColor = TrimColor;
             }
             catch (Newtonsoft.Json.JsonException)
             {
