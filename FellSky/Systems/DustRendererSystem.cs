@@ -28,24 +28,28 @@ namespace FellSky.Systems
         {
             var camera = EntityWorld.GetActiveCamera();
             var viewRect = camera.GetViewRect(1.0f);
+            var device = _batch.GraphicsDevice;
 
             Vertex3CTN vtx = new Vertex3CTN();
+            
             vtx.Color = Color.White;
             vtx.Normal = Vector3.Forward;
             var origSampleState = _batch.GraphicsDevice.SamplerStates[0];
-            _batch.GraphicsDevice.SamplerStates[0] = SamplerState.LinearWrap;
+            device.SamplerStates[0] = SamplerState.LinearWrap;
+            device.BlendState = BlendState.Additive;
+            device.RasterizerState = RasterizerState.CullNone;
 
             vtx.Position = new Vector3(viewRect.Left, viewRect.Top, 0);
-            vtx.TextureCoords = new Vector2(-viewRect.Left, -viewRect.Top);
+            vtx.TextureCoords = _dustTexture.GetUV(viewRect.Left, viewRect.Top);
             _quad[0] = vtx;
             vtx.Position = new Vector3(viewRect.Left, viewRect.Bottom, 0);
-            vtx.TextureCoords = new Vector2(-viewRect.Left, -viewRect.Bottom);
+            vtx.TextureCoords = _dustTexture.GetUV(viewRect.Left, viewRect.Bottom);
             _quad[1] = vtx;
             vtx.Position = new Vector3(viewRect.Right, viewRect.Top, 0);
-            vtx.TextureCoords = new Vector2(-viewRect.Right, -viewRect.Top);
+            vtx.TextureCoords = _dustTexture.GetUV(viewRect.Right, viewRect.Top);
             _quad[2] = vtx;
             vtx.Position = new Vector3(viewRect.Right, viewRect.Bottom, 0);
-            vtx.TextureCoords = new Vector2(-viewRect.Right, -viewRect.Bottom);
+            vtx.TextureCoords = _dustTexture.GetUV(viewRect.Right, viewRect.Bottom);
             _quad[3] = vtx;
 
             Matrix matrix = Matrix.Identity;
