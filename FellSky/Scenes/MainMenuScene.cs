@@ -84,10 +84,6 @@ namespace FellSky.Scenes
                 LibRocketNet.Core.ScriptEvent += (o, e) => Instance?.OnScriptEvent(o, e);
                 document = _guiService.Context.LoadDocument(MainMenuDocumentPath);
             }
-            
-            document.Show(ElementDocument.FocusFlags.None);
-            document.PullToFront();
-            
         }
 
         private void OnScriptEvent(object sender, ScriptEventArgs e)

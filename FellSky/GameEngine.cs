@@ -47,6 +47,7 @@ namespace FellSky
         public ShipRefitScene ShipRefitScene { get; private set; }
         public MainMenuScene MainMenuScene { get; private set; }
         public SystemMapScene SystemMapScene { get; private set; }
+        public MainGameScene MainGameScene { get; set; }
         public Galaxy Galaxy { get; private set; }
 
         private GameEngine()
@@ -129,8 +130,12 @@ namespace FellSky
             SystemMapScene.LoadContent();
 
             //CurrentScene = MainMenuScene;
-            CurrentScene = SystemMapScene;
-            //CurrentScene = ShipRefitScene;
+            //CurrentScene = SystemMapScene;
+            MainGameScene = new MainGameScene();
+            MainGameScene.LoadContent();
+
+            CurrentScene = MainGameScene;
+            
 
             EntityFactories.CombatEntityFactory.LoadWeapons();
             EntityFactories.CombatEntityFactory.LoadProjectiles();

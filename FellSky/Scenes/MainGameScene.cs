@@ -43,6 +43,7 @@ namespace FellSky.Scenes
             World.SystemManager.SetSystem(new SceneGraphRendererSystem<StandardShipModelRenderer>(new StandardShipModelRenderer()), Artemis.Manager.GameLoopType.Draw, depth++);
             //World.SystemManager.SetSystem(new ShipRendererSystem(), Artemis.Manager.GameLoopType.Draw, depth++);
             World.SystemManager.SetSystem(new ParticleSystem(), Artemis.Manager.GameLoopType.Draw, depth++);
+            World.SystemManager.SetSystem(new DustRendererSystem(), Artemis.Manager.GameLoopType.Draw, depth++);
             World.SystemManager.SetSystem(new BoundingBoxRendererSystem(), Artemis.Manager.GameLoopType.Draw, depth++);
             World.SystemManager.SetSystem(new GenericDrawableRendererSystem(), Artemis.Manager.GameLoopType.Draw, depth++);
             World.SystemManager.SetSystem(new PhysicsDebugDrawSystem(), Artemis.Manager.GameLoopType.Draw, depth++);
@@ -56,8 +57,12 @@ namespace FellSky.Scenes
             World.SystemManager.SetSystem(new CoroutineSystem(), Artemis.Manager.GameLoopType.Update, priority++);
             World.SystemManager.SetSystem(new PlayerShipControlSystem(), Artemis.Manager.GameLoopType.Update, priority++);
             World.SystemManager.SetSystem(new ShipUpdateSystem(), Artemis.Manager.GameLoopType.Update, priority++);
-            //World.SystemManager.SetSystem(new StorySystem(), Artemis.Manager.GameLoopType.Update, priority++);
+            World.SystemManager.SetSystem(new StorySystem(), Artemis.Manager.GameLoopType.Update, priority++);
             World.SystemManager.SetSystem(new PhysicsSystem(), Artemis.Manager.GameLoopType.Update, priority++);
+            World.SystemManager.SetSystem(new TurretRotationSystem(), Artemis.Manager.GameLoopType.Update, priority++);
+            World.SystemManager.SetSystem(new WeaponSystem(), Artemis.Manager.GameLoopType.Update, priority++);
+            World.SystemManager.SetSystem(new FrameAnimationSystem(), Artemis.Manager.GameLoopType.Update, priority++);
+
 
             Camera = CameraEntityFactory.CreateCamera(World, Constants.ActiveCameraTag, ServiceLocator.Instance.GetService<GraphicsDevice>());
 
@@ -67,7 +72,7 @@ namespace FellSky.Scenes
 
         public override void Update(GameTime gameTime)
         {
-            World.Update();
+            World.Update(gameTime.ElapsedGameTime.Milliseconds);
         }
         public override void Draw(GameTime gameTime)
         {

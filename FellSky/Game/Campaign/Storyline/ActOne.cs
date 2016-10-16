@@ -13,7 +13,6 @@ namespace FellSky.Game.Campaign.Storyline
 {
     public class ActOne : IStoryAct
     {
-        private Ship _playerShip;
         private Entity _playerEntity;
 
         public static class Triggers
@@ -63,10 +62,12 @@ namespace FellSky.Game.Campaign.Storyline
             yield return Coroutine.WaitFor(TimeSpan.FromSeconds(2));
             
             
-            _playerShip = Persistence.LoadFromFile<Ship>("Ships/Scimitar.json");
-            _playerEntity = ShipEntityFactory.CreateShip(world, "Scimitar", new Vector2(500,0),0, physics:true);
+            _playerEntity = world.CreateShip("mobius", new Vector2(500,0),0, physics:true);
             _playerEntity.Tag = "PlayerShip";
             _playerEntity.Refresh();
+            var cameraControl = world.SystemManager.GetSystem<Systems.CameraControlSystem>();
+            cameraControl.Mode = Systems.CameraMode.FollowEntity;
+            cameraControl.FollowedEntity = _playerEntity;
 
 
             var test = world.CreateShip("Jaeger", new Vector2(0, 0), MathHelper.Pi * 1.5f, physics:true);
