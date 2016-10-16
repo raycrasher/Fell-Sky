@@ -13,6 +13,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System.IO;
 using FellSky.Framework;
 using Microsoft.Xna.Framework.Content;
+using FellSky.Components;
 
 namespace FellSky.Editor
 {
@@ -20,7 +21,7 @@ namespace FellSky.Editor
     class ParticleEditorViewModel
     {
         public bool IsContinuousMode { get; set; }
-
+        public ParticleEmitterComponent Emitter { get; set; }
 
         private D3D11Host Host = null;
         private EntityWorld World;
@@ -82,6 +83,7 @@ namespace FellSky.Editor
             World.SystemManager.SetSystem(new GridRendererSystem(), Artemis.Manager.GameLoopType.Draw, drawDepth++);
             World.InitializeAll();
             World.CreateCamera(Constants.ActiveCameraTag, Host.GraphicsDevice);
+            Emitter = new ParticleEmitterComponent();
         }
 
         private void OnMouseButtonDown(Point arg1, int arg2)

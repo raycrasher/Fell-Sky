@@ -34,11 +34,6 @@ namespace FellSky.Editor
             }
         }
 
-        ~ShipEditorPage()
-        {
-            Console.WriteLine("ShipEditorPage destroyed!");
-        }
-
         public ShipEditorViewModel Model { get; private set; }
 
         private void D3D11Host_Initializing()

@@ -4,6 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:FellSky.Editor"
+      xmlns:c="http://metro.mahapps.com/winfx/xaml/controls"
       xmlns:fe="clr-namespace:FellSky.Editor"
       mc:Ignorable="d" 
       d:DesignHeight="600" d:DesignWidth="800"
@@ -13,7 +14,72 @@
         <fe:ParticleEditorViewModel x:Key="model"/>
     </Page.Resources>
     <Grid DataContext="{StaticResource model}">
-        <fe:D3D11Host x:Name="GfxHost" Initializing="OnHostInitializing" Rendering="OnHostRender"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="300"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="0">
+            <UniformGrid Columns="3" Height="50">
+                <Button>New Particle</Button>
+                <Button>Load</Button>
+                <Button>Save</Button>
+            </UniformGrid>
+            <GroupBox Header="Particle Emitter">
+                <UniformGrid Columns="2" Rows="20">
+                    <Label>Emission rate</Label>
+                    <Slider VerticalAlignment="Center" Value="{Binding Emitter.EmissionRate}" Minimum="0" Maximum="300"/>
+
+                    <Label>Continuous</Label>
+                    <CheckBox IsChecked="{Binding Emitter.IsContinuous}"/>
+
+                    <Label>Position variance</Label>
+                    <Slider VerticalAlignment="Center" Value="{Binding Emitter.PositionVariance}" Minimum="0" Maximum="200" />
+
+                    <Label>Particle life</Label>
+                    <c:RangeSlider LowerValue="{Binding Emitter.ParticleLifeMin}" UpperValue="{Binding Emitter.ParticleLifeMax}" Minimum="0.01" Maximum="60" MinRangeWidth="0" />
+
+                    <Label>Direction</Label>
+                    <c:RangeSlider VerticalAlignment="Center" Minimum="0" Maximum="360" MinRangeWidth="0" />
+
+                    <Label>Spread</Label>
+                    <Slider VerticalAlignment="Center" Value="{Binding Emitter.Spread}" Minimum="0" Maximum="360" />
+
+                    <Label>Speed</Label>
+                    <c:RangeSlider MinRangeWidth="0" Minimum="0" Maximum="500" LowerValue="{Binding Emitter.SpeedMin}" UpperValue="{Binding Emitter.SpeedMax}"/>
+
+                    <Label>Angular acceleration</Label>
+                    <c:RangeSlider MinRangeWidth="0" Minimum="0" Maximum="500" LowerValue="{Binding Emitter.AngularAccelMin}" UpperValue="{Binding Emitter.AngularAccelMax}"/>
+
+                    <Label>Radial acceleration</Label>
+                    <c:RangeSlider MinRangeWidth="0" Minimum="0" Maximum="500" LowerValue="{Binding Emitter.RadialAccelMin}" UpperValue="{Binding Emitter.RadialAccelMax}"/>
+
+                    <Label>Tangential acceleration</Label>
+                    <c:RangeSlider MinRangeWidth="0" Minimum="0" Maximum="500" LowerValue="{Binding Emitter.TangentialAccelMin}" UpperValue="{Binding Emitter.TangentialAccelMax}"/>
+
+                    <Label>Tangential acceleration</Label>
+                    <c:RangeSlider MinRangeWidth="0" Minimum="0" Maximum="500" LowerValue="{Binding Emitter.TangentialAccelMin}" UpperValue="{Binding Emitter.TangentialAccelMax}"/>
+
+                    <Label>Start size</Label>
+                    <Slider VerticalAlignment="Center" Minimum="0" Maximum="500" Value="{Binding Emitter.SizeStart}"/>
+
+                    <Label>End size</Label>
+                    <Slider VerticalAlignment="Center" Minimum="0" Maximum="500" Value="{Binding Emitter.SizeEnd}"/>
+
+                    <Label>Size variance</Label>
+                    <Slider VerticalAlignment="Center" Minimum="0" Maximum="500" Value="{Binding Emitter.SizeVar}"/>
+
+                    <Label>Start size</Label>
+                    <Slider VerticalAlignment="Center" Minimum="0" Maximum="500" Value="{Binding Emitter.SizeStart}"/>
+
+                    <Label>End size</Label>
+                    <Slider VerticalAlignment="Center" Minimum="0" Maximum="500" Value="{Binding Emitter.SizeEnd}"/>
+
+                    <Label>Size variance</Label>
+                    <Slider VerticalAlignment="Center" Minimum="0" Maximum="500" Value="{Binding Emitter.SizeVar}"/>                    
+                </UniformGrid>
+            </GroupBox>
+        </StackPanel>
+        <fe:D3D11Host Grid.Column="1" x:Name="GfxHost" Initializing="OnHostInitializing" Rendering="OnHostRender"/>
         
     </Grid>
 </Page>
