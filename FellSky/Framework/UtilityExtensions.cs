@@ -192,5 +192,10 @@ namespace FellSky
         {
             world.SetPool(typeof(T), new ComponentPool<ComponentPoolable>(200, 200, true, t => new T(), typeof(T)));
         }
+
+        public static Vector2 GetUV(this Texture2D texture, float x, float y)
+        {
+            return new Vector2(x / texture.Width, y / texture.Height);
+        }
     }
 }

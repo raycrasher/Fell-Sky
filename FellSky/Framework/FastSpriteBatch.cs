@@ -61,8 +61,8 @@ namespace FellSky.Framework
             vtx.Normal = normal ?? Vector3.Forward;
             FloatRect texRect = sourceRectangle ?? new FloatRect(texture.Bounds);
 
-            Vector2 texCoordLT = GetUV(texture, texRect.Left, texRect.Top);
-            Vector2 texCoordBR = GetUV(texture, texRect.Right, texRect.Bottom);
+            Vector2 texCoordLT = texture.GetUV(texRect.Left, texRect.Top);
+            Vector2 texCoordBR = texture.GetUV(texRect.Right, texRect.Bottom);
 
             vtx.Position = Vector3.Zero;
             vtx.TextureCoords = texCoordLT;
@@ -88,8 +88,8 @@ namespace FellSky.Framework
             
             var tex = sprite.Texture;
 
-            Vector2 texCoordLT = GetUV(tex, sprite.TextureRect.Left, sprite.TextureRect.Top);
-            Vector2 texCoordBR = GetUV(tex, sprite.TextureRect.Right, sprite.TextureRect.Bottom);
+            Vector2 texCoordLT = tex.GetUV(sprite.TextureRect.Left, sprite.TextureRect.Top);
+            Vector2 texCoordBR = tex.GetUV(sprite.TextureRect.Right, sprite.TextureRect.Bottom);
 
             vtx.Position = Vector3.Zero;
             vtx.TextureCoords = texCoordLT;
@@ -151,11 +151,6 @@ namespace FellSky.Framework
                 _device.Textures[0] = texture;
                 _device.DrawUserIndexedPrimitives(PrimitiveType.TriangleList, _vertices, 0, _vertexCount, _indices, 0, _indexCount / 3);
             }
-        }
-
-        Vector2 GetUV(Texture2D texture, float x, float y)
-        {
-            return new Vector2(x / texture.Width, y / texture.Height);
         }
 
         void EnsureSpace(int indexSpace, int vertexSpace)
