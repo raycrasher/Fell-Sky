@@ -1,6 +1,6 @@
 ﻿using Artemis;
 using FellSky.Components;
-using FellSky.EntityFactories;
+
 using FellSky.Services;
 using FellSky.Systems;
 using LibRocketNet;

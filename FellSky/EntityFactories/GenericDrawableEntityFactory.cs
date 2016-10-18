@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework;
 using FellSky.Components;
 using FellSky.Framework;
 
-namespace FellSky.EntityFactories
+namespace FellSky
 {
     public static class GenericDrawableEntityFactory
     {

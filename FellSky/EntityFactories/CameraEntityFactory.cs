@@ -4,7 +4,7 @@ using Artemis;
 using FellSky.Components;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace FellSky.EntityFactories
+namespace FellSky
 {
     public static class CameraEntityFactory
     {

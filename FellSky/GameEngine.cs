@@ -137,8 +137,8 @@ namespace FellSky
             CurrentScene = MainGameScene;
             
 
-            EntityFactories.CombatEntityFactory.LoadWeapons();
-            EntityFactories.CombatEntityFactory.LoadProjectiles();
+            CombatEntityFactory.LoadWeapons();
+            CombatEntityFactory.LoadProjectiles();
             base.LoadContent();
         }
 

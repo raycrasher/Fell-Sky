@@ -8,7 +8,7 @@ using LibRocketNet;
 using Microsoft.Xna.Framework;
 using Artemis;
 using FellSky.Systems;
-using FellSky.EntityFactories;
+
 using Microsoft.Xna.Framework.Graphics;
 using FellSky.Game.Ships;
 using FellSky.Components;

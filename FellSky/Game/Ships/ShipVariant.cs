@@ -1,6 +1,6 @@
 ﻿using Artemis;
 using FellSky.Components;
-using FellSky.EntityFactories;
+
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;

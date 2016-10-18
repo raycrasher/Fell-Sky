@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 using PropertyChanged;
 using System;
 using FellSky.Systems;
-using FellSky.EntityFactories;
+
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;

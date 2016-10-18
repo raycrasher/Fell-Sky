@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FellSky.EntityFactories
+namespace FellSky
 {
     public static class ParticleEntityFactory
     {
