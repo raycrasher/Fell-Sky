@@ -189,6 +189,7 @@
     <Compile Include="Components\TurretComponent.cs" />
     <Compile Include="Components\WeaponBarrelComponent.cs" />
     <Compile Include="Components\WeaponComponent.cs" />
+    <Compile Include="EntityFactories\MapFactory.cs" />
     <Compile Include="EntityFactories\ParticleEntityFactory.cs" />
     <Compile Include="EntityFactories\ShipEntityFactory.cs" />
     <Compile Include="EntityFactories\CombatEntityFactory.cs" />
@@ -226,9 +227,12 @@
     <Compile Include="Game\Ships\Parts\Radiator.cs" />
     <Compile Include="Game\Ships\ShipModel.cs" />
     <Compile Include="Game\Ships\ShipVariant.cs" />
-    <Compile Include="Game\Space\Features\SpaceFeature.cs" />
+    <Compile Include="Game\Space\MapEffects\DeepSpace.cs" />
+    <Compile Include="Game\Space\MapEffects\GravityWell.cs" />
+    <Compile Include="Game\Space\MapEffects\IMapEffect.cs" />
     <Compile Include="Game\Space\OrbitalParameters.cs" />
     <Compile Include="Game\Space\Outpost.cs" />
+    <Compile Include="Game\Space\SpaceMap.cs" />
     <Compile Include="Game\Space\StarSystem.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
