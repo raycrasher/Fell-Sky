@@ -1,4 +1,57 @@
-﻿MOBA Style
+﻿Flow:
+Create merc company
+	name, logo, sponsor
+
+
+
+
+Mercenary company
+get contract
+	get half payment, and some optional assets
+deploy with flagship  + optional assets
+fight across several systems
+complete mission:
+	destroy target
+		possible targets:
+			space fortress
+			massive fleet
+			experimental flagship
+	deliver item
+		
+
+
+
+
+
+
+
+
+
+Map types:
+
+	Low planet orbit
+		Has one or more features:
+			Gravity Well (weak, strong, massive) - slows down ships.
+			Orbital defense grid - fires lasers, missiles, and drones once in a while.
+			Magnetic field - frequent hits of highly charged particles (basically low-power plasma shots)
+			Dense atmosphere - All ships have drag.
+
+	Asteroid Field
+
+	Dense Nebulae
+
+	Stellar Corona
+
+	Event Horizon
+
+
+
+
+
+
+
+
+
 
 
 
