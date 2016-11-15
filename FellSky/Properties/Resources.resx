@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="String_ActOne_Intro01" xml:space="preserve">
-    <value>&lt;h3&gt;DECEMBER 21, 2199&lt;/h3&gt;</value>
+    <value>&lt;h3&gt;Test String&lt;/h3&gt;</value>
   </data>
   <data name="String_ActOne_Tutorial01" xml:space="preserve">
     <value>&lt;h3&gt;Tutorial&lt;/h3&gt;</value>
