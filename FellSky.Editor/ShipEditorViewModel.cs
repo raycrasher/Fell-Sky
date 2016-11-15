@@ -14,7 +14,7 @@ using System.Windows;
 using FellSky.Components;
 using FellSky.Systems;
 using FellSky.Services;
-using FellSky.EntityFactories;
+
 using System.Windows.Media;
 using System.Collections.ObjectModel;
 using System.ComponentModel;

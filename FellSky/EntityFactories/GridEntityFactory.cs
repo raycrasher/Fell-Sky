@@ -3,7 +3,7 @@ using Artemis;
 using Microsoft.Xna.Framework;
 using FellSky.Components;
 
-namespace FellSky.EntityFactories
+namespace FellSky
 {
     public static class GridEntityFactory
     {

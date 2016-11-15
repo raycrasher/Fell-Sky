@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework;
 using FellSky.Systems;
 using Microsoft.Xna.Framework.Graphics;
 using FellSky.Services;
-using FellSky.EntityFactories;
+
 using FellSky.Components;
 using FellSky.Game.Ships;
 using FellSky.Systems.SceneGraphRenderers;

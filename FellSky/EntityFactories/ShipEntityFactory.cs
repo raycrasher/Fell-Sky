@@ -11,7 +11,7 @@ using System.Linq;
 using System.Collections.Generic;
 using FellSky.Systems.SceneGraphRenderers;
 
-namespace FellSky.EntityFactories
+namespace FellSky
 {
     public static class ShipEntityFactory
     {

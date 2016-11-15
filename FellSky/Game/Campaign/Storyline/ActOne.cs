@@ -7,7 +7,7 @@ using FellSky.Framework;
 using System.Collections;
 using FellSky.Game.Ships;
 using Microsoft.Xna.Framework;
-using FellSky.EntityFactories;
+
 
 namespace FellSky.Game.Campaign.Storyline
 {

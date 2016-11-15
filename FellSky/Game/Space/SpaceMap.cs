@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FellSky
+namespace FellSky.Game.Space
 {
-    public static class ParticleEntityFactory
+    public class SpaceMap
     {
     }
 }

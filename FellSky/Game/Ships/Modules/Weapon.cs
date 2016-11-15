@@ -8,7 +8,7 @@ using FellSky.Components;
 using FellSky.Game.Ships.Parts;
 using FellSky.Game.Inventory;
 using FellSky.Game.Combat;
-using FellSky.EntityFactories;
+
 using FellSky.Services;
 using FellSky.Game.Combat.Projectiles;
 
