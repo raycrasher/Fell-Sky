@@ -1,0 +1,9 @@
+{
+	"Id":"jormugand",
+	"ModelId": "Ships/Jormugand",
+	"Handling": {
+		"AngularTorque": 3,
+		"ForwardForce": 8,
+		"ManeuverForce": 5
+	}
+}

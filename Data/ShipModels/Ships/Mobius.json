@@ -491,7 +491,7 @@
       {
         "$id": "61",
         "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
-        "ColorType": 0,
+        "ColorType": 2,
         "ShapeId": null,
         "Health": 100.0,
         "Name": "Hull",
@@ -872,7 +872,7 @@
       {
         "$id": "103",
         "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
-        "ColorType": 0,
+        "ColorType": 2,
         "ShapeId": null,
         "Health": 100.0,
         "Name": "Hull",
@@ -951,7 +951,7 @@
       {
         "$id": "113",
         "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
-        "ColorType": 0,
+        "ColorType": 2,
         "ShapeId": null,
         "Health": 100.0,
         "Name": "Hull",
@@ -978,7 +978,7 @@
       {
         "$id": "117",
         "$type": "FellSky.Game.Ships.Parts.Hull, FellSky",
-        "ColorType": 0,
+        "ColorType": 2,
         "ShapeId": null,
         "Health": 100.0,
         "Name": "Hull",

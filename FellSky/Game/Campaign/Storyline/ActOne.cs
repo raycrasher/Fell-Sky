@@ -62,7 +62,9 @@ namespace FellSky.Game.Campaign.Storyline
             yield return Coroutine.WaitFor(TimeSpan.FromSeconds(2));
             
             
-            _playerEntity = world.CreateShip("mobius", new Vector2(500,0),0, physics:true);
+            _playerEntity = world.CreateShip("Jormugand", new Vector2(500,0),0, physics:true);
+            _playerEntity.GetComponent<ShipModelComponent>().BaseDecalColor = new Color(212,113,108);
+            _playerEntity.GetComponent<ShipModelComponent>().TrimDecalColor = Color.Cyan;
             _playerEntity.Tag = "PlayerShip";
             _playerEntity.Refresh();
             var cameraControl = world.SystemManager.GetSystem<Systems.CameraControlSystem>();
@@ -70,8 +72,9 @@ namespace FellSky.Game.Campaign.Storyline
             cameraControl.FollowedEntity = _playerEntity;
 
 
-            var test = world.CreateShip("Jaeger", new Vector2(0, 0), MathHelper.Pi * 1.5f, physics:true);
-            
+            var test = world.CreateShip("mobius", new Vector2(0, 0), MathHelper.Pi * 1.5f, physics:true);
+            test.GetComponent<ShipModelComponent>().BaseDecalColor = Color.Khaki;
+
             story.State.Fire(Story.Triggers.NextScene);
             yield return null;
         }

@@ -61,7 +61,7 @@ namespace FellSky.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;h3&gt;DECEMBER 21, 2199&lt;/h3&gt;.
+        ///   Looks up a localized string similar to &lt;h3&gt;Test String&lt;/h3&gt;.
         /// </summary>
         internal static string String_ActOne_Intro01 {
             get {

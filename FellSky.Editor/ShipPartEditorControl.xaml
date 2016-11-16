@@ -155,7 +155,7 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <Label>Draw if idle:</Label>
-                    <CheckBox Grid.Column="1"/>
+                    <CheckBox Grid.Column="1" IsChecked="{Binding IsIdleModeOnZeroThrust}"/>
                 </Grid>
             </StackPanel>
         </Expander>
