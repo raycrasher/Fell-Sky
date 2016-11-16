@@ -4,6 +4,7 @@ using Artemis;
 using System;
 using FellSky.Components;
 using FellSky.Services;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace FellSky.Game.Space
 {
@@ -21,6 +22,12 @@ namespace FellSky.Game.Space
         public string Description { get; set; }
         public string TextureId { get; set; }
         public string IconSpriteId { get; set; }
+
+        public float OrbitEpoch { get; set; }
+        public float OrbitRadius { get; set; } = 1;   // astronomical units
+        public float OrbitPeriod { get; set; } = 365; // earth days
+
+        public Vector2 Color { get; set; }
 
         public float Mass { get; set; }
 
@@ -45,5 +52,11 @@ namespace FellSky.Game.Space
             return entity;
         }
 
+        public Vector2 GetPositionAtTime(DateTime time)
+        {
+            var numDays = time - Constants.EpochJ2000;
+            var angle = numDays.TotalDays / OrbitPeriod;
+            return Utilities.CreateVector2FromAngle((float)angle) * OrbitRadius; 
+        }
     }
 }

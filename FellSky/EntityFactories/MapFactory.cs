@@ -37,5 +37,10 @@ namespace FellSky
             world.CreateBackground(1234);
             world.AddBackgroundPlanet(PlanetType.Desert);
         }
+
+        public static Galaxy GenerateGalaxy(int seed)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

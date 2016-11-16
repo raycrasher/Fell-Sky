@@ -230,7 +230,6 @@
     <Compile Include="Game\Space\MapEffects\DeepSpace.cs" />
     <Compile Include="Game\Space\MapEffects\GravityWell.cs" />
     <Compile Include="Game\Space\MapEffects\IMapEffect.cs" />
-    <Compile Include="Game\Space\OrbitalParameters.cs" />
     <Compile Include="Game\Space\Outpost.cs" />
     <Compile Include="Game\Space\SpaceMap.cs" />
     <Compile Include="Game\Space\StarSystem.cs" />
