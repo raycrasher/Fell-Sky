@@ -173,6 +173,7 @@
     <Compile Include="Components\MouseHoverComponent.cs" />
     <Compile Include="Components\NavLightComponent.cs" />
     <Compile Include="Components\PowerComponent.cs" />
+    <Compile Include="Components\ShipAIComponent.cs" />
     <Compile Include="Components\ShipModelComponent.cs" />
     <Compile Include="Components\ParticleEmitterComponent.cs" />
     <Compile Include="Components\RadiatorComponent.cs" />
@@ -187,6 +188,7 @@
     <Compile Include="Components\StoryComponent.cs" />
     <Compile Include="Components\ThrusterComponent.cs" />
     <Compile Include="Components\TurretComponent.cs" />
+    <Compile Include="Components\VehicleComponent.cs" />
     <Compile Include="Components\WeaponBarrelComponent.cs" />
     <Compile Include="Components\WeaponComponent.cs" />
     <Compile Include="EntityFactories\MapFactory.cs" />

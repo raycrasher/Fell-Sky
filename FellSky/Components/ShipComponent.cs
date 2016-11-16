@@ -27,7 +27,13 @@ namespace FellSky.Components
         public Vector2 CenterOfMass { get; set; }
 
         public ShipVariant Variant { get; set; }
-        public FloatRect BoundingBox { get; set; }
+        
+        // calculated values
+        public float MaxForwardSpeed { get; internal set; }
+        public float MaxManeuverSpeed { get; internal set; }
+        public FloatRect BoundingBox { get; internal set; }
+        public float Radius { get; internal set; }
+        public float Mass { get; internal set; }
 
         // functions
 
@@ -36,6 +42,16 @@ namespace FellSky.Components
             Ship = ship;
         }
 
-        
+        public void RecalculateValues(Entity entity)
+        {
+            var body = entity.GetComponent<RigidBodyComponent>();
+
+            Mass = (body?.Body?.Mass ?? 1f) / Constants.PhysicsUnitScale;
+
+            BoundingBox = ShipModel.CalculateBoundingBox(0);
+            Radius = Math.Max(BoundingBox.Width, BoundingBox.Height) / 2;
+            MaxForwardSpeed = UtilityExtensions.GetMaxLinearVelocity(Mass, 10, Ship.Handling.LinearDamping, Ship.Handling.ForwardForce / Constants.PhysicsUnitScale);
+            MaxManeuverSpeed = UtilityExtensions.GetMaxLinearVelocity(Mass, 10, Ship.Handling.LinearDamping, Ship.Handling.ManeuverForce / Constants.PhysicsUnitScale);
+        }
     }
 }
