@@ -197,8 +197,6 @@
                     <Setter Property="Width" Value="30" />
                 </Style>
             </StackPanel.Resources>
-            <Label>Ship name:</Label>
-            <TextBox Width="100" Text="{Binding EditorService.Ship.HullClass}"/>
             <Button ToolTip="Move (Key: T)">
                 <Path Stroke="Black" 
                       Data="M 8,8 L 0,8 L 3,5 M 0,8 L 3,11 M 8,8 L 16,8 L 13,5 M 16,8 L 13,11 M 8,8 L 8,0 L 5,3 M 8 0 L 11,3 M 8,8 L 8,16 L 5,13 M 8 16 L 11,13"
@@ -246,13 +244,14 @@
             </Button>
             
             <Separator Visibility="Hidden" Width="10"/>
-            <ToggleButton Margin="2" ToolTip="Toggles Grid. Key: G">GRID</ToggleButton>
+            <ToggleButton Margin="2" ToolTip="Toggles Grid. Key: G" IsChecked="{Binding IsGridVisible}" >GRID</ToggleButton>
             <ToggleButton Margin="2" ToolTip="Toggle Snap. Key: P" IsChecked="{Binding EditorService.IsSnapEnabled}">SNAP</ToggleButton>
             <StackPanel Orientation="Horizontal">
                 <Label FontSize="10" VerticalAlignment="Center">Size</Label>
                 <xctk:ShortUpDown FontSize="10" Value="{Binding GridSize}" Height="20"/>
             </StackPanel>
-                
+            <Label Content="Background:"/>
+            <xctk:ColorPicker Margin="0 3" Width="50" SelectedColor="{Binding BackgroundColor, Converter={StaticResource XnaColorToWindowsColorConverter}}"/>
         </StackPanel>
         <GridSplitter Width="3" Grid.Row="1" Grid.Column="1" Opacity="0"/>
         <StackPanel Name="sidePanel" Grid.Column="2" Grid.RowSpan="2" Orientation="Vertical">

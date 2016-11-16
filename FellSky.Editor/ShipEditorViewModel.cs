@@ -92,7 +92,18 @@ namespace FellSky.Editor
         
         public SpriteBatch SpriteBatch { get; private set; }
         public bool IsSnap { get; set; }
-        public bool IsGridVisible { get; set; }
+        public bool IsGridVisible {
+            get {
+                return World.SystemManager.GetSystem<GridRendererSystem>()?.IsEnabled ?? false;
+            }
+            set
+            {
+                var grid = World.SystemManager.GetSystem<GridRendererSystem>();
+                if (grid != null)
+                    grid.IsEnabled = value;
+            }
+        }
+
         public int GridSize {
             get { return ((int?) GridEntity?.GetComponent<GridComponent>()?.GridSize.X) ?? 10;  }
             set
@@ -226,6 +237,8 @@ namespace FellSky.Editor
             _mouse.WheelChanged += OnWheelChanged;
 
             LoadHullSprites("textures/hulls.json");
+            IsGridVisible = false;
+
         }
 
         private void OnWheelChanged(int delta)
