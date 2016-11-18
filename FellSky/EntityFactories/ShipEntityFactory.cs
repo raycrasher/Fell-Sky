@@ -31,6 +31,13 @@ namespace FellSky
             return shipEntity;
         }
 
+        public static Entity CreateShip(this EntityWorld world, Ship ship, Vector2 position, float rotation = 0, Vector2? scale = null, bool physics = true)
+        {
+            var shipEntity = ship.CreateEntity(world, position, rotation, scale ?? Vector2.One, physics);
+            shipEntity.Refresh();
+            return shipEntity;
+        }
+
         public static ShipModel GetShipModel(string id)
         {
             ShipModel model;

@@ -44,6 +44,7 @@ namespace FellSky.Scenes
         public Entity CurrentShip { get; private set; }
         public Entity GridEntity { get; private set; }
         public Entity CameraEntity { get; private set; }
+        public Scene PreviousState { get; set; }
 
         public ShipRefitScene(IReadOnlyList<Ship> fleet)
         {
@@ -106,8 +107,8 @@ namespace FellSky.Scenes
                 Core.ScriptEvent += (o,e) => Instance?.HandleScriptEvent(o, e);
             }
 
-            //CurrentShip = World.CreateShipEntity(Fleet[0], Vector2.Zero, 0, true);
-            CurrentShip = World.CreateShip("Jaeger", Vector2.Zero, 0f, physics:true);
+            CurrentShip = World.CreateShip(Fleet[0], Vector2.Zero, 0);
+            //CurrentShip = World.CreateShip("Jaeger", Vector2.Zero, 0f, physics:true);
             //debug
             AddHardpointMarkersToShip(CurrentShip);
 

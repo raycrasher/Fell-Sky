@@ -14,5 +14,7 @@ namespace FellSky.Components
         public ShipModel Model;
         public Color TrimDecalColor = Color.White;
         public Color BaseDecalColor = Color.White;
+
+        public FloatRect BoundingBox { get; set; }
     }
 }

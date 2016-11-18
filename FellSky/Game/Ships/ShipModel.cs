@@ -21,11 +21,13 @@ namespace FellSky.Game.Ships
 
         public void CreateChildEntities(EntityWorld world, Entity parentEntity)
         {
-            parentEntity.AddComponent(new ShipModelComponent { Model = this });
+            var modelComponent = new ShipModelComponent { Model = this };
+            parentEntity.AddComponent(modelComponent);
             foreach (var part in Parts)
             {
                 part.CreateEntity(world, parentEntity);
             }
+            modelComponent.BoundingBox = CalculateBoundingBox(0);
         }
 
         public Entity CreateStandAloneEntity(EntityWorld world)

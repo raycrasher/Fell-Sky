@@ -21,6 +21,19 @@ namespace FellSky.Systems.SceneGraphRenderers
         private FastSpriteBatch _batch;
         private EntityWorld _world;
         private ulong _totalTime = 0;
+        private BasicEffect _effect;
+
+        Vector3[] _orignormals = new Vector3[] {
+            new Vector3(-1,-1, 1),
+            new Vector3(-1, 1, 1),
+            new Vector3( 1,-1, 1),
+            new Vector3( 1, 1, 1),
+        };
+
+        Vector3[] _normals = new Vector3[4];
+        Color[] _colors = new Color[4];
+
+        public bool ExperimentalLighting = false;
 
         public StandardShipModelRenderer()
         {
@@ -29,7 +42,21 @@ namespace FellSky.Systems.SceneGraphRenderers
             _rasterizerState = RasterizerState.CullNone;
             _device = ServiceLocator.Instance.GetService<GraphicsDevice>();
             _batch = ServiceLocator.Instance.GetService<FastSpriteBatch>();
-           
+            _effect = new BasicEffect(_device);
+            _effect.TextureEnabled = true;
+            _effect.VertexColorEnabled = true;
+
+            if (ExperimentalLighting)
+            {
+
+                _effect.LightingEnabled = true;
+                _effect.DirectionalLight0.Direction = new Vector3(-100, 100, -100);
+                _effect.DirectionalLight0.DiffuseColor = Vector3.Zero;
+                _effect.DirectionalLight0.SpecularColor = new Vector3(255, 255, 220) * 0.01f;
+                _effect.AmbientLightColor = new Vector3(0.7f);
+                //_effect.DiffuseColor = new Vector3(0.2f);
+                _effect.DirectionalLight0.Enabled = true;
+            }
         }
 
         public void Begin(EntityWorld world)
@@ -38,7 +65,11 @@ namespace FellSky.Systems.SceneGraphRenderers
             _world = world;
             _lastRasterizerState = _device.RasterizerState;          
             var _camera = world.GetActiveCamera();
-            _batch.Begin(Matrix.Identity, _camera.ProjectionMatrix, _camera.GetViewMatrix(1.0f));
+            
+            _effect.World = Matrix.Identity;
+            _effect.Projection = _camera.ProjectionMatrix;
+            _effect.View = _camera.GetViewMatrix(1.0f);
+            _batch.Begin(_effect);
         }
 
         public void End()
@@ -92,7 +123,22 @@ namespace FellSky.Systems.SceneGraphRenderers
             //matrix *= parentMatrix;
             matrix = xform.Matrix * parentMatrix;
             //_batch.Draw(sprite, ref matrix, color, flip: fx);
-            _batch.Draw(sprite, ref matrix, color);
+
+            if (ExperimentalLighting)
+            {
+                Array.Copy(_orignormals, _normals, 4);
+                var normalMatrix = Matrix.CreateRotationZ(root.GetComponent<Transform>().Rotation) * Matrix.CreateScale(new Vector3(xform.Scale, 1));
+                for(int i = 0; i < 4; i++)
+                {
+                    _normals[i] = Vector3.Transform(_normals[i], normalMatrix);
+                    _colors[i] = color;
+                }
+                _batch.Draw(sprite, ref matrix, _colors, _normals);
+            }
+            else
+            {
+                _batch.Draw(sprite, ref matrix, color);
+            }
 
             //sprite.Draw(batch: _batch, matrix: newTransform.Matrix * parentMatrix, color: color, effects: fx);
         }

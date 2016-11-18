@@ -80,6 +80,43 @@ namespace FellSky.Framework
             DrawVertices(texture, _quadVertices, _quadIndices, ref transform);
         }
 
+        public void Draw(SpriteComponent sprite, ref Matrix transform, Color[] colors, Vector3[] normals)
+        {
+            Vertex3CTN vtx = new Vertex3CTN();
+            if (colors == null)
+                throw new ArgumentException(nameof(colors));
+            if(normals == null)
+                throw new ArgumentException(nameof(normals));
+
+            var tex = sprite.Texture;
+
+            Vector2 texCoordLT = tex.GetUV(sprite.TextureRect.Left, sprite.TextureRect.Top);
+            Vector2 texCoordBR = tex.GetUV(sprite.TextureRect.Right, sprite.TextureRect.Bottom);
+
+            vtx.Position = Vector3.Zero;
+            vtx.TextureCoords = texCoordLT;
+            vtx.Color = colors[0];
+            vtx.Normal = normals[0];
+            _quadVertices[0] = vtx;
+            vtx.Position = new Vector3(0, sprite.TextureRect.Height, 0);
+            vtx.TextureCoords = new Vector2(texCoordLT.X, texCoordBR.Y);
+            vtx.Color = colors[1];
+            vtx.Normal = normals[1];
+            _quadVertices[1] = vtx;
+            vtx.Position = new Vector3(sprite.TextureRect.Width, 0, 0);
+            vtx.TextureCoords = new Vector2(texCoordBR.X, texCoordLT.Y);
+            vtx.Color = colors[2];
+            vtx.Normal = normals[2];
+            _quadVertices[2] = vtx;
+            vtx.Position = new Vector3(sprite.TextureRect.Width, sprite.TextureRect.Height, 0);
+            vtx.TextureCoords = texCoordBR;
+            vtx.Color = colors[3];
+            vtx.Normal = normals[3];
+            _quadVertices[3] = vtx;
+
+            DrawVertices(tex, _quadVertices, _quadIndices, ref transform);
+        }
+
         public void Draw(SpriteComponent sprite, ref Matrix transform, Color? color=null, Vector3? normal=null)
         {
             Vertex3CTN vtx;

@@ -9,10 +9,14 @@ namespace FellSky.Services
     {
         private HashSet<Keys> _downKeys = new HashSet<Keys>();
 
+        public static KeyboardService Instance { get; set; }
+
         public KeyboardService(CoroutineService coroutineService)
         {
             //_lastKeyboardState = Microsoft.Xna.Framework.Input.Keyboard.GetState();
             coroutineService.StartCoroutine(Update());
+
+            Instance = this;
         }
 
         public event Action<Keys> KeyDown, KeyUp;

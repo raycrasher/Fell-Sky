@@ -12,6 +12,7 @@ using FellSky.Services;
 using FellSky.Components;
 using FellSky.Game.Ships;
 using FellSky.Systems.SceneGraphRenderers;
+using Microsoft.Xna.Framework.Input;
 
 namespace FellSky.Scenes
 {
@@ -67,11 +68,20 @@ namespace FellSky.Scenes
             Camera = CameraEntityFactory.CreateCamera(World, Constants.ActiveCameraTag, ServiceLocator.Instance.GetService<GraphicsDevice>());
 
             World.InitializeAll();
-
         }
 
         public override void Update(GameTime gameTime)
         {
+            if (KeyboardService.Instance.IsKeyDown(Keys.F1))
+            {
+                //GameEngine.Instance.ShipRefitScene.CurrentShip = World.TagManager.GetEntity("PlayerShip").GetComponent<ShipComponent>().Ship;
+                var refit = new ShipRefitScene(new[] { World.TagManager.GetEntity("PlayerShip").GetComponent<ShipComponent>().Ship });
+                refit.LoadContent();
+                refit.PreviousState = this;
+                GameEngine.Instance.CurrentScene = refit;
+                return;
+            }
+
             World.Update(gameTime.ElapsedGameTime.Milliseconds);
         }
         public override void Draw(GameTime gameTime)
