@@ -184,6 +184,7 @@
     <Compile Include="Components\ShipComponent.cs" />
     <Compile Include="Components\SoundEffectComponent.cs" />
     <Compile Include="Components\SpaceObjectComponent.cs" />
+    <Compile Include="Components\SpatialTokenComponent.cs" />
     <Compile Include="Components\StarComponent.cs" />
     <Compile Include="Components\StoryComponent.cs" />
     <Compile Include="Components\ThrusterComponent.cs" />
@@ -424,6 +425,7 @@
     <Compile Include="Systems\ShipUpdateSystem.cs" />
     <Compile Include="Framework\SteeringBehaviors\SteeringBehaviorSystem.cs" />
     <Compile Include="Systems\MouseControlledTransformSystem.cs" />
+    <Compile Include="Systems\SpatialDatabaseSystem.cs" />
     <Compile Include="Systems\StorySystem.cs" />
     <Compile Include="Systems\SystemMapSpaceObjectRenderer.cs" />
     <Compile Include="Systems\TurretRotationSystem.cs" />

@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Artemis.Interface;
+using SharpSteer2.Database;
 
 namespace FellSky.Systems
 {
@@ -28,10 +29,15 @@ namespace FellSky.Systems
     public class ShipAISystem: Artemis.System.EntitySystem
     {
         public ShipAISystem() :
-            base(Aspect.All(typeof(ShipComponent), typeof(ShipAIComponent)))
+            base(Aspect.All(typeof(ShipComponent), typeof(ShipAIComponent), typeof(SpatialTokenComponent)))
         { }
 
+
+        public IProximityDatabase<IVehicle> ProximityDatabase { get; private set; }
+
         public HashSet<Entity> Ships { get; } = new HashSet<Entity>();
+
+        public List<Entity> _neighborSearchResults = new List<Entity>();
 
         public override void LoadContent()
         {
@@ -64,6 +70,7 @@ namespace FellSky.Systems
             foreach(var entity in entities.Values)
             {
                 var ai = entity.GetComponent<ShipAIComponent>();
+                var vehicle = entity.GetComponent<VehicleComponent>();
                 UpdateVehicle(entity);
 
                 switch (ai.Mode)
@@ -94,6 +101,10 @@ namespace FellSky.Systems
             
             vehicle.SteerForArrival(position.ToNumericsVector3(), ship.MaxForwardSpeed, GetDistanceToChangeSpeed(mass, -vehicle.Speed, ship.Ship.Handling.ManeuverForce / Constants.PhysicsUnitScale) + ship.Radius);
             ship.LinearThrustVector = vehicle.Velocity.ToXnaVector2();
+            var spatialToken = entity.GetComponent<SpatialTokenComponent>();
+            var xform = entity.GetComponent<Transform>();
+            spatialToken.Token.FindNeighbors(xform.Position.ToNumericsVector3(), vehicle.Radius * 3, _neighborSearchResults);
+            vehicle.SteerToAvoidCloseNeighbors(ship.Radius, _neighborSearchResults.Select(e=>e.GetComponent<VehicleComponent>()));
         }
 
         private float GetDistanceToChangeSpeed(float mass, float deltaV, float force)
