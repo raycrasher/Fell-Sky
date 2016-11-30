@@ -28,6 +28,12 @@ namespace FellSky.Scenes
 
         public const string RefitScreenGuiDocument = "Gui/RefitScreen.xml";
 
+        class FleetEntry
+        {
+            public Entity OrigEntity;
+            public ShipVariant Variant;
+        }
+
         private readonly IGuiService GuiService;
         private GraphicsDevice Graphics;
         private HardpointRendererSystem _hardpointSystem;
@@ -38,7 +44,7 @@ namespace FellSky.Scenes
 
         public ElementDocument Document { get; private set; }
         public static ShipRefitScene Instance { get; private set; }
-        public IReadOnlyList<Ship> Fleet { get; private set; }
+        private List<FleetEntry> Fleet;
 
         public List<Texture2D> LoadedTextures { get; set; }
         public Entity CurrentShip { get; private set; }
@@ -46,13 +52,50 @@ namespace FellSky.Scenes
         public Entity CameraEntity { get; private set; }
         public Scene PreviousState { get; set; }
 
-        public ShipRefitScene(IReadOnlyList<Ship> fleet)
+        public ShipRefitScene(IReadOnlyList<Entity> fleet, EntityWorld originalWorld)
         {
             if (fleet == null) throw new ArgumentException("Fleet is null.");
             if (fleet.Count < 0) throw new ArgumentException("Fleet is empty.");
-            Fleet = fleet;
+            Fleet = new List<FleetEntry>();
+
+            OrigWorld = originalWorld;
+
+            foreach (var entity in fleet)
+            {
+                var shipComponent = entity.GetComponent<ShipComponent>();
+                if (shipComponent == null) continue;
+                if (shipComponent.Variant == null)
+                    shipComponent.Variant = CreateVariantFromEntity(entity);
+                Fleet.Add(new FleetEntry {
+                    Variant = shipComponent.Variant,
+                    OrigEntity = entity
+                });
+            }
+
             GuiService = ServiceLocator.Instance.GetService<IGuiService>();
             _mouse = ServiceLocator.Instance.GetService<IMouseService>();
+        }
+
+        private ShipVariant CreateVariantFromEntity(Entity entity)
+        {
+            var shipComponent = entity.GetComponent<ShipComponent>();
+            var variant = new ShipVariant();
+            variant.HullId = shipComponent.Ship.Id;
+            variant.Weapons = shipComponent.Hardpoints.Select(h =>
+            {
+                var hpc = h.GetComponent<HardpointComponent>();
+                if (hpc == null) return null;
+                return new
+                {
+                    HardpointId = hpc.Hardpoint.Id,
+                    Weapon = hpc.InstalledEntity?.GetComponent<WeaponComponent>()?.Weapon.Id
+                };
+            }).ToDictionary(k => k.HardpointId, v => v.Weapon);
+            //Modules=      // TODO
+            variant.BaseDecalColor = entity.GetComponent<ShipModelComponent>().BaseDecalColor;
+            variant.TrimDecalColor = entity.GetComponent<ShipModelComponent>().TrimDecalColor;
+            variant.VariantName = $"{shipComponent.Ship.HullClass} Custom";
+            return variant;
         }
 
         public override void LoadContent()
@@ -61,7 +104,7 @@ namespace FellSky.Scenes
 
             int depth = 0;
 
-            World.CreateComponentPool<BulletComponent>(200, 200);
+            World.CreateComponentPool<BulletComponent>();
 
             World.SystemManager.SetSystem(new GridRendererSystem(), Artemis.Manager.GameLoopType.Draw, depth++);
             World.SystemManager.SetSystem(new BackgroundRendererSystem(), Artemis.Manager.GameLoopType.Draw, depth++);
@@ -107,7 +150,8 @@ namespace FellSky.Scenes
                 Core.ScriptEvent += (o,e) => Instance?.HandleScriptEvent(o, e);
             }
 
-            CurrentShip = World.CreateShip(Fleet[0], Vector2.Zero, 0);
+            CurrentShip = World.CreateShip(Fleet[0].Variant, Vector2.Zero, 0);
+
             //CurrentShip = World.CreateShip("Jaeger", Vector2.Zero, 0f, physics:true);
             //debug
             AddHardpointMarkersToShip(CurrentShip);
@@ -164,7 +208,10 @@ namespace FellSky.Scenes
 
         private IList<Weapon> GetAvailableWeaponsForHardpoint(Entity entity)
         {
-            return CombatEntityFactory.Weapons.Values.ToList();
+            var hp = entity.GetComponent<HardpointComponent>();
+            return CombatEntityFactory.Weapons.Values
+                .Where(w=>w.CanInstallToHardpoint(CurrentShip, hp.Hardpoint))
+                .ToList();
         }
 
         private void HandleMouseButtonUp(Point pos, int button)
@@ -184,6 +231,7 @@ namespace FellSky.Scenes
         private readonly HashSet<Entity> _hoverEntities = new HashSet<Entity>();
         private Entity _selectedHardpoint;
         private Action RunOnce;
+        private EntityWorld OrigWorld;
 
         private void AddHardpointMarkersToShip(Entity ship)
         {
@@ -285,6 +333,17 @@ namespace FellSky.Scenes
                     break;
                 case "Refit_ChangeMode_RunSim":
                     SetMode(EditorMode.Simulator);
+                    break;
+                case "Refit_CloseScene":
+                    if (PreviousState != null)
+                    {
+                        GameEngine.Instance.CurrentScene = PreviousState;
+                        foreach(var item in Fleet)
+                        {
+                            item.Variant.ApplyVariant(OrigWorld, item.OrigEntity);
+                        }
+                        return;
+                    }
                     break;
             }
             if (args.Script.StartsWith("Refit_ChangeMode"))

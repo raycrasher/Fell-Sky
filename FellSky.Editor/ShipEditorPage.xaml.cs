@@ -50,11 +50,12 @@ namespace FellSky.Editor
 
         private void D3D11Host_MouseEnter(object sender, MouseEventArgs e)
         {
-            Keyboard.Focus(D3D11Host);            
+            //Keyboard.Focus(D3D11Host);
         }
 
         private void D3D11Host_MouseDown(object sender, MouseButtonEventArgs e)
         {
+            Keyboard.Focus(D3D11Host);
             D3D11Host.Focus();
         }
 

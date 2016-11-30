@@ -75,7 +75,7 @@ namespace FellSky.Game.Combat.Projectiles
             bulletComponent.Age = TimeSpan.Zero;
             bulletComponent.Alpha = 1;
             bulletComponent.Damage = _damageDice;            
-            bulletEntity.AddComponent<IProjectileComponent>(bulletComponent);
+            //bulletEntity.AddComponent<IProjectileComponent>(bulletComponent);
 
             return bulletEntity;
         }

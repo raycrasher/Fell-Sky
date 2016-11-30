@@ -5,6 +5,7 @@
 </head>
 <body>
 <div id="header">
+	<button id="sceneCloseButton" onclick="Refit_CloseScene">X</button>
 	<h1 class="title">Shipyard</h1>
 	<nav id="navigation">
 		<li style="display:none;"/>

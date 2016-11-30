@@ -22,9 +22,11 @@ namespace FellSky.Game.Ships
 
         // TODO: Add per-ship control scheme here.
 
-        public void ApplyVariant(EntityWorld world, Entity shipEntity)
+        public bool ApplyVariant(EntityWorld world, Entity shipEntity)
         {
             var shipComponent = shipEntity.GetComponent<ShipComponent>();
+            if (!shipComponent.Ship.Id.Equals(HullId, StringComparison.InvariantCultureIgnoreCase)) return false;
+
             var ship = shipComponent.Ship;
             shipComponent.Variant = this;
 
@@ -33,22 +35,24 @@ namespace FellSky.Game.Ships
             model.TrimDecalColor = TrimDecalColor;
             
             // uninstall weapons
-            foreach(var entity in shipComponent.Weapons)
+            foreach(var entity in shipComponent.Weapons.ToArray())
             {
-                entity.DeleteFromSceneGraph();
+                entity.GetComponent<WeaponComponent>().Weapon.Uninstall(shipEntity, entity);
             }
 
             shipComponent.Weapons.Clear();
 
-            foreach(var weapon in Weapons)
+
+            var hardpointLookup = shipComponent.Hardpoints.ToDictionary(k => k.GetComponent<HardpointComponent>().Hardpoint.Id);
+            foreach(var weapon in Weapons.ToArray())
             {
-                // TODO: install weapons
+                CombatEntityFactory.Weapons[weapon.Value].Install(world, shipEntity, hardpointLookup[weapon.Key]);
             }
             foreach (var modules in Modules)
             {
                 // TODO: install modules
             }
-
+            return true;
         }
     }
 }

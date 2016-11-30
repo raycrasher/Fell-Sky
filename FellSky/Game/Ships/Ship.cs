@@ -65,6 +65,7 @@ namespace FellSky.Game.Ships
 
             shipComponent.ShipModel = model;
             shipComponent.BoundingBox = model.CalculateBoundingBox();
+            shipComponent.Variant = new ShipVariant { HullId = Id };
             model.CreateChildEntities(world, shipEntity);
             foreach(var entity in shipEntity.GetChildren())
             {

@@ -108,13 +108,13 @@
                         <GroupBox Header="Other Parts">
                             <WrapPanel>
                                 <Button Margin="2" Width="64" Height="64" Command="{Binding AddDummyPart}">
-                                    <TextBlock TextWrapping="Wrap" TextAlignment="Center"> ADD DUMMY PART </TextBlock>
+                                    <TextBlock TextWrapping="Wrap" TextAlignment="Center" ToolTip="Key: D"> ADD DUMMY PART</TextBlock>
                                 </Button>
-                                <Button Margin="2" Width="64" Height="64" >
-                                    <TextBlock TextWrapping="Wrap" TextAlignment="Center"> ADD LIGHT</TextBlock>
+                                <Button Margin="2" Width="64" Height="64" Command="{Binding AddLight}">
+                                    <TextBlock TextWrapping="Wrap" TextAlignment="Center" ToolTip="Key: L"> ADD LIGHT</TextBlock>
                                 </Button>
-                                <Button Margin="2" Width="70" Height="64">
-                                    <TextBlock TextWrapping="Wrap" TextAlignment="Center"> ADD HARDPOINT</TextBlock>
+                                <Button Margin="2" Width="70" Height="64" Command="{Binding AddHardpoint}">
+                                    <TextBlock TextWrapping="Wrap" TextAlignment="Center" ToolTip="Key: H"> ADD HARDPOINT</TextBlock>
                                 </Button>
                             </WrapPanel>
                         </GroupBox>
@@ -185,6 +185,8 @@
                 <MenuItem Header="Disassemble Spritesheet..." Command="{Binding DisassembleSpritesheet}"/>
                 <MenuItem Header="Export Color Palette..." Command="{Binding ExportColorPalette}"/>
                 <MenuItem Header="Import Color Palette..." Command="{Binding ImportColorPalette}"/>
+                <Separator/>
+                <MenuItem Header="Auto-name Hardpoints" Command="{Binding AutoNameHardpoints}"/>
             </MenuItem>
         </Menu>
         
@@ -246,13 +248,13 @@
             </Button>
             
             <Separator Visibility="Hidden" Width="10"/>
-            <ToggleButton Margin="2" ToolTip="Toggles Grid. Key: G">GRID</ToggleButton>
-            <ToggleButton Margin="2" ToolTip="Toggle Snap. Key: P" IsChecked="{Binding EditorService.IsSnapEnabled}">SNAP</ToggleButton>
+            <ToggleButton Margin="2" ToolTip="Toggles Grid. Key: F1" IsChecked="{Binding IsGridVisible}">GRID</ToggleButton>
+            <ToggleButton Margin="2" ToolTip="Toggle Snap. Key: F2" IsChecked="{Binding IsSnap}">SNAP</ToggleButton>
             <StackPanel Orientation="Horizontal">
                 <Label FontSize="10" VerticalAlignment="Center">Size</Label>
                 <xctk:ShortUpDown FontSize="10" Value="{Binding GridSize}" Height="20"/>
             </StackPanel>
-                
+            <ToggleButton Margin="2" ToolTip="Toggles hardpoint arcs. Key: F3" IsChecked="{Binding IsHardpointsVisible}">HARDPOINT</ToggleButton>
         </StackPanel>
         <GridSplitter Width="3" Grid.Row="1" Grid.Column="1" Opacity="0"/>
         <StackPanel Name="sidePanel" Grid.Column="2" Grid.RowSpan="2" Orientation="Vertical">

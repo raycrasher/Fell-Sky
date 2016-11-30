@@ -120,8 +120,8 @@ namespace FellSky
 
             Galaxy = GalaxyGenerator.CreateGalaxy();
 
-            ShipRefitScene = new ShipRefitScene(testShips);
-            ShipRefitScene.LoadContent();
+            //ShipRefitScene = new ShipRefitScene(testShips);
+            //ShipRefitScene.LoadContent();
 
             MainMenuScene = new MainMenuScene();
             MainMenuScene.LoadContent();

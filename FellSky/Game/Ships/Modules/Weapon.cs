@@ -49,11 +49,29 @@ namespace FellSky.Game.Ships.Modules
         public float BurstRoF { get; set; } = 0;
         public bool NeedsAmmo { get; set; } = false;
 
-        public override bool CanInstall(Entity shipEntity, Hardpoint slot)
+        public override bool CanInstallToHardpoint(Entity shipEntity, Hardpoint slot)
         {
             if (slot.Size != Size) return false;
-            // TODO: Take into account weapon mount type
-            return true;
+            switch (slot.Type)
+            {
+                case HardpointType.Universal:
+                    return true;
+                case HardpointType.Powered:
+                    return CompatibleHardpoint == WeaponMountType.Ballistic || CompatibleHardpoint == WeaponMountType.Energy;
+                case HardpointType.Composite:
+                    return CompatibleHardpoint == WeaponMountType.Ballistic || CompatibleHardpoint == WeaponMountType.Missile;
+                case HardpointType.Hybrid:
+                    return CompatibleHardpoint == WeaponMountType.Energy || CompatibleHardpoint == WeaponMountType.Missile;
+                case HardpointType.Ballistic:
+                    return CompatibleHardpoint == WeaponMountType.Ballistic;
+                case HardpointType.Beam:
+                    return CompatibleHardpoint == WeaponMountType.Energy; //TODO: Check for beam cannon here
+                case HardpointType.Energy:
+                    return CompatibleHardpoint == WeaponMountType.Energy;
+                case HardpointType.Missile:
+                    return CompatibleHardpoint == WeaponMountType.Missile;
+            }
+            return false;
         }
 
         public override bool CanInstallUpgrade(Entity shipEntity, Entity moduleEntity, IModuleUpgrade upgrade)
@@ -86,18 +104,26 @@ namespace FellSky.Game.Ships.Modules
                 Ship = shipEntity
             });
 
+            var parts = new List<Entity>();
+
             if (!string.IsNullOrEmpty(MountModel))
             {
                 ShipEntityFactory.GetShipModel(MountModel).CreateChildEntities(world, weaponComponent.Mount);
+                parts.AddRange(weaponComponent.Mount.GetChildren());
             }
             if (!string.IsNullOrEmpty(TurretModel))
             {
                 ShipEntityFactory.GetShipModel(TurretModel).CreateChildEntities(world, weaponComponent.Turret);
+                parts.AddRange(weaponComponent.Turret.GetChildren());
             }
             if (!string.IsNullOrEmpty(BarrelModel))
             {
-                foreach(var barrel in weaponComponent.Barrels)
+                foreach (var barrel in weaponComponent.Barrels)
+                {
                     ShipEntityFactory.GetShipModel(BarrelModel).CreateChildEntities(world, barrel);
+                    parts.AddRange(barrel.GetChildren());
+                }
+
             }
             else
             {
@@ -113,6 +139,7 @@ namespace FellSky.Game.Ships.Modules
                     weaponComponent.Turret.AddChild(barrel);
                     return barrel;
                 }).ToArray();
+                parts.AddRange(weaponComponent.Barrels);
             }
 
             var moduleComponent = weaponEntity.GetComponent<ModuleComponent>();
@@ -147,6 +174,34 @@ namespace FellSky.Game.Ships.Modules
                 }
             }
 
+            var glow = new PartGlowComponent
+            {
+                Color = new Microsoft.Xna.Framework.Color(255, 255, 200)
+            };
+            var glowWhenReadyEntities = (from part
+                                        in parts
+                                        let component = part.GetComponent<IShipPartComponent>()
+                                        where component != null
+                                        where component.Part.Flags.Contains("GlowWhenReady", StringComparer.InvariantCultureIgnoreCase)
+                                        select part).ToArray();
+
+            if (glowWhenReadyEntities.Any())
+            {
+                // glow when ready
+                weaponEntity.RegisterEvent(EventId.WeaponFire, (o, e) =>
+                {
+                    foreach (var part in glowWhenReadyEntities)
+                        part.RemoveComponent<PartGlowComponent>();
+                });
+
+                weaponEntity.RegisterEvent(EventId.WeaponReady, (o, e) =>
+                {
+                    foreach (var part in glowWhenReadyEntities)
+                        part.AddComponent(glow);
+                });
+            }
+
+            shipComponent.Variant.Weapons[hardpointComponent.Hardpoint.Id] = Id;
             return weaponEntity;
         }
 

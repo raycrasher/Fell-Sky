@@ -187,10 +187,10 @@ namespace FellSky
             return system.Service.StartCoroutine(routine);
         }
         
-        public static void CreateComponentPool<T>(this EntityWorld world, int initialSize, int resizePool, bool resizes=true)
+        public static void CreateComponentPool<T>(this EntityWorld world, int initialSize=200, int resizePool=200, bool resizes=true)
             where T : ComponentPoolable, new()
         {
-            world.SetPool(typeof(T), new ComponentPool<ComponentPoolable>(200, 200, true, t => new T(), typeof(T)));
+            world.SetPool(typeof(T), new ComponentPool<ComponentPoolable>(initialSize, resizePool, true, t => new T(), typeof(T)));
         }
 
         public static Vector2 GetUV(this Texture2D texture, float x, float y)

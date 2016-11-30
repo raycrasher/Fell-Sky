@@ -25,7 +25,7 @@ namespace FellSky.Systems
 
         public override void LoadContent()
         {
-            _document = _service.Context.LoadDocument(Properties.Settings.Default.GuiDocument);
+            _document =  _service.Context.LoadDocument(Properties.Settings.Default.GuiDocument);
             _document.Show(ElementDocument.FocusFlags.None);
             base.LoadContent();
         }

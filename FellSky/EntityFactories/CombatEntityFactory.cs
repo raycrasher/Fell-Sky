@@ -4,6 +4,7 @@ using FellSky.Components;
 using FellSky.Game.Combat;
 using FellSky.Game.Combat.Projectiles;
 using FellSky.Game.Ships.Modules;
+using FellSky.Game.Ships.Parts;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -26,7 +27,7 @@ namespace FellSky
                 Scale = new Vector2(0.7f, 0.7f),
                 Color = new Color(255,200,100,255),
                 MaxAge = TimeSpan.FromSeconds(1),
-                MuzzleVelocity = 200,
+                MuzzleVelocity = 500,
                 Damage = "2d10"
             };
 
@@ -68,7 +69,15 @@ namespace FellSky
                 BlastRadius = 1,
             };
 
-
+            Projectiles["SpinalRailgunSlug"] = new Bullet
+            {
+                Color = Color.Cyan,
+                Damage = "1d50+100",
+                MuzzleVelocity = 1000,
+                MaxAge = TimeSpan.FromSeconds(3),
+                SpriteId = "bullet_boltsmall",
+                Scale = new Vector2(4,3),
+            };
         }
 
         public static void LoadWeapons()
@@ -97,6 +106,19 @@ namespace FellSky
                 FireRate = 0.5f,
                 ProjectileId = "LaserBeam",
                 TurretModel = "Weapons/LaserTurret",
+            };
+
+            Weapons["HugeSpinalRailGun"] = new Weapon
+            {
+                Id = "HugeSpinalRailGun",
+                Name = "Relativistic Spinal Railgun",
+                Description = "The \"Obliterator\" relativistic spinal railgun is the pinnacle of kinetic anti-ship weaponry. Capable of punching through shields, armor, and fortifications, this fearsome weapon is considered by some to be a weapon of mass destruction, due to its ability to inflict catastrophic damage to planetary environments.",
+                TurnRate = 0,
+                FireRate = 0.1f,
+                ProjectileId = "SpinalRailgunSlug",
+                TurretModel = "Weapons/HugeSpinalRailgun",
+                Size = HardpointSize.Huge,
+                CompatibleHardpoint = WeaponMountType.Ballistic
             };
 
             Weapons["BoxLauncher2x2Small"] = new Weapon

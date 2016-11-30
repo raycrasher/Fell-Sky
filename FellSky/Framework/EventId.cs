@@ -10,6 +10,7 @@ namespace FellSky
     {
         public const int WeaponFire = 100;
         public const int WeaponFireProjectile = 101;
+        public const int WeaponReady = 102;
 
         public const int BeamHit = 200;
         public const int BulletHit = 201;

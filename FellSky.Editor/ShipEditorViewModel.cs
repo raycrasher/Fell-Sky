@@ -91,8 +91,19 @@ namespace FellSky.Editor
         //public List<Entity> SelectedPartEntities { get; set; }
         
         public SpriteBatch SpriteBatch { get; private set; }
-        public bool IsSnap { get; set; }
-        public bool IsGridVisible { get; set; }
+        public bool IsSnap {
+            get { return EditorService?.IsSnapEnabled ?? false; }
+            set { EditorService.IsSnapEnabled = value; }
+        }
+        public bool IsGridVisible {
+            get { return _gridSystem?.IsEnabled ?? false; }
+            set { if (_gridSystem != null) _gridSystem.IsEnabled = value; ; }
+        }
+        public bool IsHardpointsVisible {
+            get { return _hardpointRendererSystem?.IsEnabled ?? false; }
+            set { if (_hardpointRendererSystem != null) _hardpointRendererSystem.IsEnabled = value; }
+        }
+        
         public int GridSize {
             get { return ((int?) GridEntity?.GetComponent<GridComponent>()?.GridSize.X) ?? 10;  }
             set
@@ -177,13 +188,16 @@ namespace FellSky.Editor
 
             World.CreateComponentPool<Transform>(200, 200);
 
-            World.SystemManager.SetSystem(new GridRendererSystem(), Artemis.Manager.GameLoopType.Draw, 1);
+            _gridSystem = new GridRendererSystem();
+            _gridSystem.IsEnabled = false;
+            World.SystemManager.SetSystem(_gridSystem, Artemis.Manager.GameLoopType.Draw, 1);
             //World.SystemManager.SetSystem(new ShipRendererSystem(), Artemis.Manager.GameLoopType.Draw, 2);
             World.SystemManager.SetSystem(new SceneGraphRendererSystem<StandardShipModelRenderer>(new StandardShipModelRenderer()), Artemis.Manager.GameLoopType.Draw, 3);
             World.SystemManager.SetSystem(new BoundingBoxRendererSystem(), Artemis.Manager.GameLoopType.Draw, 4);
             World.SystemManager.SetSystem(new GenericDrawableRendererSystem(), Artemis.Manager.GameLoopType.Draw, 5);
-            var arcRendererSystem = new HardpointRendererSystem();
-            World.SystemManager.SetSystem(arcRendererSystem, Artemis.Manager.GameLoopType.Draw, 6);
+            _hardpointRendererSystem = new HardpointRendererSystem();
+            _hardpointRendererSystem.IsEnabled = false;
+            World.SystemManager.SetSystem(_hardpointRendererSystem, Artemis.Manager.GameLoopType.Draw, 6);
 
             World.SystemManager.SetSystem(new CameraControlSystem(), Artemis.Manager.GameLoopType.Update, 1);
             _transformSystem = new MouseControlledTransformSystem();
@@ -215,17 +229,11 @@ namespace FellSky.Editor
                 }
             };
 
-            PropertyChanged += (o, e) => {
-                if (e.PropertyName == nameof(SelectedTabIndex))
-                {
-                    arcRendererSystem.IsEnabled = SelectedTabIndex == 2;
-                }
-            };
-            arcRendererSystem.IsEnabled = false;
-
+            
             _mouse.WheelChanged += OnWheelChanged;
-
+            IsHardpointsVisible = false;
             LoadHullSprites("textures/hulls.json");
+            IsGridVisible = true;
         }
 
         private void OnWheelChanged(int delta)
@@ -298,6 +306,15 @@ namespace FellSky.Editor
                 case Key.H:
                     EditorService.ToggleHardpointOnSelected();
                     break;
+                case Key.F1:
+                    IsGridVisible = !IsGridVisible;
+                    break;
+                case Key.F3:
+                    IsHardpointsVisible = !IsHardpointsVisible;
+                    break;
+                case Key.F2:
+                    IsSnap = !IsSnap;
+                    break;
                 default:
                     e.Handled = false;
                     break;
@@ -313,6 +330,8 @@ namespace FellSky.Editor
 
         GameTime _gameTime = new GameTime();
         private bool IsInitialized = false;
+        private GridRendererSystem _gridSystem;
+        private HardpointRendererSystem _hardpointRendererSystem;
 
         internal void Render(TimeSpan timespan)
         {
@@ -404,12 +423,26 @@ namespace FellSky.Editor
 
         public ICommand AddDummyPart => new DelegateCommand(o =>
         {
-            ActionsNextFrame.Add(() =>
-            {
+            ActionsNextFrame.Add(() => {
                 var pos = _host.PointToScreen(new System.Windows.Point(_host.ActualWidth / 2, _host.ActualHeight / 2));
                 _mouse.ScreenPosition = new Vector2((float)pos.X, (float)pos.Y);
                 System.Threading.Thread.Sleep(10);
                 EditorService.AddDummyPart();
+            });
+        });
+
+        public ICommand AddLight => new DelegateCommand(o => {
+            ActionsNextFrame.Add(() => {
+                var pos = _host.PointToScreen(new System.Windows.Point(_host.ActualWidth / 2, _host.ActualHeight / 2));
+                _mouse.ScreenPosition = new Vector2((float)pos.X, (float)pos.Y);
+                System.Threading.Thread.Sleep(10);
+                EditorService.AddLight();
+            });
+        });
+
+        public ICommand AddHardpoint => new DelegateCommand(o => {
+            ActionsNextFrame.Add(() => {
+                EditorService.ToggleHardpointOnSelected();
             });
         });
 
@@ -499,6 +532,10 @@ namespace FellSky.Editor
                 }
                 catch (Exception) { } // gulp
             }
+        });
+
+        public ICommand AutoNameHardpoints => new DelegateCommand(o => {
+            EditorService?.AutoNameHardpoints();
         });
 
         public SpriteManagerService SpriteManager { get; private set; }

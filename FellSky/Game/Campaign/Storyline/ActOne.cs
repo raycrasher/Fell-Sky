@@ -60,11 +60,14 @@ namespace FellSky.Game.Campaign.Storyline
             entity.FadeGuiElement(TimeSpan.FromSeconds(1.5), 0)
                 .OnDone = () => entity.Delete();
             yield return Coroutine.WaitFor(TimeSpan.FromSeconds(2));
-            
-            
-            _playerEntity = world.CreateShip("Jormugand", new Vector2(500,0),0, physics:true);
-            _playerEntity.GetComponent<ShipModelComponent>().BaseDecalColor = new Color(212,113,108);
-            _playerEntity.GetComponent<ShipModelComponent>().TrimDecalColor = Color.Cyan;
+
+            var variant = new ShipVariant
+            {
+                HullId = "Jormugand",
+                TrimDecalColor = Color.Cyan,
+                BaseDecalColor = new Color(212, 113, 108),
+            };            
+            _playerEntity = world.CreateShip(variant, new Vector2(500,0),0, physics:true);
             _playerEntity.Tag = "PlayerShip";
             _playerEntity.Refresh();
             var cameraControl = world.SystemManager.GetSystem<Systems.CameraControlSystem>();

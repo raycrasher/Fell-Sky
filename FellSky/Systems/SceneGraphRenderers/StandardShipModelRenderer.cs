@@ -23,6 +23,8 @@ namespace FellSky.Systems.SceneGraphRenderers
         private ulong _totalTime = 0;
         private BasicEffect _effect;
 
+        Random _rng = new Random();
+
         Vector3[] _orignormals = new Vector3[] {
             new Vector3(-1,-1, 1),
             new Vector3(-1, 1, 1),
@@ -34,6 +36,7 @@ namespace FellSky.Systems.SceneGraphRenderers
         Color[] _colors = new Color[4];
 
         public bool ExperimentalLighting = false;
+        private float[] _randomFloats = new float[4];
 
         public StandardShipModelRenderer()
         {
@@ -61,6 +64,9 @@ namespace FellSky.Systems.SceneGraphRenderers
 
         public void Begin(EntityWorld world)
         {
+            for(int i=0;i<_randomFloats.Length;i++)
+                _randomFloats[i] = _rng.NextFloat(0, 1);
+
             _totalTime += (ulong)world.Delta;
             _world = world;
             _lastRasterizerState = _device.RasterizerState;          
@@ -94,6 +100,27 @@ namespace FellSky.Systems.SceneGraphRenderers
                 RenderThruster(root, entity, ref parentMatrix);
             else if (entity.HasComponent<NavLightComponent>())
                 RenderLight(root, entity, ref parentMatrix);
+
+            if (entity.HasComponent<PartGlowComponent>() && entity.HasComponent<SpriteComponent>())
+                RenderPartGlow(root, entity, ref parentMatrix);
+        }
+
+        private void RenderPartGlow(Entity root, Entity partEntity, ref Matrix parentMatrix)
+        {
+            var partComponent = partEntity.GetComponent<IShipPartComponent>();
+            var glow = partEntity.GetComponent<PartGlowComponent>();
+            Vector3 offset = new Vector3(
+                (_randomFloats[0] * 6) % partComponent.GetHashCode() - 3,
+                (_randomFloats[1] * 6) % partEntity.GetHashCode() - 3,
+                0
+                );
+            var xform = partEntity.GetComponent<Transform>();
+            var sprite = partEntity.GetComponent<SpriteComponent>();
+            var color = glow.Color;
+            color.A = 0;
+
+            Matrix matrix = xform.Matrix * Matrix.CreateTranslation(offset) *  parentMatrix;
+            _batch.Draw(sprite, ref matrix, color);
         }
 
         private void RenderHull(Entity root, Entity partEntity, ref Matrix parentMatrix)

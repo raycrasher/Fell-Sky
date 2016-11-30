@@ -37,6 +37,9 @@ namespace FellSky.Systems
                 switch (weaponComponent.Status)
                 {
                     case WeaponStatus.Ready:
+                        if(weaponComponent.LastStatus != WeaponStatus.Ready)
+                            weaponEntity.FireEvent(this, EventId.WeaponReady, null);
+
                         if (weaponComponent.RequestFire)
                         {
                             switch (weapon.Action)
@@ -191,6 +194,11 @@ namespace FellSky.Systems
                 }
                 weaponComponent.LastStatus = lastStatus;
             }
+        }
+
+        public override void OnAdded(Entity entity)
+        {
+            var cmp = entity.GetComponent<WeaponComponent>();
         }
 
         private void FireBarrel(Entity weaponEntity, int barrelIndex, WeaponComponent weaponComponent)

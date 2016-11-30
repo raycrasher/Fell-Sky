@@ -44,7 +44,7 @@ namespace FellSky.Game.Ships
         public FloatRect CalculateBoundingBox(float thrusterXScale = 0.3f)
         {
             var sprites = ServiceLocator.Instance.GetService<ISpriteManagerService>().Sprites;
-            return Parts.Aggregate(new FloatRect(), (box, part) =>
+            return Parts.Where(p=>p.SpriteId!=null).Aggregate(new FloatRect(), (box, part) =>
             {
                 Sprite spr;
                 if (!sprites.TryGetValue(part.SpriteId, out spr)) return box;

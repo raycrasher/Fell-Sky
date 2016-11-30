@@ -41,7 +41,7 @@ namespace FellSky.Game.Ships.Parts
 
     public class Hardpoint
     {
-        public string Id { get; }
+        public string Id { get; set; }
         public HardpointSize Size { get; set; }
         public HardpointType Type { get; set; }
         public Hull Hull { get; set; }

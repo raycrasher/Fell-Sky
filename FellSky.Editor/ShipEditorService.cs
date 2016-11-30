@@ -434,10 +434,27 @@ namespace FellSky.Editor
             TranslateParts();
         }
 
+        public void AddLight()
+        {
+            
+        }
+
         public void SaveShip(string filename)
         {
             try
             {
+                if (Model.Hardpoints.Any(h => string.IsNullOrWhiteSpace(h.Id)))
+                {
+                    switch(MessageBox.Show("Some hardpoints have not been assigned an ID yet. Do you want to auto-name the hardpoints?\nNote that this will overwrite any previous IDs you have assigned.", 
+                        "Hardpoint ID not assigned", MessageBoxButton.YesNoCancel)){
+                        case MessageBoxResult.Yes:
+                            AutoNameHardpoints();
+                            break;
+                        case MessageBoxResult.Cancel:
+                            return;
+                    }
+                }
+                
                 Model.SaveToFile(filename);
             }
             catch (Newtonsoft.Json.JsonException)
@@ -460,12 +477,22 @@ namespace FellSky.Editor
                 Model = Persistence.LoadFromFile<ShipModel>(fileName);
                 ModelEntity = Model.CreateStandAloneEntity(_world);
                 ModelEntity.Tag = "PlayerShip";
+
+                var partLookup = ModelEntity.GetChildren()
+                                 .ToDictionary(c => c.GetComponent<IShipPartComponent>().Part, c => c);
+
                 foreach (var entity in ModelEntity.GetChildren())
                 {
                     AddEditorComponentsToPartEntity(entity);
-                    if (entity.HasComponent<HardpointComponent>())
-                        entity.AddComponent(new HardpointArcDrawingComponent());
                 }
+
+                foreach (var hp in Model.Hardpoints)
+                {
+                    var hullEntity = partLookup[hp.Hull];
+                    hullEntity.AddComponent(new HardpointComponent(hp));
+                    hullEntity.AddComponent(new HardpointArcDrawingComponent());
+                }
+
                 //PropertyObject = Model;
                 var model = ModelEntity.GetComponent<ShipModelComponent>();
                 model.BaseDecalColor = BaseColor;
@@ -558,6 +585,16 @@ namespace FellSky.Editor
                 }));
             }
             entity.Refresh();
+        }
+
+        internal void AutoNameHardpoints()
+        {
+            int count = 0;
+            foreach(var hp in Model.Hardpoints)
+            {
+                count++;
+                hp.Id = $"Hardpoint_{count}";
+            }
         }
 
         private void HandlePropertyChanged(object sender, PropertyChangedEventArgs e)

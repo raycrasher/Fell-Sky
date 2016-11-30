@@ -31,6 +31,16 @@ namespace FellSky
             return shipEntity;
         }
 
+        public static Entity CreateShip(this EntityWorld world, ShipVariant variant, Vector2 position, float rotation = 0, Vector2? scale = null, bool physics = true)
+        {
+            var entity = CreateShip(world, variant.HullId, position, rotation, scale, physics);
+            var ship = entity.GetComponent<ShipComponent>();
+            ship.Variant = variant;
+            variant.ApplyVariant(world, entity);
+            // Todo: install weapons
+            return entity;
+        }
+
         public static Entity CreateShip(this EntityWorld world, Ship ship, Vector2 position, float rotation = 0, Vector2? scale = null, bool physics = true)
         {
             var shipEntity = ship.CreateEntity(world, position, rotation, scale ?? Vector2.One, physics);

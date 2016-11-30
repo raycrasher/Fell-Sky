@@ -164,14 +164,24 @@
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="100"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Label>Hardpoint Id:</Label>
+                    <TextBox Grid.Column="1" Text="{Binding Id}"/>
+                </Grid>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
                     <Label>Firing Arc:</Label>
-                    <Label Grid.Column="1">Fixed</Label>
-                    <Slider Grid.Column="2" Value="{Binding FiringArc}" Minimum="0" Maximum="6.28318530717959"/>
-                    <Label Grid.Column="3">Omni</Label>
+                    <TextBox Grid.Column="1" Text="{Binding FiringArc}" Width="40"/>
+                    <Label Grid.Column="2">Fixed</Label>
+                    <Slider Grid.Column="3" Value="{Binding FiringArc}" Minimum="0" Maximum="6.28318530717959"/>
+                    <Label Grid.Column="4">Omni</Label>
                 </Grid>
                 <Grid>
                     <Grid.ColumnDefinitions>

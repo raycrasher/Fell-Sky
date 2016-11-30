@@ -213,6 +213,14 @@ namespace FellSky.Editor
     public class HardpointEditorViewModel
     {
         IReadOnlyCollection<Hardpoint> _hardpoints;
+        public string Id {
+            get { return _hardpoints?.Select(p => p.Id).GetAllEqualOrNothing(); }
+            set {
+                foreach (var hp in _hardpoints)
+                    hp.Id = value;
+            }
+        }
+
         public HardpointEditorViewModel(IReadOnlyCollection<Hardpoint> hardpoints)
         {
             _hardpoints = hardpoints;

@@ -12,14 +12,12 @@ using DiceNotation;
 
 namespace FellSky.Components
 {
-    public class BulletComponent : ComponentPoolable, IProjectileComponent
+    public class BulletComponent : ComponentPoolable
     {
         public Color Color = Color.White;
         public Entity Owner { get; set; }
         public Entity Weapon { get; set; }
         public Bullet Bullet { get; set; }
-
-        IProjectile IProjectileComponent.Bullet => Bullet;
 
         public TimeSpan Age;
         public float Alpha = 1;

@@ -23,7 +23,7 @@ namespace FellSky.Game.Ships.Modules
         public HardpointSize Size { get; set; }
         public string PartGroupId { get; set; }
 
-        public virtual bool CanInstall(Entity shipEntity, Hardpoint slot)
+        public virtual bool CanInstallToHardpoint(Entity shipEntity, Hardpoint slot)
         {
             return Size == slot.Size && slot.Type == HardpointType.Module;
         }
