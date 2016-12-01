@@ -395,6 +395,7 @@ namespace FellSky.Editor
 
         public ICommand CreateNewShipModelCommand => new DelegateCommand(o =>
         {
+
             EditorService.CreateNewModel();
             CurrentFilename = null;
         });
@@ -402,6 +403,7 @@ namespace FellSky.Editor
         public ICommand Quit => new DelegateCommand(o => Application.Current.Shutdown());
         public ICommand AddHull => new DelegateCommand(o =>
         {
+            Keyboard.Focus(_host);
             ActionsNextFrame.Add(() => {
                 var pos = _host.PointToScreen(new System.Windows.Point(_host.ActualWidth / 2, _host.ActualHeight / 2));
                 _mouse.ScreenPosition = new Vector2((float)pos.X, (float)pos.Y);
@@ -412,6 +414,7 @@ namespace FellSky.Editor
 
         public ICommand AddThruster => new DelegateCommand(o =>
         {
+            Keyboard.Focus(_host);
             ActionsNextFrame.Add(() =>
             {
                 var pos = _host.PointToScreen(new System.Windows.Point(_host.ActualWidth / 2, _host.ActualHeight / 2));
@@ -423,6 +426,7 @@ namespace FellSky.Editor
 
         public ICommand AddDummyPart => new DelegateCommand(o =>
         {
+            Keyboard.Focus(_host);
             ActionsNextFrame.Add(() => {
                 var pos = _host.PointToScreen(new System.Windows.Point(_host.ActualWidth / 2, _host.ActualHeight / 2));
                 _mouse.ScreenPosition = new Vector2((float)pos.X, (float)pos.Y);
@@ -432,6 +436,7 @@ namespace FellSky.Editor
         });
 
         public ICommand AddLight => new DelegateCommand(o => {
+            Keyboard.Focus(_host);
             ActionsNextFrame.Add(() => {
                 var pos = _host.PointToScreen(new System.Windows.Point(_host.ActualWidth / 2, _host.ActualHeight / 2));
                 _mouse.ScreenPosition = new Vector2((float)pos.X, (float)pos.Y);
