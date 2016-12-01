@@ -37,15 +37,14 @@ namespace FellSky.Game.Space
 
     public class Planet: SpaceObject
     {
-        public OrbitalParameters OrbitalParameters { get; set; } = new OrbitalParameters(10e6f, 0.016f, 102.947, 358.17f); // Earth
-
-        public Planet(string name, string sprite, PlanetType type, float radius, OrbitalParameters orbitalParameters, params SpaceObject[] children)
+        public Planet(string name, string sprite, PlanetType type, float radius, float orbitRadius=1, float orbitPeriod=365, params SpaceObject[] children)
             : base(children)
         {
             Name = name;
             TextureId = sprite;
             Type = type;
-            OrbitalParameters = orbitalParameters;
+            OrbitRadius = orbitRadius;
+            OrbitPeriod = orbitPeriod;
             Radius = radius;
         }
 
@@ -54,14 +53,9 @@ namespace FellSky.Game.Space
             var entity = base.CreateEntity(world);
             var xform = entity.GetComponent<Transform>();
             xform.Scale *= (float)Math.Log(Radius) * 1e-1f;
-            var pos = OrbitalParameters.GetPositionAtTime(DateTime.Today);
-            //pos.X = (float)Math.Log(Math.Abs(pos.X)) * Math.Sign(pos.X);
-            //pos.Y = (float)Math.Log(Math.Abs(pos.Y)) * Math.Sign(pos.Y);
+            var pos = GetPositionAtTime(DateTime.Today);
 
-            //if (float.IsNaN(pos.X)) pos.X = 0;
-            //if (float.IsNaN(pos.Y)) pos.Y = 0;
-
-            xform.Position = pos * 1e-5f;
+            xform.Position = pos * 500;
             return entity;
         }
 

@@ -25,11 +25,11 @@ namespace FellSky.Services
             var sol = new Star(
                 "Sol", "sun", StellarClass.G, 2, 695700, new Vector2(200,200),
 
-                new Planet("Mercury", "mercury", PlanetType.AirlessRock, 2440, new OrbitalParameters(57.909e6, 0.205, 77.445, 174.796f.DegreeToRadian() )),
-                new Planet("Venus", "sulfurplanet", PlanetType.CloudyRock, 6052, new OrbitalParameters(108.208e6f, 0.00672d, 131.564f, 50.115f.DegreeToRadian() )),
-                new Planet("Earth", "earth", PlanetType.Earth, 6371, new OrbitalParameters(10e6d, 0.016d, 102.947, 358.17f.DegreeToRadian()),
+                new Planet("Mercury", "mercury", PlanetType.AirlessRock, 2440, 0.2f, 88),
+                new Planet("Venus", "sulfurplanet", PlanetType.CloudyRock, 6052, 0.5f, 200)
+                /*new Planet("Earth", "earth", PlanetType.Earth, 6371, new OrbitalParameters(10e6d, 0.016d, 102.947, 358.17f.DegreeToRadian()),
                     new Planet("Luna", "moon", PlanetType.AirlessRock, 1737, new OrbitalParameters(384.399e3, 0.0549, 0, 0))
-                ) /*,
+                ) ,
                 new Planet("Mars", "mars", PlanetType.Desert, 3000, new OrbitalParameters(),
                     new Planet("Phobos", "phobos", PlanetType.Asteroid, 500, new OrbitalParameters()),
                     new Planet("Deimos", "deimos", PlanetType.Asteroid, 500, new OrbitalParameters())

@@ -197,5 +197,25 @@ namespace FellSky
         {
             return new Vector2(x / texture.Width, y / texture.Height);
         }
+
+        public static System.Numerics.Vector3 ToNumericsVector3(this Vector2 v, float z=0)
+        {
+            return new System.Numerics.Vector3(v.X, v.Y, 0);
+        }
+
+        public static Vector2 ToXnaVector2(this System.Numerics.Vector3 v)
+        {
+            return new Vector2(v.X, v.Y);
+        }
+
+        public static float GetMaxLinearVelocity(float mass, float time, float linearDamping, float maxForceLength)
+        {
+            return maxForceLength * (1 - time * linearDamping) / (mass * linearDamping);
+        }
+
+        public static float GetMaxLinearVelocity(float mass, float time, float linearDamping, Vector2 maxForce)
+        {
+            return GetMaxLinearVelocity(mass, time, linearDamping, maxForce.Length());
+        }
     }
 }

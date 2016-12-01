@@ -173,6 +173,7 @@
     <Compile Include="Components\NavLightComponent.cs" />
     <Compile Include="Components\PartGlowComponent.cs" />
     <Compile Include="Components\PowerComponent.cs" />
+    <Compile Include="Components\ShipAIComponent.cs" />
     <Compile Include="Components\ShipModelComponent.cs" />
     <Compile Include="Components\ParticleEmitterComponent.cs" />
     <Compile Include="Components\RadiatorComponent.cs" />
@@ -183,10 +184,12 @@
     <Compile Include="Components\ShipComponent.cs" />
     <Compile Include="Components\SoundEffectComponent.cs" />
     <Compile Include="Components\SpaceObjectComponent.cs" />
+    <Compile Include="Components\SpatialTokenComponent.cs" />
     <Compile Include="Components\StarComponent.cs" />
     <Compile Include="Components\StoryComponent.cs" />
     <Compile Include="Components\ThrusterComponent.cs" />
     <Compile Include="Components\TurretComponent.cs" />
+    <Compile Include="Components\VehicleComponent.cs" />
     <Compile Include="Components\WeaponBarrelComponent.cs" />
     <Compile Include="Components\WeaponComponent.cs" />
     <Compile Include="EntityFactories\MapFactory.cs" />
@@ -230,7 +233,6 @@
     <Compile Include="Game\Space\MapEffects\DeepSpace.cs" />
     <Compile Include="Game\Space\MapEffects\GravityWell.cs" />
     <Compile Include="Game\Space\MapEffects\IMapEffect.cs" />
-    <Compile Include="Game\Space\OrbitalParameters.cs" />
     <Compile Include="Game\Space\Outpost.cs" />
     <Compile Include="Game\Space\SpaceMap.cs" />
     <Compile Include="Game\Space\StarSystem.cs" />
@@ -423,6 +425,7 @@
     <Compile Include="Systems\ShipUpdateSystem.cs" />
     <Compile Include="Framework\SteeringBehaviors\SteeringBehaviorSystem.cs" />
     <Compile Include="Systems\MouseControlledTransformSystem.cs" />
+    <Compile Include="Systems\SpatialDatabaseSystem.cs" />
     <Compile Include="Systems\StorySystem.cs" />
     <Compile Include="Systems\SystemMapSpaceObjectRenderer.cs" />
     <Compile Include="Systems\TurretRotationSystem.cs" />
