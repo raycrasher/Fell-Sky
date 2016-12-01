@@ -8,12 +8,11 @@ namespace FellSky.Game.Combat
 {
     public enum DamageType
     {
-        Kinetic, Concussive,
-    }
-
-
-
-    class Damage
-    {
-    }
+        Kinetic,
+        Blast,
+        Energy,
+        EM,
+        Radiation,
+        Psychic
+    }    
 }

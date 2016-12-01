@@ -167,7 +167,7 @@
     <Compile Include="Components\HealthComponent.cs" />
     <Compile Include="Components\HeatComponent.cs" />
     <Compile Include="Components\HullComponent.cs" />
-    <Compile Include="Components\IdFriendOrFoeComponent.cs" />
+    <Compile Include="Components\IFFComponent.cs" />
     <Compile Include="Components\ModuleComponent.cs" />
     <Compile Include="Components\MouseHoverComponent.cs" />
     <Compile Include="Components\NavLightComponent.cs" />
@@ -227,7 +227,6 @@
     <Compile Include="Game\Ships\PartAnimation.cs" />
     <Compile Include="Game\Ships\PartEntityPair.cs" />
     <Compile Include="Game\Ships\Parts\DummyPart.cs" />
-    <Compile Include="Game\Ships\Parts\Radiator.cs" />
     <Compile Include="Game\Ships\ShipModel.cs" />
     <Compile Include="Game\Ships\ShipVariant.cs" />
     <Compile Include="Game\Space\MapEffects\DeepSpace.cs" />
@@ -293,6 +292,7 @@
     <Compile Include="Systems\EventSystem.cs" />
     <Compile Include="Systems\ExplosionSystem.cs" />
     <Compile Include="Systems\FrameAnimationSystem.cs" />
+    <Compile Include="Systems\FriendOrFoeSystem.cs" />
     <Compile Include="Systems\GuiSystem.cs" />
     <Compile Include="Systems\HardpointRendererSystem.cs" />
     <Compile Include="Systems\MouseControlledTransformSystemStates\ScaleState.cs" />
@@ -398,7 +398,6 @@
     <Compile Include="Game\Codex\CodexEntry.cs" />
     <Compile Include="Game\Campaign\Player.cs" />
     <Compile Include="Game\Campaign\Diplomacy\Reputation.cs" />
-    <Compile Include="Game\Ships\Parts\ArmorPlating.cs" />
     <Compile Include="Game\Ships\Ship.cs" />
     <Compile Include="Game\Ships\Parts\Hull.cs" />
     <Compile Include="Game\Ships\ShipHandlingParameters.cs" />

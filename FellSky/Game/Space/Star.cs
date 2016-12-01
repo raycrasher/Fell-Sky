@@ -61,7 +61,6 @@ namespace FellSky.Game.Space
         }
 
         public StellarClass Class { get; set; }
-        public Color Color { get; set; }
         public float Temperature { get; set; }
         public float CoronaRadius { get; set; }
         public float PhotosphereRadius { get; set; }

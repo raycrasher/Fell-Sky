@@ -19,6 +19,7 @@ namespace FellSky.Game.Ships
 
         public Dictionary<string, string> Weapons { get; set; } = new Dictionary<string, string>();
         public Dictionary<string, string> Modules { get; set; } = new Dictionary<string, string>();
+        public Dictionary<string, string> ArmorSections { get; set; } = new Dictionary<string, string>();
 
         // TODO: Add per-ship control scheme here.
 

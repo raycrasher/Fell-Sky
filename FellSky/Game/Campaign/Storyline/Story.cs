@@ -16,7 +16,7 @@ namespace FellSky.Game.Campaign.Storyline
 
     public delegate IEnumerable StoryUpdateFunction(Story story, EntityWorld world);
 
-    public class Story
+    public sealed class Story
     {
         public StateMachine<StoryUpdateFunction, string> State { get; private set; }
 

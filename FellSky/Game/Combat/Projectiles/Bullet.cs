@@ -30,6 +30,9 @@ namespace FellSky.Game.Combat.Projectiles
                 _damageDice = Dice.Parse(value);
             }
         }
+
+        public DamageType DamageType { get; set; } = DamageType.Kinetic;
+
         private string _damage;
         private DiceExpression _damageDice;
 
@@ -56,15 +59,16 @@ namespace FellSky.Game.Combat.Projectiles
             bulletEntity.AddComponent(rigidBody);
             rigidBody.Body.UserData = bulletEntity;
             var fixture = rigidBody.Body.FixtureList[0];
-            var iff = owner.GetComponent<IdFriendOrFoeComponent>();
+            var iff = owner.GetComponent<IFFComponent>();
             bulletEntity.AddComponent(iff);
+
             fixture.BeforeCollision += (a, b) =>
             {
                 var entity = b.UserData as Entity;
-                if (entity.HasComponent<IdFriendOrFoeComponent>() && entity.GetComponent<IdFriendOrFoeComponent>().IffCode == iff.IffCode)
+                if (entity.HasComponent<IFFComponent>() && entity.GetComponent<IFFComponent>().IffCode == iff.IffCode)
                     return false;
                 
-                return false;
+                return true;
             };
 
             var bulletComponent = bulletEntity.AddComponentFromPool<BulletComponent>();

@@ -40,6 +40,7 @@ namespace FellSky.Game.Ships.Parts
         public string ShapeId { get; set; }
         //public SpriteEffects SpriteEffect { get; set; }
         public float Health { get; set; } = 100;
+        public string ArmorSection { get; set; }
 
         public override Entity CreateEntity(EntityWorld world, Entity ship, Entity parent, int? index=null)
         {

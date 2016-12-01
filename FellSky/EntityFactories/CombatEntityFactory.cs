@@ -49,7 +49,9 @@ namespace FellSky
             {
                 Name = "Sparrow",
                 Role = "antiarmor, support",
-                Description = "A standard anti-armor missile with good maneuverability."
+                Description = "A standard anti-armor missile with good maneuverability.",
+                Damage = "3d8",
+                DamageType = DamageType.Blast
             };
 
             Projectiles["Missile_Shrike"] = new Missile
@@ -57,7 +59,9 @@ namespace FellSky
                 Name = "Shrike",
                 Role = "barrier-piercing, strike",
                 Description = "Like its avian namesake, the Shrike files to proximity and then impales its targets with saboted shaped-charge spikes capable of damaging armor and hull.",
-
+                SeekAngle = 60f,
+                Damage = "4d12k2",
+                DamageType = DamageType.Kinetic,
 
             };
 
@@ -65,18 +69,21 @@ namespace FellSky
             {
                 Name = "Hornet-S",
                 Description = "A cheap missile built for swarming fire. It has unimpressive performance, but more than makes up for it by its extremely low cost and weight.",
-                Damage = "3d6+1",
+                Damage = "3d6",
                 BlastRadius = 1,
+                SeekAngle = 60,
+                DamageType = DamageType.Blast
             };
 
             Projectiles["SpinalRailgunSlug"] = new Bullet
             {
                 Color = Color.Cyan,
-                Damage = "1d50+100",
+                Damage = "4d50k2+50",
                 MuzzleVelocity = 1000,
                 MaxAge = TimeSpan.FromSeconds(3),
                 SpriteId = "bullet_boltsmall",
                 Scale = new Vector2(4,3),
+                DamageType = DamageType.Blast
             };
         }
 
@@ -129,7 +136,9 @@ namespace FellSky
                 TurnRate = MathHelper.Pi / 10,
                 ProjectileId = "SmallMissile",
                 TurretModel = "Weapons/BoxLauncher2x2",
-                FireRate = 1,
+                FireRate = 0.3f,
+                BurstSize = 4,
+                BurstRoF = 10
             };
         }
     }

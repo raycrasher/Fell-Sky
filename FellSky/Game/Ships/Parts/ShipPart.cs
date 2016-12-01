@@ -17,7 +17,7 @@ namespace FellSky.Game.Ships.Parts
         public Transform Transform { get; set; } = new Transform();
         public string SpriteId { get; set; }        
         public Color Color { get; set; }
-        public HashSet<string> Flags { get; set; } = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        public HashSet<string> Flags { get; set; } = new HashSet<string>(StringComparer.InvariantCultureIgnoreCase);
 
         public ShipPart()
         {
@@ -48,7 +48,7 @@ namespace FellSky.Game.Ships.Parts
         protected void OnDeserialized(StreamingContext context)
         {
             Transform = Transform ?? new Transform();
-            Flags = Flags ?? new HashSet<string>();
+            Flags = new HashSet<string>(Flags, StringComparer.InvariantCultureIgnoreCase);
         }
     }
 }

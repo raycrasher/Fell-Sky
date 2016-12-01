@@ -7,12 +7,8 @@ using System.Threading.Tasks;
 
 namespace FellSky.Components
 {
-    public class IdFriendOrFoeComponent: IComponent
+    public class IFFComponent: IComponent
     {
-        public int IffCode { get; set; }
-        public IdFriendOrFoeComponent()
-        {
-            IffCode = GetHashCode();
-        }
+        public int IffCode => GetHashCode();
     }
 }

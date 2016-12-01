@@ -21,7 +21,7 @@ using FellSky.Systems;
 namespace FellSky.Game.Ships
 {
     [Archetype]
-    public class Ship: IPersistable
+    public sealed class Ship: IPersistable
     {
         public string Id { get; set; }
         public string GivenName { get; set; }
@@ -41,7 +41,7 @@ namespace FellSky.Game.Ships
         {
             var shipEntity = world.CreateEntity();
             var shipComponent = new ShipComponent(this);
-            var iff = new IdFriendOrFoeComponent();
+            var iff = new IFFComponent();
             var xform = shipEntity.AddComponentFromPool<Transform>();
             xform.Position = position;
             xform.Rotation = rotation;

@@ -123,7 +123,6 @@ namespace FellSky.Game.Ships.Modules
                     ShipEntityFactory.GetShipModel(BarrelModel).CreateChildEntities(world, barrel);
                     parts.AddRange(barrel.GetChildren());
                 }
-
             }
             else
             {
@@ -174,10 +173,6 @@ namespace FellSky.Game.Ships.Modules
                 }
             }
 
-            var glow = new PartGlowComponent
-            {
-                Color = new Microsoft.Xna.Framework.Color(255, 255, 200)
-            };
             var glowWhenReadyEntities = (from part
                                         in parts
                                         let component = part.GetComponent<IShipPartComponent>()
@@ -187,6 +182,10 @@ namespace FellSky.Game.Ships.Modules
 
             if (glowWhenReadyEntities.Any())
             {
+                var glow = new PartGlowComponent
+                {
+                    Color = new Microsoft.Xna.Framework.Color(255, 255, 200)
+                };
                 // glow when ready
                 weaponEntity.RegisterEvent(EventId.WeaponFire, (o, e) =>
                 {

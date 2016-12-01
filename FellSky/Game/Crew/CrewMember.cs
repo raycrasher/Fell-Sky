@@ -8,8 +8,9 @@ namespace FellSky.Game.Crew
 {
     public class CrewMember
     {
-        public string NickName { get; set; }
-        public string Name { get; set; }
+        public string Nickname { get; set; }
+        public string LastName { get; set; }
+        public string FirstName { get; set; }
         public List<CrewPerk> Perks { get; set; } = new List<CrewPerk>();
     }
 }

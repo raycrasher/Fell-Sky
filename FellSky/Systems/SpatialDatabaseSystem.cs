@@ -13,8 +13,6 @@ namespace FellSky.Systems
 {
     class SpatialDatabaseSystem: Artemis.System.EntitySystem
     {
-
-
         public LocalityQueryProximityDatabase<Entity> Ships { get; private set; }
 
         public Vector2 Dimensions { get; private set; }
